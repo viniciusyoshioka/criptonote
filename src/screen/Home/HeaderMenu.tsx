@@ -76,13 +76,15 @@ export function HomeHeaderMenu(props: HomeHeaderMenuProps) {
                     }}
                 />
 
-                <PopupMenuButton
-                    text={"Arquivos"}
-                    onPress={() => {
-                        menuRef.current?.close()
-                        props.encryptFile()
-                    }}
-                />
+                {!props.selectionMode && (
+                    <PopupMenuButton
+                        text={"Arquivos"}
+                        onPress={() => {
+                            menuRef.current?.close()
+                            props.encryptFile()
+                        }}
+                    />
+                )}
 
                 {!props.selectionMode && (
                     <>
