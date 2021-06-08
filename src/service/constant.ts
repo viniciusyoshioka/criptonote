@@ -15,8 +15,8 @@ export const appType = appInDevelopment ? "beta" : "release"
 const appIconPath = "./../image/"
 const appIconImage = appInDevelopment ? "criptonotebeta.png" : "criptonote.png"
 const appIconImageOutline = appInDevelopment ? "criptonotebeta_outline.png" : "criptonote_outline.png"
-// export const appIcon = require(`${appIconPath}${appIconImage}`)
-// export const appIconOutline = require(`${appIconPath}${appIconImageOutline}`)
+export const appIcon = require(`${appIconPath}${appIconImage}`)
+export const appIconOutline = require(`${appIconPath}${appIconImageOutline}`)
 
 // Folder
 // Root
