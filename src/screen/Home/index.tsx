@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react"
-import { FlatList } from "react-native"
+import { BackHandler, FlatList } from "react-native"
 import { useNavigation } from "@react-navigation/core"
 
 import { SafeScreen } from "../../component/Screen"
@@ -11,6 +11,7 @@ import { debugHome, Note } from "../../service/object-type"
 import { readDebugHome, readNote, readNoteId, writeDebugHome, writeNote, writeNoteId } from "../../service/storage"
 import { createAllFolder } from "../../service/folder-handler"
 import { NoteItem } from "../../component/NoteItem"
+import { useBackHandler } from "../../service/hook"
 
 
 export function Home() {
@@ -22,6 +23,16 @@ export function Home() {
     const [note, setNote] = useState<Array<Note>>([])
     const [selectionMode, setSelectionMode] = useState(false)
     const [selectedNote, setSelectedNote] = useState<Array<number>>([])
+
+
+    useBackHandler(() => {
+        if (selectionMode) {
+            exitSelectionMode()
+        } else {
+            BackHandler.exitApp()
+        }
+        return true
+    })
 
 
     const debugGetDebugHome = useCallback(async () => {
