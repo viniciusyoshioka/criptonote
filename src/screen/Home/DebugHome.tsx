@@ -9,9 +9,9 @@ import { useSwitchTheme } from "../../service/theme"
 
 
 export interface DebugHomeProps {
-    debugReadDocument: () => void,
-    debugWriteDocument: () => void,
-    debugClearDocument: () => void,
+    debugReadNote: () => void,
+    debugWriteNote: () => void,
+    debugClearNote: () => void,
 }
 
 
@@ -138,15 +138,15 @@ export const DebugHome = memo((props: DebugHomeProps) => {
         <View>
             <DebugButton
                 text={"Ler"}
-                onPress={props.debugReadDocument}
+                onPress={props.debugReadNote}
                 style={{bottom: 115}} />
             <DebugButton
                 text={"Escre"}
-                onPress={props.debugWriteDocument}
+                onPress={props.debugWriteNote}
                 style={{bottom: 60}} />
             <DebugButton
                 text={"Limpar"}
-                onPress={props.debugClearDocument}
+                onPress={props.debugClearNote}
                 style={{bottom: 5}} />
 
             <DebugButton
