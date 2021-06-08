@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react"
 import { useColorScheme } from "react-native"
 import KeepAwake from "react-native-keep-awake"
+import { MenuProvider } from "react-native-popup-menu"
 import { ThemeProvider } from "styled-components"
 
 import { Router } from "./router"
@@ -60,7 +61,9 @@ export function App() {
         <ThemeContextProvider value={(theme === "light") ? join(LightTheme, appTheme) : join(DarkTheme, appTheme)}>
             <SwitchThemeContextProvider value={switchTheme}>
                 <ThemeProvider theme={(theme === "light") ? join(LightTheme, appTheme) : join(DarkTheme, appTheme)}>
-                    <Router />
+                    <MenuProvider>
+                        <Router />
+                    </MenuProvider>
                 </ThemeProvider>
             </SwitchThemeContextProvider>
         </ThemeContextProvider>
