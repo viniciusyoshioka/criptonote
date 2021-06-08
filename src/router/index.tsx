@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from "react-native-screens/native-stack"
 import { enableScreens } from "react-native-screens"
 
 import { Home } from "../screen/Home"
+import { Settings } from "../screen/Settings"
 
 
 enableScreens()
@@ -24,6 +25,10 @@ export function Router() {
                 <Stack.Screen
                     name={"Home"}
                     component={Home}
+                />
+                <Stack.Screen
+                    name={"Settings"}
+                    component={Settings}
                 />
             </Stack.Navigator>
         </NavigationContainer>
