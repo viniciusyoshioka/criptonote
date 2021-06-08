@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react"
-import { View } from "react-native"
+import { FlatList } from "react-native"
+import { useNavigation } from "@react-navigation/core"
 
 import { SafeScreen } from "../../component/Screen"
 import { appIconOutline, appInDevelopment } from "../../service/constant"
@@ -14,8 +15,12 @@ import { createAllFolder } from "../../service/folder-handler"
 export function Home() {
 
 
+    const navigation = useNavigation()
+
     const [debugHome, setDebugHome] = useState<debugHome>("show")
-    const [note, setNote] = useState<Array<Document>>([])
+    const [note, setNote] = useState<Array<Note>>([])
+    const [selectionMode, setSelectionMode] = useState(false)
+    const [selectedNote, setSelectedNote] = useState<Array<number>>([])
 
 
     const debugGetDebugHome = useCallback(async () => {
@@ -80,10 +85,53 @@ export function Home() {
     }, [])
 
 
+    const getNote = useCallback(async () => {
+        const note = await readNote()
+        setNote(note)
+    }, [])
+
+    const deleteSelectedNote = useCallback(() => {
+        // TODO
+    }, [])
+
+    const exportSelectedNote = useCallback(() => {
+        // TODO
+    }, [])
+
+    const selectNote = useCallback((noteId: number) => {
+        if (!selectionMode) {
+            setSelectionMode(true)
+        }
+        if (!selectedNote.includes(noteId)) {
+            selectedNote.push(noteId)
+        }
+    }, [selectionMode, selectedNote])
+
+    const deselectNote = useCallback((noteId: number) => {
+        const index = selectedNote.indexOf(noteId)
+        if (index !== -1) {
+            selectedNote.splice(index, 1)
+        }
+        if (selectionMode && selectedNote.length === 0) {
+            setSelectionMode(false)
+        }
+    }, [selectedNote, selectionMode])
+
+    const renderNoteItem = useCallback(({item}: {item: Note}) => {
+        // TODO
+        return null
+    }, [])
+
+    const exitSelectionMode = useCallback(() => {
+        setSelectedNote([])
+        setSelectionMode(false)
+    }, [])
+
+
     useEffect(() => {
         createAllFolder()
         debugGetDebugHome()
-        // getNote()
+        getNote()
     }, [])
 
 
@@ -96,11 +144,17 @@ export function Home() {
                 importNote={() => {}}
                 exportNote={() => {}}
                 encryptFile={() => {}}
-                openSettings={() => {}}
+                openSettings={() => navigation.navigate("Settings")}
                 switchDebugHome={debugSwitchDebugHome}
             />
 
-            <View style={{flex: 1}} />
+            <FlatList
+                data={note}
+                renderItem={renderNoteItem}
+                keyExtractor={(item) => item.id.toString()}
+                extraData={[selectNote, deselectNote]}
+                style={{marginLeft: 6, marginTop: 6}}
+            />
 
             {(note.length === 0) && (
                 <EmptyListView>
