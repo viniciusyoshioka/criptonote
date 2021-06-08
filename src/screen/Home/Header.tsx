@@ -1,12 +1,13 @@
 import React from "react"
 
-import { BlockCenter, BlockRight, Header, HeaderButton, HeaderTitle } from "../../component/Header"
+import { BlockCenter, BlockLeft, BlockRight, Header, HeaderButton, HeaderTitle } from "../../component/Header"
 import { appFName } from "../../service/constant"
 import { HomeHeaderMenu } from "./HeaderMenu"
 
 
 export interface HomeHeaderProps {
     selectionMode: boolean,
+    exitSelectionMode: () => void,
     deleteNote: () => void,
     addNote: () => void,
     importNote: () => void,
@@ -20,11 +21,22 @@ export interface HomeHeaderProps {
 export function HomeHeader(props: HomeHeaderProps) {
     return (
         <Header>
-            <BlockCenter>
-                <HeaderTitle>
-                    {appFName}
-                </HeaderTitle>
-            </BlockCenter>
+            {props.selectionMode && (
+                <BlockLeft>
+                    <HeaderButton
+                        iconName={"md-close"}
+                        onPress={props.exitSelectionMode}
+                    />
+                </BlockLeft>
+            )}
+
+            {!props.selectionMode && (
+                <BlockCenter>
+                    <HeaderTitle>
+                        {appFName}
+                    </HeaderTitle>
+                </BlockCenter>
+            )}
 
             <BlockRight>
                 {props.selectionMode && (
