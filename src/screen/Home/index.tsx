@@ -10,6 +10,7 @@ import { EmptyListImage, EmptyListText, EmptyListView } from "../../component/Em
 import { debugHome, Note } from "../../service/object-type"
 import { readDebugHome, readNote, readNoteId, writeDebugHome, writeNote, writeNoteId } from "../../service/storage"
 import { createAllFolder } from "../../service/folder-handler"
+import { NoteItem } from "../../component/NoteItem"
 
 
 export function Home() {
@@ -118,9 +119,16 @@ export function Home() {
     }, [selectedNote, selectionMode])
 
     const renderNoteItem = useCallback(({item}: {item: Note}) => {
-        // TODO
-        return null
-    }, [])
+        return (
+            <NoteItem
+                click={() => navigation.navigate("Read", {note: item})}
+                select={() => selectNote(item.id)}
+                deselect={() => deselectNote(item.id)}
+                selectionMode={selectionMode}
+                note={item}
+            />
+        )
+    }, [selectionMode, selectNote, deselectNote])
 
     const exitSelectionMode = useCallback(() => {
         setSelectedNote([])
@@ -138,7 +146,8 @@ export function Home() {
     return (
         <SafeScreen>
             <HomeHeader
-                selectionMode={false}
+                selectionMode={selectionMode}
+                exitSelectionMode={exitSelectionMode}
                 deleteNote={() => {}}
                 addNote={() => {}}
                 importNote={() => {}}
