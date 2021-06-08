@@ -1,25 +1,13 @@
 import React from "react"
-import { StyleSheet, Text, View } from "react-native"
+
+import { SafeScreen } from "../../component/Screen"
+import { HomeHeader } from "./Header"
 
 
 export function Home() {
     return (
-        <View style={styles.screen}>
-            <Text style={styles.text}>
-                Olá, mundo!
-            </Text>
-        </View>
+        <SafeScreen>
+            <HomeHeader />
+        </SafeScreen>
     )
 }
-
-
-const styles = StyleSheet.create({
-    screen: {
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center"
-    },
-    text: {
-        fontSize: 15
-    }
-})
