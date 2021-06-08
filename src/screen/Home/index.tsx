@@ -11,7 +11,16 @@ import { EmptyListImage, EmptyListText, EmptyListView } from "../../component/Em
 export function Home() {
     return (
         <SafeScreen>
-            <HomeHeader />
+            <HomeHeader
+                selectionMode={false}
+                deleteNote={() => {}}
+                addNote={() => {}}
+                importNote={() => {}}
+                exportNote={() => {}}
+                encryptFile={() => {}}
+                openSettings={() => {}}
+                switchDebugHome={() => {}}
+            />
 
             <View style={{flex: 1}} />
 
