@@ -18,6 +18,11 @@ const appIconImageOutline = appInDevelopment ? "criptonotebeta_outline.png" : "c
 export const appIcon = require(`${appIconPath}${appIconImage}`)
 export const appIconOutline = require(`${appIconPath}${appIconImageOutline}`)
 
+// File extensions
+export const exportedNoteBetaExtension = ".cnbe"
+export const exportedNoteReleaseExtension = ".cne"
+export const exportedNoteExtension = appInDevelopment ? exportedNoteBetaExtension : exportedNoteReleaseExtension
+
 // Folder
 // Root
 export const folderRoot = appFName
