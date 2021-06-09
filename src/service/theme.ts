@@ -44,6 +44,9 @@ export interface ColorTheme {
         input_placeholder: string,
         input_border: string,
 
+        showPasswordButton_background: string,
+        showPasswordButton_color: string,
+
         radioButton_unchecked_color: string,
         radioButton_checked_color: string,
     },
@@ -65,7 +68,7 @@ export const LightTheme: ColorTheme = {
         subHeader_background: "rgb(60, 100, 220)",
         subHeader_color: "rgb(255, 255, 255)",
 
-        screen_background: "rgb(255, 255, 255)",
+        screen_background: "rgb(245, 245, 245)",
         screen_color: "rgb(0, 0, 0)",
 
         popupMenuButton_background: "rgb(255, 255, 255)",
@@ -90,8 +93,11 @@ export const LightTheme: ColorTheme = {
 
         input_background: "transparent",
         input_color: "rgb(0, 0, 0)",
-        input_placeholder: "rgb(30, 30, 30)",
+        input_placeholder: "rgb(100, 100, 100)",
         input_border: "rgb(0, 0, 0)",
+
+        showPasswordButton_background: "transparent",
+        showPasswordButton_color: "rgb(0, 0, 0)",
 
         radioButton_checked_color: "rgb(60, 100, 220)",
         radioButton_unchecked_color: "rgb(0, 0, 0)",
@@ -137,10 +143,13 @@ export const DarkTheme: ColorTheme = {
         modalButton_background: "transparent",
         modalButton_color: "rgb(255, 255, 255)",
 
-        input_background: "transparent",
-        input_color: "rgb(255, 255, 255)",
+        input_background: "rgb(30, 30, 30)",
+        input_color: "rgb(220, 220, 220)",
         input_placeholder: "rgb(150, 150, 150)",
-        input_border: "rgb(255, 255, 255)",
+        input_border: "rgb(220, 220, 220)",
+
+        showPasswordButton_background: "rgb(30, 30, 30)",
+        showPasswordButton_color: "rgb(255, 255, 255)",
 
         radioButton_checked_color: "rgb(180, 200, 255)",
         radioButton_unchecked_color: "rgb(255, 255, 255)",
