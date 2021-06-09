@@ -1,9 +1,9 @@
 import React, { createRef, useCallback, useState } from "react"
-import { Alert, TextInput } from "react-native"
+import { Alert, Keyboard, TextInput, TouchableWithoutFeedback } from "react-native"
 import { useNavigation } from "@react-navigation/core"
 
 import { SafeScreen } from "../../component/Screen"
-import { useBackHandler } from "../../service/hook"
+import { useBackHandler, useKeyboard } from "../../service/hook"
 import { AddHeader } from "./Header"
 import { InputTitle } from "../../component/InputTitle"
 import { InputText } from "../../component/InputText"
@@ -16,6 +16,7 @@ export function Add() {
 
     const navigation = useNavigation()
 
+    const inputTitleRef = createRef<TextInput>()
     const inputPasswordRef = createRef<TextInput>()
     const inputTextRef = createRef<TextInput>()
 
@@ -28,6 +29,23 @@ export function Add() {
     useBackHandler(() => {
         goBack()
         return true
+    })
+
+    useKeyboard("keyboardDidHide", () => {
+        if (inputTitleRef.current?.isFocused()) {
+            inputTitleRef.current.blur()
+            return
+        }
+
+        if (inputPasswordRef.current?.isFocused()) {
+            inputPasswordRef.current.blur()
+            return
+        }
+
+        if (inputTextRef.current?.isFocused()) {
+            inputTextRef.current.blur()
+            return
+        }
     })
 
 
@@ -57,41 +75,44 @@ export function Add() {
 
 
     return (
-        <SafeScreen>
-            <AddHeader
-                goBack={goBack}
-                saveNote={saveNote}
-                cancelNote={cancelNote}
-            />
-
-            <ViewInput>
-                <InputTitle
-                    value={title}
-                    onChangeText={(newText: string) => setTitle(newText)}
-                    onSubmitEditing={() => inputPasswordRef.current?.focus()}
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <SafeScreen>
+                <AddHeader
+                    goBack={goBack}
+                    saveNote={saveNote}
+                    cancelNote={cancelNote}
                 />
 
-                <ViewInputPassword>
-                    <InputPassword
-                        showPassword={showPassword}
-                        value={password}
-                        onChangeText={(newText: string) => setPassword(newText)}
-                        onSubmitEditing={() => inputTextRef.current?.focus()}
-                        ref={inputPasswordRef}
+                <ViewInput>
+                    <InputTitle
+                        value={title}
+                        onChangeText={(newText: string) => setTitle(newText)}
+                        onSubmitEditing={() => inputPasswordRef.current?.focus()}
+                        ref={inputTitleRef}
                     />
 
-                    <ShowPasswordButton
-                        showPassword={showPassword}
-                        onPress={() => setShowPassword(!showPassword)}
-                    />
-                </ViewInputPassword>
+                    <ViewInputPassword>
+                        <InputPassword
+                            showPassword={showPassword}
+                            value={password}
+                            onChangeText={(newText: string) => setPassword(newText)}
+                            onSubmitEditing={() => inputTextRef.current?.focus()}
+                            ref={inputPasswordRef}
+                        />
 
-                <InputText
-                    value={text}
-                    onChangeText={(newText: string) => setText(newText)}
-                    ref={inputTextRef}
-                />
-            </ViewInput>
-        </SafeScreen>
+                        <ShowPasswordButton
+                            showPassword={showPassword}
+                            onPress={() => setShowPassword(!showPassword)}
+                        />
+                    </ViewInputPassword>
+
+                    <InputText
+                        value={text}
+                        onChangeText={(newText: string) => setText(newText)}
+                        ref={inputTextRef}
+                    />
+                </ViewInput>
+            </SafeScreen>
+        </TouchableWithoutFeedback>
     )
 }
