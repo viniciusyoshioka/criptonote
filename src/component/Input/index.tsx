@@ -11,6 +11,7 @@ export const InputBase = styled.TextInput`
     padding-left: 16px;
     padding-right: 12px;
     font-size: 15px;
+    border-radius: 2px;
     background-color: ${(props: styledProps) => props.theme.color.input_background};
     color: ${(props: styledProps) => props.theme.color.input_color};
     border-color: ${(props: styledProps) => props.theme.color.input_border};
