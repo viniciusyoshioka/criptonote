@@ -7,6 +7,7 @@ import { Input } from "../Input"
 
 const InputTitleBase = styled(Input)`
     margin-bottom: 8px;
+    elevation: 2;
 `
 
 
@@ -16,6 +17,7 @@ export const InputTitle = forwardRef((props: TextInputProps, ref?: Ref<TextInput
             autoFocus={true}
             placeholder={"Título"}
             ref={ref}
+            returnKeyType={"next"}
             {...props}
         />
     )

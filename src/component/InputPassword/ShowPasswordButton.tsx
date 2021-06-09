@@ -1,23 +1,24 @@
 import React from "react"
+import { TouchableOpacityProps } from "react-native"
 import Icon from "react-native-vector-icons/Ionicons"
-import { RectButton, RectButtonProps } from "react-native-gesture-handler"
 import styled from "styled-components/native"
 
 import { styledProps, useTheme } from "../../service/theme"
 
 
-const ShowPasswordButtonBase = styled(RectButton)`
+const ShowPasswordButtonBase = styled.TouchableOpacity`
     align-items: center;
     justify-content: center;
     width: 48px;
     height: 48px;
     margin-left: 8px;
     border-radius: 2px;
+    elevation: 2;
     background-color: ${(props: styledProps) => props.theme.color.showPasswordButton_background};
 `
 
 
-export interface ShowPasswordButtonProps extends RectButtonProps {
+export interface ShowPasswordButtonProps extends TouchableOpacityProps {
     showPassword: boolean,
 }
 

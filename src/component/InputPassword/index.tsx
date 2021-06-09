@@ -9,6 +9,7 @@ import { ViewInputPassword } from "./ViewInputPassword"
 
 const InputPasswordBase = styled(Input)`
     flex: 1;
+    elevation: 2;
 `
 
 
@@ -27,6 +28,7 @@ export const InputPassword = forwardRef((props: InputPasswordProps, ref?: Ref<Te
             secureTextEntry={!props.showPassword}
             placeholder={"Senha"}
             ref={ref}
+            returnKeyType={"next"}
             {...props}
         />
     )
