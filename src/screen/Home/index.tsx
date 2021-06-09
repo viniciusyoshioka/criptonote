@@ -160,7 +160,7 @@ export function Home() {
                 selectionMode={selectionMode}
                 exitSelectionMode={exitSelectionMode}
                 deleteNote={() => {}}
-                addNote={() => {}}
+                addNote={() => navigation.navigate("Add")}
                 importNote={() => {}}
                 exportNote={() => {}}
                 encryptFile={() => {}}
