@@ -132,7 +132,7 @@ export function Home() {
     const renderNoteItem = useCallback(({item}: {item: Note}) => {
         return (
             <NoteItem
-                click={() => navigation.navigate("Read", {note: item})}
+                click={() => navigation.navigate("Code", {note: item})}
                 select={() => selectNote(item.id)}
                 deselect={() => deselectNote(item.id)}
                 selectionMode={selectionMode}
