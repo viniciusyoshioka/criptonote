@@ -19,9 +19,10 @@ export const appIcon = require(`${appIconPath}${appIconImage}`)
 export const appIconOutline = require(`${appIconPath}${appIconImageOutline}`)
 
 // File extensions
-export const exportedNoteBetaExtension = ".cnbe"
-export const exportedNoteReleaseExtension = ".cne"
+export const exportedNoteBetaExtension = "cnbe"
+export const exportedNoteReleaseExtension = "cne"
 export const exportedNoteExtension = appInDevelopment ? exportedNoteBetaExtension : exportedNoteReleaseExtension
+export const exportedNoteExtensionList = [exportedNoteBetaExtension, exportedNoteReleaseExtension]
 
 // Folder
 // Root
