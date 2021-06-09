@@ -1,10 +1,12 @@
 import React from "react"
 
-import { Header, BlockLeft, HeaderButton, BlockCenter, HeaderTitle } from "../../component/Header"
+import { Header, BlockLeft, HeaderButton, BlockCenter, HeaderTitle, BlockRight } from "../../component/Header"
 
 
 export interface AddHeaderProps {
     goBack: () => void,
+    saveNote: () => void,
+    cancelNote: () => void,
 }
 
 
@@ -23,6 +25,18 @@ export function AddHeader(props: AddHeaderProps) {
                     Adicionar
                 </HeaderTitle>
             </BlockCenter>
+
+            <BlockRight>
+                <HeaderButton
+                    iconName={"md-save"}
+                    onPress={props.saveNote}
+                />
+
+                <HeaderButton
+                    iconName={"md-close"}
+                    onPress={props.cancelNote}
+                />
+            </BlockRight>
         </Header>  
     )
 }
