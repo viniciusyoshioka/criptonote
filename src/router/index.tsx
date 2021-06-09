@@ -6,6 +6,7 @@ import { enableScreens } from "react-native-screens"
 import { Home } from "../screen/Home"
 import { Settings } from "../screen/Settings"
 import { Add } from "../screen/Add"
+import { Code } from "../screen/Code"
 
 
 enableScreens()
@@ -23,18 +24,10 @@ export function Router() {
                     stackAnimation: "fade",
                 }}
             >
-                <Stack.Screen
-                    name={"Home"}
-                    component={Home}
-                />
-                <Stack.Screen
-                    name={"Add"}
-                    component={Add}
-                />
-                <Stack.Screen
-                    name={"Settings"}
-                    component={Settings}
-                />
+                <Stack.Screen name={"Home"} component={Home} />
+                <Stack.Screen name={"Add"} component={Add} />
+                <Stack.Screen name={"Code"} component={Code} />
+                <Stack.Screen name={"Settings"} component={Settings} />
             </Stack.Navigator>
         </NavigationContainer>
     )
