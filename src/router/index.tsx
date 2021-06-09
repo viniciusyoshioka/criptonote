@@ -5,6 +5,7 @@ import { enableScreens } from "react-native-screens"
 
 import { Home } from "../screen/Home"
 import { Settings } from "../screen/Settings"
+import { Add } from "../screen/Add"
 
 
 enableScreens()
@@ -25,6 +26,10 @@ export function Router() {
                 <Stack.Screen
                     name={"Home"}
                     component={Home}
+                />
+                <Stack.Screen
+                    name={"Add"}
+                    component={Add}
                 />
                 <Stack.Screen
                     name={"Settings"}
