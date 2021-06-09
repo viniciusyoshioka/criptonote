@@ -6,7 +6,7 @@ import { getDateTime } from "./date"
 import { log } from "./log"
 import { Note, ExportedNote } from "./object-type"
 import { readNote, readNoteId, writeNote, writeNoteId } from "./storage"
-import { folderExported, folderRoot, fullPathExported } from "./constant"
+import { exportedNoteExtension, exportedNoteExtensionList, folderExported, folderRoot, fullPathExported } from "./constant"
 import { createExportedFolder } from "./folder-handler"
 
 
@@ -146,8 +146,7 @@ export async function exportNote(ids: Array<number>, selectionMode: boolean): Pr
     await createExportedFolder()
 
     // Create file with note data
-    // TODO
-    const fileName = "index.txt"
+    const fileName = `${getDateTime("-", "-", true)}.${exportedNoteExtension}`
     const filePath = `${fullPathExported}/${fileName}`
     const content = base64.encode(JSON.stringify(noteToExport))
     try {
@@ -177,10 +176,10 @@ export async function importNote(path: string): Promise<boolean> {
     }
 
     // Check file extension
-    // TODO
     const splitedPath = path.split("/")
-    const fileName = splitedPath[splitedPath.length - 1]
-    if (!fileName.endsWith(".zip")) {
+    const splitedFileName = splitedPath[splitedPath.length - 1].split(".")
+    const fileExtension = splitedFileName[splitedFileName.length - 1]
+    if (!exportedNoteExtensionList.includes(fileExtension)) {
         Alert.alert(
             "Erro",
             "Arquivo selecionado não é uma nota exportada"
