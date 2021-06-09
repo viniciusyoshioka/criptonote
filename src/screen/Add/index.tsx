@@ -9,6 +9,7 @@ import { InputTitle } from "../../component/InputTitle"
 import { InputText } from "../../component/InputText"
 import { ViewInput } from "./style"
 import { InputPassword, ShowPasswordButton, ViewInputPassword } from "../../component/InputPassword"
+import { saveNewNote } from "../../service/note-handler"
 
 
 export function Add() {
@@ -65,13 +66,36 @@ export function Add() {
         navigation.navigate("Home")
     }, [title, text])
 
-    const saveNote = useCallback(() => {
+    const saveNote = useCallback(async () => {
         // TODO
-    }, [])
+        function encrypt(text: string, password: string) {
+            if (text && password) {
+                return text
+            }
+            return text
+        }
+
+        const encryptedText = encrypt(text, password)
+        await saveNewNote(title, encryptedText)
+
+        navigation.reset({routes: [{name: "Home"}]})
+    }, [title, password, text])
 
     const cancelNote = useCallback(() => {
-        // TODO
-    }, [])
+        if (title !== "" || text !== "") {
+            Alert.alert(
+                "Aviso",
+                "Esta nota não será salva",
+                [
+                    {text: "Cancelar", onPress: () => {}},
+                    {text: "Ok", onPress: () => navigation.navigate("Home")}
+                ]
+            )
+            return
+        }
+
+        navigation.navigate("Home")
+    }, [title, text])
 
 
     return (
