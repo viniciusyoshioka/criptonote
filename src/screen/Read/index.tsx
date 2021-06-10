@@ -10,6 +10,7 @@ import { InputText } from "../../component/InputText"
 import { ViewInput } from "./style"
 import { deleteNote, saveEditedNote } from "../../service/note-handler"
 import { ScreenParams } from "../../service/screen-params"
+import { ChangePassword } from "./ChangePassword"
 
 
 export function Read() {
@@ -24,6 +25,7 @@ export function Read() {
     const [title, setTitle] = useState("")
     const [text, setText] = useState("")
     const [isChanged, setIsChanged] = useState(false)
+    const [showChangePassword, setShowChangePassword] = useState(false)
 
 
     useBackHandler(() => {
@@ -76,12 +78,10 @@ export function Read() {
     }, [])
 
     const saveNote = useCallback(async () => {
+        // TODO
+
         await saveEditedNote(params.note, title, text)
         navigation.reset({routes: [{name: "Home"}]})
-    }, [title, text])
-
-    const changePassword = useCallback(async () => {
-        // TODO
     }, [title, text])
 
     const deleteCurrentNote = useCallback(async () => {
@@ -110,12 +110,18 @@ export function Read() {
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <SafeScreen>
+                <ChangePassword
+                    visible={showChangePassword}
+                    setVisible={setShowChangePassword}
+                    changePassword={() => {}}
+                />
+
                 <ReadHeader
                     isChanged={false}
                     title={title}
                     goBack={goBack}
                     saveNote={saveNote}
-                    changePassword={changePassword}
+                    changePassword={() => setShowChangePassword(true)}
                     deleteNote={deleteCurrentNote}
                 />
 
