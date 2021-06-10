@@ -60,6 +60,8 @@ export function Code() {
                             onChangeText={(newText: string) => setPassword(newText)}
                             ref={inputPasswordRef}
                             showPassword={showPassword}
+                            returnKeyType={"done"}
+                            onSubmitEditing={openNote}
                             value={password}
                         />
 
