@@ -100,8 +100,13 @@ export function Read() {
         )
     }, [])
 
+    const changePassword = useCallback(() => {
+        // TODO
+    }, [])
+
 
     useEffect(() => {
+        // TODO
         setTitle(params.note.title)
         setText(params.note.text)
     }, [])
@@ -113,7 +118,7 @@ export function Read() {
                 <ChangePassword
                     visible={showChangePassword}
                     setVisible={setShowChangePassword}
-                    changePassword={() => {}}
+                    changePassword={changePassword}
                 />
 
                 <ReadHeader
