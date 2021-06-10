@@ -85,7 +85,7 @@ export function Add() {
         if (title !== "" || text !== "") {
             Alert.alert(
                 "Aviso",
-                "Esta nota não será salva",
+                "Esta nota será descartada",
                 [
                     {text: "Cancelar", onPress: () => {}},
                     {text: "Ok", onPress: () => navigation.navigate("Home")}
