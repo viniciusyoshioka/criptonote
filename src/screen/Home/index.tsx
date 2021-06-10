@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react"
-import { BackHandler, FlatList } from "react-native"
+import { Alert, BackHandler, FlatList } from "react-native"
 import { useNavigation } from "@react-navigation/core"
 
 import { SafeScreen } from "../../component/Screen"
@@ -12,6 +12,7 @@ import { readDebugHome, readNote, readNoteId, writeDebugHome, writeNote, writeNo
 import { createAllFolder } from "../../service/folder-handler"
 import { NoteItem } from "../../component/NoteItem"
 import { useBackHandler } from "../../service/hook"
+import { deleteNote, exportNote } from "../../service/note-handler"
 
 
 export function Home() {
@@ -19,7 +20,7 @@ export function Home() {
 
     const navigation = useNavigation()
 
-    const [debugHome, setDebugHome] = useState<debugHome>("show")
+    const [debugHome, setDebugHome] = useState<debugHome>("hide")
     const [note, setNote] = useState<Array<Note>>([])
     const [selectionMode, setSelectionMode] = useState(false)
     const [selectedNote, setSelectedNote] = useState<Array<number>>([])
@@ -34,15 +35,6 @@ export function Home() {
         return true
     })
 
-
-    const debugGetDebugHome = useCallback(async () => {
-        if (appInDevelopment) {
-            const getDebugHome = await readDebugHome()
-            setDebugHome(getDebugHome)
-        } else {
-            setDebugHome("hide")
-        }
-    }, [])
 
     const debugSwitchDebugHome = useCallback(async () => {
         switch (debugHome) {
@@ -103,12 +95,37 @@ export function Home() {
     }, [])
 
     const deleteSelectedNote = useCallback(() => {
-        // TODO
-    }, [])
+        async function alertDelete() {
+            await deleteNote(selectedNote)
+            await getNote()
+            exitSelectionMode()
+        }
 
-    const exportSelectedNote = useCallback(() => {
-        // TODO
-    }, [])
+        Alert.alert(
+            "Apagar",
+            "Estas notas serão apagadas permanentemente",
+            [
+                {text: "Cancelar", onPress: () => {}},
+                {text: "Apagar", onPress: async () => await alertDelete()}
+            ]
+        )
+    }, [selectedNote])
+
+    const exportAppNote = useCallback(() => {
+        function alertExport() {
+            exportNote(selectedNote, selectionMode)
+            exitSelectionMode()
+        }
+
+        Alert.alert(
+            "Exportar",
+            `As notas ${selectionMode ? "selecionadas " : ""}serão exportadas`,
+            [
+                {text: "Cancelar", onPress: () => {}},
+                {text: "Exportar", onPress: () => alertExport()}
+            ]
+        )
+    }, [selectedNote, selectionMode])
 
     const selectNote = useCallback((noteId: number) => {
         if (!selectionMode) {
@@ -148,8 +165,17 @@ export function Home() {
 
 
     useEffect(() => {
+        if (appInDevelopment) {
+            // eslint-disable-next-line no-inner-declarations
+            async function debugGetDebugHome() {
+                const getDebugHome = await readDebugHome()
+                setDebugHome(getDebugHome)
+            }
+
+            debugGetDebugHome()
+        }
+
         createAllFolder()
-        debugGetDebugHome()
         getNote()
     }, [])
 
@@ -159,11 +185,11 @@ export function Home() {
             <HomeHeader
                 selectionMode={selectionMode}
                 exitSelectionMode={exitSelectionMode}
-                deleteNote={() => {}}
+                deleteNote={deleteSelectedNote}
                 addNote={() => navigation.navigate("Add")}
-                importNote={() => {}}
-                exportNote={() => {}}
-                encryptFile={() => {}}
+                importNote={() => {}} // TODO
+                exportNote={exportAppNote}
+                encryptFile={() => {}} // TODO
                 openSettings={() => navigation.navigate("Settings")}
                 switchDebugHome={debugSwitchDebugHome}
             />
