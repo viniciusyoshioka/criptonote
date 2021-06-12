@@ -8,7 +8,7 @@ import { useKeyboard } from "../../service/hook"
 
 
 export interface ChangePasswordProps extends ModalFullscreenProps {
-    changePassword: () => void,
+    changePassword: (currentPassword: string, newPassword: string, confirmNewPassword: string) => void,
 }
 
 
@@ -118,7 +118,7 @@ export function ChangePassword(props: ChangePasswordProps) {
                     <ModalButton
                         text={"Ok"}
                         onPress={() => {
-                            props.changePassword()
+                            props.changePassword(currentPassword, newPassword, confirmNewPassword)
                             props.setVisible(false)
                         }}
                     />

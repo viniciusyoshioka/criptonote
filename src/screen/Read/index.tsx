@@ -104,9 +104,31 @@ export function Read() {
         )
     }, [])
 
-    const changePassword = useCallback(() => {
-        // TODO
-    }, [])
+    const changePassword = useCallback(async (
+        currentPassword: string, newPassword: string, confirmNewPassword: string
+    ) => {
+        if (isChanged) {
+            Alert.alert(
+                "Aviso",
+                "A nota foi alterada. Salve antes de mudar a senha"
+            )
+            return
+        }
+
+        if (newPassword !== confirmNewPassword) {
+            Alert.alert(
+                "Aviso",
+                "A nova senha é diferente de sua confirmação"
+            )
+            return
+        }
+
+        const decryptedCurrentPasswordText = await Crypto.decrypt(params.note.text, currentPassword)
+        const encryptedNewPasswordText = await Crypto.encrypt(decryptedCurrentPasswordText, newPassword)
+
+        await saveEditedNote(params.note, params.note.title, encryptedNewPasswordText)
+        navigation.reset({routes: [{name: "Home"}]})
+    }, [isChanged])
 
 
     useEffect(() => {
