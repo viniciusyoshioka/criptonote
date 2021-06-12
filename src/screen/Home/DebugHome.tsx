@@ -6,6 +6,7 @@ import Share from "react-native-share"
 import { DebugButton } from "../../component/DebugButton"
 import { fullPathLog, fullPathRoot } from "../../service/constant"
 import { useSwitchTheme } from "../../service/theme"
+import { Crypto } from "../../service/crypto"
 
 
 export interface DebugHomeProps {
@@ -180,6 +181,13 @@ export const DebugHome = memo((props: DebugHomeProps) => {
                 text={"Ler"}
                 onPress={debugReadAppFolder}
                 style={{bottom: 5, left: 170}} />
+
+            <DebugButton
+                text={"Crypto"}
+                onPress={() => {
+                    Crypto.test("TEXT de teste", "PASSWORD de teste")
+                }}
+                style={{bottom: 5, left: 225}} />
         </View>
     )
 })
