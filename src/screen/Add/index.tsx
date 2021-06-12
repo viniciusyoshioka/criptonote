@@ -10,6 +10,7 @@ import { InputText } from "../../component/InputText"
 import { ViewInput } from "./style"
 import { InputPassword, ShowPasswordButton, ViewInputPassword } from "../../component/InputPassword"
 import { saveNewNote } from "../../service/note-handler"
+import { Crypto } from "../../service/crypto"
 
 
 export function Add() {
@@ -67,15 +68,15 @@ export function Add() {
     }, [title, text])
 
     const saveNote = useCallback(async () => {
-        // TODO
-        function encrypt(text: string, password: string) {
-            if (text && password) {
+        async function encrypt(text: string, password: string) {
+            if (password === "") {
                 return text
             }
-            return text
+
+            return await Crypto.encrypt(text, password)
         }
 
-        const encryptedText = encrypt(text, password)
+        const encryptedText = await encrypt(text, password)
         await saveNewNote(title, encryptedText)
 
         navigation.reset({routes: [{name: "Home"}]})
