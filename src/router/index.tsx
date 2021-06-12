@@ -1,6 +1,7 @@
 import React from "react"
 import { NavigationContainer } from "@react-navigation/native"
-import { createStackNavigator } from "@react-navigation/stack"
+import { createNativeStackNavigator } from "react-native-screens/native-stack"
+import { enableScreens } from "react-native-screens"
 
 import { Home } from "../screen/Home"
 import { Settings } from "../screen/Settings"
@@ -9,13 +10,21 @@ import { Code } from "../screen/Code"
 import { Read } from "../screen/Read"
 
 
-const Stack = createStackNavigator()
+enableScreens()
+const Stack = createNativeStackNavigator()
 
 
 export function Router() {
     return (
         <NavigationContainer>
-            <Stack.Navigator initialRouteName={"Home"} screenOptions={{headerShown: false}}>
+            <Stack.Navigator
+                initialRouteName={"Home"}
+                screenOptions={{
+                    headerShown: false,
+                    stackAnimation: "fade",
+                    replaceAnimation: "push"
+                }}
+            >
                 <Stack.Screen name={"Home"} component={Home} />
                 <Stack.Screen name={"Add"} component={Add} />
                 <Stack.Screen name={"Code"} component={Code} />
