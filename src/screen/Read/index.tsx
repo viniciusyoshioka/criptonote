@@ -11,6 +11,7 @@ import { ViewInput } from "./style"
 import { deleteNote, saveEditedNote } from "../../service/note-handler"
 import { ScreenParams } from "../../service/screen-params"
 import { ChangePassword } from "./ChangePassword"
+import { Crypto } from "../../service/crypto"
 
 
 export function Read() {
@@ -78,9 +79,12 @@ export function Read() {
     }, [])
 
     const saveNote = useCallback(async () => {
-        // TODO
+        let encryptedText = text
+        if (params.password !== "") {
+            encryptedText = await Crypto.encrypt(text, params.password)
+        }
 
-        await saveEditedNote(params.note, title, text)
+        await saveEditedNote(params.note, title, encryptedText)
         navigation.reset({routes: [{name: "Home"}]})
     }, [title, text])
 
@@ -106,9 +110,16 @@ export function Read() {
 
 
     useEffect(() => {
-        // TODO
-        setTitle(params.note.title)
-        setText(params.note.text)
+        async function decryptAndSetNoteContent() {
+            let decryptedText = params.note.text
+            if (params.password !== "") {
+                decryptedText = await Crypto.decrypt(params.note.text, params.password)
+            }
+            setTitle(params.note.title)
+            setText(decryptedText)
+        }
+
+        decryptAndSetNoteContent()
     }, [])
 
 
