@@ -187,7 +187,7 @@ export function Home() {
                 exitSelectionMode={exitSelectionMode}
                 deleteNote={deleteSelectedNote}
                 addNote={() => navigation.navigate("Add")}
-                importNote={() => {}} // TODO
+                importNote={() => navigation.navigate("FileExplorer")}
                 exportNote={exportAppNote}
                 encryptFile={() => {}} // TODO
                 openSettings={() => navigation.navigate("Settings")}
