@@ -8,6 +8,7 @@ import { Settings } from "../screen/Settings"
 import { Add } from "../screen/Add"
 import { Code } from "../screen/Code"
 import { Read } from "../screen/Read"
+import { FileExplorer } from "../screen/FileExplorer"
 
 
 enableScreens()
@@ -29,6 +30,7 @@ export function Router() {
                 <Stack.Screen name={"Add"} component={Add} />
                 <Stack.Screen name={"Code"} component={Code} />
                 <Stack.Screen name={"Settings"} component={Settings} />
+                <Stack.Screen name={"FileExplorer"} component={FileExplorer} />
                 <Stack.Screen name={"Read"} component={Read} />
             </Stack.Navigator>
         </NavigationContainer>
