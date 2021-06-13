@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { memo, useEffect, useState } from "react"
 
 import { ModalButton, ModalTitle, ModalViewButton, ModalViewContent } from "../../component/ModalComponent"
 import { ModalFullscreen, ModalFullscreenProps } from "../../component/ModalFullscreen"
@@ -6,10 +6,10 @@ import { RadioButton } from "../../component/RadioButton"
 import { useSwitchTheme, useTheme } from "../../service/theme"
 
 
-export interface ChangeThemeProps extends ModalFullscreenProps { }
+export interface ChangeThemeProps extends ModalFullscreenProps {}
 
 
-export function ChangeTheme(props: ChangeThemeProps) {
+export const ChangeTheme = memo((props: ChangeThemeProps) => {
 
 
     const { appTheme } = useTheme()
@@ -19,7 +19,9 @@ export function ChangeTheme(props: ChangeThemeProps) {
 
 
     useEffect(() => {
-        setSelectedTheme(appTheme)
+        if (!props.visible) {
+            setSelectedTheme(appTheme)
+        }
     }, [props.visible])
 
 
@@ -62,4 +64,4 @@ export function ChangeTheme(props: ChangeThemeProps) {
             </>
         </ModalFullscreen>
     )
-}
+})

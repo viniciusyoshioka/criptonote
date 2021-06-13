@@ -1,14 +1,14 @@
-import React from "react"
+import React, { memo } from "react"
 
 import { Header, BlockLeft, HeaderButton, BlockCenter, HeaderTitle } from "../../component/Header"
 
 
 export interface SettingsHeaderProps {
-    goBack: () => void
+    goBack: () => void,
 }
 
 
-export function SettingsHeader(props: SettingsHeaderProps) {
+export const SettingsHeader = memo((props: SettingsHeaderProps) => {
     return (
         <Header>
             <BlockLeft>
@@ -25,4 +25,4 @@ export function SettingsHeader(props: SettingsHeaderProps) {
             </BlockCenter>
         </Header>  
     )
-}
+})
