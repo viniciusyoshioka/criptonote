@@ -1,4 +1,4 @@
-import React, { memo, useCallback } from "react"
+import React, { memo } from "react"
 import { Alert, View } from "react-native"
 import RNFS from "react-native-fs"
 import Share from "react-native-share"
@@ -22,7 +22,7 @@ export const DebugHome = memo((props: DebugHomeProps) => {
     const switchTheme = useSwitchTheme()
 
 
-    const debugReadLog = useCallback(async () => {
+    async function debugReadLog() {
         try {
             if (await RNFS.exists(fullPathLog)) {
                 RNFS.readFile(`${fullPathRoot}/docscanlog.log`)
@@ -47,9 +47,9 @@ export const DebugHome = memo((props: DebugHomeProps) => {
                 {cancelable: false}
             )
         }
-    }, [])
+    }
 
-    const debugShareLog = useCallback(async () => {
+    async function debugShareLog() {
         try {
             if (await RNFS.exists(fullPathLog)) {
                 await Share.open({
@@ -76,9 +76,9 @@ export const DebugHome = memo((props: DebugHomeProps) => {
                 {cancelable: false}
             )
         }
-    }, [])
+    }
 
-    const debugDeleteLog = useCallback(async () => {
+    async function debugDeleteLog() {
         async function alertDeleteLogComplete() {
             if (!await RNFS.exists(fullPathLog)) {
                 Alert.alert(
@@ -115,9 +115,9 @@ export const DebugHome = memo((props: DebugHomeProps) => {
             ],
             {cancelable: false}
         )
-    }, [])
+    }
 
-    const debugReadAppFolder = useCallback(async () => {
+    async function debugReadAppFolder() {
         console.log("readAppFolder")
 
         console.log("========== fullPathRoot ==========")
@@ -132,8 +132,7 @@ export const DebugHome = memo((props: DebugHomeProps) => {
         } else {
             console.log("Não existe")
         }
-    }, [])
-
+    }
 
     return (
         <View>
