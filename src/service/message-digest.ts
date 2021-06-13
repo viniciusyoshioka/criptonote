@@ -1,5 +1,5 @@
 
-export function SHA256(string: string){
+export function sha256(string: string){
     // Hash sha256
 
     const chrsz = 8
