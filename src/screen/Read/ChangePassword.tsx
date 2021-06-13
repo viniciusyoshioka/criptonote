@@ -1,4 +1,4 @@
-import React, { createRef, useEffect, useState } from "react"
+import React, { createRef, memo, useEffect, useState } from "react"
 import { Keyboard, TextInput } from "react-native"
 
 import { InputPassword, ShowPasswordButton, ViewInputPassword } from "../../component/InputPassword"
@@ -12,7 +12,7 @@ export interface ChangePasswordProps extends ModalFullscreenProps {
 }
 
 
-export function ChangePassword(props: ChangePasswordProps) {
+export const ChangePassword = memo((props: ChangePasswordProps) => {
 
 
     const inputCurrentPassword = createRef<TextInput>()
@@ -126,4 +126,4 @@ export function ChangePassword(props: ChangePasswordProps) {
             </>
         </ModalFullscreen>
     )
-}
+})
