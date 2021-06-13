@@ -1,4 +1,4 @@
-import React, { createRef, useState } from "react"
+import React, { createRef, useEffect, useState } from "react"
 import { Alert, TextInput, useWindowDimensions } from "react-native"
 import { useNavigation } from "@react-navigation/core"
 
@@ -16,7 +16,7 @@ export function Lock() {
 
     const inputLockRef = createRef<TextInput>()
 
-    const [lock, setLock] = useState("")
+    const [lock, setLock] = useState<string | null>(null)
 
 
     useKeyboard("keyboardDidHide", () => {
@@ -27,21 +27,45 @@ export function Lock() {
 
 
     async function unlock() {
-        const appLock = await readLock()
+        if (lock !== null) {
+            const appLock = await readLock()
+            const hashLock = sha256(lock)
 
-        const hashLock = sha256(lock)
+            if (hashLock === appLock) {
+                navigation.reset({routes: [
+                    {name: "Home"}
+                ]})
+                return
+            }
 
-        if (hashLock === appLock) {
-            navigation.reset({routes: [
-                {name: "Home"}
-            ]})
-            return
+            Alert.alert(
+                "Alerta",
+                "Senha inválida"
+            )
+        }
+    }
+
+
+    useEffect(() => {
+        async function isProtected() {
+            const appLock = await readLock()
+            if (appLock === "") {
+                navigation.reset({routes: [
+                    {name: "Home"}
+                ]})
+                return
+            }
+
+            setLock("")
+            inputLockRef.current?.focus()
         }
 
-        Alert.alert(
-            "Alerta",
-            "Senha inválida"
-        )
+        isProtected()
+    }, [])
+
+
+    if (lock === null) {
+        return null
     }
 
 
@@ -56,7 +80,6 @@ export function Lock() {
                 autoCapitalize={"none"}
                 autoCompleteType={"off"}
                 autoCorrect={false}
-                autoFocus={true}
                 keyboardType={"numeric"}
                 onChangeText={(newText: string) => setLock(newText)}
                 onSubmitEditing={unlock}
