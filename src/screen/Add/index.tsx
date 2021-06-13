@@ -76,6 +76,18 @@ export function Add() {
             return await Crypto.encrypt(text, password)
         }
 
+        if (title === "" && text === "") {
+            Alert.alert(
+                "Aviso",
+                "A nota não será salva, pois está vazia",
+                [
+                    {text: "Cancelar", onPress: () => {}},
+                    {text: "Ok", onPress: () => navigation.navigate("Home")}
+                ]
+            )
+            return
+        }
+
         const encryptedText = await encrypt(text, password)
         await saveNewNote(title, encryptedText)
 
