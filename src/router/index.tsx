@@ -3,6 +3,7 @@ import { NavigationContainer } from "@react-navigation/native"
 import { createNativeStackNavigator } from "react-native-screens/native-stack"
 import { enableScreens } from "react-native-screens"
 
+import { Lock } from "../screen/Lock"
 import { Home } from "../screen/Home"
 import { Settings } from "../screen/Settings"
 import { Add } from "../screen/Add"
@@ -19,13 +20,14 @@ export function Router() {
     return (
         <NavigationContainer>
             <Stack.Navigator
-                initialRouteName={"Home"}
+                initialRouteName={"Lock"}
                 screenOptions={{
                     headerShown: false,
                     stackAnimation: "fade",
                     replaceAnimation: "push"
                 }}
             >
+                <Stack.Screen name={"Lock"} component={Lock} />
                 <Stack.Screen name={"Home"} component={Home} />
                 <Stack.Screen name={"Add"} component={Add} />
                 <Stack.Screen name={"Code"} component={Code} />
