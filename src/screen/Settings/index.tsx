@@ -15,7 +15,7 @@ export function Settings() {
 
     const navigation = useNavigation()
 
-    const [changeThemeVisible, setChangeThemeVisible] = useState(false)
+    const [isChangeThemeVisible, setIsChangeThemeVisible] = useState(false)
 
 
     useBackHandler(() => {
@@ -32,8 +32,8 @@ export function Settings() {
     return (
         <SafeScreen>
             <ChangeTheme
-                visible={changeThemeVisible}
-                setVisible={setChangeThemeVisible}
+                visible={isChangeThemeVisible}
+                setVisible={setIsChangeThemeVisible}
             />
 
             <SettingsHeader
@@ -44,7 +44,14 @@ export function Settings() {
                 iconName={"md-contrast"}
                 title={"Tema"}
                 description={"Mudar tema de cores do aplicativo"}
-                onPress={() => setChangeThemeVisible(true)}
+                onPress={() => setIsChangeThemeVisible(true)}
+            />
+
+            <SettingsButton
+                iconName={"md-lock-closed"}
+                title={"Senha"}
+                description={"Adicionar/mudar senha do aplicativo"}
+                onPress={() => {}}
             />
 
             <ViewVersion>
