@@ -47,6 +47,7 @@ export function Settings() {
                 onPress={() => setIsChangeThemeVisible(true)}
             />
 
+            {/* TODO */}
             <SettingsButton
                 iconName={"md-lock-closed"}
                 title={"Senha"}
