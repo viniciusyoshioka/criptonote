@@ -67,16 +67,20 @@ export function Read() {
         switch (inputField) {
             case "title":
                 setTitle(newValue)
-                setIsChanged(true)
+                if (!isChanged) {
+                    setIsChanged(true)
+                }
                 break
             case "text":
                 setText(newValue)
-                setIsChanged(true)
+                if (!isChanged) {
+                    setIsChanged(true)
+                }
                 break
             default:
                 throw new Error("Unknown inputField value")
         }
-    }, [])
+    }, [isChanged])
 
     const saveNote = useCallback(async () => {
         let encryptedText = text
@@ -155,7 +159,7 @@ export function Read() {
                 />
 
                 <ReadHeader
-                    isChanged={false}
+                    isChanged={isChanged}
                     title={title}
                     goBack={goBack}
                     saveNote={saveNote}
