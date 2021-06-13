@@ -1,17 +1,16 @@
 
-export class OldCrypto {
+function Asc(text: string): number {
+    return text.charCodeAt(0)
+} 
 
 
-    private Asc(text: string): number {
-        return text.charCodeAt(0)
-    } 
-
-    private Chr(code: number): string {
-        return String.fromCharCode(code)
-    }
+function Chr(code: number): string {
+    return String.fromCharCode(code)
+}
 
 
-    public encrypt(text: string, password: string): string {
+export const OldCrypto = {
+    encrypt: (text: string, password: string): string => {
         if (password === "") {
             return text
         }
@@ -21,7 +20,7 @@ export class OldCrypto {
         let passwordLimit = 0
 
         for (let i = 0; i < text.length; i++) {
-            charcode = (this.Asc(text.substr(i, 1)) + this.Asc(password.substr(passwordLimit, 1)))
+            charcode = (Asc(text.substr(i, 1)) + Asc(password.substr(passwordLimit, 1)))
 
             if (passwordLimit === (password.length - 1)) {
                 passwordLimit = 0
@@ -35,23 +34,23 @@ export class OldCrypto {
                 passwordLimit += 1
             }
 
-            encriptedText += this.Chr(charcode)
+            encriptedText += Chr(charcode)
         }
 
         return encriptedText
-    }
+    },
 
-    public decrypt(text: string, password: string): string {
+    decrypt: (text: string, password: string): string => {
         if (password === "") {
             return text
         }
-    
+
         let decriptedText = ""
         let charcode = 0
         let passwordLimit = 0
-    
+
         for (let i = 0; i < text.length; i++) {
-            charcode = (this.Asc(text.substr(i, 1)) - this.Asc(password.substr(passwordLimit, 1)))
+            charcode = (Asc(text.substr(i, 1)) - Asc(password.substr(passwordLimit, 1)))
 
             if (passwordLimit == (password.length - 1)) {
                 passwordLimit = 0
@@ -65,9 +64,9 @@ export class OldCrypto {
                 passwordLimit += 1
             }
 
-            decriptedText += this.Chr(charcode)
+            decriptedText += Chr(charcode)
         }
-    
+
         return decriptedText
     }
 }
