@@ -1,16 +1,18 @@
 import React, { useCallback, useEffect, useState } from "react"
 import { Alert, FlatList } from "react-native"
-import { useNavigation } from "@react-navigation/core"
+import { useNavigation, useRoute } from "@react-navigation/core"
 import RNFS, { ReadDirItem } from "react-native-fs"
 
 import { SafeScreen } from "../../component/Screen"
 import { FileExplorerHeader } from "./Header"
-import { fullPathExported } from "../../service/constant"
+import { fullPathDecrypted, fullPathEncrypted, fullPathExported } from "../../service/constant"
 import { FileExplorerItem } from "../../component/FileExplorerItem"
 import { useBackHandler } from "../../service/hook"
 import { SubHeader, SubHeaderText } from "../../component/SubHeaderPath"
 import { importNote } from "../../service/note-handler"
 import { log } from "../../service/log"
+import { RouteProp } from "@react-navigation/native"
+import { ScreenParams } from "../../service/screen-params"
 
 
 const defaultContent: Array<ReadDirItem> = [
@@ -41,6 +43,24 @@ const defaultContent: Array<ReadDirItem> = [
         mtime: undefined,
         size: "",
     },
+    {
+        name: "Arquivos Criptografados",
+        path: fullPathEncrypted,
+        isFile: () => false,
+        isDirectory: () => true,
+        ctime: undefined,
+        mtime: undefined,
+        size: "",
+    },
+    {
+        name: "Arquivos Descriptografados",
+        path: fullPathDecrypted,
+        isFile: () => false,
+        isDirectory: () => true,
+        ctime: undefined,
+        mtime: undefined,
+        size: "",
+    },
 ]
 
 
@@ -59,6 +79,7 @@ export function FileExplorer() {
 
 
     const navigation = useNavigation()
+    const { params } = useRoute<RouteProp<ScreenParams, "FileExplorer">>()
 
     const [path, setPath] = useState<string | null>(null)
     const [pathContent, setPathContent] = useState<Array<ReadDirItem>>(defaultContent)
@@ -88,6 +109,20 @@ export function FileExplorer() {
                     return
                 }
                 break
+            case fullPathEncrypted:
+                if (backToDefault) {
+                    setPath(null)
+                    setBackToDefault(false)
+                    return
+                }
+                break
+            case fullPathDecrypted:
+                if (backToDefault) {
+                    setPath(null)
+                    setBackToDefault(false)
+                    return
+                }
+                break
             default:
                 break
         }
@@ -110,6 +145,7 @@ export function FileExplorer() {
     }, [path, backToDefault])
 
     const importNoteAlert = useCallback((newPath: string) => {
+        // TODO
         function importNoteFunction(newPath: string) {
             importNote(newPath)
                 .then((isNoteImported: boolean) => {
@@ -135,13 +171,24 @@ export function FileExplorer() {
         )
     }, [])
 
+    const encryptFileAlert = useCallback((filePath: string) => {
+        // TODO
+    }, [])
+
     const changePath = useCallback(async (newPath: string, isFile: boolean) => {
         if (newPath === "..") {
             upDirectory()
         } else if (isFile) {
-            importNoteAlert(newPath)
+            if (params.action === "import") {
+                importNoteAlert(newPath)
+            } else if (params.action === "encrypt") {
+                encryptFileAlert(newPath)
+            }
         } else {
-            if (path === null && newPath === fullPathExported) {
+            const intoExported = (path === null && newPath === fullPathExported)
+            const intoEncrypted = (path === null && newPath === fullPathEncrypted)
+            const intoDecrypted = (path === null && newPath === fullPathDecrypted)
+            if (intoExported || intoEncrypted || intoDecrypted) {
                 setBackToDefault(true)
             }
             setPath(newPath)
