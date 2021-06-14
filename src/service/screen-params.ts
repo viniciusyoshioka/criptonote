@@ -12,4 +12,7 @@ export type ScreenParams = {
     FileExplorer: {
         action: "import" | "encrypt"
     },
+    FileEncryption: {
+        filePath: string,
+    },
 }
