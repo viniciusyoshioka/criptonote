@@ -49,7 +49,7 @@ public class CryptoModule extends ReactContextBaseJavaModule {
 
 
     @ReactMethod
-    public void encrypt(String text, String password, Promise promise) throws Exception {
+    public void encryptString(String text, String password, Promise promise) throws Exception {
         byte[] byteText = text.getBytes(StandardCharsets.UTF_8);
         byte[] bytePassword = password.getBytes(StandardCharsets.UTF_8);
 
@@ -67,7 +67,7 @@ public class CryptoModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void decrypt(String text, String password, Promise promise) throws Exception {
+    public void decryptString(String text, String password, Promise promise) throws Exception {
         byte[] byteEncryptedText = Base64.decode(text, Base64.DEFAULT);
         byte[] bytePassword = password.getBytes(StandardCharsets.UTF_8);
 
@@ -86,7 +86,7 @@ public class CryptoModule extends ReactContextBaseJavaModule {
 
 
     @ReactMethod
-    public void test(String text, String password) throws Exception {
+    public void testString(String text, String password) throws Exception {
         String encryptedText = returnEncrypt(text, password);
         Log.w("ALERTA", "ENCRYPT: \"" + encryptedText + "\"");
 
