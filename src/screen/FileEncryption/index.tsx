@@ -54,14 +54,6 @@ export function FileEncryption() {
         navigation.goBack()
     }, [])
 
-    const encryptFile = useCallback(() => {
-        // TODO
-    }, [])
-
-    const decryptFile = useCallback(() => {
-        // TODO
-    }, [])
-
     const cancel = useCallback(() => {
         Alert.alert(
             "Aviso",
@@ -78,8 +70,18 @@ export function FileEncryption() {
         <SafeScreen>
             <FileEncryptionHeader
                 goBack={goBack}
-                encryptFile={encryptFile}
-                decryptFile={decryptFile}
+                encryptFile={() => navigation.navigate("ProcessingEncryption", {
+                    operation: "encrypt",
+                    fileName: fileName,
+                    password: password,
+                    deleteOriginalFile: deleteOriginalFile,
+                })}
+                decryptFile={() => navigation.navigate("ProcessingEncryption", {
+                    operation: "decrypt",
+                    fileName: fileName,
+                    password: password,
+                    deleteOriginalFile: deleteOriginalFile,
+                })}
                 cancel={cancel}
             />
 
