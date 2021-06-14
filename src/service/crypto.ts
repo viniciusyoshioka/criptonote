@@ -6,9 +6,9 @@ export interface CryptoProps {
     encryptString: (text: string, password: string) => Promise<string>,
     decryptString: (text: string, password: string) => Promise<string>,
 
-    testFile: (path: string, password: string) => void,
-    encryptFile: (path: string, password: string) => Promise<string>,
-    decryptFile: (path: string, password: string) => Promise<string>,
+    testFile: (filePathOrigin: string, password: string, filePathDestiny: string) => void,
+    encryptFile: (filePathOrigin: string, password: string, filePathDestiny: string) => Promise<string>,
+    decryptFile: (filePathOrigin: string, password: string, filePathDestiny: string) => Promise<string>,
 }
 
 
