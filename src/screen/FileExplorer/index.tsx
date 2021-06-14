@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react"
 import { Alert, FlatList } from "react-native"
-import { useNavigation, useRoute } from "@react-navigation/core"
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/core"
 import RNFS, { ReadDirItem } from "react-native-fs"
 
 import { SafeScreen } from "../../component/Screen"
@@ -11,7 +11,6 @@ import { useBackHandler } from "../../service/hook"
 import { SubHeader, SubHeaderText } from "../../component/SubHeaderPath"
 import { importNote } from "../../service/note-handler"
 import { log } from "../../service/log"
-import { RouteProp } from "@react-navigation/native"
 import { ScreenParams } from "../../service/screen-params"
 
 
