@@ -52,6 +52,9 @@ export interface ColorTheme {
 
         radioButton_unchecked_color: string,
         radioButton_checked_color: string,
+
+        checkButton_unchecked_color: string,
+        checkButton_checked_color: string,
     },
     opacity: {
         headerEmphasis: number,
@@ -107,6 +110,9 @@ export const LightTheme: ColorTheme = {
 
         radioButton_checked_color: "rgb(60, 100, 220)",
         radioButton_unchecked_color: "rgb(0, 0, 0)",
+
+        checkButton_checked_color: "rgb(60, 100, 220)",
+        checkButton_unchecked_color: "rgb(0, 0, 0)",
     },
     opacity: {
         headerEmphasis: 1,
@@ -162,6 +168,9 @@ export const DarkTheme: ColorTheme = {
 
         radioButton_checked_color: "rgb(180, 200, 255)",
         radioButton_unchecked_color: "rgb(255, 255, 255)",
+
+        checkButton_checked_color: "rgb(180, 200, 255)",
+        checkButton_unchecked_color: "rgb(255, 255, 255)",
     },
     opacity: {
         headerEmphasis: 0.87,
