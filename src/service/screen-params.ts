@@ -9,4 +9,7 @@ export type ScreenParams = {
         note: Note,
         password: string,
     },
+    FileExplorer: {
+        action: "import" | "encrypt"
+    },
 }
