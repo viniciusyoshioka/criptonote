@@ -5,11 +5,12 @@ import { enableScreens } from "react-native-screens"
 
 import { Lock } from "../screen/Lock"
 import { Home } from "../screen/Home"
-import { Settings } from "../screen/Settings"
 import { Add } from "../screen/Add"
 import { Code } from "../screen/Code"
+import { Settings } from "../screen/Settings"
 import { Read } from "../screen/Read"
 import { FileExplorer } from "../screen/FileExplorer"
+import { FileEncryption } from "../screen/FileEncryption"
 
 
 enableScreens()
@@ -32,8 +33,9 @@ export function Router() {
                 <Stack.Screen name={"Add"} component={Add} />
                 <Stack.Screen name={"Code"} component={Code} />
                 <Stack.Screen name={"Settings"} component={Settings} />
-                <Stack.Screen name={"FileExplorer"} component={FileExplorer} />
                 <Stack.Screen name={"Read"} component={Read} />
+                <Stack.Screen name={"FileExplorer"} component={FileExplorer} />
+                <Stack.Screen name={"FileEncryption"} component={FileEncryption} />
             </Stack.Navigator>
         </NavigationContainer>
     )
