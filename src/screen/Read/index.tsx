@@ -85,7 +85,7 @@ export function Read() {
     const saveNote = useCallback(async () => {
         let encryptedText = text
         if (params.password !== "") {
-            encryptedText = await Crypto.encrypt(text, params.password)
+            encryptedText = await Crypto.encryptString(text, params.password)
         }
 
         await saveEditedNote(params.note, title, encryptedText)
@@ -127,8 +127,8 @@ export function Read() {
             return
         }
 
-        const decryptedCurrentPasswordText = await Crypto.decrypt(params.note.text, currentPassword)
-        const encryptedNewPasswordText = await Crypto.encrypt(decryptedCurrentPasswordText, newPassword)
+        const decryptedCurrentPasswordText = await Crypto.decryptString(params.note.text, currentPassword)
+        const encryptedNewPasswordText = await Crypto.encryptString(decryptedCurrentPasswordText, newPassword)
 
         await saveEditedNote(params.note, params.note.title, encryptedNewPasswordText)
         navigation.reset({routes: [{name: "Home"}]})
@@ -139,7 +139,7 @@ export function Read() {
         async function decryptAndSetNoteContent() {
             let decryptedText = params.note.text
             if (params.password !== "") {
-                decryptedText = await Crypto.decrypt(params.note.text, params.password)
+                decryptedText = await Crypto.decryptString(params.note.text, params.password)
             }
             setTitle(params.note.title)
             setText(decryptedText)

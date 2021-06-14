@@ -184,7 +184,7 @@ export const DebugHome = memo((props: DebugHomeProps) => {
             <DebugButton
                 text={"Crypto"}
                 onPress={() => {
-                    Crypto.test("TEXT de teste", "PASSWORD de teste")
+                    Crypto.testString("TEXT de teste", "PASSWORD de teste")
                 }}
                 style={{bottom: 5, left: 225}} />
         </View>

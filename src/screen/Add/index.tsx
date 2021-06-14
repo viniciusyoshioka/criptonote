@@ -73,7 +73,7 @@ export function Add() {
                 return text
             }
 
-            return await Crypto.encrypt(text, password)
+            return await Crypto.encryptString(text, password)
         }
 
         if (title === "" && text === "") {
