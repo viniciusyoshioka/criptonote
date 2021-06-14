@@ -30,9 +30,17 @@ export const folderRoot = appFName
 export const fullPathRoot = `${RNFS.CachesDirectoryPath}/${folderRoot}`
 export const fullPathRootExternal = `${RNFS.ExternalStorageDirectoryPath}/${folderRoot}`
 // Export
-export const folderExported = "Exported"
-export const relativePathExported = folderExported
-export const fullPathExported = `${fullPathRootExternal}/${relativePathExported}`
+export const folderExported = "Exportadas"
+export const relativePathExported = `${folderRoot}/${folderExported}`
+export const fullPathExported = `${fullPathRootExternal}/${folderExported}`
+// Encrypted
+export const folderEncrypted = "Criptografados"
+export const relativePathEncrypted = `${folderRoot}/${folderEncrypted}`
+export const fullPathEncrypted = `${fullPathRootExternal}/${folderEncrypted}`
+// Decrypted
+export const folderDecrypted = "Descriptografados"
+export const relativePathDecrypted = `${folderRoot}/${folderDecrypted}`
+export const fullPathDecrypted = `${fullPathRootExternal}/${folderDecrypted}`
 
 // File
 // Log
