@@ -72,13 +72,15 @@ export function FileEncryption() {
                 goBack={goBack}
                 encryptFile={() => navigation.navigate("ProcessingEncryption", {
                     operation: "encrypt",
-                    fileName: fileName,
+                    filePath: params.filePath,
+                    fileDestinyName: fileName,
                     password: password,
                     deleteOriginalFile: deleteOriginalFile,
                 })}
                 decryptFile={() => navigation.navigate("ProcessingEncryption", {
                     operation: "decrypt",
-                    fileName: fileName,
+                    filePath: params.filePath,
+                    fileDestinyName: fileName,
                     password: password,
                     deleteOriginalFile: deleteOriginalFile,
                 })}
