@@ -1,6 +1,6 @@
 import RNFS from "react-native-fs"
 
-import { fullPathRoot, fullPathRootExternal, fullPathExported } from "./constant"
+import { fullPathRoot, fullPathRootExternal, fullPathExported, fullPathEncrypted, fullPathDecrypted } from "./constant"
 import { log } from "./log"
 
 
@@ -14,6 +14,7 @@ async function createRootFolder() {
     }
 }
 
+
 async function createRootFolderExternal() {
     try {
         if (!await RNFS.exists(fullPathRootExternal)) {
@@ -23,6 +24,7 @@ async function createRootFolderExternal() {
         log("ERROR", `folder-handler createRootFolderExternal - Erro ao criar pasta. Mensagem: "${error}"`)
     }
 }
+
 
 export async function createExportedFolder() {
     try {
@@ -35,8 +37,32 @@ export async function createExportedFolder() {
 }
 
 
+export async function createEncryptedFolder() {
+    try {
+        if (!await RNFS.exists(fullPathEncrypted)) {
+            await RNFS.mkdir(fullPathEncrypted)
+        }
+    } catch (error) {
+        log("ERROR", `folder-handler createEncryptedFolder - Erro ao criar pasta. Mensagem: "${error}"`)
+    }
+}
+
+
+export async function createDecryptedFolder() {
+    try {
+        if (!await RNFS.exists(fullPathDecrypted)) {
+            await RNFS.mkdir(fullPathDecrypted)
+        }
+    } catch (error) {
+        log("ERROR", `folder-handler createDecryptedFolder - Erro ao criar pasta. Mensagem: "${error}"`)
+    }
+}
+
+
 export function createAllFolder() {
     // createRootFolder()
     // createRootFolderExternal()
     createExportedFolder()
+    createEncryptedFolder()
+    createDecryptedFolder()
 }
