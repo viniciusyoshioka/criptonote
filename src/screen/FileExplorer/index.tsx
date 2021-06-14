@@ -171,7 +171,7 @@ export function FileExplorer() {
     }, [])
 
     const encryptFileAlert = useCallback((filePath: string) => {
-        // TODO
+        navigation.navigate("FileEncryption", {filePath: filePath})
     }, [])
 
     const changePath = useCallback(async (newPath: string, isFile: boolean) => {
