@@ -182,9 +182,19 @@ export const DebugHome = memo((props: DebugHomeProps) => {
                 style={{bottom: 5, left: 170}} />
 
             <DebugButton
-                text={"Crypto"}
+                text={"String"}
                 onPress={() => {
                     Crypto.testString("TEXT de teste", "PASSWORD de teste")
+                }}
+                style={{bottom: 60, left: 225}} />
+            <DebugButton
+                text={"Arquivo"}
+                onPress={() => {
+                    Crypto.testFile(
+                        "/storage/emulated/0/CriptoNote/Exportadas/CriptoNote 07-06-2021 18-34.cne",
+                        "PASSWORD de teste",
+                        "/storage/emulated/0/CriptoNote Beta/Criptografados/output.cnac"
+                    )
                 }}
                 style={{bottom: 5, left: 225}} />
         </View>
