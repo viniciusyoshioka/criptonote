@@ -17,7 +17,8 @@ export type ScreenParams = {
     },
     ProcessingEncryption: {
         operation: "encrypt" | "decrypt",
-        fileName: string,
+        filePath: string,
+        fileDestinyName: string,
         password: string,
         deleteOriginalFile: boolean,
     },
