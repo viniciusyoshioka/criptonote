@@ -1,16 +1,9 @@
 import { ToastAndroid } from "react-native"
 import RNFS from "react-native-fs"
 
+import { fullPathDecrypted, fullPathEncrypted, relativePathDecrypted, relativePathEncrypted } from "./constant"
 import { OldCrypto } from "./criptograph"
 import { createAllFolder } from "./folder-handler"
-
-
-// TODO
-const encoding_file_encrypted = ""
-const full_path_decrypted = ""
-const full_path_encrypted = ""
-const path_decrypted = ""
-const path_encrypted = ""
 
 
 type readCycle = {
@@ -90,7 +83,7 @@ async function verifyExistentOutputFile(
 async function readFile(
     sourceFilePath: string, readLength: number, readPosition: number
 ): Promise<string> {
-    return await RNFS.read(sourceFilePath, readLength, readPosition, encoding_file_encrypted)
+    return await RNFS.read(sourceFilePath, readLength, readPosition, "ascii")
 }
 
 
@@ -103,14 +96,14 @@ export async function decryptFile(
 
     let readPosition = 0
     let readLength = 524288 // 524288 B = 0.5 MB / 262144 B = 0.25 MB
-    let destinyFilePath = `${full_path_decrypted}/${destinyFileName}`
+    let destinyFilePath = `${fullPathDecrypted}/${destinyFileName}`
 
     setMessage("Preparando para descriptografar")
     const fileSize = await getFileSize(sourceFilePath)
     const { readingCycle, readRestByte } = getReadingCycle(fileSize, readLength)
     createAllFolder()
     const newDestinyFilePath = await verifyExistentOutputFile(
-        destinyFileName, destinyFilePath, existentOutputFile, full_path_decrypted
+        destinyFileName, destinyFilePath, existentOutputFile, fullPathDecrypted
     )
     if (newDestinyFilePath) {
         destinyFilePath = newDestinyFilePath
@@ -120,7 +113,7 @@ export async function decryptFile(
     for (let cycle = 0; cycle < readingCycle; cycle++) {
         const content = await readFile(sourceFilePath, readLength, readPosition)
         const decryptedContent = OldCrypto.decrypt(content, password)
-        await RNFS.write(destinyFilePath, decryptedContent, -1, encoding_file_encrypted)
+        await RNFS.write(destinyFilePath, decryptedContent, -1, "ascii")
         readPosition += readLength
         setPercentage(Math.floor((cycle / readingCycle) * 100).toString())
     }
@@ -129,7 +122,7 @@ export async function decryptFile(
         readLength = readRestByte
         const content = await readFile(sourceFilePath, readLength, readPosition)
         const decryptedContent = OldCrypto.decrypt(content, password)
-        await RNFS.write(destinyFilePath, decryptedContent, -1, encoding_file_encrypted)
+        await RNFS.write(destinyFilePath, decryptedContent, -1, "ascii")
         setPercentage("100")
     } else {
         setPercentage("100")
@@ -139,7 +132,7 @@ export async function decryptFile(
         await RNFS.unlink(sourceFilePath)
     }
 
-    ToastAndroid.show(`Arquivo descriptografado para "Memória Interna/${path_decrypted}"`, 5)
+    ToastAndroid.show(`Arquivo descriptografado para "Memória Interna/${relativePathDecrypted}"`, 5)
 }
 
 
@@ -152,14 +145,14 @@ export async function encryptFile(
 
     let readPosition = 0
     let readLength = 524288 // 524288 B = 0.5 MB / 262144 B = 0.25 MB
-    let destinyFilePath = `${full_path_encrypted}/${destinyFileName}`
+    let destinyFilePath = `${fullPathEncrypted}/${destinyFileName}`
 
     setMessage("Preparando para criptografar")
     const fileSize = await getFileSize(sourceFilePath)
     const { readingCycle, readRestByte } = getReadingCycle(fileSize, readLength)
     createAllFolder()
     const newDestinyFilePath = await verifyExistentOutputFile(
-        destinyFileName, destinyFilePath, existentOutputFile, full_path_encrypted
+        destinyFileName, destinyFilePath, existentOutputFile, fullPathEncrypted
     )
     if (newDestinyFilePath) {
         destinyFilePath = newDestinyFilePath
@@ -169,7 +162,7 @@ export async function encryptFile(
     for (let cycle = 0; cycle < readingCycle; cycle++) {
         const content = await readFile(sourceFilePath, readLength, readPosition)
         const encryptedContent = OldCrypto.encrypt(content, password)
-        await RNFS.write(destinyFilePath, encryptedContent, -1, encoding_file_encrypted)
+        await RNFS.write(destinyFilePath, encryptedContent, -1, "ascii")
         readPosition += readLength
         setPercentage(Math.floor((cycle / readingCycle) * 100).toString())
     }
@@ -178,7 +171,7 @@ export async function encryptFile(
         readLength = readRestByte
         const content = await readFile(sourceFilePath, readLength, readPosition)
         const encryptedContent = OldCrypto.encrypt(content, password)
-        await RNFS.write(destinyFilePath, encryptedContent, -1, encoding_file_encrypted)
+        await RNFS.write(destinyFilePath, encryptedContent, -1, "ascii")
         setPercentage("100")
     } else {
         setPercentage("100")
@@ -188,5 +181,5 @@ export async function encryptFile(
         await RNFS.unlink(sourceFilePath)
     }
 
-    ToastAndroid.show(`Arquivo criptografado para "Memória Interna/${path_encrypted}"`, 5)
+    ToastAndroid.show(`Arquivo criptografado para "Memória Interna/${relativePathEncrypted}"`, 5)
 }
