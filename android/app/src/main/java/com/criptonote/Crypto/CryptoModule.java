@@ -1,129 +1,204 @@
 package com.criptonote.Crypto;
 
-import android.annotation.SuppressLint;
-import android.util.Base64;
+import android.os.AsyncTask;
 import android.util.Log;
+import android.util.SparseArray;
 
 import androidx.annotation.NonNull;
 
+import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
-
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-
-import javax.crypto.Cipher;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.modules.core.RCTNativeAppEventEmitter;
 
 
 public class CryptoModule extends ReactContextBaseJavaModule {
 
 
-    String REACT_CLASS = "Crypto";
+    private static final String MODULE_NAME = "Crypto";
+    private static final String ON_FILE_ENCRYPT_PROGRESS = "onFileEncryptProgress";
+    private static final String ON_FILE_DECRYPT_PROGRESS = "onFileDecryptProgress";
+    private static final String ON_FILE_ENCRYPT_COMPLETE = "onFileEncryptComplete";
+    private static final String ON_FILE_DECRYPT_COMPLETE = "onFileDecryptComplete";
+    private static final String ON_FILE_ENCRYPT_ERROR = "onFileEncryptError";
+    private static final String ON_FILE_DECRYPT_ERROR = "onFileDecryptError";
 
-    ReactContext mReactContext;
+    private final ReactApplicationContext mReactApplicationContext;
+    private final SparseArray<CryptoTask> criptoTaskList = new SparseArray<>();
 
 
     CryptoModule(ReactApplicationContext reactApplicationContext) {
         super(reactApplicationContext);
-        mReactContext = reactApplicationContext;
+        mReactApplicationContext = reactApplicationContext;
     }
 
 
     @NonNull
     @Override
     public String getName() {
-        return REACT_CLASS;
-    }
-
-
-    private SecretKey generateKey(byte[] password) throws Exception {
-        MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
-        byte[] hashPassword = messageDigest.digest(password);
-        return new SecretKeySpec(hashPassword, "AES");
+        return MODULE_NAME;
     }
 
 
     @ReactMethod
-    public void encryptString(String text, String password, Promise promise) throws Exception {
-        byte[] byteText = text.getBytes(StandardCharsets.UTF_8);
-        byte[] bytePassword = password.getBytes(StandardCharsets.UTF_8);
-
-        // Generate key
-        SecretKey key = generateKey(bytePassword);
-
-        // Encrypt
-        @SuppressLint("GetInstance")
-        Cipher cipher = Cipher.getInstance("AES");
-        cipher.init(Cipher.ENCRYPT_MODE, key);
-        byte[] byteEncryptedText = cipher.doFinal(byteText);
-        String encryptedText = Base64.encodeToString(byteEncryptedText, Base64.DEFAULT);
-
-        promise.resolve(encryptedText);
+    public void encryptString(String text, String password, Promise promise) {
+        try {
+            String encryptedText = Crypto.encryptString(text, password);
+            promise.resolve(encryptedText);
+        } catch (Exception e) {
+            promise.reject("Error", "Error encrypting text. " + e.getMessage());
+        }
     }
 
     @ReactMethod
-    public void decryptString(String text, String password, Promise promise) throws Exception {
-        byte[] byteEncryptedText = Base64.decode(text, Base64.DEFAULT);
-        byte[] bytePassword = password.getBytes(StandardCharsets.UTF_8);
-
-        // Generate key
-        SecretKey key = generateKey(bytePassword);
-
-        // Decrypt
-        @SuppressLint("GetInstance")
-        Cipher cipher = Cipher.getInstance("AES");
-        cipher.init(Cipher.DECRYPT_MODE, key);
-        byte[] byteDecryptedText = cipher.doFinal(byteEncryptedText);
-        String decryptedText = new String(byteDecryptedText, StandardCharsets.UTF_8);
-
-        promise.resolve(decryptedText);
+    public void decryptString(String text, String password, Promise promise) {
+        try {
+            String decryptedText = Crypto.decryptString(text, password);
+            promise.resolve(decryptedText);
+        } catch (Exception e) {
+            promise.reject("Error", "Error decrypting text. " + e.getMessage());
+        }
     }
 
-
     @ReactMethod
-    public void testString(String text, String password) throws Exception {
-        String encryptedText = returnEncrypt(text, password);
+    public void testString(String text, String password, Promise promise) throws Exception {
+        String encryptedText = Crypto.encryptString(text, password);
         Log.w("ALERTA", "ENCRYPT: \"" + encryptedText + "\"");
 
-        String decryptedText = returnDecrypt(encryptedText, password);
+        String decryptedText = Crypto.decryptString(encryptedText, password);
         Log.w("ALERTA", "DECRYPT: \"" + decryptedText + "\"");
 
         Log.w("ALERTA", "RESULT: \"" + text.equals(decryptedText) + "\"");
+        promise.resolve(text.equals(decryptedText));
     }
 
 
-    private String returnEncrypt(String text, String password) throws Exception {
-        byte[] byteText = text.getBytes(StandardCharsets.UTF_8);
-        byte[] bytePassword = password.getBytes(StandardCharsets.UTF_8);
-
-        // Generate key
-        SecretKey key = generateKey(bytePassword);
-
-        // Encrypt
-        @SuppressLint("GetInstance")
-        Cipher cipher = Cipher.getInstance("AES");
-        cipher.init(Cipher.ENCRYPT_MODE, key);
-        byte[] byteEncryptedText = cipher.doFinal(byteText);
-        return Base64.encodeToString(byteEncryptedText, Base64.DEFAULT);
+    @ReactMethod
+    public void encryptFile(String filePath, String password, Promise promise) {
+        try {
+            String fileOutputPath = Crypto.encryptFile(mReactApplicationContext, filePath, password);
+            promise.resolve(fileOutputPath);
+        } catch (Exception e) {
+            promise.reject("Error", "Error encrypting file. " + e.getMessage());
+        }
     }
 
-    private String returnDecrypt(String text, String password) throws Exception {
-        byte[] byteEncryptedText = Base64.decode(text, Base64.DEFAULT);
-        byte[] bytePassword = password.getBytes(StandardCharsets.UTF_8);
+    @ReactMethod
+    public void decryptFile(String filePath, String password, Promise promise) {
+        try {
+            String fileOutputPath = Crypto.decryptFile(mReactApplicationContext, filePath, password);
+            promise.resolve(fileOutputPath);
+        } catch (Exception e) {
+            promise.reject("Error", "Error decrypting file. " + e.getMessage());
+        }
+    }
 
-        // Generate key
-        SecretKey key = generateKey(bytePassword);
+    @ReactMethod
+    public void testFile(String filePath, String password, Promise promise) throws Exception {
+        Log.w("ALERTA", "testFile - file1 -> file2");
+        String file2 = Crypto.encryptFile(mReactApplicationContext, filePath, password);
 
-        // Decrypt
-        @SuppressLint("GetInstance")
-        Cipher cipher = Cipher.getInstance("AES");
-        cipher.init(Cipher.DECRYPT_MODE, key);
-        byte[] byteDecryptedText = cipher.doFinal(byteEncryptedText);
-        return new String(byteDecryptedText, StandardCharsets.UTF_8);
+        Log.w("ALERTA", "testFile - file2 -> file3");
+        String file3 = Crypto.decryptFile(mReactApplicationContext, file2, password);
+
+        Log.w("ALERTA", "testFile pronto");
+
+        WritableMap response = Arguments.createMap();
+        response.putString("encryptedFilePath", file2);
+        response.putString("decryptedFilePath", file3);
+        promise.resolve(response);
+    }
+
+
+    @ReactMethod
+    public void stopFileEncryptionTask(int taskId) {
+        CryptoTask cryptoTask = criptoTaskList.get(taskId);
+        if (cryptoTask != null) {
+            cryptoTask.stop();
+        }
+    }
+
+
+    @ReactMethod
+    public void encryptFileTask(int taskId, String filePath, String password, Promise promise) {
+        CryptoTask.Params cryptoTaskParams = new CryptoTask.Params();
+        cryptoTaskParams.context = mReactApplicationContext;
+        cryptoTaskParams.filePath = filePath;
+        cryptoTaskParams.password = password;
+        cryptoTaskParams.operation = CryptoTask.Params.OPERATION_ENCRYPT;
+        cryptoTaskParams.onProgress = (current, total) -> {
+            WritableMap onEncryptionProgressResponse = Arguments.createMap();
+            onEncryptionProgressResponse.putInt("current", (int) current);
+            onEncryptionProgressResponse.putInt("total", (int) total);
+            getReactApplicationContext()
+                    .getJSModule(RCTNativeAppEventEmitter.class)
+                    .emit(ON_FILE_ENCRYPT_PROGRESS, onEncryptionProgressResponse);
+        };
+        cryptoTaskParams.onComplete = fileOutputPath -> {
+            criptoTaskList.remove(taskId);
+            getReactApplicationContext()
+                    .getJSModule(RCTNativeAppEventEmitter.class)
+                    .emit(ON_FILE_ENCRYPT_COMPLETE, fileOutputPath);
+        };
+        cryptoTaskParams.onError = message -> {
+            criptoTaskList.remove(taskId);
+            getReactApplicationContext()
+                    .getJSModule(RCTNativeAppEventEmitter.class)
+                    .emit(ON_FILE_ENCRYPT_ERROR, message);
+        };
+
+        if (criptoTaskList.get(taskId) == null) {
+            CryptoTask cryptoTask = new CryptoTask();
+            cryptoTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, cryptoTaskParams);
+
+            criptoTaskList.put(taskId, cryptoTask);
+
+            promise.resolve(null);
+        } else {
+            promise.reject("Error", "Already exists a task with the same id: " + taskId);
+        }
+    }
+
+    @ReactMethod
+    public void decryptFileTask(int taskId, String filePath, String password, Promise promise) {
+        CryptoTask.Params cryptoTaskParams = new CryptoTask.Params();
+        cryptoTaskParams.context = mReactApplicationContext;
+        cryptoTaskParams.filePath = filePath;
+        cryptoTaskParams.password = password;
+        cryptoTaskParams.operation = CryptoTask.Params.OPERATION_DECRYPT;
+        cryptoTaskParams.onProgress = (current, total) -> {
+            WritableMap onEncryptionProgressResponse = Arguments.createMap();
+            onEncryptionProgressResponse.putInt("current", (int) current);
+            onEncryptionProgressResponse.putInt("total", (int) total);
+            getReactApplicationContext()
+                    .getJSModule(RCTNativeAppEventEmitter.class)
+                    .emit(ON_FILE_DECRYPT_PROGRESS, onEncryptionProgressResponse);
+        };
+        cryptoTaskParams.onComplete = fileOutputPath -> {
+            criptoTaskList.remove(taskId);
+            getReactApplicationContext()
+                    .getJSModule(RCTNativeAppEventEmitter.class)
+                    .emit(ON_FILE_DECRYPT_COMPLETE, fileOutputPath);
+        };
+        cryptoTaskParams.onError = message -> {
+            criptoTaskList.remove(taskId);
+            getReactApplicationContext()
+                    .getJSModule(RCTNativeAppEventEmitter.class)
+                    .emit(ON_FILE_DECRYPT_ERROR, message);
+        };
+
+        if (criptoTaskList.get(taskId) == null) {
+            CryptoTask cryptoTask = new CryptoTask();
+            cryptoTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, cryptoTaskParams);
+
+            criptoTaskList.put(taskId, cryptoTask);
+
+            promise.resolve(null);
+        } else {
+            promise.reject("Error", "Already exists a task with the same id: " + taskId);
+        }
     }
 }
