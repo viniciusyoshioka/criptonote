@@ -6,7 +6,7 @@ import Share from "react-native-share"
 import { DebugButton } from "../../component/DebugButton"
 import { fullPathLog, fullPathRoot } from "../../service/constant"
 import { useSwitchTheme } from "../../service/theme"
-import { Crypto } from "../../service/crypto"
+import { testFile, testString } from "../../service/crypto"
 
 
 export interface DebugHomeProps {
@@ -134,6 +134,30 @@ export const DebugHome = memo((props: DebugHomeProps) => {
         }
     }
 
+    async function debugTestStringEncryption() {
+        const text = "TEXT de teste"
+        const password = "PASSWORD de teste"
+        testString(text, password)
+            .then((isEqual) => {
+                Alert.alert("testString", `testString ${isEqual}`)
+            })
+    }
+
+    async function debugTestFileEncryption() {
+        const file1 = "/storage/emulated/0/A1.jpg"
+        const file2 = "/storage/emulated/0/A2.jpg"
+        const file3 = "/storage/emulated/0/A3.jpg"
+        const password = "s"
+
+        testFile(file1, password)
+            .then(async ({encryptedFilePath, decryptedFilePath}) => {
+                await RNFS.moveFile(encryptedFilePath, file2)
+                await RNFS.moveFile(decryptedFilePath, file3)
+                Alert.alert("testFile", "testFile acabou")
+            })
+    }
+
+
     return (
         <View>
             <DebugButton
@@ -183,19 +207,11 @@ export const DebugHome = memo((props: DebugHomeProps) => {
 
             <DebugButton
                 text={"String"}
-                onPress={() => {
-                    Crypto.testString("TEXT de teste", "PASSWORD de teste")
-                }}
+                onPress={debugTestStringEncryption}
                 style={{bottom: 60, left: 225}} />
             <DebugButton
                 text={"Arquivo"}
-                onPress={() => {
-                    Crypto.testFile(
-                        "/storage/emulated/0/CriptoNote/Exportadas/CriptoNote 07-06-2021 18-34.cne",
-                        "PASSWORD de teste",
-                        "/storage/emulated/0/CriptoNote Beta/Criptografados/output.cnac"
-                    )
-                }}
+                onPress={debugTestFileEncryption}
                 style={{bottom: 5, left: 225}} />
         </View>
     )
