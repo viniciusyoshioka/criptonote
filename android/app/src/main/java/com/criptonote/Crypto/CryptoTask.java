@@ -1,6 +1,5 @@
 package com.criptonote.Crypto;
 
-import android.content.Context;
 import android.os.AsyncTask;
 
 import java.io.File;
@@ -14,60 +13,37 @@ import javax.crypto.Cipher;
 import javax.crypto.CipherInputStream;
 
 
-public class CryptoTask extends AsyncTask<CryptoTask.Params, long[], Void> {
-
-
-    public static class Params {
-        public Context context;
-        public String filePath;
-        public String password;
-        public int operation;
-        public OnEncryptionProgress onProgress;
-        public OnEncryptionComplete onComplete;
-        public OnEncryptionError onError;
-
-        public static final int OPERATION_ENCRYPT = 0;
-        public static final int OPERATION_DECRYPT = 1;
-
-        public interface OnEncryptionProgress {
-            void onEncryptionProgress(long current, long total);
-        }
-
-        public interface OnEncryptionComplete {
-            void onEncryptionComplete(String fileOutputPath);
-        }
-
-        public interface OnEncryptionError {
-            void onEncryptionError(String message);
-        }
-    }
+public class CryptoTask extends AsyncTask<CryptoTaskParams, long[], Void> {
 
 
     private final AtomicBoolean stopTask = new AtomicBoolean(false);
-    private Params mParams;
+    private CryptoTaskParams mParams;
 
 
     @Override
-    protected Void doInBackground(Params... params) {
+    protected Void doInBackground(CryptoTaskParams... params) {
         mParams = params[0];
 
-        new Thread(() -> {
-            try {
-                String fileOutputPath;
-                switch (mParams.operation) {
-                    case Params.OPERATION_ENCRYPT:
-                        fileOutputPath = encryptFileAsync(mParams.filePath, mParams.password);
-                        break;
-                    case Params.OPERATION_DECRYPT:
-                        fileOutputPath = decryptFileAsync(mParams.filePath, mParams.password);
-                        break;
-                    default:
-                        throw new Exception("Invalid value for operation mode");
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String fileOutputPath;
+                    switch (mParams.operation) {
+                        case CryptoTaskParams.OPERATION_ENCRYPT:
+                            fileOutputPath = encryptFileAsync(mParams.filePath, mParams.password);
+                            break;
+                        case CryptoTaskParams.OPERATION_DECRYPT:
+                            fileOutputPath = decryptFileAsync(mParams.filePath, mParams.password);
+                            break;
+                        default:
+                            throw new Exception("Invalid value for operation mode");
+                    }
+                    mParams.onComplete.onEncryptionComplete(fileOutputPath);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    mParams.onError.onEncryptionError(e.getMessage());
                 }
-                mParams.onComplete.onEncryptionComplete(fileOutputPath);
-            } catch (Exception e) {
-                e.printStackTrace();
-                mParams.onError.onEncryptionError(e.getMessage());
             }
         }).start();
 
