@@ -65,6 +65,9 @@ export function encryptFileTask(params: FileEncryptionTaskParams) {
         "onFileEncryptComplete",
         (fileOutputPath: string) => {
             params.onComplete(fileOutputPath)
+            events.forEach((event) => {
+                event.remove()
+            })
         }
     )
     events.push(onCompleteEvent)
@@ -72,17 +75,17 @@ export function encryptFileTask(params: FileEncryptionTaskParams) {
     const onErrorEvent = CryptoNativeEventEmitter.addListener(
         "onFileEncryptError",
         (message: string) => {
-            params.onComplete(message)
+            params.onError(message)
+            events.forEach((event) => {
+                event.remove()
+            })
         }
     )
     events.push(onErrorEvent)
 
     CryptoNativeModule.encryptFileTask(params.taskId, params.filePath, params.password)
-        .then(() => {
-            events.forEach((event) => {
-                event.remove()
-            })
-        })
+        .then(() => {})
+        .catch(() => {})
 }
 
 export function decryptFileTask(params: FileEncryptionTaskParams) {
@@ -100,6 +103,9 @@ export function decryptFileTask(params: FileEncryptionTaskParams) {
         "onFileDecryptComplete",
         (fileOutputPath: string) => {
             params.onComplete(fileOutputPath)
+            events.forEach((event) => {
+                event.remove()
+            })
         }
     )
     events.push(onCompleteEvent)
@@ -107,15 +113,15 @@ export function decryptFileTask(params: FileEncryptionTaskParams) {
     const onErrorEvent = CryptoNativeEventEmitter.addListener(
         "onFileDecryptError",
         (message: string) => {
-            params.onComplete(message)
+            params.onError(message)
+            events.forEach((event) => {
+                event.remove()
+            })
         }
     )
     events.push(onErrorEvent)
 
     CryptoNativeModule.decryptFileTask(params.taskId, params.filePath, params.password)
-        .then(() => {
-            events.forEach((event) => {
-                event.remove()
-            })
-        })
+        .then(() => {})
+        .catch(() => {})
 }
