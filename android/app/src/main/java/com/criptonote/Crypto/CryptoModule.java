@@ -161,7 +161,6 @@ public class CryptoModule extends ReactContextBaseJavaModule {
         if (criptoTaskList.get(taskId) == null) {
             CryptoTask cryptoTask = new CryptoTask();
             cryptoTask.execute(cryptoTaskParams);
-            //cryptoTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, cryptoTaskParams);
 
             criptoTaskList.put(taskId, cryptoTask);
 
@@ -211,7 +210,6 @@ public class CryptoModule extends ReactContextBaseJavaModule {
         if (criptoTaskList.get(taskId) == null) {
             CryptoTask cryptoTask = new CryptoTask();
             cryptoTask.execute(cryptoTaskParams);
-            //cryptoTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, cryptoTaskParams);
 
             criptoTaskList.put(taskId, cryptoTask);
 

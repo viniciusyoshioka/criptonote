@@ -12,11 +12,16 @@ import java.util.UUID;
 
 import javax.crypto.Cipher;
 import javax.crypto.CipherInputStream;
+import javax.crypto.CipherOutputStream;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 
 public class Crypto {
+
+
+    // 1024 * 512 = 0.5MB
+    public static final int BUFFER_SIZE = 1024 * 512;
 
 
     public static SecretKeySpec generateKey(byte[] password) throws Exception {
@@ -95,16 +100,20 @@ public class Crypto {
         try (FileInputStream fileInputStream = new FileInputStream(filePath)) {
             try (FileOutputStream fileOutputStream = new FileOutputStream(fileOutputPath, true)) {
                 try (CipherInputStream cipherInputStream = new CipherInputStream(fileInputStream, cipher)) {
-                    byte[] dataRead = new byte[16];
+                    byte[] dataRead = new byte[BUFFER_SIZE];
                     int len = cipherInputStream.read(dataRead);
-                    while (len != -1) {
-                        fileOutputStream.write(dataRead);
+                    while (len > 0) {
+                        fileOutputStream.write(dataRead, 0, len);
                         len = cipherInputStream.read(dataRead);
                     }
 
                     return fileOutputPath;
                 }
             }
+        } catch (Exception e) {
+            File fileOutput = new File(fileOutputPath);
+            fileOutput.delete();
+            throw e;
         }
     }
 
@@ -122,17 +131,21 @@ public class Crypto {
 
         try (FileInputStream fileInputStream = new FileInputStream(filePath)) {
             try (FileOutputStream fileOutputStream = new FileOutputStream(fileOutputPath, true)) {
-                try (CipherInputStream cipherInputStream = new CipherInputStream(fileInputStream, cipher)) {
-                    byte[] dataRead = new byte[16];
-                    int len = cipherInputStream.read(dataRead);
-                    while (len != -1) {
-                        fileOutputStream.write(dataRead);
-                        len = cipherInputStream.read(dataRead);
+                try (CipherOutputStream cipherOutputStream = new CipherOutputStream(fileOutputStream, cipher)) {
+                    byte[] dataRead = new byte[BUFFER_SIZE];
+                    int len = fileInputStream.read(dataRead);
+                    while (len > 0) {
+                        cipherOutputStream.write(dataRead, 0, len);
+                        len = fileInputStream.read(dataRead);
                     }
 
                     return fileOutputPath;
                 }
             }
+        } catch (Exception e) {
+            File fileOutput = new File(fileOutputPath);
+            fileOutput.delete();
+            throw e;
         }
     }
 }

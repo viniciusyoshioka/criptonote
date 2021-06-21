@@ -11,6 +11,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.crypto.Cipher;
 import javax.crypto.CipherInputStream;
+import javax.crypto.CipherOutputStream;
 
 
 public class CryptoTask extends AsyncTask<CryptoTaskParams, long[], Void> {
@@ -31,13 +32,13 @@ public class CryptoTask extends AsyncTask<CryptoTaskParams, long[], Void> {
                     String fileOutputPath;
                     switch (mParams.operation) {
                         case CryptoTaskParams.OPERATION_ENCRYPT:
-                            fileOutputPath = encryptFileAsync(mParams.filePath, mParams.password);
+                            fileOutputPath = encryptFile(mParams.filePath, mParams.password);
                             break;
                         case CryptoTaskParams.OPERATION_DECRYPT:
-                            fileOutputPath = decryptFileAsync(mParams.filePath, mParams.password);
+                            fileOutputPath = decryptFile(mParams.filePath, mParams.password);
                             break;
                         default:
-                            throw new Exception("Invalid value for operation mode");
+                            throw new Exception("Unknown value for encryption operation");
                     }
                     mParams.onComplete.onEncryptionComplete(fileOutputPath);
                 } catch (Exception e) {
@@ -52,7 +53,6 @@ public class CryptoTask extends AsyncTask<CryptoTaskParams, long[], Void> {
 
     @Override
     protected void onProgressUpdate(long[]... values) {
-        super.onProgressUpdate(values);
         mParams.onProgress.onEncryptionProgress(values[0][0], values[0][1]);
     }
 
@@ -62,7 +62,7 @@ public class CryptoTask extends AsyncTask<CryptoTaskParams, long[], Void> {
     }
 
 
-    private String encryptFileAsync(String filePath, String password) throws Exception {
+    private String encryptFile(String filePath, String password) throws Exception {
         if (password.equals("")) {
             throw new Exception("Password argument cannot be an empty String");
         }
@@ -81,14 +81,14 @@ public class CryptoTask extends AsyncTask<CryptoTaskParams, long[], Void> {
                     long current = 0;
                     long total = fileInput.length();
 
-                    byte[] dataRead = new byte[16];
+                    byte[] dataRead = new byte[Crypto.BUFFER_SIZE];
                     int len = cipherInputStream.read(dataRead);
-                    while (len != -1) {
+                    while (len > 0) {
                         if (stopTask.get()) {
                             throw new Exception("File encryption interrupted");
                         }
 
-                        fileOutputStream.write(dataRead);
+                        fileOutputStream.write(dataRead, 0, len);
                         current += len;
                         publishProgress(new long[] {current, total});
                         len = cipherInputStream.read(dataRead);
@@ -97,10 +97,14 @@ public class CryptoTask extends AsyncTask<CryptoTaskParams, long[], Void> {
                     return fileOutputPath;
                 }
             }
+        } catch (Exception e) {
+            File fileOutput = new File(fileOutputPath);
+            fileOutput.delete();
+            throw e;
         }
     }
 
-    private String decryptFileAsync(String filePath, String password) throws Exception {
+    private String decryptFile(String filePath, String password) throws Exception {
         if (password.equals("")) {
             throw new Exception("Password argument cannot be an empty String");
         }
@@ -114,27 +118,31 @@ public class CryptoTask extends AsyncTask<CryptoTaskParams, long[], Void> {
 
         try (FileInputStream fileInputStream = new FileInputStream(filePath)) {
             try (FileOutputStream fileOutputStream = new FileOutputStream(fileOutputPath, true)) {
-                try (CipherInputStream cipherInputStream = new CipherInputStream(fileInputStream, cipher)) {
+                try (CipherOutputStream cipherOutputStream = new CipherOutputStream(fileOutputStream, cipher)) {
                     File fileInput = new File(filePath);
                     long current = 0;
                     long total = fileInput.length();
 
-                    byte[] dataRead = new byte[16];
-                    int len = cipherInputStream.read(dataRead);
-                    while (len != -1) {
+                    byte[] dataRead = new byte[Crypto.BUFFER_SIZE];
+                    int len = fileInputStream.read(dataRead);
+                    while (len > 0) {
                         if (stopTask.get()) {
-                            throw new Exception("File decryption interrupted");
+                            throw new Exception("File encryption interrupted");
                         }
 
-                        fileOutputStream.write(dataRead);
+                        cipherOutputStream.write(dataRead, 0, len);
                         current += len;
                         publishProgress(new long[] {current, total});
-                        len = cipherInputStream.read(dataRead);
+                        len = fileInputStream.read(dataRead);
                     }
 
                     return fileOutputPath;
                 }
             }
+        } catch (Exception e) {
+            File fileOutput = new File(fileOutputPath);
+            fileOutput.delete();
+            throw e;
         }
     }
 }
