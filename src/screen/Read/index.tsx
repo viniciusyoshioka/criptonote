@@ -85,6 +85,7 @@ export function Read() {
     const saveNote = useCallback(async () => {
         let encryptedText = text
         if (params.password !== "") {
+            // TODO
             encryptedText = await encryptString(text, params.password)
         }
 
@@ -127,6 +128,7 @@ export function Read() {
             return
         }
 
+        // TODO
         const decryptedCurrentPasswordText = await decryptString(params.note.text, currentPassword)
         const encryptedNewPasswordText = await encryptString(decryptedCurrentPasswordText, newPassword)
 
@@ -139,6 +141,7 @@ export function Read() {
         async function decryptAndSetNoteContent() {
             let decryptedText = params.note.text
             if (params.password !== "") {
+                // TODO
                 decryptedText = await decryptString(params.note.text, params.password)
             }
             setTitle(params.note.title)

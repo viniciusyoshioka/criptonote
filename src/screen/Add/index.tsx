@@ -80,6 +80,7 @@ export function Add() {
             return
         }
 
+        // TODO
         const encryptedText = await encryptString(text, password)
         await saveNewNote(title, encryptedText)
 

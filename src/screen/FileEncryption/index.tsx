@@ -50,6 +50,7 @@ export function FileEncryption() {
     })
 
 
+    // TODO
     const goBack = useCallback(() => {
         navigation.goBack()
     }, [])
@@ -113,12 +114,13 @@ export function FileEncryption() {
                     />
                 </ViewInputPassword>
 
-                <CheckButton
+                {/* TODO */}
+                {/* <CheckButton
                     text={"Apagar arquivo original"}
                     value={deleteOriginalFile}
                     onPress={() => setDeleteOriginalFile(!deleteOriginalFile)}
                     onValueChange={() => setDeleteOriginalFile(!deleteOriginalFile)}
-                />
+                /> */}
             </SpaceScreen>
         </SafeScreen>
     )
