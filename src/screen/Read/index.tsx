@@ -83,13 +83,20 @@ export function Read() {
     }, [isChanged])
 
     const saveNote = useCallback(async () => {
-        let encryptedText = text
+        let textToSave = text
         if (params.password !== "") {
-            // TODO
-            encryptedText = await encryptString(text, params.password)
+            try {
+                textToSave = await encryptString(text, params.password)
+            } catch {
+                Alert.alert(
+                    "Alerta",
+                    "Erro desconhecido ao criptografar texto. Não foi possível salvar a nota"
+                )
+                return
+            }
         }
 
-        await saveEditedNote(params.note, title, encryptedText)
+        await saveEditedNote(params.note, title, textToSave)
         navigation.reset({routes: [{name: "Home"}]})
     }, [title, text])
 
@@ -128,9 +135,17 @@ export function Read() {
             return
         }
 
-        // TODO
-        const decryptedCurrentPasswordText = await decryptString(params.note.text, currentPassword)
-        const encryptedNewPasswordText = await encryptString(decryptedCurrentPasswordText, newPassword)
+        let encryptedNewPasswordText = ""
+        try {
+            const decryptedCurrentPasswordText = await decryptString(params.note.text, currentPassword)
+            encryptedNewPasswordText = await encryptString(decryptedCurrentPasswordText, newPassword)
+        } catch {
+            Alert.alert(
+                "Aviso",
+                "Erro ao trocar senha nota. Processo interrompido"
+            )
+            return
+        }
 
         await saveEditedNote(params.note, params.note.title, encryptedNewPasswordText)
         navigation.reset({routes: [{name: "Home"}]})
@@ -141,8 +156,16 @@ export function Read() {
         async function decryptAndSetNoteContent() {
             let decryptedText = params.note.text
             if (params.password !== "") {
-                // TODO
-                decryptedText = await decryptString(params.note.text, params.password)
+                try {
+                    decryptedText = await decryptString(params.note.text, params.password)
+                } catch {
+                    Alert.alert(
+                        "Aviso",
+                        "Erro ao descriptografar nota em sua abertura"
+                    )
+                    navigation.navigate("Home")
+                    return
+                }
             }
             setTitle(params.note.title)
             setText(decryptedText)
