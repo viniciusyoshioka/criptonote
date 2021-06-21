@@ -50,7 +50,6 @@ export function FileEncryption() {
     })
 
 
-    // TODO
     const goBack = useCallback(() => {
         navigation.goBack()
     }, [])
