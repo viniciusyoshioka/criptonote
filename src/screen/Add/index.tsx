@@ -80,10 +80,20 @@ export function Add() {
             return
         }
 
-        // TODO
-        const encryptedText = await encryptString(text, password)
-        await saveNewNote(title, encryptedText)
+        let textToSave = text
+        if (password !== "") {
+            try {
+                textToSave = await encryptString(text, password)
+            } catch {
+                Alert.alert(
+                    "Alerta",
+                    "Erro desconhecido ao criptografar text. Não foi possível salvar a nota"
+                )
+                return
+            }
+        }
 
+        await saveNewNote(title, textToSave)
         navigation.reset({routes: [{name: "Home"}]})
     }, [title, password, text])
 
