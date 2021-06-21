@@ -1,7 +1,7 @@
 import React from "react"
 import { RectButton, RectButtonProps } from "react-native-gesture-handler"
 import styled from "styled-components/native"
-import Icon from "react-native-vector-icons/Ionicons"
+import Icon from "react-native-vector-icons/MaterialIcons"
 
 import { styledProps, useTheme } from "../../service/theme"
 
