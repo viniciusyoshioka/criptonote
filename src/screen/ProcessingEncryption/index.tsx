@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react"
-import { ActivityIndicator, Alert } from "react-native"
+import { ActivityIndicator, Alert, ToastAndroid } from "react-native"
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native"
 import RNFS from "react-native-fs"
 
@@ -9,7 +9,7 @@ import { useTheme } from "../../service/theme"
 import { ProcessingEncryptionHeader } from "./Header"
 import { MessageText } from "./style"
 import { encryptFileTask, decryptFileTask, FileEncryptionTaskParams, stopFileEncryptionTask } from "../../service/crypto"
-import { fullPathDecrypted, fullPathEncrypted } from "../../service/constant"
+import { fullPathDecrypted, fullPathEncrypted, relativePathDecrypted, relativePathEncrypted } from "../../service/constant"
 import { useBackHandler } from "../../service/hook"
 
 
@@ -84,6 +84,7 @@ export function ProcessingEncryption() {
                         const fileDestinyPath = `${fullPathEncrypted}/${params.fileDestinyName}`
                         await RNFS.moveFile(fileOutputPath, fileDestinyPath)
                         navigation.navigate("Home")
+                        ToastAndroid.show(`Arquivo criptografado com sucesso para "${relativePathEncrypted}/${params.fileDestinyName}"`, ToastAndroid.LONG)
                     },
                     onError: (message) => {
                         Alert.alert(
@@ -108,6 +109,7 @@ export function ProcessingEncryption() {
                         const fileDestinyPath = `${fullPathDecrypted}/${params.fileDestinyName}`
                         await RNFS.moveFile(fileOutputPath, fileDestinyPath)
                         navigation.navigate("Home")
+                        ToastAndroid.show(`Arquivo criptografado com sucesso para "${relativePathDecrypted}/${params.fileDestinyName}"`, ToastAndroid.LONG)
                     },
                     onError: (message) => {
                         Alert.alert(
