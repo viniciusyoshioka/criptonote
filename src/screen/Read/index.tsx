@@ -11,7 +11,7 @@ import { ViewInput } from "./style"
 import { deleteNote, saveEditedNote } from "../../service/note-handler"
 import { ScreenParams } from "../../service/screen-params"
 import { ChangePassword } from "./ChangePassword"
-import { Crypto } from "../../service/crypto"
+import { decryptString, encryptString } from "../../service/crypto"
 
 
 export function Read() {
@@ -85,7 +85,7 @@ export function Read() {
     const saveNote = useCallback(async () => {
         let encryptedText = text
         if (params.password !== "") {
-            encryptedText = await Crypto.encryptString(text, params.password)
+            encryptedText = await encryptString(text, params.password)
         }
 
         await saveEditedNote(params.note, title, encryptedText)
@@ -127,8 +127,8 @@ export function Read() {
             return
         }
 
-        const decryptedCurrentPasswordText = await Crypto.decryptString(params.note.text, currentPassword)
-        const encryptedNewPasswordText = await Crypto.encryptString(decryptedCurrentPasswordText, newPassword)
+        const decryptedCurrentPasswordText = await decryptString(params.note.text, currentPassword)
+        const encryptedNewPasswordText = await encryptString(decryptedCurrentPasswordText, newPassword)
 
         await saveEditedNote(params.note, params.note.title, encryptedNewPasswordText)
         navigation.reset({routes: [{name: "Home"}]})
@@ -139,7 +139,7 @@ export function Read() {
         async function decryptAndSetNoteContent() {
             let decryptedText = params.note.text
             if (params.password !== "") {
-                decryptedText = await Crypto.decryptString(params.note.text, params.password)
+                decryptedText = await decryptString(params.note.text, params.password)
             }
             setTitle(params.note.title)
             setText(decryptedText)
