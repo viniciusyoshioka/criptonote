@@ -5,7 +5,7 @@ import RNFS, { ReadDirItem } from "react-native-fs"
 
 import { SafeScreen } from "../../component/Screen"
 import { FileExplorerHeader } from "./Header"
-import { fullPathDecrypted, fullPathEncrypted, fullPathExported } from "../../service/constant"
+import { exportedNoteBetaExtension, fullPathDecrypted, fullPathEncrypted, fullPathExported } from "../../service/constant"
 import { FileExplorerItem } from "../../component/FileExplorerItem"
 import { useBackHandler } from "../../service/hook"
 import { SubHeader, SubHeaderText } from "../../component/SubHeaderPath"
@@ -144,12 +144,11 @@ export function FileExplorer() {
     }, [path, backToDefault])
 
     const importNoteAlert = useCallback((newPath: string) => {
-        // TODO
-        function importNoteFunction(newPath: string) {
+        function importNoteFunction() {
             importNote(newPath)
                 .then((isNoteImported: boolean) => {
                     if (isNoteImported) {
-                        navigation.reset({ routes: [{ name: "Home" }] })
+                        navigation.reset({routes: [{name: "Home"}]})
                         return
                     }
                 })
@@ -160,12 +159,32 @@ export function FileExplorer() {
             )
         }
 
+        function checkNoteVersion() {
+            const splitedPath = newPath.split("/")
+            const fileName = splitedPath[splitedPath.length - 1]
+            const splitedFileName = fileName.split(".")
+            const fileExtension = splitedFileName[splitedFileName.length - 1]
+
+            if (fileExtension === exportedNoteBetaExtension) {
+                Alert.alert(
+                    "Alerta",
+                    "Importar notas na versão beta pode causar falhas",
+                    [
+                        {text: "Cancelar", onPress: () => {}},
+                        {text: "Ok", onPress: () => importNoteFunction()}
+                    ]
+                )
+            } else {
+                importNoteFunction()
+            }
+        }
+
         Alert.alert(
             "Importar",
             "Deseja importar esta nota?",
             [
                 {text: "Cancelar", onPress: () => {}},
-                {text: "Importar", onPress: () => importNoteFunction(newPath)}
+                {text: "Importar", onPress: () => checkNoteVersion()}
             ]
         )
     }, [])
