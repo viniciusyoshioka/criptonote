@@ -41,7 +41,7 @@ export function Settings() {
             />
 
             <SettingsButton
-                iconName={"md-contrast"}
+                iconName={"brightness-medium"}
                 title={"Tema"}
                 description={"Mudar tema de cores do aplicativo"}
                 onPress={() => setIsChangeThemeVisible(true)}
@@ -49,7 +49,7 @@ export function Settings() {
 
             {/* TODO */}
             <SettingsButton
-                iconName={"md-lock-closed"}
+                iconName={"password"}
                 title={"Senha"}
                 description={"Adicionar/mudar senha do aplicativo"}
                 onPress={() => {}}
