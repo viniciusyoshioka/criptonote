@@ -16,7 +16,7 @@ export const SubHeader = styled.View`
 `
 
 
-export const SubHeaderTextBase = styled.Text`
+const SubHeaderTextBase = styled.Text`
     width: 100%;
     font-size: 13px;
     opacity: ${(props: styledProps) => props.theme.opacity.mediumEmphasis};
