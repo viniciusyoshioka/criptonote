@@ -8,6 +8,7 @@ import { appFName, appType, appVersion } from "../../service/constant"
 import { SettingsButton } from "../../component/SettingsButton"
 import { ChangeTheme } from "./ChangeTheme"
 import { useBackHandler } from "../../service/hook"
+import { readLockType } from "../../service/storage"
 
 
 export function Settings() {
@@ -26,6 +27,15 @@ export function Settings() {
 
     const goBack = useCallback(() => {
         navigation.navigate("Home")
+    }, [])
+
+    const changeAppPassword = useCallback(async () => {
+        const lockType = await readLockType()
+        if (lockType === "none") {
+            navigation.navigate("ChoosePasswordType")
+            return
+        }
+        navigation.navigate("Unlock", {passwordType: lockType})
     }, [])
 
 
@@ -47,12 +57,11 @@ export function Settings() {
                 onPress={() => setIsChangeThemeVisible(true)}
             />
 
-            {/* TODO */}
             <SettingsButton
                 iconName={"password"}
                 title={"Senha"}
                 description={"Adicionar/mudar senha do aplicativo"}
-                onPress={() => {}}
+                onPress={changeAppPassword}
             />
 
             <ViewVersion>
