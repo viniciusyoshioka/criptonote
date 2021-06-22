@@ -1,8 +1,8 @@
 import AsyncStorage from "@react-native-async-storage/async-storage"
 
-import { storageDebugHome, storageLock, storageNote, storageNoteId, storageTheme } from "./constant"
+import { storageDebugHome, storageLock, storageLockType, storageNote, storageNoteId, storageTheme } from "./constant"
 import { log } from "./log"
-import { debugHome, debugHomeDefault, Note } from "./object-type"
+import { debugHome, debugHomeDefault, lockType, lockTypeDefault, Note } from "./object-type"
 import { themeDefault, themeType } from "./theme"
 
 
@@ -92,4 +92,18 @@ export async function readLock(): Promise<string> {
         return ""
     }
     return lock
+}
+
+
+export async function writeLockType(value: lockType) {
+    await write(storageLockType, value)
+}
+
+export async function readLockType(): Promise<lockType> {
+    const lockType = await read(storageLockType)
+    if (lockType === null) {
+        await writeLockType(lockTypeDefault)
+        return lockTypeDefault
+    }
+    return lockType as lockType
 }
