@@ -15,7 +15,6 @@ import { ProcessingEncryption } from "../screen/ProcessingEncryption"
 
 import { AddPassword } from "../screen/AddPassword"
 import { ChoosePasswordType } from "../screen/ChoosePasswordType"
-import { Unlock } from "../screen/Unlock"
 
 
 enableScreens()
@@ -45,7 +44,6 @@ export function Router() {
 
                 <Stack.Screen name={"AddPassword"} component={AddPassword} />
                 <Stack.Screen name={"ChoosePasswordType"} component={ChoosePasswordType} />
-                <Stack.Screen name={"Unlock"} component={Unlock} />
             </Stack.Navigator>
         </NavigationContainer>
     )
