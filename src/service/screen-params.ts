@@ -2,6 +2,10 @@ import { lockType, Note } from "./object-type"
 
 
 export type ScreenParams = {
+    Lock: {
+        action: undefined | "change-lock",
+        passwordType: lockType,
+    },
     Code: {
         note: Note,
     },
@@ -25,7 +29,4 @@ export type ScreenParams = {
     AddPassword: {
         passwordType: lockType,
     },
-    Unlock: {
-        passwordType: lockType,
-    }
 }

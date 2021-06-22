@@ -35,7 +35,10 @@ export function Settings() {
             navigation.navigate("ChoosePasswordType")
             return
         }
-        navigation.navigate("Unlock", {passwordType: lockType})
+        navigation.navigate("Lock", {
+            action: "change-lock",
+            passwordType: lockType,
+        })
     }, [])
 
 
