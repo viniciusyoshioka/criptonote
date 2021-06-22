@@ -1,16 +1,16 @@
 import React, { useCallback } from "react"
-import { Keyboard, TouchableWithoutFeedback } from "react-native"
+import { Keyboard, ToastAndroid, TouchableWithoutFeedback } from "react-native"
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native"
 
-import { AddPasswordHeader } from "./Header"
+import { AddBio } from "../../component/AddBio"
 import { AddPin } from "../../component/AddPin"
 import { AddText } from "../../component/AddText"
-import { AddBio } from "../../component/AddBio"
 import { SafeScreen } from "../../component/Screen"
 import { useBackHandler } from "../../service/hook"
+import { sha256 } from "../../service/message-digest"
 import { ScreenParams } from "../../service/screen-params"
 import { writeLock, writeLockType } from "../../service/storage"
-import { sha256 } from "../../service/message-digest"
+import { AddPasswordHeader } from "./Header"
 
 
 export function AddPassword() {
@@ -33,9 +33,9 @@ export function AddPassword() {
     const onDone = useCallback(async (newLock: string) => {
         await writeLockType(params.passwordType)
         const hashLock = sha256(newLock)
-        console.log("newLock", `"${newLock}"`)
-        console.log("hashLock", `"${hashLock}"`)
         await writeLock(hashLock)
+        navigation.navigate("Home")
+        ToastAndroid.show("Senha adicionada", ToastAndroid.LONG)
     }, [])
 
 
