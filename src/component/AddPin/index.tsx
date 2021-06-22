@@ -1,12 +1,12 @@
 import React, { createRef, useState } from "react"
-import { Keyboard, TextInput, useWindowDimensions } from "react-native"
+import { Keyboard, TextInput, useWindowDimensions, ViewProps } from "react-native"
 
-import { Input } from "../../component/Input"
-import { CenterScreen } from "../../component/Screen"
+import { Input } from "../Input"
+import { CenterScreen } from "../Screen"
 import { useKeyboard } from "../../service/hook"
 
 
-export interface AddPinProps {
+export interface AddPinProps extends ViewProps {
     onDone: (pin: string) => void,
 }
 
@@ -27,7 +27,7 @@ export function AddPin(props: AddPinProps) {
 
 
     return (
-        <CenterScreen>
+        <CenterScreen {...props}>
             <Input
                 autoFocus={true}
                 keyboardType={"number-pad"}
@@ -41,9 +41,7 @@ export function AddPin(props: AddPinProps) {
                 secureTextEntry={true}
                 textAlign={"center"}
                 value={pinValue}
-                style={{
-                    width: useWindowDimensions().width / 1.5
-                }}
+                style={{width: useWindowDimensions().width / 1.5}}
             />
         </CenterScreen>
     )

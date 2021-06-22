@@ -3,9 +3,9 @@ import { Keyboard, TouchableWithoutFeedback } from "react-native"
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native"
 
 import { AddPasswordHeader } from "./Header"
-import { AddPin } from "./AddPin"
-import { AddText } from "./AddText"
-import { AddBio } from "./AddBio"
+import { AddPin } from "../../component/AddPin"
+import { AddText } from "../../component/AddText"
+import { AddBio } from "../../component/AddBio"
 import { SafeScreen } from "../../component/Screen"
 import { useBackHandler } from "../../service/hook"
 import { ScreenParams } from "../../service/screen-params"
@@ -33,6 +33,8 @@ export function AddPassword() {
     const onDone = useCallback(async (newLock: string) => {
         await writeLockType(params.passwordType)
         const hashLock = sha256(newLock)
+        console.log("newLock", `"${newLock}"`)
+        console.log("hashLock", `"${hashLock}"`)
         await writeLock(hashLock)
     }, [])
 
@@ -55,7 +57,7 @@ export function AddPassword() {
                         onDone={onDone}
                     />
                 )}
-                
+
                 {params.passwordType === "bio" && (
                     <AddBio />
                 )}

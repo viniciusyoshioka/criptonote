@@ -1,12 +1,12 @@
 import React, { createRef, useState } from "react"
-import { Keyboard, TextInput } from "react-native"
+import { Keyboard, TextInput, ViewProps } from "react-native"
 
-import { InputPassword, ShowPasswordButton, ViewInputPassword } from "../../component/InputPassword"
-import { CenterScreen, SpaceScreen } from "../../component/Screen"
+import { InputPassword, ShowPasswordButton, ViewInputPassword } from "../InputPassword"
+import { CenterScreen, SpaceScreen } from "../Screen"
 import { useKeyboard } from "../../service/hook"
 
 
-export interface AddTextProps {
+export interface AddTextProps extends ViewProps {
     onDone: (text: string) => void,
 }
 
@@ -28,7 +28,7 @@ export function AddText(props: AddTextProps) {
 
 
     return (
-        <SpaceScreen>
+        <SpaceScreen {...props}>
             <CenterScreen>
                 <ViewInputPassword>
                     <InputPassword
