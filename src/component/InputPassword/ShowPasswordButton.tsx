@@ -1,6 +1,6 @@
 import React from "react"
 import { TouchableOpacityProps } from "react-native"
-import Icon from "react-native-vector-icons/Ionicons"
+import Icon from "react-native-vector-icons/MaterialIcons"
 import styled from "styled-components/native"
 
 import { styledProps, useTheme } from "../../service/theme"
@@ -32,7 +32,7 @@ export function ShowPasswordButton(props: ShowPasswordButtonProps) {
     return (
         <ShowPasswordButtonBase {...props}>
             <Icon
-                name={props.showPassword ? "md-eye" : "md-eye-off"}
+                name={props.showPassword ? "visibility" : "visibility-off"}
                 size={24}
                 color={color.showPasswordButton_color}
                 style={{
