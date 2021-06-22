@@ -31,25 +31,25 @@ export function ChoosePasswordType() {
                 goBack={goBack}
             />
 
-            {/* TODO */}
             <SettingsButton
                 iconName={"pin"}
                 title={"PIN"}
                 description={"Segurança média para alta"}
+                onPress={() => navigation.navigate("AddPassword", {passwordType: "pin"})}
             />
 
-            {/* TODO */}
             <SettingsButton
                 iconName={"password"}
                 title={"Senha"}
                 description={"Segurança alta"}
+                onPress={() => navigation.navigate("AddPassword", {passwordType: "text"})}
             />
 
-            {/* TODO */}
             <SettingsButton
                 iconName={"fingerprint"}
                 title={"Digital"}
                 description={"Segurança muito alta"}
+                onPress={() => navigation.navigate("AddPassword", {passwordType: "bio"})}
             />
         </SafeScreen>
     )
