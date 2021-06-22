@@ -4383,6 +4383,18 @@ react-native-share@^6.2.1:
   resolved "https://registry.yarnpkg.com/react-native-share/-/react-native-share-6.2.1.tgz#fc28c77fd2f74090b6a5e6302d8f73d25446b96d"
   integrity sha512-LtT29le01c3k/1sWoumZDyAxigq/JrW4skv8Ri7eySgfIeXrjgnkk1SSR3bt4NrRO74knVngPwtb5xv/UCPP3w==
 
+react-native-vector-icons@../react-native-vector-icons/:
+  version "9.0.0"
+  dependencies:
+    lodash.frompairs "^4.0.1"
+    lodash.isequal "^4.5.0"
+    lodash.isstring "^4.0.1"
+    lodash.omit "^4.5.0"
+    lodash.pick "^4.4.0"
+    lodash.template "^4.5.0"
+    prop-types "^15.7.2"
+    yargs "^16.1.1"
+
 react-native-vector-icons@^8.1.0:
   version "8.1.0"
   resolved "https://registry.yarnpkg.com/react-native-vector-icons/-/react-native-vector-icons-8.1.0.tgz#e8ee2b17bc4d9f636da1c6f67feee8e2a850c3d8"
