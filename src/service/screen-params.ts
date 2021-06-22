@@ -1,4 +1,4 @@
-import { Note } from "./object-type"
+import { lockType, Note } from "./object-type"
 
 
 export type ScreenParams = {
@@ -22,4 +22,10 @@ export type ScreenParams = {
         password: string,
         deleteOriginalFile: boolean,
     },
+    AddPassword: {
+        passwordType: lockType,
+    },
+    Unlock: {
+        passwordType: lockType,
+    }
 }
