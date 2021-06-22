@@ -1,5 +1,5 @@
 import React, { useCallback } from "react"
-import { Keyboard, ToastAndroid, TouchableWithoutFeedback } from "react-native"
+import { Alert, Keyboard, ToastAndroid, TouchableWithoutFeedback } from "react-native"
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native"
 
 import { AddBio } from "../../component/AddBio"
@@ -31,6 +31,14 @@ export function AddPassword() {
     }, [])
 
     const onDone = useCallback(async (newLock: string) => {
+        if (newLock === "") {
+            Alert.alert(
+                "Aviso",
+                "A senha não pode ser vazia"
+            )
+            return
+        }
+
         await writeLockType(params.passwordType)
         const hashLock = sha256(newLock)
         await writeLock(hashLock)
