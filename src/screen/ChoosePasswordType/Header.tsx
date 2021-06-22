@@ -14,7 +14,7 @@ export const ChoosePasswordTypeHeader = memo((props: ChoosePasswordTypeHeaderPro
             <BlockLeft>
                 <HeaderButton 
                     onPress={props.goBack} 
-                    iconName={"md-arrow-back"}
+                    iconName={"arrow-back"}
                 />
             </BlockLeft>
 

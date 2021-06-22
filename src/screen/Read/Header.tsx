@@ -20,7 +20,7 @@ export function ReadHeader(props: ReadHeaderProps) {
             <BlockLeft>
                 <HeaderButton 
                     onPress={props.goBack} 
-                    iconName={"md-arrow-back"}
+                    iconName={"arrow-back"}
                 />
             </BlockLeft>
 
@@ -32,12 +32,12 @@ export function ReadHeader(props: ReadHeaderProps) {
 
             <BlockRight>
                 <HeaderButton
-                    iconName={"md-save"}
+                    iconName={"save"}
                     onPress={props.saveNote}
                 />
 
                 <HeaderButton
-                    iconName={"md-close"}
+                    iconName={"close"}
                     onPress={props.goBack}
                 />
 

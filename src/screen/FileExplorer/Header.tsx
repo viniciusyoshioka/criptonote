@@ -13,7 +13,7 @@ export function FileExplorerHeader(props: FileExplorerHeaderProps) {
         <Header>
             <BlockLeft>
                 <HeaderButton
-                    iconName={"md-arrow-back"}
+                    iconName={"arrow-back"}
                     onPress={props.goBack}
                 />
             </BlockLeft>

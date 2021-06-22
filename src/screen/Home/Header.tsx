@@ -24,7 +24,7 @@ export function HomeHeader(props: HomeHeaderProps) {
             {props.selectionMode && (
                 <BlockLeft>
                     <HeaderButton
-                        iconName={"md-close"}
+                        iconName={"close"}
                         onPress={props.exitSelectionMode}
                     />
                 </BlockLeft>
@@ -41,14 +41,14 @@ export function HomeHeader(props: HomeHeaderProps) {
             <BlockRight>
                 {props.selectionMode && (
                     <HeaderButton
-                        iconName={"md-trash"}
+                        iconName={"delete"}
                         onPress={props.deleteNote}
                     />
                 )}
 
                 {!props.selectionMode && (
                     <HeaderButton
-                        iconName={"md-add"}
+                        iconName={"add"}
                         onPress={props.addNote}
                         iconSize={30}
                     />

@@ -46,8 +46,7 @@ export function ReadHeaderMenu(props: ReadHeaderMenuProps) {
         <Menu ref={menuRef} onClose={removeBackhandler} onOpen={setBackhandler}>
             <MenuTrigger customStyles={{ TriggerTouchableComponent: RectButton }}>
                 <HeaderButton
-                    iconName={"md-ellipsis-vertical"}
-                    iconSize={22}
+                    iconName={"more-vert"}
                     onPress={() => menuRef.current?.open()}
                 />
             </MenuTrigger>

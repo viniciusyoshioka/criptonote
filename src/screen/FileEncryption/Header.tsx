@@ -16,7 +16,7 @@ export function FileEncryptionHeader(props: FileEncryptionHeaderProps) {
         <Header>
             <BlockLeft>
                 <HeaderButton
-                    iconName={"md-arrow-back"}
+                    iconName={"arrow-back"}
                     onPress={props.goBack}
                 />
             </BlockLeft>
@@ -29,17 +29,17 @@ export function FileEncryptionHeader(props: FileEncryptionHeaderProps) {
 
             <BlockRight>
                 <HeaderButton
-                    iconName={"md-lock-closed"}
+                    iconName={"lock"}
                     onPress={props.encryptFile}
                 />
 
                 <HeaderButton
-                    iconName={"md-lock-open"}
+                    iconName={"lock-open"}
                     onPress={props.decryptFile}
                 />
 
                 <HeaderButton
-                    iconName={"md-close"}
+                    iconName={"close"}
                     onPress={props.cancel}
                 />
             </BlockRight>

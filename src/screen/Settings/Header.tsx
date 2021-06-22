@@ -14,7 +14,7 @@ export const SettingsHeader = memo((props: SettingsHeaderProps) => {
             <BlockLeft>
                 <HeaderButton 
                     onPress={props.goBack} 
-                    iconName={"md-arrow-back"}
+                    iconName={"arrow-back"}
                 />
             </BlockLeft>
 

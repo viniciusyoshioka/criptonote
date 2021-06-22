@@ -15,7 +15,7 @@ export const ProcessingEncryptionHeader = memo((props: ProcessingEncryptionHeade
             <BlockLeft>
                 <HeaderButton 
                     onPress={props.goBack} 
-                    iconName={"md-arrow-back"}
+                    iconName={"arrow-back"}
                 />
             </BlockLeft>
 
@@ -27,7 +27,7 @@ export const ProcessingEncryptionHeader = memo((props: ProcessingEncryptionHeade
 
             <BlockRight>
                 <HeaderButton
-                    iconName={"md-stop"}
+                    iconName={"block"}
                     onPress={props.stopEncryptionTask}
                 />
             </BlockRight>

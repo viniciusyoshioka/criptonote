@@ -16,7 +16,7 @@ export function AddHeader(props: AddHeaderProps) {
             <BlockLeft>
                 <HeaderButton 
                     onPress={props.goBack} 
-                    iconName={"md-arrow-back"}
+                    iconName={"arrow-back"}
                 />
             </BlockLeft>
 
@@ -28,12 +28,12 @@ export function AddHeader(props: AddHeaderProps) {
 
             <BlockRight>
                 <HeaderButton
-                    iconName={"md-save"}
+                    iconName={"save"}
                     onPress={props.saveNote}
                 />
 
                 <HeaderButton
-                    iconName={"md-close"}
+                    iconName={"close"}
                     onPress={props.cancelNote}
                 />
             </BlockRight>

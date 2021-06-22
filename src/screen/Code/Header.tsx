@@ -14,7 +14,7 @@ export const CodeHeader = memo((props: CodeHeaderProps) => {
             <BlockLeft>
                 <HeaderButton 
                     onPress={props.goBack} 
-                    iconName={"md-arrow-back"}
+                    iconName={"arrow-back"}
                 />
             </BlockLeft>
 
