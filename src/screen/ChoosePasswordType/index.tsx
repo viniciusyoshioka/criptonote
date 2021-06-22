@@ -1,11 +1,12 @@
-import React from "react"
-import { useCallback } from "react"
+import React, { useCallback } from "react"
+import { ToastAndroid } from "react-native"
 import { useNavigation } from "@react-navigation/native"
 
-import { ChoosePasswordTypeHeader } from "./Header"
 import { SafeScreen } from "../../component/Screen"
 import { SettingsButton } from "../../component/SettingsButton"
 import { useBackHandler } from "../../service/hook"
+import { writeLock, writeLockType } from "../../service/storage"
+import { ChoosePasswordTypeHeader } from "./Header"
 
 
 export function ChoosePasswordType() {
@@ -24,11 +25,25 @@ export function ChoosePasswordType() {
         navigation.navigate("Settings")
     }, [])
 
+    const removeLock = useCallback(async () => {
+        await writeLockType("none")
+        await writeLock("")
+        navigation.navigate("Home")
+        ToastAndroid.show("Senha removida", ToastAndroid.LONG)
+    }, [])
+
 
     return (
         <SafeScreen>
             <ChoosePasswordTypeHeader
                 goBack={goBack}
+            />
+
+            <SettingsButton
+                iconName={"remove-circle-outline"}
+                title={"Nenhuma"}
+                description={"Nenhuma segurança"}
+                onPress={removeLock}
             />
 
             <SettingsButton
