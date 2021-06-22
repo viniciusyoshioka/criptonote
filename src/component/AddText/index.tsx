@@ -42,6 +42,7 @@ export function AddText(props: AddTextProps) {
                         onSubmitEditing={() => {
                             Keyboard.dismiss()
                             props.onDone(textValue)
+                            setTextValue("")
                         }}
                     />
 

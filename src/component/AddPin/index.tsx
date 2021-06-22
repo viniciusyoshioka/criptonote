@@ -35,6 +35,7 @@ export function AddPin(props: AddPinProps) {
                 onSubmitEditing={() => {
                     Keyboard.dismiss()
                     props.onDone(pinValue)
+                    setPinValue("")
                 }}
                 placeholder={"Digite seu PIN"}
                 ref={inputPasswordPin}
