@@ -1,11 +1,12 @@
-import React, { useCallback } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { ToastAndroid } from "react-native"
 import { useNavigation } from "@react-navigation/native"
+import * as ExpoAuth from "expo-local-authentication"
 
 import { SafeScreen } from "../../component/Screen"
 import { SettingsButton } from "../../component/SettingsButton"
 import { useBackHandler } from "../../service/hook"
-import { writeLock, writeLockType } from "../../service/storage"
+import { readLockType, writeLock, writeLockType } from "../../service/storage"
 import { ChoosePasswordTypeHeader } from "./Header"
 
 
@@ -13,6 +14,8 @@ export function ChoosePasswordType() {
 
 
     const navigation = useNavigation()
+
+    const [hasBioSupport, setHasBioSupport] = useState(false)
 
 
     useBackHandler(() => {
@@ -26,10 +29,26 @@ export function ChoosePasswordType() {
     }, [])
 
     const removeLock = useCallback(async () => {
+        const currentLockType = await readLockType()
+        if (currentLockType === "none") {
+            ToastAndroid.show("Aplicativo já está sem senha", ToastAndroid.LONG)
+            return
+        }
+
         await writeLockType("none")
         await writeLock("")
         navigation.navigate("Home")
         ToastAndroid.show("Senha removida", ToastAndroid.LONG)
+    }, [])
+
+
+    useEffect(() => {
+        async function getSupportBio() {
+            const isBioSupported = await ExpoAuth.hasHardwareAsync()
+            setHasBioSupport(isBioSupported)
+        }
+
+        getSupportBio()
     }, [])
 
 
@@ -60,12 +79,15 @@ export function ChoosePasswordType() {
                 onPress={() => navigation.navigate("AddPassword", {passwordType: "text"})}
             />
 
-            <SettingsButton
-                iconName={"fingerprint"}
-                title={"Digital"}
-                description={"Segurança muito alta"}
-                onPress={() => navigation.navigate("AddPassword", {passwordType: "bio"})}
-            />
+            {/* TODO */}
+            {(hasBioSupport || true) && (
+                <SettingsButton
+                    iconName={"fingerprint"}
+                    title={"Digital"}
+                    description={"Segurança muito alta"}
+                    onPress={() => navigation.navigate("AddPassword", {passwordType: "bio"})}
+                />
+            )}
         </SafeScreen>
     )
 }
