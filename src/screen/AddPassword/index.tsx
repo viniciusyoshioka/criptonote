@@ -30,8 +30,16 @@ export function AddPassword() {
         navigation.navigate("ChoosePasswordType")
     }, [])
 
-    const onDone = useCallback(async (newLock: string) => {
-        if (newLock === "") {
+    const onDone = useCallback(async (newLock?: string) => {
+        if (params.passwordType === "bio") {
+            await writeLockType("bio")
+            await writeLock("")
+            navigation.navigate("Home")
+            ToastAndroid.show("Senha adicionada", ToastAndroid.LONG)
+            return
+        }
+
+        if (newLock === "" || newLock === undefined) {
             Alert.alert(
                 "Aviso",
                 "A senha não pode ser vazia"
@@ -67,7 +75,9 @@ export function AddPassword() {
                 )}
 
                 {params.passwordType === "bio" && (
-                    <AddBio />
+                    <AddBio
+                        onDone={onDone}
+                    />
                 )}
             </SafeScreen>
         </TouchableWithoutFeedback>

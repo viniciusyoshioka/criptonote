@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react"
-import { ToastAndroid } from "react-native"
+import { Alert, ToastAndroid } from "react-native"
 import { useNavigation } from "@react-navigation/native"
 import * as ExpoAuth from "expo-local-authentication"
 
@@ -41,6 +41,20 @@ export function ChoosePasswordType() {
         ToastAndroid.show("Senha removida", ToastAndroid.LONG)
     }, [])
 
+    const addBioLock = useCallback(async () => {
+        const currentDeviceLock = await ExpoAuth.getEnrolledLevelAsync()
+        if (currentDeviceLock === ExpoAuth.SecurityLevel.BIOMETRIC) {
+            await writeLock("")
+            await writeLockType("bio")
+            return
+        }
+
+        Alert.alert(
+            "Aviso",
+            "Adicione a biometria no dispositivo para habilitá-lo no aplicativo"
+        )
+    }, [])
+
 
     useEffect(() => {
         async function getSupportBio() {
@@ -79,13 +93,12 @@ export function ChoosePasswordType() {
                 onPress={() => navigation.navigate("AddPassword", {passwordType: "text"})}
             />
 
-            {/* TODO */}
             {(hasBioSupport || true) && (
                 <SettingsButton
                     iconName={"fingerprint"}
-                    title={"Digital"}
+                    title={"Biometria"}
                     description={"Segurança muito alta"}
-                    onPress={() => navigation.navigate("AddPassword", {passwordType: "bio"})}
+                    onPress={addBioLock}
                 />
             )}
         </SafeScreen>
