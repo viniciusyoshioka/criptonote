@@ -66,6 +66,22 @@ export function Lock() {
         )
     }
 
+    async function unlockBio() {
+        if (params?.action === "change-lock") {
+            navigation.reset({routes: [
+                {name: "Home"},
+                {name: "Settings"},
+                {name: "ChoosePasswordType"},
+            ]})
+            return
+        }
+
+        navigation.reset({routes: [
+            {name: "Home"}
+        ]})
+        return
+    }
+
 
     useEffect(() => {
         async function isProtected() {
@@ -112,6 +128,7 @@ export function Lock() {
 
             {(appLockType === "bio") && (
                 <AddBio
+                    onDone={unlockBio}
                     style={{marginTop: -100}}
                 />
             )}

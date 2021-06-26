@@ -46,6 +46,8 @@ export function ChoosePasswordType() {
         if (currentDeviceLock === ExpoAuth.SecurityLevel.BIOMETRIC) {
             await writeLock("")
             await writeLockType("bio")
+            navigation.navigate("Home")
+            ToastAndroid.show("Senha adicionada", ToastAndroid.LONG)
             return
         }
 
@@ -93,6 +95,7 @@ export function ChoosePasswordType() {
                 onPress={() => navigation.navigate("AddPassword", {passwordType: "text"})}
             />
 
+            {/* TODO */}
             {(hasBioSupport || true) && (
                 <SettingsButton
                     iconName={"fingerprint"}
