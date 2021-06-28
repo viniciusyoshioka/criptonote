@@ -3,6 +3,7 @@ import { ViewProps } from "react-native"
 import Icon from "react-native-vector-icons/MaterialIcons"
 import * as ExpoAuth from "expo-local-authentication"
 
+import { Button, Text } from "./style"
 import { useTheme } from "../../service/theme"
 import { CenterScreen } from "../Screen"
 
@@ -15,26 +16,40 @@ export interface AddBioProps extends ViewProps {
 export function AddBio(props: AddBioProps) {
 
 
-    const { color } = useTheme()
+    const { color, opacity } = useTheme()
 
 
-    useEffect(() => {
+    function authBiometry() {
         ExpoAuth.authenticateAsync()
             .then((success: ExpoAuth.LocalAuthenticationResult) => {
                 if (success.success) {
                     props.onDone()
                 }
             })
+    }
+
+
+    useEffect(() => {
+        authBiometry()
     }, [])
 
 
     return (
         <CenterScreen {...props}>
-            <Icon
-                name={"fingerprint"}
-                size={50}
-                color={color.screen_color}
-            />
+            <Button onPress={authBiometry} activeOpacity={0.7}>
+                <Icon
+                    name={"fingerprint"}
+                    size={50}
+                    color={color.screen_color}
+                    style={{
+                        opacity: opacity.highEmphasis
+                    }}
+                />
+
+                <Text>
+                    Adicionar biometria
+                </Text>
+            </Button>
         </CenterScreen>
     )
 }
