@@ -1,6 +1,6 @@
 import React from "react"
 import { RectButtonProps } from "react-native-gesture-handler"
-import Icon from "react-native-vector-icons/Ionicons"
+import Icon from "react-native-vector-icons/MaterialIcons"
 
 import { useTheme } from "../../service/theme"
 import { Button, FullPathText, ItemNameText, ViewIcon, ViewPath } from "./style"
@@ -23,7 +23,7 @@ export function FileExplorerItem(props: FileExplorerItemProps) {
         <Button {...props}>
             <ViewIcon>
                 <Icon
-                    name={props.isFile ? "md-document-sharp" : "md-folder-sharp"}
+                    name={props.isFile ? "description" : "folder"}
                     size={24}
                     color={color.fileExplorerItem_color}
                     style={{
