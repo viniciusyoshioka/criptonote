@@ -95,8 +95,7 @@ export function ChoosePasswordType() {
                 onPress={() => navigation.navigate("AddPassword", {passwordType: "text"})}
             />
 
-            {/* TODO */}
-            {(hasBioSupport || true) && (
+            {hasBioSupport && (
                 <SettingsButton
                     iconName={"fingerprint"}
                     title={"Biometria"}
