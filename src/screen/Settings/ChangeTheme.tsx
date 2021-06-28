@@ -19,9 +19,7 @@ export const ChangeTheme = memo((props: ChangeThemeProps) => {
 
 
     useEffect(() => {
-        if (!props.visible) {
-            setSelectedTheme(appTheme)
-        }
+        setSelectedTheme(appTheme)
     }, [props.visible])
 
 
