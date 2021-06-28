@@ -6,8 +6,9 @@ import { getDateTime } from "./date"
 import { log } from "./log"
 import { Note, ExportedNote } from "./object-type"
 import { readNote, readNoteId, writeNote, writeNoteId } from "./storage"
-import { exportedNoteExtension, exportedNoteExtensionList, folderExported, folderRoot, fullPathExported } from "./constant"
+import { exportedNoteExtension, exportedNoteExtensionList, folderExported, folderRoot, fullPathExported, keyExportedNote } from "./constant"
 import { createExportedFolder } from "./folder-handler"
+import { decryptString, encryptString } from "./crypto"
 
 
 export async function getId(): Promise<number> {
@@ -149,8 +150,9 @@ export async function exportNote(ids: Array<number>, selectionMode: boolean): Pr
     const fileName = `${getDateTime("-", "-", true)}.${exportedNoteExtension}`
     const filePath = `${fullPathExported}/${fileName}`
     const content = base64.encode(JSON.stringify(noteToExport))
+    const encryptedContent = await encryptString(content, keyExportedNote)
     try {
-        await RNFS.writeFile(filePath, content, "base64")
+        await RNFS.writeFile(filePath, encryptedContent, "base64")
     } catch (error) {
         log("ERROR", `Erro criando e escrevendo arquivo de notas para exportar. Mensagem: "${error}"`)
         Alert.alert(
@@ -188,9 +190,9 @@ export async function importNote(path: string): Promise<boolean> {
     }
 
     // Read note file
-    let fileContent = ""
+    let encryptedFileContent = ""
     try {
-        fileContent = await RNFS.readFile(path, "base64")
+        encryptedFileContent = await RNFS.readFile(path, "base64")
     } catch (error) {
         log("ERROR", `Erro lendo arquivo de notas para importar. Mensagem: "${error}"`)
         Alert.alert(
@@ -199,6 +201,7 @@ export async function importNote(path: string): Promise<boolean> {
         )
         return false
     }
+    const fileContent = await decryptString(encryptedFileContent, keyExportedNote)
     const exportedNoteData: Array<ExportedNote> = JSON.parse(base64.decode(fileContent))
     const importedNote: Array<Note> = []
     for (let x = 0; x < exportedNoteData.length; x++) {

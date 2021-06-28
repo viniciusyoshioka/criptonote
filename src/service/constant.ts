@@ -55,3 +55,6 @@ export const storageNote = "@criptonote:note"
 export const storageDebugHome = "@criptonote:debug-home"
 export const storageLock = "@criptonote:lock"
 export const storageLockType = "@criptonote:lock-type"
+
+// Password key for exported notes
+export const keyExportedNote = "5G0SLKxpRPfrZLegyYUqSk0i9JQev22U"
