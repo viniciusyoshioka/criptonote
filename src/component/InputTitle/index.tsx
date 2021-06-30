@@ -7,7 +7,6 @@ import { Input } from "../Input"
 
 const InputTitleBase = styled(Input)`
     margin-bottom: 8px;
-    elevation: 2;
 `
 
 

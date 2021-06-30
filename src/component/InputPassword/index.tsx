@@ -9,7 +9,6 @@ import { ViewInputPassword } from "./ViewInputPassword"
 
 const InputPasswordBase = styled(Input)`
     flex: 1;
-    elevation: 2;
 `
 
 

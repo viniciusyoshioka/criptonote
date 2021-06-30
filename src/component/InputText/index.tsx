@@ -8,7 +8,6 @@ import { Input } from "../Input"
 const InputTextBase = styled(Input)`
     flex: 1;
     padding-vertical: 12px;
-    elevation: 2;
 `
 
 
