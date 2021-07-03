@@ -15,7 +15,7 @@ export interface RadioButtonProps extends TouchableOpacityProps {
 export function RadioButton(props: RadioButtonProps) {
 
 
-    const { color } = useTheme()
+    const { color, opacity } = useTheme()
 
 
     return (
@@ -24,6 +24,9 @@ export function RadioButton(props: RadioButtonProps) {
                 name={props.value ? "radio-button-checked" : "radio-button-unchecked"}
                 size={24}
                 color={props.value ? color.radioButton_checked_color : color.radioButton_unchecked_color}
+                style={{
+                    opacity: opacity.highEmphasis
+                }}
             />
 
             {props.text && (
