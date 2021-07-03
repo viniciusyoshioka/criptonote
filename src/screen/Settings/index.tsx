@@ -54,14 +54,14 @@ export function Settings() {
             />
 
             <SettingsButton
-                iconName={"brightness-medium"}
+                icon={"brightness-medium"}
                 title={"Tema"}
                 description={"Mudar tema de cores do aplicativo"}
                 onPress={() => setIsChangeThemeVisible(true)}
             />
 
             <SettingsButton
-                iconName={"password"}
+                icon={"password"}
                 title={"Senha"}
                 description={"Adicionar/mudar senha do aplicativo"}
                 onPress={changeAppPassword}
