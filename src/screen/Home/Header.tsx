@@ -1,6 +1,6 @@
 import React from "react"
 
-import { BlockCenter, BlockLeft, BlockRight, Header, HeaderButton, HeaderTitle } from "../../component/Header"
+import { Header, HeaderButton, HeaderTitle } from "../../component/Header"
 import { appFName } from "../../service/constant"
 import { HomeHeaderMenu } from "./HeaderMenu"
 
@@ -22,47 +22,35 @@ export function HomeHeader(props: HomeHeaderProps) {
     return (
         <Header>
             {props.selectionMode && (
-                <BlockLeft>
-                    <HeaderButton
-                        iconName={"close"}
-                        onPress={props.exitSelectionMode}
-                    />
-                </BlockLeft>
-            )}
-
-            {!props.selectionMode && (
-                <BlockCenter>
-                    <HeaderTitle>
-                        {appFName}
-                    </HeaderTitle>
-                </BlockCenter>
-            )}
-
-            <BlockRight>
-                {props.selectionMode && (
-                    <HeaderButton
-                        iconName={"delete"}
-                        onPress={props.deleteNote}
-                    />
-                )}
-
-                {!props.selectionMode && (
-                    <HeaderButton
-                        iconName={"add"}
-                        onPress={props.addNote}
-                        iconSize={30}
-                    />
-                )}
-
-                <HomeHeaderMenu
-                    selectionMode={props.selectionMode}
-                    importNote={props.importNote}
-                    exportNote={props.exportNote}
-                    encryptFile={props.encryptFile}
-                    openSettings={props.openSettings}
-                    switchDebugHome={props.switchDebugHome}
+                <HeaderButton
+                    icon={"close"}
+                    onPress={props.exitSelectionMode}
                 />
-            </BlockRight>
+            )}
+
+            <HeaderTitle title={!props.selectionMode ? appFName : ""} />
+
+            {props.selectionMode && (
+                <HeaderButton
+                    icon={"delete"}
+                    onPress={props.deleteNote}
+                />
+            )}
+
+            <HeaderButton
+                icon={"add"}
+                onPress={props.addNote}
+                iconSize={30}
+            />
+
+            <HomeHeaderMenu
+                selectionMode={props.selectionMode}
+                importNote={props.importNote}
+                exportNote={props.exportNote}
+                encryptFile={props.encryptFile}
+                openSettings={props.openSettings}
+                switchDebugHome={props.switchDebugHome}
+            />
         </Header>
     )
 }
