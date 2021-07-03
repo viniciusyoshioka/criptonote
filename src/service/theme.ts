@@ -42,7 +42,9 @@ export interface ColorTheme {
         input_background: string,
         input_color: string,
         input_placeholder: string,
-        input_border: string,
+        input_unfocus_border: string,
+        input_focus_border: string,
+        input_selection: string,
 
         showPasswordButton_background: string,
         showPasswordButton_color: string,
@@ -68,10 +70,10 @@ export const LightTheme: ColorTheme = {
     name: "light",
     appTheme: "auto",
     color: {
-        header_background: "rgb(60, 100, 220)",
+        header_background: "rgb(0, 128, 128)",
         header_color: "rgb(255, 255, 255)",
 
-        subHeader_background: "rgb(60, 100, 220)",
+        subHeader_background: "rgb(0, 128, 128)",
         subHeader_color: "rgb(255, 255, 255)",
 
         screen_background: "rgb(245, 245, 245)",
@@ -82,7 +84,7 @@ export const LightTheme: ColorTheme = {
 
         noteItem_background: "rgb(255, 255, 255)",
         noteItem_color: "rgb(0, 0, 0)",
-        noteItem_selected_background: "rgb(60, 100, 220)",
+        noteItem_selected_background: "rgb(0, 128, 128)",
         noteItem_selected_color: "rgb(90, 90, 90)",
 
         settingsButton_background: "transparent",
@@ -100,18 +102,20 @@ export const LightTheme: ColorTheme = {
         input_background: "transparent",
         input_color: "rgb(0, 0, 0)",
         input_placeholder: "rgb(100, 100, 100)",
-        input_border: "rgb(0, 0, 0)",
+        input_unfocus_border: "transparent",
+        input_focus_border: "rgb(0, 128, 128)",
+        input_selection: "rgb(0, 200, 200)",
 
         showPasswordButton_background: "transparent",
         showPasswordButton_color: "rgb(0, 0, 0)",
 
-        openNoteButton_background: "rgb(60, 100, 220)",
+        openNoteButton_background: "rgb(0, 128, 128)",
         openNoteButton_color: "rgb(255, 255, 255)",
 
-        radioButton_checked_color: "rgb(60, 100, 220)",
+        radioButton_checked_color: "rgb(0, 128, 128)",
         radioButton_unchecked_color: "rgb(0, 0, 0)",
 
-        checkButton_checked_color: "rgb(60, 100, 220)",
+        checkButton_checked_color: "rgb(0, 128, 128)",
         checkButton_unchecked_color: "rgb(0, 0, 0)",
     },
     opacity: {
@@ -140,7 +144,7 @@ export const DarkTheme: ColorTheme = {
 
         noteItem_background: "rgb(30, 30, 30)",
         noteItem_color: "rgb(255, 255, 255)",
-        noteItem_selected_background: "rgb(180, 200, 255)",
+        noteItem_selected_background: "rgb(32, 180, 180)",
         noteItem_selected_color: "rgb(180, 180, 180)",
 
         settingsButton_background: "transparent",
@@ -158,7 +162,9 @@ export const DarkTheme: ColorTheme = {
         input_background: "rgb(30, 30, 30)",
         input_color: "rgb(220, 220, 220)",
         input_placeholder: "rgb(150, 150, 150)",
-        input_border: "rgb(220, 220, 220)",
+        input_unfocus_border: "rgb(220, 220, 220)",
+        input_focus_border: "rgb(32, 180, 180)",
+        input_selection: "rgb(0, 128, 128)",
 
         showPasswordButton_background: "rgb(30, 30, 30)",
         showPasswordButton_color: "rgb(255, 255, 255)",
@@ -166,10 +172,10 @@ export const DarkTheme: ColorTheme = {
         openNoteButton_background: "rgb(30, 30, 30)",
         openNoteButton_color: "rgb(255, 255, 255)",
 
-        radioButton_checked_color: "rgb(180, 200, 255)",
+        radioButton_checked_color: "rgb(32, 180, 180)",
         radioButton_unchecked_color: "rgb(255, 255, 255)",
 
-        checkButton_checked_color: "rgb(180, 200, 255)",
+        checkButton_checked_color: "rgb(32, 180, 180)",
         checkButton_unchecked_color: "rgb(255, 255, 255)",
     },
     opacity: {
