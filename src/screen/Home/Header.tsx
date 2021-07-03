@@ -37,11 +37,13 @@ export function HomeHeader(props: HomeHeaderProps) {
                 />
             )}
 
-            <HeaderButton
-                icon={"add"}
-                onPress={props.addNote}
-                iconSize={30}
-            />
+            {!props.selectionMode && (
+                <HeaderButton
+                    icon={"add"}
+                    onPress={props.addNote}
+                    iconSize={26}
+                />
+            )}
 
             <HomeHeaderMenu
                 selectionMode={props.selectionMode}
