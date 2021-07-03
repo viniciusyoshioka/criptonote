@@ -5,7 +5,7 @@ import { SafeScreen } from "../../component/Screen"
 import { SettingsHeader } from "./Header"
 import { TextVersion, ViewVersion } from "./style"
 import { appFName, appType, appVersion } from "../../service/constant"
-import { SettingsButton } from "../../component/SettingsButton"
+import { ListItem } from "../../component/ListItem"
 import { ChangeTheme } from "./ChangeTheme"
 import { useBackHandler } from "../../service/hook"
 import { readLockType } from "../../service/storage"
@@ -53,14 +53,14 @@ export function Settings() {
                 goBack={goBack}
             />
 
-            <SettingsButton
+            <ListItem
                 icon={"brightness-medium"}
                 title={"Tema"}
                 description={"Mudar tema de cores do aplicativo"}
                 onPress={() => setIsChangeThemeVisible(true)}
             />
 
-            <SettingsButton
+            <ListItem
                 icon={"password"}
                 title={"Senha"}
                 description={"Adicionar/mudar senha do aplicativo"}
