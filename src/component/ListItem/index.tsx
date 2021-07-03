@@ -6,7 +6,7 @@ import Icon from "react-native-vector-icons/MaterialIcons"
 import { styledProps, useTheme } from "../../service/theme"
 
 
-const SettingsButtonBase = styled(RectButton)`
+const ListItemBase = styled(RectButton)`
     flex: 1;
     align-items: center;
     justify-content: flex-start;
@@ -54,21 +54,21 @@ const TextDescription = styled.Text`
 `
 
 
-export interface SettingsButtonProps extends RectButtonProps {
+export interface ListItemProps extends RectButtonProps {
     title?: string,
     description?: string,
     icon?: string,
 }
 
 
-export function SettingsButton(props: SettingsButtonProps) {
+export function ListItem(props: ListItemProps) {
 
 
     const { color, opacity } = useTheme()
 
 
     return (
-        <SettingsButtonBase {...props}>
+        <ListItemBase {...props}>
             {props.icon && (
                 <ViewIcon>
                     <Icon
@@ -95,6 +95,6 @@ export function SettingsButton(props: SettingsButtonProps) {
                     </TextDescription>
                 )}
             </ViewText>
-        </SettingsButtonBase>
+        </ListItemBase>
     )
 }

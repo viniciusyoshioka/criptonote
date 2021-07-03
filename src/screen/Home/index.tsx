@@ -40,11 +40,11 @@ export function Home() {
         switch (debugHome) {
             case "show":
                 setDebugHome("hide")
-                await writeDebugHome("hide") 
+                await writeDebugHome("hide")
                 break
             case "hide":
                 setDebugHome("show")
-                await writeDebugHome("show") 
+                await writeDebugHome("show")
                 break
             default:
                 throw new Error("Unknown debugHome value")
@@ -63,11 +63,11 @@ export function Home() {
 
     const debugWriteNote = useCallback(async () => {
         const tempNoteList: Array<Note> = [
-            {id: 0, title: "Titulo 1", text: "Texto 1", lastModificationDate: "18:04 08/06/2021"},
-            {id: 1, title: "Titulo 2", text: "Texto 2", lastModificationDate: "18:04 08/06/2021"},
-            {id: 2, title: "Titulo 3", text: "Texto 3", lastModificationDate: "18:04 08/06/2021"},
-            {id: 3, title: "Titulo 4", text: "Texto 4", lastModificationDate: "18:04 08/06/2021"},
-            {id: 4, title: "Titulo 5", text: "Texto 5", lastModificationDate: "18:04 08/06/2021"},
+            { id: 0, title: "Titulo 1", text: "Texto 1", lastModificationDate: "18:04 08/06/2021" },
+            { id: 1, title: "Titulo 2", text: "Texto 2", lastModificationDate: "18:04 08/06/2021" },
+            { id: 2, title: "Titulo 3", text: "Texto 3", lastModificationDate: "18:04 08/06/2021" },
+            { id: 3, title: "Titulo 4", text: "Texto 4", lastModificationDate: "18:04 08/06/2021" },
+            { id: 4, title: "Titulo 5", text: "Texto 5", lastModificationDate: "18:04 08/06/2021" },
         ]
         const tempNoteId: Array<number> = [0, 1, 2, 3, 4]
 
@@ -105,8 +105,8 @@ export function Home() {
             "Apagar",
             "Estas notas serão apagadas permanentemente",
             [
-                {text: "Cancelar", onPress: () => {}},
-                {text: "Apagar", onPress: async () => await alertDelete()}
+                { text: "Cancelar", onPress: () => { } },
+                { text: "Apagar", onPress: async () => await alertDelete() }
             ]
         )
     }, [selectedNote])
@@ -121,8 +121,8 @@ export function Home() {
             "Exportar",
             `As notas ${selectionMode ? "selecionadas " : ""}serão exportadas`,
             [
-                {text: "Cancelar", onPress: () => {}},
-                {text: "Exportar", onPress: () => alertExport()}
+                { text: "Cancelar", onPress: () => { } },
+                { text: "Exportar", onPress: () => alertExport() }
             ]
         )
     }, [selectedNote, selectionMode])
@@ -146,10 +146,10 @@ export function Home() {
         }
     }, [selectedNote, selectionMode])
 
-    const renderNoteItem = useCallback(({item}: {item: Note}) => {
+    const renderNoteItem = useCallback(({ item }: { item: Note }) => {
         return (
             <NoteItem
-                click={() => navigation.navigate("Code", {note: item})}
+                click={() => navigation.navigate("Code", { note: item })}
                 select={() => selectNote(item.id)}
                 deselect={() => deselectNote(item.id)}
                 selectionMode={selectionMode}
@@ -187,9 +187,9 @@ export function Home() {
                 exitSelectionMode={exitSelectionMode}
                 deleteNote={deleteSelectedNote}
                 addNote={() => navigation.navigate("Add")}
-                importNote={() => navigation.navigate("FileExplorer", {action: "import"})}
+                importNote={() => navigation.navigate("FileExplorer", { action: "import" })}
                 exportNote={exportAppNote}
-                encryptFile={() => navigation.navigate("FileExplorer", {action: "encrypt"})}
+                encryptFile={() => navigation.navigate("FileExplorer", { action: "encrypt" })}
                 openSettings={() => navigation.navigate("Settings")}
                 switchDebugHome={debugSwitchDebugHome}
             />
@@ -199,7 +199,7 @@ export function Home() {
                 renderItem={renderNoteItem}
                 keyExtractor={(item) => item.id.toString()}
                 extraData={[selectNote, deselectNote]}
-                style={{marginLeft: 6, marginTop: 6}}
+                style={{ marginLeft: 6, marginTop: 6 }}
             />
 
             {(note.length === 0) && (
