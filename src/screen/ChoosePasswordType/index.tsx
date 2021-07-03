@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/native"
 import * as ExpoAuth from "expo-local-authentication"
 
 import { SafeScreen } from "../../component/Screen"
-import { SettingsButton } from "../../component/SettingsButton"
+import { ListItem } from "../../component/ListItem"
 import { useBackHandler } from "../../service/hook"
 import { readLockType, writeLock, writeLockType } from "../../service/storage"
 import { ChoosePasswordTypeHeader } from "./Header"
@@ -74,21 +74,21 @@ export function ChoosePasswordType() {
                 goBack={goBack}
             />
 
-            <SettingsButton
+            <ListItem
                 icon={"remove-circle-outline"}
                 title={"Nenhuma"}
                 description={"Nenhuma segurança"}
                 onPress={removeLock}
             />
 
-            <SettingsButton
+            <ListItem
                 icon={"pin"}
                 title={"PIN"}
                 description={"Segurança média para alta"}
                 onPress={() => navigation.navigate("AddPassword", { passwordType: "pin" })}
             />
 
-            <SettingsButton
+            <ListItem
                 icon={"password"}
                 title={"Senha"}
                 description={"Segurança alta"}
@@ -96,7 +96,7 @@ export function ChoosePasswordType() {
             />
 
             {hasBioSupport && (
-                <SettingsButton
+                <ListItem
                     icon={"fingerprint"}
                     title={"Biometria"}
                     description={"Segurança muito alta"}
