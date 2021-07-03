@@ -15,8 +15,12 @@ export const InputBase = styled.TextInput`
     elevation: 2;
     background-color: ${(props: styledProps) => props.theme.color.input_background};
     color: ${(props: styledProps) => props.theme.color.input_color};
-    border-color: ${(props: styledProps) => props.theme.color.input_border};
-    border-bottom-width: ${(props: styledProps & { isFocused: boolean }) => props.isFocused ? 2 : 0}px;
+    border-color: ${(props: styledProps & { isFocused: boolean }) => {
+        return props.isFocused ? props.theme.color.input_focus_border : props.theme.color.input_unfocus_border
+    }};
+    border-bottom-width: ${(props: styledProps & { isFocused: boolean }) => {
+        return props.isFocused ? 2 : 0
+    }}px;
 `
 
 
@@ -35,6 +39,7 @@ export const Input = forwardRef((props: TextInputProps, ref?: Ref<TextInput>) =>
             ref={ref}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
+            selectionColor={color.input_selection}
             isFocused={isFocused}
             {...props}
         />
