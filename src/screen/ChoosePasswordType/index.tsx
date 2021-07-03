@@ -75,29 +75,29 @@ export function ChoosePasswordType() {
             />
 
             <SettingsButton
-                iconName={"remove-circle-outline"}
+                icon={"remove-circle-outline"}
                 title={"Nenhuma"}
                 description={"Nenhuma segurança"}
                 onPress={removeLock}
             />
 
             <SettingsButton
-                iconName={"pin"}
+                icon={"pin"}
                 title={"PIN"}
                 description={"Segurança média para alta"}
-                onPress={() => navigation.navigate("AddPassword", {passwordType: "pin"})}
+                onPress={() => navigation.navigate("AddPassword", { passwordType: "pin" })}
             />
 
             <SettingsButton
-                iconName={"password"}
+                icon={"password"}
                 title={"Senha"}
                 description={"Segurança alta"}
-                onPress={() => navigation.navigate("AddPassword", {passwordType: "text"})}
+                onPress={() => navigation.navigate("AddPassword", { passwordType: "text" })}
             />
 
             {hasBioSupport && (
                 <SettingsButton
-                    iconName={"fingerprint"}
+                    icon={"fingerprint"}
                     title={"Biometria"}
                     description={"Segurança muito alta"}
                     onPress={addBioLock}
