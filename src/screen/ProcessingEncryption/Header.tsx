@@ -1,6 +1,6 @@
-import React, { memo } from "react"
+import React from "react"
 
-import { Header, BlockLeft, HeaderButton, BlockCenter, HeaderTitle, BlockRight } from "../../component/Header"
+import { Header, HeaderButton, HeaderTitle } from "../../component/Header"
 
 
 export interface ProcessingEncryptionHeaderProps {
@@ -9,28 +9,20 @@ export interface ProcessingEncryptionHeaderProps {
 }
 
 
-export const ProcessingEncryptionHeader = memo((props: ProcessingEncryptionHeaderProps) => {
+export function ProcessingEncryptionHeader(props: ProcessingEncryptionHeaderProps) {
     return (
         <Header>
-            <BlockLeft>
-                <HeaderButton 
-                    onPress={props.goBack} 
-                    iconName={"arrow-back"}
-                />
-            </BlockLeft>
+            <HeaderButton
+                onPress={props.goBack}
+                icon={"arrow-back"}
+            />
 
-            <BlockCenter>
-                <HeaderTitle>
-                    Processando
-                </HeaderTitle>
-            </BlockCenter>
+            <HeaderTitle title={"Processando"} />
 
-            <BlockRight>
-                <HeaderButton
-                    iconName={"block"}
-                    onPress={props.stopEncryptionTask}
-                />
-            </BlockRight>
-        </Header>  
+            <HeaderButton
+                icon={"block"}
+                onPress={props.stopEncryptionTask}
+            />
+        </Header>
     )
-})
+}

@@ -1,6 +1,6 @@
 import React from "react"
 
-import { BlockCenter, BlockLeft, Header, HeaderButton, HeaderTitle } from "../../component/Header"
+import { Header, HeaderButton, HeaderTitle } from "../../component/Header"
 
 
 export interface FileExplorerHeaderProps {
@@ -11,18 +11,12 @@ export interface FileExplorerHeaderProps {
 export function FileExplorerHeader(props: FileExplorerHeaderProps) {
     return (
         <Header>
-            <BlockLeft>
-                <HeaderButton
-                    iconName={"arrow-back"}
-                    onPress={props.goBack}
-                />
-            </BlockLeft>
+            <HeaderButton
+                icon={"arrow-back"}
+                onPress={props.goBack}
+            />
 
-            <BlockCenter>
-                <HeaderTitle>
-                    Escolher arquivo
-                </HeaderTitle>
-            </BlockCenter>
+            <HeaderTitle title={"Escolher arquivo"} />
         </Header>
     )
 }

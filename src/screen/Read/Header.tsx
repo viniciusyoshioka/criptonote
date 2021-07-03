@@ -1,6 +1,6 @@
 import React from "react"
 
-import { Header, BlockLeft, HeaderButton, BlockCenter, HeaderTitle, BlockRight } from "../../component/Header"
+import { Header, HeaderButton, HeaderTitle } from "../../component/Header"
 import { ReadHeaderMenu } from "./HeaderMenu"
 
 
@@ -17,35 +17,27 @@ export interface ReadHeaderProps {
 export function ReadHeader(props: ReadHeaderProps) {
     return (
         <Header>
-            <BlockLeft>
-                <HeaderButton 
-                    onPress={props.goBack} 
-                    iconName={"arrow-back"}
-                />
-            </BlockLeft>
+            <HeaderButton
+                onPress={props.goBack}
+                icon={"arrow-back"}
+            />
 
-            <BlockCenter>
-                <HeaderTitle>
-                    {`Nota${props.isChanged ? "*" : ""}${props.title !== "" ? `: "${props.title}"` : ""}`}
-                </HeaderTitle>
-            </BlockCenter>
+            <HeaderTitle title={`Nota${props.isChanged ? "*" : ""}${props.title !== "" ? `: "${props.title}"` : ""}`} />
 
-            <BlockRight>
-                <HeaderButton
-                    iconName={"save"}
-                    onPress={props.saveNote}
-                />
+            <HeaderButton
+                icon={"save"}
+                onPress={props.saveNote}
+            />
 
-                <HeaderButton
-                    iconName={"close"}
-                    onPress={props.goBack}
-                />
+            <HeaderButton
+                icon={"close"}
+                onPress={props.goBack}
+            />
 
-                <ReadHeaderMenu
-                    changePassword={props.changePassword}
-                    deleteNote={props.deleteNote}
-                />
-            </BlockRight>
-        </Header>  
+            <ReadHeaderMenu
+                changePassword={props.changePassword}
+                deleteNote={props.deleteNote}
+            />
+        </Header>
     )
 }

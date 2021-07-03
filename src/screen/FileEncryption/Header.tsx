@@ -1,6 +1,6 @@
 import React from "react"
 
-import { BlockCenter, BlockLeft, BlockRight, Header, HeaderButton, HeaderTitle } from "../../component/Header"
+import { Header, HeaderButton, HeaderTitle } from "../../component/Header"
 
 
 export interface FileEncryptionHeaderProps {
@@ -14,35 +14,27 @@ export interface FileEncryptionHeaderProps {
 export function FileEncryptionHeader(props: FileEncryptionHeaderProps) {
     return (
         <Header>
-            <BlockLeft>
-                <HeaderButton
-                    iconName={"arrow-back"}
-                    onPress={props.goBack}
-                />
-            </BlockLeft>
+            <HeaderButton
+                icon={"arrow-back"}
+                onPress={props.goBack}
+            />
 
-            <BlockCenter>
-                <HeaderTitle>
-                    Encriptar arquivo
-                </HeaderTitle>
-            </BlockCenter>
+            <HeaderTitle title={"Encriptar arquivo"} />
 
-            <BlockRight>
-                <HeaderButton
-                    iconName={"lock"}
-                    onPress={props.encryptFile}
-                />
+            <HeaderButton
+                icon={"lock"}
+                onPress={props.encryptFile}
+            />
 
-                <HeaderButton
-                    iconName={"lock-open"}
-                    onPress={props.decryptFile}
-                />
+            <HeaderButton
+                icon={"lock-open"}
+                onPress={props.decryptFile}
+            />
 
-                <HeaderButton
-                    iconName={"close"}
-                    onPress={props.cancel}
-                />
-            </BlockRight>
+            <HeaderButton
+                icon={"close"}
+                onPress={props.cancel}
+            />
         </Header>
     )
 }

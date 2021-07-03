@@ -1,6 +1,6 @@
-import React, { memo } from "react"
+import React from "react"
 
-import { Header, BlockLeft, HeaderButton, BlockCenter, HeaderTitle } from "../../component/Header"
+import { Header, HeaderButton, HeaderTitle } from "../../component/Header"
 
 
 export interface CodeHeaderProps {
@@ -8,21 +8,15 @@ export interface CodeHeaderProps {
 }
 
 
-export const CodeHeader = memo((props: CodeHeaderProps) => {
+export function CodeHeader(props: CodeHeaderProps) {
     return (
         <Header>
-            <BlockLeft>
-                <HeaderButton 
-                    onPress={props.goBack} 
-                    iconName={"arrow-back"}
-                />
-            </BlockLeft>
+            <HeaderButton
+                onPress={props.goBack}
+                icon={"arrow-back"}
+            />
 
-            <BlockCenter>
-                <HeaderTitle>
-                    Abrir nota
-                </HeaderTitle>
-            </BlockCenter>
-        </Header>  
+            <HeaderTitle title={"Abrir nota"} />
+        </Header>
     )
-})
+}

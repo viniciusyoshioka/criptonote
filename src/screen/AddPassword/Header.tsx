@@ -1,6 +1,6 @@
-import React, { memo } from "react"
+import React from "react"
 
-import { Header, BlockLeft, HeaderButton, BlockCenter, HeaderTitle } from "../../component/Header"
+import { Header, HeaderButton, HeaderTitle } from "../../component/Header"
 
 
 export interface AddPasswordHeaderProps {
@@ -8,21 +8,15 @@ export interface AddPasswordHeaderProps {
 }
 
 
-export const AddPasswordHeader = memo((props: AddPasswordHeaderProps) => {
+export function AddPasswordHeader(props: AddPasswordHeaderProps) {
     return (
         <Header>
-            <BlockLeft>
-                <HeaderButton 
-                    onPress={props.goBack} 
-                    iconName={"arrow-back"}
-                />
-            </BlockLeft>
+            <HeaderButton
+                onPress={props.goBack}
+                icon={"arrow-back"}
+            />
 
-            <BlockCenter>
-                <HeaderTitle>
-                    Adicionar senha
-                </HeaderTitle>
-            </BlockCenter>
-        </Header>  
+            <HeaderTitle title={"Adicionar senha"} />
+        </Header>
     )
-})
+}
