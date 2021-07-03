@@ -6,7 +6,7 @@ import RNFS, { ReadDirItem } from "react-native-fs"
 import { SafeScreen } from "../../component/Screen"
 import { FileExplorerHeader } from "./Header"
 import { exportedNoteBetaExtension, fullPathDecrypted, fullPathEncrypted, fullPathExported } from "../../service/constant"
-import { FileExplorerItem } from "../../component/FileExplorerItem"
+import { ListItem } from "../../component/ListItem"
 import { useBackHandler } from "../../service/hook"
 import { SubHeader, SubHeaderText } from "../../component/SubHeader"
 import { importNote } from "../../service/note-handler"
@@ -148,7 +148,7 @@ export function FileExplorer() {
             importNote(newPath)
                 .then((isNoteImported: boolean) => {
                     if (isNoteImported) {
-                        navigation.reset({routes: [{name: "Home"}]})
+                        navigation.reset({ routes: [{ name: "Home" }] })
                         return
                     }
                 })
@@ -170,8 +170,8 @@ export function FileExplorer() {
                     "Alerta",
                     "Importar notas na versão beta pode causar falhas",
                     [
-                        {text: "Cancelar", onPress: () => {}},
-                        {text: "Ok", onPress: () => importNoteFunction()}
+                        { text: "Cancelar", onPress: () => { } },
+                        { text: "Ok", onPress: () => importNoteFunction() }
                     ]
                 )
             } else {
@@ -183,14 +183,14 @@ export function FileExplorer() {
             "Importar",
             "Deseja importar esta nota?",
             [
-                {text: "Cancelar", onPress: () => {}},
-                {text: "Importar", onPress: () => checkNoteVersion()}
+                { text: "Cancelar", onPress: () => { } },
+                { text: "Importar", onPress: () => checkNoteVersion() }
             ]
         )
     }, [])
 
     const encryptFileAlert = useCallback((filePath: string) => {
-        navigation.navigate("FileEncryption", {filePath: filePath})
+        navigation.navigate("FileEncryption", { filePath: filePath })
     }, [])
 
     const changePath = useCallback(async (newPath: string, isFile: boolean) => {
@@ -224,13 +224,14 @@ export function FileExplorer() {
         changePath("..", false)
     }, [path, changePath])
 
-    const renderItem = useCallback(({item}: {item: RNFS.ReadDirItem}) => {
+    const renderItem = useCallback(({ item }: { item: RNFS.ReadDirItem }) => {
         return (
-            <FileExplorerItem
-                name={item.name}
-                path={item.path}
-                isFile={item.isFile()}
+            <ListItem
+                title={item.name}
+                description={item.path}
+                icon={item.isFile() ? "description" : "folder"}
                 onPress={async () => await changePath(item.path, item.isFile())}
+                style={{ height: 56 }}
             />
         )
     }, [changePath])
