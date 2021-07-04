@@ -2,7 +2,7 @@ import React, { createRef, useCallback, useState } from "react"
 import { Keyboard, TextInput, TouchableWithoutFeedback } from "react-native"
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native"
 
-import { InputPassword, ShowPasswordButton, ViewInputPassword } from "../../component/InputPassword"
+import { InputPassword } from "../../component/InputPassword"
 import { SafeScreen } from "../../component/Screen"
 import { useBackHandler, useKeyboard } from "../../service/hook"
 import { CodeHeader } from "./Header"
@@ -18,7 +18,6 @@ export function Code() {
 
     const inputPasswordRef = createRef<TextInput>()
 
-    const [showPassword, setShowPassword] = useState(false)
     const [password, setPassword] = useState("")
 
 
@@ -54,22 +53,14 @@ export function Code() {
                 />
 
                 <ViewContent>
-                    <ViewInputPassword style={{margin: 8}}>
-                        <InputPassword
-                            autoFocus={true}
-                            onChangeText={(newText: string) => setPassword(newText)}
-                            ref={inputPasswordRef}
-                            showPassword={showPassword}
-                            returnKeyType={"done"}
-                            onSubmitEditing={openNote}
-                            value={password}
-                        />
-
-                        <ShowPasswordButton
-                            showPassword={showPassword}
-                            onPress={() => setShowPassword(!showPassword)}
-                        />
-                    </ViewInputPassword>
+                    <InputPassword
+                        autoFocus={true}
+                        onChangeText={(newText: string) => setPassword(newText)}
+                        ref={inputPasswordRef}
+                        returnKeyType={"done"}
+                        onSubmitEditing={openNote}
+                        value={password}
+                    />
 
                     <OpenNoteButtonBase onPress={openNote}>
                         <OpenNoteButtonText>
