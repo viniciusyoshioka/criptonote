@@ -7,7 +7,7 @@ import { InputFileName } from "./style"
 import { SafeScreen, SpaceScreen } from "../../component/Screen"
 import { ScreenParams } from "../../service/screen-params"
 import { useBackHandler, useKeyboard } from "../../service/hook"
-import { InputPassword, ShowPasswordButton, ViewInputPassword } from "../../component/InputPassword"
+import { InputPassword } from "../../component/InputPassword"
 import { CheckButton } from "../../component/CheckButton"
 
 
@@ -28,7 +28,6 @@ export function FileEncryption() {
 
     const [fileName, setFileName] = useState(getFileName(params.filePath))
     const [password, setPassword] = useState("")
-    const [showPassword, setShowPassword] = useState(false)
     const [deleteOriginalFile, setDeleteOriginalFile] = useState(false)
 
 
@@ -59,8 +58,8 @@ export function FileEncryption() {
             "Aviso",
             "A encriptação do arquivo será cancelada",
             [
-                {text: "Cancelar", onPress: () => {}},
-                {text: "Ok", onPress: () => navigation.navigate("Home")},
+                { text: "Cancelar", onPress: () => { } },
+                { text: "Ok", onPress: () => navigation.navigate("Home") },
             ]
         )
     }, [])
@@ -97,21 +96,13 @@ export function FileEncryption() {
                     value={fileName}
                 />
 
-                <ViewInputPassword>
-                    <InputPassword
-                        onChangeText={(newText: string) => setPassword(newText)}
-                        onSubmitEditing={() => inputPasswordRef.current?.blur()}
-                        ref={inputPasswordRef}
-                        returnKeyType={"done"}
-                        showPassword={showPassword}
-                        value={password}
-                    />
-
-                    <ShowPasswordButton
-                        showPassword={showPassword}
-                        onPress={() => setShowPassword(!showPassword)}
-                    />
-                </ViewInputPassword>
+                <InputPassword
+                    onChangeText={(newText: string) => setPassword(newText)}
+                    onSubmitEditing={() => inputPasswordRef.current?.blur()}
+                    ref={inputPasswordRef}
+                    returnKeyType={"done"}
+                    value={password}
+                />
 
                 {/* TODO */}
                 {/* <CheckButton
