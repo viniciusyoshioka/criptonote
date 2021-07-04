@@ -18,7 +18,7 @@ const ShowPasswordButtonBase = styled.TouchableOpacity`
     border-bottom-right-radius: 0px;
     background-color: ${(props: styledProps) => props.theme.color.input_background};
     border-color: ${(props: styledProps & { isFocused: boolean }) => {
-        return props.isFocused ? props.theme.color.input_focus_border : props.theme.color.input_unfocus_border
+        return props.isFocused ? props.theme.color.input_focus_border : props.theme.color.input_background
     }};
 `
 
