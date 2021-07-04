@@ -48,20 +48,25 @@ export function Read() {
 
 
     const goBack = useCallback(() => {
+        if (showChangePassword) {
+            setShowChangePassword(false)
+            return
+        }
+
         if (isChanged) {
             Alert.alert(
                 "Aviso",
                 "Esta nota foi alterada, sair irá descartá-la",
                 [
-                    {text: "Cancelar", onPress: () => {}},
-                    {text: "Voltar", onPress: () => navigation.navigate("Home")}
+                    { text: "Cancelar", onPress: () => { } },
+                    { text: "Voltar", onPress: () => navigation.navigate("Home") }
                 ]
             )
             return
         }
 
         navigation.navigate("Home")
-    }, [isChanged])
+    }, [showChangePassword, isChanged])
 
     const setNoteValue = useCallback((newValue: string, inputField: "title" | "text") => {
         switch (inputField) {
@@ -97,21 +102,21 @@ export function Read() {
         }
 
         await saveEditedNote(params.note, title, textToSave)
-        navigation.reset({routes: [{name: "Home"}]})
+        navigation.reset({ routes: [{ name: "Home" }] })
     }, [title, text])
 
     const deleteCurrentNote = useCallback(async () => {
         async function alertDeleteNote() {
             await deleteNote([params.note.id])
-            navigation.reset({routes: [{name: "Home"}]})
+            navigation.reset({ routes: [{ name: "Home" }] })
         }
 
         Alert.alert(
             "Aviso",
             "Esta nota será apagada",
             [
-                {text: "Cancelar", onPress: () => {}},
-                {text: "Ok", onPress: alertDeleteNote}
+                { text: "Cancelar", onPress: () => { } },
+                { text: "Ok", onPress: alertDeleteNote }
             ]
         )
     }, [])
@@ -148,7 +153,7 @@ export function Read() {
         }
 
         await saveEditedNote(params.note, params.note.title, encryptedNewPasswordText)
-        navigation.reset({routes: [{name: "Home"}]})
+        navigation.reset({ routes: [{ name: "Home" }] })
     }, [isChanged])
 
 
@@ -178,12 +183,6 @@ export function Read() {
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <SafeScreen>
-                <ChangePassword
-                    visible={showChangePassword}
-                    setVisible={setShowChangePassword}
-                    changePassword={changePassword}
-                />
-
                 <ReadHeader
                     isChanged={isChanged}
                     title={title}
@@ -208,6 +207,12 @@ export function Read() {
                         ref={inputTextRef}
                     />
                 </ViewInput>
+
+                <ChangePassword
+                    visible={showChangePassword}
+                    setVisible={setShowChangePassword}
+                    changePassword={changePassword}
+                />
             </SafeScreen>
         </TouchableWithoutFeedback>
     )
