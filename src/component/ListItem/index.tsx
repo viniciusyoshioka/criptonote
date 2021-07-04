@@ -84,13 +84,13 @@ export function ListItem(props: ListItemProps) {
 
             <ViewText>
                 {props.title && (
-                    <TextTitle>
+                    <TextTitle numberOfLines={1}>
                         {props.title}
                     </TextTitle>
                 )}
 
                 {props.description && (
-                    <TextDescription>
+                    <TextDescription numberOfLines={1}>
                         {props.description}
                     </TextDescription>
                 )}
