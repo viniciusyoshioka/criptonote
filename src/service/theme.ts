@@ -27,11 +27,8 @@ export interface ColorTheme {
         noteItem_selected_background: string,
         noteItem_selected_color: string,
 
-        settingsButton_background: string,
-        settingsButton_color: string,
-
-        fileExplorerItem_background: string,
-        fileExplorerItem_color: string,
+        listItem_background: string,
+        listItem_color: string,
 
         modal_background: string,
         modal_color: string,
@@ -87,11 +84,8 @@ export const LightTheme: ColorTheme = {
         noteItem_selected_background: "rgb(0, 128, 128)",
         noteItem_selected_color: "rgb(90, 90, 90)",
 
-        settingsButton_background: "transparent",
-        settingsButton_color: "rgb(0, 0, 0)",
-
-        fileExplorerItem_background: "transparent",
-        fileExplorerItem_color: "rgb(0, 0, 0)",
+        listItem_background: "transparent",
+        listItem_color: "rgb(0, 0, 0)",
 
         modal_background: "rgb(255, 255, 255)",
         modal_color: "rgb(0, 0, 0)",
@@ -147,11 +141,8 @@ export const DarkTheme: ColorTheme = {
         noteItem_selected_background: "rgb(32, 180, 180)",
         noteItem_selected_color: "rgb(180, 180, 180)",
 
-        settingsButton_background: "transparent",
-        settingsButton_color: "rgb(255, 255, 255)",
-
-        fileExplorerItem_background: "transparent",
-        fileExplorerItem_color: "rgb(255, 255, 255)",
+        listItem_background: "transparent",
+        listItem_color: "rgb(255, 255, 255)",
 
         modal_background: "rgb(35, 35, 35)",
         modal_color: "rgb(255, 255, 255)",

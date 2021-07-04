@@ -14,7 +14,7 @@ const ListItemBase = styled(RectButton)`
     padding: 16px;
     height: 72px;
     max-height: 72px;
-    background-color ${(props: styledProps) => props.theme.color.settingsButton_background};
+    background-color ${(props: styledProps) => props.theme.color.listItem_background};
 `
 
 
@@ -42,7 +42,7 @@ const TextTitle = styled.Text`
     width: 100%;
     font-size: 16px;
     opacity: ${(props: styledProps) => props.theme.opacity.highEmphasis};
-    color: ${(props: styledProps) => props.theme.color.settingsButton_color};
+    color: ${(props: styledProps) => props.theme.color.listItem_color};
 `
 
 
@@ -50,7 +50,7 @@ const TextDescription = styled.Text`
     width: 100%;
     font-size: 13px;
     opacity: ${(props: styledProps) => props.theme.opacity.mediumEmphasis};
-    color: ${(props: styledProps) => props.theme.color.settingsButton_color};
+    color: ${(props: styledProps) => props.theme.color.listItem_color};
 `
 
 
@@ -74,7 +74,7 @@ export function ListItem(props: ListItemProps) {
                     <Icon
                         name={props.icon}
                         size={24}
-                        color={color.settingsButton_color}
+                        color={color.listItem_color}
                         style={{
                             opacity: opacity.highEmphasis
                         }}
