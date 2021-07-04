@@ -8,7 +8,8 @@ export const Button = styled.TouchableOpacity`
     align-items: center;
     justify-content: flex-start;
     width: 100%;
-    margin-vertical: 4px;
+    height: 40px;
+    padding-vertical: 8px;
 `
 
 
