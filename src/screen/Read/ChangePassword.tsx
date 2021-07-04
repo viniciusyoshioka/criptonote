@@ -1,7 +1,7 @@
 import React, { createRef, memo, useEffect, useState } from "react"
 import { Keyboard, TextInput } from "react-native"
 
-import { InputPassword, ShowPasswordButton, ViewInputPassword } from "../../component/InputPassword"
+import { InputPassword } from "../../component/InputPassword"
 import { ModalButton, ModalTitle, ModalViewButton, ModalViewContent } from "../../component/ModalComponent"
 import { MyModal, MyModalProps } from "../../component/MyModal"
 import { useKeyboard } from "../../service/hook"
@@ -63,50 +63,31 @@ export const ChangePassword = memo((props: ChangePasswordProps) => {
                 </ModalTitle>
 
                 <ModalViewContent>
-                    <ViewInputPassword>
-                        <InputPassword
-                            autoFocus={true}
-                            placeholder={"Senha atual"}
-                            showPassword={showCurrentPassword}
-                            value={currentPassword}
-                            onChangeText={(newText: string) => setCurrentPassword(newText)}
-                            onSubmitEditing={() => inputNewPassword.current?.focus()}
-                            ref={inputCurrentPassword}
-                        />
+                    <InputPassword
+                        autoFocus={true}
+                        placeholder={"Senha atual"}
+                        value={currentPassword}
+                        onChangeText={(newText: string) => setCurrentPassword(newText)}
+                        onSubmitEditing={() => inputNewPassword.current?.focus()}
+                        ref={inputCurrentPassword}
+                    />
 
-                        <ShowPasswordButton
-                            showPassword={showCurrentPassword}
-                            onPress={() => setShowCurrentPassword(!showCurrentPassword)}
-                        />
-                    </ViewInputPassword>
+                    <InputPassword
+                        placeholder={"Nova senha"}
+                        value={newPassword}
+                        onChangeText={(newText: string) => setNewPassword(newText)}
+                        onSubmitEditing={() => inputConfirmNewPassword.current?.focus()}
+                        ref={inputNewPassword}
+                    />
 
-                    <ViewInputPassword>
-                        <InputPassword
-                            placeholder={"Nova senha"}
-                            showPassword={showNewPassword}
-                            value={newPassword}
-                            onChangeText={(newText: string) => setNewPassword(newText)}
-                            onSubmitEditing={() => inputConfirmNewPassword.current?.focus()}
-                            ref={inputNewPassword}
-                        />
-
-                        <ShowPasswordButton
-                            showPassword={showNewPassword}
-                            onPress={() => setShowNewPassword(!showNewPassword)}
-                        />
-                    </ViewInputPassword>
-
-                    <ViewInputPassword>
-                        <InputPassword
-                            placeholder={"Confirmar nova senha"}
-                            returnKeyType={"done"}
-                            showPassword={showNewPassword}
-                            value={confirmNewPassword}
-                            onChangeText={(newText: string) => setConfirmNewPassword(newText)}
-                            onSubmitEditing={Keyboard.dismiss}
-                            ref={inputConfirmNewPassword}
-                        />
-                    </ViewInputPassword>
+                    <InputPassword
+                        placeholder={"Confirmar nova senha"}
+                        returnKeyType={"done"}
+                        value={confirmNewPassword}
+                        onChangeText={(newText: string) => setConfirmNewPassword(newText)}
+                        onSubmitEditing={Keyboard.dismiss}
+                        ref={inputConfirmNewPassword}
+                    />
                 </ModalViewContent>
 
                 <ModalViewButton>
