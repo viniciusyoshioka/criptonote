@@ -8,7 +8,7 @@ import { AddHeader } from "./Header"
 import { InputTitle } from "../../component/InputTitle"
 import { InputText } from "../../component/InputText"
 import { ViewInput } from "./style"
-import { InputPassword, ShowPasswordButton, ViewInputPassword } from "../../component/InputPassword"
+import { InputPassword } from "../../component/InputPassword"
 import { saveNewNote } from "../../service/note-handler"
 import { encryptString } from "../../service/crypto"
 
@@ -22,7 +22,6 @@ export function Add() {
     const inputPasswordRef = createRef<TextInput>()
     const inputTextRef = createRef<TextInput>()
 
-    const [showPassword, setShowPassword] = useState(false)
     const [title, setTitle] = useState("")
     const [password, setPassword] = useState("")
     const [text, setText] = useState("")
@@ -57,8 +56,8 @@ export function Add() {
                 "Aviso",
                 "Esta nota tem alterações não salvas, sair irá descartá-las",
                 [
-                    {text: "Cancelar", onPress: () => {}},
-                    {text: "Voltar", onPress: () => navigation.navigate("Home")}
+                    { text: "Cancelar", onPress: () => { } },
+                    { text: "Voltar", onPress: () => navigation.navigate("Home") }
                 ]
             )
             return
@@ -73,8 +72,8 @@ export function Add() {
                 "Aviso",
                 "A nota não será salva, pois está vazia",
                 [
-                    {text: "Cancelar", onPress: () => {}},
-                    {text: "Ok", onPress: () => navigation.navigate("Home")}
+                    { text: "Cancelar", onPress: () => { } },
+                    { text: "Ok", onPress: () => navigation.navigate("Home") }
                 ]
             )
             return
@@ -94,7 +93,7 @@ export function Add() {
         }
 
         await saveNewNote(title, textToSave)
-        navigation.reset({routes: [{name: "Home"}]})
+        navigation.reset({ routes: [{ name: "Home" }] })
     }, [title, password, text])
 
     const cancelNote = useCallback(() => {
@@ -103,8 +102,8 @@ export function Add() {
                 "Aviso",
                 "Esta nota será descartada",
                 [
-                    {text: "Cancelar", onPress: () => {}},
-                    {text: "Ok", onPress: () => navigation.navigate("Home")}
+                    { text: "Cancelar", onPress: () => { } },
+                    { text: "Ok", onPress: () => navigation.navigate("Home") }
                 ]
             )
             return
@@ -131,20 +130,12 @@ export function Add() {
                         ref={inputTitleRef}
                     />
 
-                    <ViewInputPassword>
-                        <InputPassword
-                            showPassword={showPassword}
-                            value={password}
-                            onChangeText={(newText: string) => setPassword(newText)}
-                            onSubmitEditing={() => inputTextRef.current?.focus()}
-                            ref={inputPasswordRef}
-                        />
-
-                        <ShowPasswordButton
-                            showPassword={showPassword}
-                            onPress={() => setShowPassword(!showPassword)}
-                        />
-                    </ViewInputPassword>
+                    <InputPassword
+                        value={password}
+                        onChangeText={(newText: string) => setPassword(newText)}
+                        onSubmitEditing={() => inputTextRef.current?.focus()}
+                        ref={inputPasswordRef}
+                    />
 
                     <InputText
                         value={text}
