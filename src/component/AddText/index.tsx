@@ -1,7 +1,7 @@
 import React, { createRef, useState } from "react"
 import { Keyboard, TextInput, ViewProps } from "react-native"
 
-import { InputPassword, ShowPasswordButton, ViewInputPassword } from "../InputPassword"
+import { InputPassword } from "../InputPassword"
 import { CenterScreen, SpaceScreen } from "../Screen"
 import { useKeyboard } from "../../service/hook"
 
@@ -17,7 +17,6 @@ export function AddText(props: AddTextProps) {
     const inputPasswordText = createRef<TextInput>()
 
     const [textValue, setTextValue] = useState("")
-    const [showPassword, setShowPassword] = useState(false)
 
 
     useKeyboard("keyboardDidHide", () => {
@@ -30,27 +29,19 @@ export function AddText(props: AddTextProps) {
     return (
         <SpaceScreen {...props}>
             <CenterScreen>
-                <ViewInputPassword>
-                    <InputPassword
-                        showPassword={showPassword}
-                        ref={inputPasswordText}
-                        autoFocus={true}
-                        placeholder={"Digite sua senha"}
-                        returnKeyType={"done"}
-                        value={textValue}
-                        onChangeText={(newText: string) => setTextValue(newText)}
-                        onSubmitEditing={() => {
-                            Keyboard.dismiss()
-                            props.onDone(textValue)
-                            setTextValue("")
-                        }}
-                    />
-
-                    <ShowPasswordButton
-                        showPassword={showPassword}
-                        onPress={() => setShowPassword(!showPassword)}
-                    />
-                </ViewInputPassword>
+                <InputPassword
+                    ref={inputPasswordText}
+                    autoFocus={true}
+                    placeholder={"Digite sua senha"}
+                    returnKeyType={"done"}
+                    value={textValue}
+                    onChangeText={(newText: string) => setTextValue(newText)}
+                    onSubmitEditing={() => {
+                        Keyboard.dismiss()
+                        props.onDone(textValue)
+                        setTextValue("")
+                    }}
+                />
             </CenterScreen>
         </SpaceScreen>
     )
