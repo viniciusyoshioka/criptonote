@@ -3,11 +3,11 @@ import { Keyboard, TextInput } from "react-native"
 
 import { InputPassword, ShowPasswordButton, ViewInputPassword } from "../../component/InputPassword"
 import { ModalButton, ModalTitle, ModalViewButton, ModalViewContent } from "../../component/ModalComponent"
-import { ModalFullscreen, ModalFullscreenProps } from "../../component/ModalFullscreen"
+import { MyModal, MyModalProps } from "../../component/MyModal"
 import { useKeyboard } from "../../service/hook"
 
 
-export interface ChangePasswordProps extends ModalFullscreenProps {
+export interface ChangePasswordProps extends MyModalProps {
     changePassword: (currentPassword: string, newPassword: string, confirmNewPassword: string) => void,
 }
 
@@ -56,7 +56,7 @@ export const ChangePassword = memo((props: ChangePasswordProps) => {
 
 
     return (
-        <ModalFullscreen {...props}>
+        <MyModal {...props}>
             <>
                 <ModalTitle>
                     Mudar senha
@@ -124,6 +124,6 @@ export const ChangePassword = memo((props: ChangePasswordProps) => {
                     />
                 </ModalViewButton>
             </>
-        </ModalFullscreen>
+        </MyModal>
     )
 })
