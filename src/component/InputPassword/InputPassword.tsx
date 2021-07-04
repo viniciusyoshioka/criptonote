@@ -27,6 +27,7 @@ export const InputPassword = forwardRef((props: TextInputProps, ref?: Ref<TextIn
                 style={{
                     flex: 1,
                     borderBottomRightRadius: 0,
+                    borderTopRightRadius: 0,
                 }}
                 onBlur={(e) => {
                     setIsFocused(false)
