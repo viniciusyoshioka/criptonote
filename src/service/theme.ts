@@ -93,10 +93,10 @@ export const LightTheme: ColorTheme = {
         modalButton_background: "transparent",
         modalButton_color: "rgb(0, 0, 0)",
 
-        input_background: "transparent",
+        input_background: "rgb(230, 230, 230)",
         input_color: "rgb(0, 0, 0)",
         input_placeholder: "rgb(100, 100, 100)",
-        input_unfocus_border: "transparent",
+        input_unfocus_border: "rgb(170, 170, 170)",
         input_focus_border: "rgb(0, 128, 128)",
         input_selection: "rgb(0, 200, 200)",
 
@@ -153,7 +153,7 @@ export const DarkTheme: ColorTheme = {
         input_background: "rgb(30, 30, 30)",
         input_color: "rgb(220, 220, 220)",
         input_placeholder: "rgb(150, 150, 150)",
-        input_unfocus_border: "rgb(220, 220, 220)",
+        input_unfocus_border: "rgb(80, 80, 80)",
         input_focus_border: "rgb(32, 180, 180)",
         input_selection: "rgb(0, 128, 128)",
 
