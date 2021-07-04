@@ -1,8 +1,8 @@
 import React, { createRef, useState } from "react"
-import { Keyboard, TextInput, useWindowDimensions, ViewProps } from "react-native"
+import { Keyboard, TextInput, ViewProps } from "react-native"
 
-import { Input } from "../Input"
-import { CenterScreen } from "../Screen"
+import { InputPassword } from "../InputPassword"
+import { CenterScreen, SpaceScreen } from "../Screen"
 import { useKeyboard } from "../../service/hook"
 
 
@@ -27,23 +27,24 @@ export function AddPin(props: AddPinProps) {
 
 
     return (
-        <CenterScreen {...props}>
-            <Input
-                autoFocus={true}
-                keyboardType={"number-pad"}
-                onChangeText={(newText: string) => setPinValue(newText)}
-                onSubmitEditing={() => {
-                    Keyboard.dismiss()
-                    props.onDone(pinValue)
-                    setPinValue("")
-                }}
-                placeholder={"Digite seu PIN"}
-                ref={inputPasswordPin}
-                secureTextEntry={true}
-                textAlign={"center"}
-                value={pinValue}
-                style={{width: useWindowDimensions().width / 1.5}}
-            />
-        </CenterScreen>
+        <SpaceScreen {...props}>
+            <CenterScreen>
+                <InputPassword
+                    ref={inputPasswordPin}
+                    autoFocus={true}
+                    textAlign={"center"}
+                    keyboardType={"number-pad"}
+                    returnKeyType={"done"}
+                    placeholder={"Digite seu PIN"}
+                    value={pinValue}
+                    onChangeText={(newText: string) => setPinValue(newText)}
+                    onSubmitEditing={() => {
+                        Keyboard.dismiss()
+                        props.onDone(pinValue)
+                        setPinValue("")
+                    }}
+                />
+            </CenterScreen>
+        </SpaceScreen>
     )
 }

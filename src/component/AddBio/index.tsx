@@ -5,7 +5,7 @@ import * as ExpoAuth from "expo-local-authentication"
 
 import { Button, Text } from "./style"
 import { useTheme } from "../../service/theme"
-import { CenterScreen } from "../Screen"
+import { CenterScreen, SpaceScreen } from "../Screen"
 
 
 export interface AddBioProps extends ViewProps {
@@ -35,21 +35,23 @@ export function AddBio(props: AddBioProps) {
 
 
     return (
-        <CenterScreen {...props}>
-            <Button onPress={authBiometry} activeOpacity={0.7}>
-                <Icon
-                    name={"fingerprint"}
-                    size={50}
-                    color={color.screen_color}
-                    style={{
-                        opacity: opacity.highEmphasis
-                    }}
-                />
+        <SpaceScreen {...props}>
+            <CenterScreen>
+                <Button onPress={authBiometry} activeOpacity={0.7}>
+                    <Icon
+                        name={"fingerprint"}
+                        size={50}
+                        color={color.screen_color}
+                        style={{
+                            opacity: opacity.highEmphasis
+                        }}
+                    />
 
-                <Text>
-                    Adicionar biometria
-                </Text>
-            </Button>
-        </CenterScreen>
+                    <Text>
+                        Adicionar biometria
+                    </Text>
+                </Button>
+            </CenterScreen>
+        </SpaceScreen>
     )
 }
