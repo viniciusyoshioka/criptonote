@@ -1,10 +1,10 @@
 import React from "react"
 
 import { ModalBackground, ModalPopup, ModalScreen } from "./style"
-import { ModalFullscreenProps } from "../ModalFullscreen"
+import { ModalProps } from "../Modal"
 
 
-export interface MyModalProps extends ModalFullscreenProps {}
+export interface MyModalProps extends ModalProps { }
 
 
 export function MyModal(props: MyModalProps) {

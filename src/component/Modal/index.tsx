@@ -4,7 +4,7 @@ import { Modal as RNModal, TouchableWithoutFeedback, ModalProps as RNModalProps,
 import { ModalBackground, ModalContent, ModalView } from "./style"
 
 
-export interface ModalFullscreenProps extends RNModalProps {
+export interface ModalProps extends RNModalProps {
     visible: boolean,
     setVisible: (visible: boolean) => void,
     onClose?: () => void,
@@ -14,7 +14,7 @@ export interface ModalFullscreenProps extends RNModalProps {
 }
 
 
-export function ModalFullscreen(props: ModalFullscreenProps) {
+export function Modal(props: ModalProps) {
 
 
     const closeModal = useCallback(() => {

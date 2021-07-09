@@ -1,57 +1,9 @@
 import React from "react"
-import { RectButton, RectButtonProps } from "react-native-gesture-handler"
-import styled from "styled-components/native"
+import { RectButtonProps } from "react-native-gesture-handler"
 import Icon from "react-native-vector-icons/MaterialIcons"
 
-import { styledProps, useTheme } from "../../service/theme"
-
-
-const ListItemBase = styled(RectButton)`
-    flex: 1;
-    align-items: center;
-    justify-content: flex-start;
-    flex-direction: row;
-    padding: 16px;
-    height: 72px;
-    max-height: 72px;
-    background-color ${(props: styledProps) => props.theme.color.listItem_background};
-`
-
-
-const ViewIcon = styled.View`
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    max-width: 40px;
-    max-height: 40px;
-    margin-right: 16px;
-`
-
-
-const ViewText = styled.View`
-    flex: 1;
-    align-items: flex-start;
-    justify-content: center;
-    height: 40px;
-    max-height: 40px;
-`
-
-
-const TextTitle = styled.Text`
-    width: 100%;
-    font-size: 16px;
-    opacity: ${(props: styledProps) => props.theme.opacity.highEmphasis};
-    color: ${(props: styledProps) => props.theme.color.listItem_color};
-`
-
-
-const TextDescription = styled.Text`
-    width: 100%;
-    font-size: 13px;
-    opacity: ${(props: styledProps) => props.theme.opacity.mediumEmphasis};
-    color: ${(props: styledProps) => props.theme.color.listItem_color};
-`
+import { useTheme } from "../../service/theme"
+import { ListItemBase, TextDescription, TextTitle, ViewIcon, ViewText } from "./style"
 
 
 export interface ListItemProps extends RectButtonProps {
