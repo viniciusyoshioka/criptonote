@@ -3,7 +3,6 @@ import { ActivityIndicator, Alert, ToastAndroid } from "react-native"
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native"
 import RNFS from "react-native-fs"
 
-import { CenterScreen, SafeScreen } from "../../component/Screen"
 import { ScreenParams } from "../../service/screen-params"
 import { useTheme } from "../../service/theme"
 import { ProcessingEncryptionHeader } from "./Header"
@@ -11,6 +10,7 @@ import { MessageText } from "./style"
 import { encryptFileTask, decryptFileTask, FileEncryptionTaskParams, stopFileEncryptionTask } from "../../service/crypto"
 import { fullPathDecrypted, fullPathEncrypted, relativePathDecrypted, relativePathEncrypted } from "../../service/constant"
 import { useBackHandler } from "../../service/hook"
+import { CenterScreen, SafeScreen } from "../../component"
 
 
 export function ProcessingEncryption() {
@@ -47,8 +47,8 @@ export function ProcessingEncryption() {
             "Aviso",
             "Sair durante o processo de criptografia irá interrompê-lo",
             [
-                {text: "Cancelar", onPress: () => {}},
-                {text: "Ok", onPress: () => stopAndExitAlert()}
+                { text: "Cancelar", onPress: () => { } },
+                { text: "Ok", onPress: () => stopAndExitAlert() }
             ]
         )
     }, [])
@@ -140,7 +140,7 @@ export function ProcessingEncryption() {
                 <ActivityIndicator
                     size={"large"}
                     color={color.screen_color}
-                    style={{opacity: opacity.highEmphasis}}
+                    style={{ opacity: opacity.highEmphasis }}
                 />
 
                 <MessageText numberOfLines={1} ellipsizeMode={"middle"}>

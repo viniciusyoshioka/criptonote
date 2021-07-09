@@ -1,6 +1,6 @@
 import React from "react"
 
-import { Header, HeaderButton, HeaderTitle } from "../../component/Header"
+import { Header, HeaderButton, HeaderTitle } from "../../component"
 import { appFName } from "../../service/constant"
 import { HomeHeaderMenu } from "./HeaderMenu"
 

@@ -3,8 +3,7 @@ import { BackHandler } from "react-native"
 import { Menu, MenuOptions, MenuTrigger } from "react-native-popup-menu"
 import { RectButton } from "react-native-gesture-handler"
 
-import { HeaderButton } from "../../component/Header"
-import { MenuItem } from "../../component/MenuItem"
+import { HeaderButton, MenuItem } from "../../component"
 
 
 export interface ReadHeaderMenuProps {

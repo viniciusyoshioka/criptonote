@@ -1,18 +1,16 @@
+import { useNavigation } from "@react-navigation/core"
 import React, { useCallback, useEffect, useState } from "react"
 import { Alert, BackHandler, FlatList } from "react-native"
-import { useNavigation } from "@react-navigation/core"
 
-import { SafeScreen } from "../../component/Screen"
+import { EmptyList, NoteItem, SafeScreen } from "../../component"
 import { appIconOutline, appInDevelopment } from "../../service/constant"
-import { DebugHome } from "./DebugHome"
-import { HomeHeader } from "./Header"
-import { EmptyListImage, EmptyListText, EmptyListView } from "../../component/EmptyList"
-import { debugHome, Note } from "../../service/object-type"
-import { readDebugHome, readNote, readNoteId, writeDebugHome, writeNote, writeNoteId } from "../../service/storage"
 import { createAllFolder } from "../../service/folder-handler"
-import { NoteItem } from "../../component/NoteItem"
 import { useBackHandler } from "../../service/hook"
 import { deleteNote, exportNote } from "../../service/note-handler"
+import { debugHome, Note } from "../../service/object-type"
+import { readDebugHome, readNote, readNoteId, writeDebugHome, writeNote, writeNoteId } from "../../service/storage"
+import { DebugHome } from "./DebugHome"
+import { HomeHeader } from "./Header"
 
 
 export function Home() {
@@ -205,13 +203,7 @@ export function Home() {
             />
 
             {(note.length === 0) && (
-                <EmptyListView>
-                    <EmptyListImage source={appIconOutline} />
-
-                    <EmptyListText>
-                        Nenhuma nota
-                    </EmptyListText>
-                </EmptyListView>
+                <EmptyList source={appIconOutline} message={"Nenhuma nota"} />
             )}
 
             {(debugHome === "show") && (

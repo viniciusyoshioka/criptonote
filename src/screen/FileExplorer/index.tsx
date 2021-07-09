@@ -3,15 +3,13 @@ import { Alert, FlatList } from "react-native"
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/core"
 import RNFS, { ReadDirItem } from "react-native-fs"
 
-import { SafeScreen } from "../../component/Screen"
 import { FileExplorerHeader } from "./Header"
 import { exportedNoteBetaExtension, fullPathDecrypted, fullPathEncrypted, fullPathExported } from "../../service/constant"
-import { ListItem } from "../../component/ListItem"
 import { useBackHandler } from "../../service/hook"
-import { SubHeader, SubHeaderText } from "../../component/SubHeader"
 import { importNote } from "../../service/note-handler"
 import { log } from "../../service/log"
 import { ScreenParams } from "../../service/screen-params"
+import { ListItem, SafeScreen, SubHeader, SubHeaderText } from "../../component"
 
 
 const defaultContent: Array<ReadDirItem> = [

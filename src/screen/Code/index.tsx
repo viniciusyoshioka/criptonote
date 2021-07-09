@@ -2,12 +2,11 @@ import React, { createRef, useCallback, useState } from "react"
 import { Keyboard, TextInput, TouchableWithoutFeedback } from "react-native"
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native"
 
-import { InputPassword } from "../../component/InputPassword"
-import { SafeScreen } from "../../component/Screen"
 import { useBackHandler, useKeyboard } from "../../service/hook"
 import { CodeHeader } from "./Header"
 import { OpenNoteButtonBase, OpenNoteButtonText, ViewContent } from "./style"
 import { ScreenParams } from "../../service/screen-params"
+import { InputPassword, SafeScreen } from "../../component"
 
 
 export function Code() {

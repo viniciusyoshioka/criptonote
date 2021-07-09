@@ -3,7 +3,7 @@ import { Alert, View } from "react-native"
 import RNFS from "react-native-fs"
 import Share from "react-native-share"
 
-import { DebugButton } from "../../component/DebugButton"
+import { DebugButton } from "../../component"
 import { fullPathLog, fullPathRoot } from "../../service/constant"
 import { useSwitchTheme } from "../../service/theme"
 import { testFile, testString } from "../../service/crypto"
@@ -35,16 +35,16 @@ export const DebugHome = memo((props: DebugHomeProps) => {
             Alert.alert(
                 "INFO",
                 "Não há arquivo de log para ler",
-                [{text: "Ok", onPress: () => {}}],
-                {cancelable: false}
+                [{ text: "Ok", onPress: () => { } }],
+                { cancelable: false }
             )
         } catch (error) {
             console.log(`FALHA MODERADA - Erro ao ler arquivo de log. Mensagem: "${error}"`)
             Alert.alert(
                 "FALHA MODERADA",
                 `Erro ao ler arquivo de log. Mensagem: "${error}"`,
-                [{text: "Ok", onPress: () => {}}],
-                {cancelable: false}
+                [{ text: "Ok", onPress: () => { } }],
+                { cancelable: false }
             )
         }
     }
@@ -64,16 +64,16 @@ export const DebugHome = memo((props: DebugHomeProps) => {
             Alert.alert(
                 "INFO",
                 "Não há arquivo de log para compartilhar",
-                [{text: "Ok", onPress: () => {}}],
-                {cancelable: false}
+                [{ text: "Ok", onPress: () => { } }],
+                { cancelable: false }
             )
         } catch (error) {
             console.log(`FALHA MODERADA - Erro ao compartilhar arquivo de log. Mensagem: "${error}"`)
             Alert.alert(
                 "FALHA MODERADA",
                 `Erro ao compartilhar arquivo de log. Mensagem: "${error}"`,
-                [{text: "Ok", onPress: () => {}}],
-                {cancelable: false}
+                [{ text: "Ok", onPress: () => { } }],
+                { cancelable: false }
             )
         }
     }
@@ -93,15 +93,15 @@ export const DebugHome = memo((props: DebugHomeProps) => {
                 Alert.alert(
                     "INFO",
                     "Arquivo de log apagado com sucesso",
-                    [{text: "Ok", onPress: () => {}}],
-                    {cancelable: false}
+                    [{ text: "Ok", onPress: () => { } }],
+                    { cancelable: false }
                 )
             } catch (error) {
                 Alert.alert(
                     "FALHA MODERADA",
                     "Erro ao apagar arquivo de log",
-                    [{text: "Ok", onPress: () => {}}],
-                    {cancelable: false}
+                    [{ text: "Ok", onPress: () => { } }],
+                    { cancelable: false }
                 )
             }
         }
@@ -110,10 +110,10 @@ export const DebugHome = memo((props: DebugHomeProps) => {
             "AVISO",
             "Apagar arquivo de log?",
             [
-                {text: "Cancelar", onPress: () => {}},
-                {text: "Ok", onPress: async () => await alertDeleteLogComplete()}
+                { text: "Cancelar", onPress: () => { } },
+                { text: "Ok", onPress: async () => await alertDeleteLogComplete() }
             ],
-            {cancelable: false}
+            { cancelable: false }
         )
     }
 
@@ -163,7 +163,7 @@ export const DebugHome = memo((props: DebugHomeProps) => {
         const password = "s"
 
         testFile(file1, password)
-            .then(async ({encryptedFilePath, decryptedFilePath}) => {
+            .then(async ({ encryptedFilePath, decryptedFilePath }) => {
                 await RNFS.moveFile(encryptedFilePath, file2)
                 await RNFS.moveFile(decryptedFilePath, file3)
                 Alert.alert("testFile", "testFile acabou")
@@ -176,56 +176,56 @@ export const DebugHome = memo((props: DebugHomeProps) => {
             <DebugButton
                 text={"Ler"}
                 onPress={props.debugReadNote}
-                style={{bottom: 115}} />
+                style={{ bottom: 115 }} />
             <DebugButton
                 text={"Escre"}
                 onPress={props.debugWriteNote}
-                style={{bottom: 60}} />
+                style={{ bottom: 60 }} />
             <DebugButton
                 text={"Limpar"}
                 onPress={props.debugClearNote}
-                style={{bottom: 5}} />
+                style={{ bottom: 5 }} />
 
             <DebugButton
                 text={"Auto"}
                 onPress={async () => await switchTheme("auto")}
-                style={{bottom: 115, left: 60}} />
+                style={{ bottom: 115, left: 60 }} />
             <DebugButton
                 text={"Claro"}
                 onPress={async () => await switchTheme("light")}
-                style={{bottom: 60, left: 60}} />
+                style={{ bottom: 60, left: 60 }} />
             <DebugButton
                 text={"Escuro"}
                 onPress={async () => await switchTheme("dark")}
-                style={{bottom: 5, left: 60}} />
+                style={{ bottom: 5, left: 60 }} />
 
             <DebugButton
                 text={"Ler"}
                 onPress={debugReadLog}
-                style={{bottom: 115, left: 115}} />
+                style={{ bottom: 115, left: 115 }} />
             <DebugButton
                 text={"Compar"}
                 onPress={debugShareLog}
-                style={{bottom: 60, left: 115}} />
+                style={{ bottom: 60, left: 115 }} />
             <DebugButton
                 text={"Apagar"}
                 onPress={debugDeleteLog}
-                style={{bottom: 5, left: 115}}
+                style={{ bottom: 5, left: 115 }}
             />
 
             <DebugButton
                 text={"Ler"}
                 onPress={debugReadAppFolder}
-                style={{bottom: 5, left: 170}} />
+                style={{ bottom: 5, left: 170 }} />
 
             <DebugButton
                 text={"String"}
                 onPress={debugTestStringEncryption}
-                style={{bottom: 60, left: 225}} />
+                style={{ bottom: 60, left: 225 }} />
             <DebugButton
                 text={"Arquivo"}
                 onPress={debugTestFileEncryption}
-                style={{bottom: 5, left: 225}} />
+                style={{ bottom: 5, left: 225 }} />
         </View>
     )
 })

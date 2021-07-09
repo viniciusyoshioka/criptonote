@@ -3,15 +3,12 @@ import { Alert, TextInput } from "react-native"
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/core"
 
 import { AppName } from "./style"
-import { SafeScreen } from "../../component/Screen"
 import { useBackHandler, useKeyboard } from "../../service/hook"
 import { readLock, readLockType } from "../../service/storage"
 import { sha256 } from "../../service/message-digest"
 import { lockType } from "../../service/object-type"
-import { AddText } from "../../component/AddText"
-import { AddPin } from "../../component/AddPin"
-import { AddBio } from "../../component/AddBio"
 import { ScreenParams } from "../../service/screen-params"
+import { AddBio, AddPin, AddText, SafeScreen } from "../../component"
 
 
 export function Lock() {
@@ -46,17 +43,21 @@ export function Lock() {
 
         if (hashLock === appLock) {
             if (params?.action === "change-lock") {
-                navigation.reset({routes: [
-                    {name: "Home"},
-                    {name: "Settings"},
-                    {name: "ChoosePasswordType"},
-                ]})
+                navigation.reset({
+                    routes: [
+                        { name: "Home" },
+                        { name: "Settings" },
+                        { name: "ChoosePasswordType" },
+                    ]
+                })
                 return
             }
 
-            navigation.reset({routes: [
-                {name: "Home"}
-            ]})
+            navigation.reset({
+                routes: [
+                    { name: "Home" }
+                ]
+            })
             return
         }
 
@@ -68,17 +69,21 @@ export function Lock() {
 
     async function unlockBio() {
         if (params?.action === "change-lock") {
-            navigation.reset({routes: [
-                {name: "Home"},
-                {name: "Settings"},
-                {name: "ChoosePasswordType"},
-            ]})
+            navigation.reset({
+                routes: [
+                    { name: "Home" },
+                    { name: "Settings" },
+                    { name: "ChoosePasswordType" },
+                ]
+            })
             return
         }
 
-        navigation.reset({routes: [
-            {name: "Home"}
-        ]})
+        navigation.reset({
+            routes: [
+                { name: "Home" }
+            ]
+        })
         return
     }
 
@@ -87,9 +92,11 @@ export function Lock() {
         async function isProtected() {
             const readAppLockType = await readLockType()
             if (readAppLockType === "none") {
-                navigation.reset({routes: [
-                    {name: "Home"}
-                ]})
+                navigation.reset({
+                    routes: [
+                        { name: "Home" }
+                    ]
+                })
                 return
             }
 
@@ -107,7 +114,7 @@ export function Lock() {
 
 
     return (
-        <SafeScreen style={{justifyContent: "center"}}>
+        <SafeScreen style={{ justifyContent: "center" }}>
             <AppName>
                 CriptoNote
             </AppName>
@@ -115,21 +122,21 @@ export function Lock() {
             {(appLockType === "pin") && (
                 <AddPin
                     onDone={unlock}
-                    style={{marginTop: -100}}
+                    style={{ marginTop: -100 }}
                 />
             )}
 
             {(appLockType === "text") && (
                 <AddText
                     onDone={unlock}
-                    style={{marginTop: -100}}
+                    style={{ marginTop: -100 }}
                 />
             )}
 
             {(appLockType === "bio") && (
                 <AddBio
                     onDone={unlockBio}
-                    style={{marginTop: -100}}
+                    style={{ marginTop: -100 }}
                 />
             )}
         </SafeScreen>

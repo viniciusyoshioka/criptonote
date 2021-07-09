@@ -2,15 +2,12 @@ import React, { createRef, useCallback, useState } from "react"
 import { Alert, Keyboard, TextInput, TouchableWithoutFeedback } from "react-native"
 import { useNavigation } from "@react-navigation/core"
 
-import { SafeScreen } from "../../component/Screen"
 import { useBackHandler, useKeyboard } from "../../service/hook"
 import { AddHeader } from "./Header"
-import { InputTitle } from "../../component/InputTitle"
-import { InputText } from "../../component/InputText"
 import { ViewInput } from "./style"
-import { InputPassword } from "../../component/InputPassword"
 import { saveNewNote } from "../../service/note-handler"
 import { encryptString } from "../../service/crypto"
+import { InputPassword, InputText, InputTitle, SafeScreen } from "../../component"
 
 
 export function Add() {

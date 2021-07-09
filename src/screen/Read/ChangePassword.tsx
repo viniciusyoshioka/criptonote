@@ -1,9 +1,7 @@
 import React, { createRef, memo, useEffect, useState } from "react"
 import { Keyboard, TextInput } from "react-native"
 
-import { InputPassword } from "../../component/InputPassword"
-import { ModalButton, ModalTitle, ModalViewButton, ModalViewContent } from "../../component/ModalComponent"
-import { MyModal, MyModalProps } from "../../component/MyModal"
+import { InputPassword, ModalButton, ModalTitle, ModalViewButton, ModalViewContent, MyModal, MyModalProps } from "../../component"
 import { useKeyboard } from "../../service/hook"
 
 

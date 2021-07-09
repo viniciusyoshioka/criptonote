@@ -1,6 +1,6 @@
 import styled from "styled-components/native"
 
-import { Input } from "../../component/Input"
+import { Input } from "../../component"
 
 
 export const InputFileName = styled(Input)`

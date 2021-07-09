@@ -2,16 +2,14 @@ import React, { createRef, useCallback, useEffect, useState } from "react"
 import { Alert, Keyboard, TextInput, TouchableWithoutFeedback } from "react-native"
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/core"
 
-import { SafeScreen } from "../../component/Screen"
 import { useBackHandler, useKeyboard } from "../../service/hook"
 import { ReadHeader } from "./Header"
-import { InputTitle } from "../../component/InputTitle"
-import { InputText } from "../../component/InputText"
 import { ViewInput } from "./style"
 import { deleteNote, saveEditedNote } from "../../service/note-handler"
 import { ScreenParams } from "../../service/screen-params"
 import { ChangePassword } from "./ChangePassword"
 import { decryptString, encryptString } from "../../service/crypto"
+import { InputText, InputTitle, SafeScreen } from "../../component"
 
 
 export function Read() {

@@ -3,11 +3,10 @@ import { Alert, ToastAndroid } from "react-native"
 import { useNavigation } from "@react-navigation/native"
 import * as ExpoAuth from "expo-local-authentication"
 
-import { SafeScreen } from "../../component/Screen"
-import { ListItem } from "../../component/ListItem"
 import { useBackHandler } from "../../service/hook"
 import { readLockType, writeLock, writeLockType } from "../../service/storage"
 import { ChoosePasswordTypeHeader } from "./Header"
+import { ListItem, SafeScreen } from "../../component"
 
 
 export function ChoosePasswordType() {

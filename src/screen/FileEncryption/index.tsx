@@ -4,11 +4,9 @@ import { RouteProp, useNavigation, useRoute } from "@react-navigation/core"
 
 import { FileEncryptionHeader } from "./Header"
 import { InputFileName } from "./style"
-import { SafeScreen, SpaceScreen } from "../../component/Screen"
 import { ScreenParams } from "../../service/screen-params"
 import { useBackHandler, useKeyboard } from "../../service/hook"
-import { InputPassword } from "../../component/InputPassword"
-import { CheckButton } from "../../component/CheckButton"
+import { CheckButton, InputPassword, SafeScreen, SpaceScreen } from "../../component"
 
 
 function getFileName(filePath: string): string {

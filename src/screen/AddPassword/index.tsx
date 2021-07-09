@@ -2,15 +2,12 @@ import React, { useCallback } from "react"
 import { Alert, Keyboard, ToastAndroid, TouchableWithoutFeedback } from "react-native"
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native"
 
-import { AddBio } from "../../component/AddBio"
-import { AddPin } from "../../component/AddPin"
-import { AddText } from "../../component/AddText"
-import { SafeScreen } from "../../component/Screen"
 import { useBackHandler } from "../../service/hook"
 import { sha256 } from "../../service/message-digest"
 import { ScreenParams } from "../../service/screen-params"
 import { writeLock, writeLockType } from "../../service/storage"
 import { AddPasswordHeader } from "./Header"
+import { AddBio, AddPin, AddText, SafeScreen } from "../../component"
 
 
 export function AddPassword() {
