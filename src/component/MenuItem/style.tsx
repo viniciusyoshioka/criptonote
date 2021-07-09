@@ -9,7 +9,7 @@ export const MenuItemBase = styled(RectButton)`
     justify-content: center;
     padding-horizontal: 16px;
     height: 48px;
-    background-color: ${(props: styledProps) => props.theme.color.popupMenuButton_background};
+    background-color: ${(props: styledProps) => props.theme.color.menuItem_background};
 `
 
 
@@ -17,5 +17,5 @@ export const MenuItemText = styled.Text`
     width: 100%;
     font-size: 15px;
     opacity: ${(props: styledProps) => props.theme.opacity.highEmphasis};
-    color: ${(props: styledProps) => props.theme.color.popupMenuButton_color};
+    color: ${(props: styledProps) => props.theme.color.menuItem_color};
 `

@@ -19,8 +19,8 @@ export interface ColorTheme {
         screen_background: string,
         screen_color: string,
 
-        popupMenuButton_background: string,
-        popupMenuButton_color: string,
+        menuItem_background: string,
+        menuItem_color: string,
 
         noteItem_background: string,
         noteItem_color: string,
@@ -76,8 +76,8 @@ export const LightTheme: ColorTheme = {
         screen_background: "rgb(245, 245, 245)",
         screen_color: "rgb(0, 0, 0)",
 
-        popupMenuButton_background: "rgb(255, 255, 255)",
-        popupMenuButton_color: "rgb(0, 0, 0)",
+        menuItem_background: "rgb(255, 255, 255)",
+        menuItem_color: "rgb(0, 0, 0)",
 
         noteItem_background: "rgb(255, 255, 255)",
         noteItem_color: "rgb(0, 0, 0)",
@@ -133,8 +133,8 @@ export const DarkTheme: ColorTheme = {
         screen_background: "rgb(18, 18, 18)",
         screen_color: "rgb(255, 255, 255)",
 
-        popupMenuButton_background: "rgb(45, 45, 45)",
-        popupMenuButton_color: "rgb(255, 255, 255)",
+        menuItem_background: "rgb(45, 45, 45)",
+        menuItem_color: "rgb(255, 255, 255)",
 
         noteItem_background: "rgb(30, 30, 30)",
         noteItem_color: "rgb(255, 255, 255)",
