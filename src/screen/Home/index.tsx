@@ -26,14 +26,16 @@ export function Home() {
     const [selectedNote, setSelectedNote] = useState<Array<number>>([])
 
 
-    useBackHandler(() => {
-        if (selectionMode) {
-            exitSelectionMode()
-        } else {
-            BackHandler.exitApp()
-        }
-        return true
-    })
+    if (navigation.isFocused()) {
+        useBackHandler(() => {
+            if (selectionMode) {
+                exitSelectionMode()
+            } else {
+                BackHandler.exitApp()
+            }
+            return true
+        })
+    }
 
 
     const debugSwitchDebugHome = useCallback(async () => {
