@@ -4,7 +4,7 @@ import styled from "styled-components/native"
 import { styledProps } from "../../service/theme"
 
 
-export const PopupMenuButtonBase = styled(RectButton)`
+export const MenuItemBase = styled(RectButton)`
     align-items: flex-start;
     justify-content: center;
     padding-horizontal: 16px;
@@ -13,7 +13,7 @@ export const PopupMenuButtonBase = styled(RectButton)`
 `
 
 
-export const PopupMenuButtonText = styled.Text`
+export const MenuItemText = styled.Text`
     width: 100%;
     font-size: 15px;
     opacity: ${(props: styledProps) => props.theme.opacity.highEmphasis};

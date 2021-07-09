@@ -4,7 +4,7 @@ import { Menu, MenuOptions, MenuTrigger } from "react-native-popup-menu"
 import { RectButton } from "react-native-gesture-handler"
 
 import { HeaderButton } from "../../component/Header"
-import { PopupMenuButton } from "../../component/PopupMenuButton"
+import { MenuItem } from "../../component/MenuItem"
 
 
 export interface ReadHeaderMenuProps {
@@ -52,7 +52,7 @@ export function ReadHeaderMenu(props: ReadHeaderMenuProps) {
             </MenuTrigger>
 
             <MenuOptions>
-                <PopupMenuButton
+                <MenuItem
                     text={"Mudar senha"}
                     onPress={() => {
                         menuRef.current?.close()
@@ -60,7 +60,7 @@ export function ReadHeaderMenu(props: ReadHeaderMenuProps) {
                     }}
                 />
 
-                <PopupMenuButton
+                <MenuItem
                     text={"Apagar"}
                     onPress={() => {
                         menuRef.current?.close()

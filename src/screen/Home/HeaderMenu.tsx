@@ -4,7 +4,7 @@ import { Menu, MenuOptions, MenuTrigger } from "react-native-popup-menu"
 import { RectButton } from "react-native-gesture-handler"
 
 import { HeaderButton } from "../../component/Header"
-import { PopupMenuButton } from "../../component/PopupMenuButton"
+import { MenuItem } from "../../component/MenuItem"
 import { appInDevelopment } from "../../service/constant"
 
 
@@ -58,7 +58,7 @@ export function HomeHeaderMenu(props: HomeHeaderMenuProps) {
 
             <MenuOptions>
                 {!props.selectionMode && (
-                    <PopupMenuButton
+                    <MenuItem
                         text={"Importar Nota"}
                         onPress={() => {
                             menuRef.current?.close()
@@ -67,7 +67,7 @@ export function HomeHeaderMenu(props: HomeHeaderMenuProps) {
                     />
                 )}
 
-                <PopupMenuButton
+                <MenuItem
                     text={"Exportar Nota"}
                     onPress={() => {
                         menuRef.current?.close()
@@ -76,7 +76,7 @@ export function HomeHeaderMenu(props: HomeHeaderMenuProps) {
                 />
 
                 {!props.selectionMode && (
-                    <PopupMenuButton
+                    <MenuItem
                         text={"Arquivos"}
                         onPress={() => {
                             menuRef.current?.close()
@@ -87,7 +87,7 @@ export function HomeHeaderMenu(props: HomeHeaderMenuProps) {
 
                 {!props.selectionMode && (
                     <>
-                        <PopupMenuButton
+                        <MenuItem
                             text={"Configurações"}
                             onPress={() => {
                                 menuRef.current?.close()
@@ -96,7 +96,7 @@ export function HomeHeaderMenu(props: HomeHeaderMenuProps) {
                         />
 
                         {appInDevelopment && (
-                            <PopupMenuButton
+                            <MenuItem
                                 text={"Debug Home"}
                                 onPress={() => {
                                     menuRef.current?.close()
