@@ -55,6 +55,10 @@ public class Crypto {
 
 
     public static String encryptString(String text, String password) throws Exception {
+        if (text.equals("")) {
+            return text;
+        }
+
         if (password.equals("")) {
             return text;
         }
@@ -70,6 +74,10 @@ public class Crypto {
     }
 
     public static String decryptString(String text, String password) throws Exception {
+        if (text.equals("")) {
+            return text;
+        }
+
         if (password.equals("")) {
             return text;
         }

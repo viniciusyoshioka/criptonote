@@ -26,7 +26,7 @@ public class CryptoModule extends ReactContextBaseJavaModule {
     private static final String ON_FILE_DECRYPT_ERROR = "onFileDecryptError";
 
     private final ReactApplicationContext mReactApplicationContext;
-    private final SparseArray<CryptoTask> criptoTaskList = new SparseArray<>();
+    private final SparseArray<CryptoTask> cryptoTaskList = new SparseArray<>();
 
 
     CryptoModule(ReactApplicationContext reactApplicationContext) {
@@ -114,7 +114,7 @@ public class CryptoModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void stopFileEncryptionTask(int taskId) {
-        CryptoTask cryptoTask = criptoTaskList.get(taskId);
+        CryptoTask cryptoTask = cryptoTaskList.get(taskId);
         if (cryptoTask != null) {
             cryptoTask.stop();
         }
@@ -142,7 +142,7 @@ public class CryptoModule extends ReactContextBaseJavaModule {
         cryptoTaskParams.onComplete = new CryptoTaskParams.OnEncryptionComplete() {
             @Override
             public void onEncryptionComplete(String fileOutputPath) {
-                criptoTaskList.remove(taskId);
+                cryptoTaskList.remove(taskId);
                 mReactApplicationContext
                         .getJSModule(RCTNativeAppEventEmitter.class)
                         .emit(ON_FILE_ENCRYPT_COMPLETE, fileOutputPath);
@@ -151,18 +151,18 @@ public class CryptoModule extends ReactContextBaseJavaModule {
         cryptoTaskParams.onError = new CryptoTaskParams.OnEncryptionError() {
             @Override
             public void onEncryptionError(String message) {
-                criptoTaskList.remove(taskId);
+                cryptoTaskList.remove(taskId);
                 mReactApplicationContext
                         .getJSModule(RCTNativeAppEventEmitter.class)
                         .emit(ON_FILE_ENCRYPT_ERROR, message);
             }
         };
 
-        if (criptoTaskList.get(taskId) == null) {
+        if (cryptoTaskList.get(taskId) == null) {
             CryptoTask cryptoTask = new CryptoTask();
             cryptoTask.execute(cryptoTaskParams);
 
-            criptoTaskList.put(taskId, cryptoTask);
+            cryptoTaskList.put(taskId, cryptoTask);
 
             promise.resolve(null);
         } else {
@@ -191,7 +191,7 @@ public class CryptoModule extends ReactContextBaseJavaModule {
         cryptoTaskParams.onComplete = new CryptoTaskParams.OnEncryptionComplete() {
             @Override
             public void onEncryptionComplete(String fileOutputPath) {
-                criptoTaskList.remove(taskId);
+                cryptoTaskList.remove(taskId);
                 getReactApplicationContext()
                         .getJSModule(RCTNativeAppEventEmitter.class)
                         .emit(ON_FILE_DECRYPT_COMPLETE, fileOutputPath);
@@ -200,18 +200,18 @@ public class CryptoModule extends ReactContextBaseJavaModule {
         cryptoTaskParams.onError = new CryptoTaskParams.OnEncryptionError() {
             @Override
             public void onEncryptionError(String message) {
-                criptoTaskList.remove(taskId);
+                cryptoTaskList.remove(taskId);
                 getReactApplicationContext()
                         .getJSModule(RCTNativeAppEventEmitter.class)
                         .emit(ON_FILE_DECRYPT_ERROR, message);
             }
         };
 
-        if (criptoTaskList.get(taskId) == null) {
+        if (cryptoTaskList.get(taskId) == null) {
             CryptoTask cryptoTask = new CryptoTask();
             cryptoTask.execute(cryptoTaskParams);
 
-            criptoTaskList.put(taskId, cryptoTask);
+            cryptoTaskList.put(taskId, cryptoTask);
 
             promise.resolve(null);
         } else {
