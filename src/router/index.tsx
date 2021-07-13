@@ -11,7 +11,6 @@ import { Settings } from "../screen/Settings"
 import { Read } from "../screen/Read"
 import { FileExplorer } from "../screen/FileExplorer"
 import { FileEncryption } from "../screen/FileEncryption"
-import { ProcessingEncryption } from "../screen/ProcessingEncryption"
 
 import { AddPassword } from "../screen/AddPassword"
 import { ChoosePasswordType } from "../screen/ChoosePasswordType"
@@ -40,7 +39,6 @@ export function Router() {
                 <Stack.Screen name={"Read"} component={Read} />
                 <Stack.Screen name={"FileExplorer"} component={FileExplorer} />
                 <Stack.Screen name={"FileEncryption"} component={FileEncryption} />
-                <Stack.Screen name={"ProcessingEncryption"} component={ProcessingEncryption} />
 
                 <Stack.Screen name={"AddPassword"} component={AddPassword} />
                 <Stack.Screen name={"ChoosePasswordType"} component={ChoosePasswordType} />
