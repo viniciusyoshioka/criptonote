@@ -7,6 +7,8 @@ import { InputFileName } from "./style"
 import { ScreenParams } from "../../service/screen-params"
 import { useBackHandler, useKeyboard } from "../../service/hook"
 import { CheckButton, InputPassword, SafeScreen, SpaceScreen } from "../../component"
+import { decryptFileService, encryptFileService } from "../../service/crypto"
+import { fullPathDecrypted, fullPathEncrypted } from "../../service/constant"
 
 
 function getFileName(filePath: string): string {
@@ -26,7 +28,7 @@ export function FileEncryption() {
 
     const [fileName, setFileName] = useState(getFileName(params.filePath))
     const [password, setPassword] = useState("")
-    const [deleteOriginalFile, setDeleteOriginalFile] = useState(false)
+    // const [deleteOriginalFile, setDeleteOriginalFile] = useState(false)
 
 
     useBackHandler(() => {
@@ -62,25 +64,25 @@ export function FileEncryption() {
         )
     }, [])
 
+    const encryptFile = useCallback(() => {
+        const fileOutputPath = `${fullPathEncrypted}/${fileName}`
+        encryptFileService(params.filePath, fileOutputPath, password)
+        navigation.navigate("Home")
+    }, [password])
+
+    const decryptFile = useCallback(() => {
+        const fileOutputPath = `${fullPathDecrypted}/${fileName}`
+        decryptFileService(params.filePath, fileOutputPath, password)
+        navigation.navigate("Home")
+    }, [password])
+
 
     return (
         <SafeScreen>
             <FileEncryptionHeader
                 goBack={goBack}
-                encryptFile={() => navigation.navigate("ProcessingEncryption", {
-                    operation: "encrypt",
-                    filePath: params.filePath,
-                    fileDestinyName: fileName,
-                    password: password,
-                    deleteOriginalFile: deleteOriginalFile,
-                })}
-                decryptFile={() => navigation.navigate("ProcessingEncryption", {
-                    operation: "decrypt",
-                    filePath: params.filePath,
-                    fileDestinyName: fileName,
-                    password: password,
-                    deleteOriginalFile: deleteOriginalFile,
-                })}
+                encryptFile={encryptFile}
+                decryptFile={decryptFile}
                 cancel={cancel}
             />
 
