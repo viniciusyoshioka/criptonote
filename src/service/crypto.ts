@@ -1,29 +1,12 @@
-import { EmitterSubscription, NativeEventEmitter, NativeModules } from "react-native"
+import { NativeModules } from "react-native"
 
 
 const CryptoNativeModule = NativeModules.Crypto
-const CryptoNativeEventEmitter = new NativeEventEmitter(CryptoNativeModule)
 
 
 export interface TestFileEncryptionResponse {
     encryptedFilePath: string,
     decryptedFilePath: string,
-}
-
-
-export interface FileEncryptionTaskParams {
-    taskId: number,
-    filePath: string,
-    password: string,
-    onProgress: (current: number, total: number) => void,
-    onComplete: (fileOutputPath: string) => void,
-    onError: (message: string) => void,
-}
-
-
-export interface FileEncryptionProgressResponse {
-    current: number,
-    total: number,
 }
 
 
@@ -45,83 +28,14 @@ export async function testFile(filePath: string, password: string): Promise<Test
 }
 
 
-export function stopFileEncryptionTask(taskId: number) {
-    CryptoNativeModule.stopFileEncryptionTask(taskId)
+export function stopAllEncryptionService() {
+    CryptoNativeModule.stopAllEncryptionService()
 }
 
-
-export function encryptFileTask(params: FileEncryptionTaskParams) {
-    const events: Array<EmitterSubscription> = []
-
-    const onProgressEvent = CryptoNativeEventEmitter.addListener(
-        "onFileEncryptProgress",
-        (response: FileEncryptionProgressResponse) => {
-            params.onProgress(response.current, response.total)
-        }
-    )
-    events.push(onProgressEvent)
-
-    const onCompleteEvent = CryptoNativeEventEmitter.addListener(
-        "onFileEncryptComplete",
-        (fileOutputPath: string) => {
-            params.onComplete(fileOutputPath)
-            events.forEach((event) => {
-                event.remove()
-            })
-        }
-    )
-    events.push(onCompleteEvent)
-
-    const onErrorEvent = CryptoNativeEventEmitter.addListener(
-        "onFileEncryptError",
-        (message: string) => {
-            params.onError(message)
-            events.forEach((event) => {
-                event.remove()
-            })
-        }
-    )
-    events.push(onErrorEvent)
-
-    CryptoNativeModule.encryptFileTask(params.taskId, params.filePath, params.password)
-        .then(() => {})
-        .catch(() => {})
+export function encryptFileService(inputPath: string, outputPath: string, password: string) {
+    CryptoNativeModule.encryptFileService(inputPath, outputPath, password)
 }
 
-export function decryptFileTask(params: FileEncryptionTaskParams) {
-    const events: Array<EmitterSubscription> = []
-
-    const onProgressEvent = CryptoNativeEventEmitter.addListener(
-        "onFileDecryptProgress",
-        (response: FileEncryptionProgressResponse) => {
-            params.onProgress(response.current, response.total)
-        }
-    )
-    events.push(onProgressEvent)
-
-    const onCompleteEvent = CryptoNativeEventEmitter.addListener(
-        "onFileDecryptComplete",
-        (fileOutputPath: string) => {
-            params.onComplete(fileOutputPath)
-            events.forEach((event) => {
-                event.remove()
-            })
-        }
-    )
-    events.push(onCompleteEvent)
-
-    const onErrorEvent = CryptoNativeEventEmitter.addListener(
-        "onFileDecryptError",
-        (message: string) => {
-            params.onError(message)
-            events.forEach((event) => {
-                event.remove()
-            })
-        }
-    )
-    events.push(onErrorEvent)
-
-    CryptoNativeModule.decryptFileTask(params.taskId, params.filePath, params.password)
-        .then(() => {})
-        .catch(() => {})
+export function decryptFileService(inputPath: string, outputPath: string, password: string) {
+    CryptoNativeModule.decryptFileService(inputPath, outputPath, password)
 }
