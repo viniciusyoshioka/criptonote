@@ -21,7 +21,8 @@ public class Crypto {
 
 
     // 1024 * 512 = 0.5MB
-    public static final int BUFFER_SIZE = 1024 * 512;
+    // 1024 * 1024 = 1MB
+    public static final int BUFFER_SIZE = 1024 * 1024;
 
 
     public static SecretKeySpec generateKey(byte[] password) throws Exception {
