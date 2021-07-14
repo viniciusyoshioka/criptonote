@@ -3,10 +3,9 @@ import { Alert, TextInput } from "react-native"
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/core"
 
 import { FileEncryptionHeader } from "./Header"
-import { InputFileName } from "./style"
 import { ScreenParams } from "../../service/screen-params"
 import { useBackHandler, useKeyboard } from "../../service/hook"
-import { CheckButton, InputPassword, SafeScreen, SpaceScreen } from "../../component"
+import { CheckButton, Input, InputPassword, SafeScreen, SpaceScreen } from "../../component"
 import { decryptFileService, encryptFileService } from "../../service/crypto"
 import { fullPathDecrypted, fullPathEncrypted } from "../../service/constant"
 
@@ -87,13 +86,14 @@ export function FileEncryption() {
             />
 
             <SpaceScreen>
-                <InputFileName
+                <Input
                     onChangeText={(newText: string) => setFileName(newText)}
                     onSubmitEditing={() => inputPasswordRef.current?.focus()}
                     placeholder={"Nome do arquivo"}
                     ref={inputFileNameRef}
                     returnKeyType={"next"}
                     value={fileName}
+                    style={{ marginBottom: 8 }}
                 />
 
                 <InputPassword
