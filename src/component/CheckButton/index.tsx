@@ -20,7 +20,10 @@ export function CheckButton(props: CheckButtonProps) {
 
 
     return (
-        <Button {...props}>
+        <Button
+            activeOpacity={0.8}
+            {...props}
+        >
             <CheckBox
                 value={props.value}
                 onValueChange={props.onValueChange}
@@ -28,7 +31,7 @@ export function CheckButton(props: CheckButtonProps) {
                     true: color.checkButton_checked_color,
                     false: color.checkButton_unchecked_color,
                 }}
-                style={{opacity: opacity.highEmphasis}}
+                style={{ opacity: opacity.highEmphasis }}
             />
 
             {props.text && (
