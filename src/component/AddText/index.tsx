@@ -4,6 +4,7 @@ import { Keyboard, TextInput, ViewProps } from "react-native"
 import { InputPassword } from "../InputPassword"
 import { CenterScreen, SpaceScreen } from "../Screen"
 import { useKeyboard } from "../../service/hook"
+import { Button } from "../Button"
 
 
 export interface AddTextProps extends ViewProps {
@@ -26,6 +27,13 @@ export function AddText(props: AddTextProps) {
     })
 
 
+    function add() {
+        Keyboard.dismiss()
+        props.onDone(textValue)
+        setTextValue("")
+    }
+
+
     return (
         <SpaceScreen {...props}>
             <CenterScreen>
@@ -36,11 +44,12 @@ export function AddText(props: AddTextProps) {
                     returnKeyType={"done"}
                     value={textValue}
                     onChangeText={(newText: string) => setTextValue(newText)}
-                    onSubmitEditing={() => {
-                        Keyboard.dismiss()
-                        props.onDone(textValue)
-                        setTextValue("")
-                    }}
+                    onSubmitEditing={add}
+                />
+
+                <Button
+                    text={"Adicionar"}
+                    onPress={add}
                 />
             </CenterScreen>
         </SpaceScreen>

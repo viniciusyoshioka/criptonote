@@ -4,6 +4,7 @@ import { Keyboard, TextInput, ViewProps } from "react-native"
 import { InputPassword } from "../InputPassword"
 import { CenterScreen, SpaceScreen } from "../Screen"
 import { useKeyboard } from "../../service/hook"
+import { Button } from "../Button"
 
 
 export interface AddPinProps extends ViewProps {
@@ -26,6 +27,13 @@ export function AddPin(props: AddPinProps) {
     })
 
 
+    function add() {
+        Keyboard.dismiss()
+        props.onDone(pinValue)
+        setPinValue("")
+    }
+
+
     return (
         <SpaceScreen {...props}>
             <CenterScreen>
@@ -38,11 +46,12 @@ export function AddPin(props: AddPinProps) {
                     placeholder={"Digite seu PIN"}
                     value={pinValue}
                     onChangeText={(newText: string) => setPinValue(newText)}
-                    onSubmitEditing={() => {
-                        Keyboard.dismiss()
-                        props.onDone(pinValue)
-                        setPinValue("")
-                    }}
+                    onSubmitEditing={add}
+                />
+
+                <Button
+                    text={"Adicionar"}
+                    onPress={add}
                 />
             </CenterScreen>
         </SpaceScreen>
