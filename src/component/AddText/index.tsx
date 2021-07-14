@@ -48,7 +48,7 @@ export function AddText(props: AddTextProps) {
                 />
 
                 <Button
-                    text={"Adicionar"}
+                    text={"Pronto"}
                     onPress={add}
                 />
             </CenterScreen>

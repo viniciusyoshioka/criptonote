@@ -50,7 +50,7 @@ export function AddPin(props: AddPinProps) {
                 />
 
                 <Button
-                    text={"Adicionar"}
+                    text={"Pronto"}
                     onPress={add}
                 />
             </CenterScreen>
