@@ -1,6 +1,9 @@
 import { AddBio, AddBioProps } from "./AddBio"
 import { AddPin, AddPinProps } from "./AddPin"
 import { AddText, AddTextProps } from "./AddText"
+import { Button, ButtonProps } from "./Button"
+import { ButtonOutline, ButtonOutlineProps } from "./ButtonOutline"
+import { ButtonText, ButtonTextProps } from "./ButtonText"
 import { CheckButton, CheckButtonProps } from "./CheckButton"
 import { DebugButton, DebugButtonProps } from "./DebugButton"
 import { EmptyList, EmptyListProps } from "./EmptyList"
@@ -26,6 +29,12 @@ export { AddPin }
 export type { AddPinProps }
 export { AddText }
 export type { AddTextProps }
+export { Button}
+export type { ButtonProps }
+export { ButtonOutline }
+export type{ ButtonOutlineProps }
+export { ButtonText }
+export type { ButtonTextProps }
 export { CheckButton }
 export type { CheckButtonProps }
 export { DebugButton }
