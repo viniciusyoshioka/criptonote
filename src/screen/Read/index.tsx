@@ -4,12 +4,11 @@ import { RouteProp, useNavigation, useRoute } from "@react-navigation/core"
 
 import { useBackHandler, useKeyboard } from "../../service/hook"
 import { ReadHeader } from "./Header"
-import { ViewInput } from "./style"
 import { deleteNote, saveEditedNote } from "../../service/note-handler"
 import { ScreenParams } from "../../service/screen-params"
 import { ChangePassword } from "./ChangePassword"
 import { decryptString, encryptString } from "../../service/crypto"
-import { InputText, InputTitle, SafeScreen } from "../../component"
+import { InputText, InputTitle, SafeScreen, SpaceScreen } from "../../component"
 
 
 export function Read() {
@@ -190,7 +189,7 @@ export function Read() {
                     deleteNote={deleteCurrentNote}
                 />
 
-                <ViewInput>
+                <SpaceScreen>
                     <InputTitle
                         autoFocus={false}
                         value={title}
@@ -204,7 +203,7 @@ export function Read() {
                         onChangeText={(newText: string) => setNoteValue(newText, "text")}
                         ref={inputTextRef}
                     />
-                </ViewInput>
+                </SpaceScreen>
 
                 <ChangePassword
                     visible={showChangePassword}
