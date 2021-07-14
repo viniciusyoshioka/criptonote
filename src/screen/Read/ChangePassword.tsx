@@ -17,8 +17,6 @@ export const ChangePassword = memo((props: ChangePasswordProps) => {
     const inputNewPassword = createRef<TextInput>()
     const inputConfirmNewPassword = createRef<TextInput>()
 
-    const [showCurrentPassword, setShowCurrentPassword] = useState(false)
-    const [showNewPassword, setShowNewPassword] = useState(false)
     const [currentPassword, setCurrentPassword] = useState("")
     const [newPassword, setNewPassword] = useState("")
     const [confirmNewPassword, setConfirmNewPassword] = useState("")
@@ -44,8 +42,6 @@ export const ChangePassword = memo((props: ChangePasswordProps) => {
 
     useEffect(() => {
         if (!props.visible) {
-            setShowCurrentPassword(false)
-            setShowNewPassword(false)
             setCurrentPassword("")
             setNewPassword("")
             setConfirmNewPassword("")
