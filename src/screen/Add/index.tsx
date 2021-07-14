@@ -4,10 +4,9 @@ import { useNavigation } from "@react-navigation/core"
 
 import { useBackHandler, useKeyboard } from "../../service/hook"
 import { AddHeader } from "./Header"
-import { ViewInput } from "./style"
 import { saveNewNote } from "../../service/note-handler"
 import { encryptString } from "../../service/crypto"
-import { InputPassword, InputText, InputTitle, SafeScreen } from "../../component"
+import { InputPassword, InputText, InputTitle, SafeScreen, SpaceScreen } from "../../component"
 
 
 export function Add() {
@@ -119,7 +118,7 @@ export function Add() {
                     cancelNote={cancelNote}
                 />
 
-                <ViewInput>
+                <SpaceScreen>
                     <InputTitle
                         value={title}
                         onChangeText={(newText: string) => setTitle(newText)}
@@ -139,7 +138,7 @@ export function Add() {
                         onChangeText={(newText: string) => setText(newText)}
                         ref={inputTextRef}
                     />
-                </ViewInput>
+                </SpaceScreen>
             </SafeScreen>
         </TouchableWithoutFeedback>
     )
