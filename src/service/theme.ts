@@ -33,9 +33,6 @@ export interface ColorTheme {
         modal_background: string,
         modal_color: string,
 
-        modalButton_background: string,
-        modalButton_color: string,
-
         input_background: string,
         input_color: string,
         input_placeholder: string,
@@ -87,9 +84,6 @@ export const LightTheme: ColorTheme = {
         modal_background: "rgb(255, 255, 255)",
         modal_color: "rgb(0, 0, 0)",
 
-        modalButton_background: "transparent",
-        modalButton_color: "rgb(0, 0, 0)",
-
         input_background: "rgb(230, 230, 230)",
         input_color: "rgb(0, 0, 0)",
         input_placeholder: "rgb(100, 100, 100)",
@@ -140,9 +134,6 @@ export const DarkTheme: ColorTheme = {
 
         modal_background: "rgb(35, 35, 35)",
         modal_color: "rgb(255, 255, 255)",
-
-        modalButton_background: "transparent",
-        modalButton_color: "rgb(255, 255, 255)",
 
         input_background: "rgb(30, 30, 30)",
         input_color: "rgb(220, 220, 220)",
