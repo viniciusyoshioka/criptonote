@@ -4,9 +4,8 @@ import { RouteProp, useNavigation, useRoute } from "@react-navigation/native"
 
 import { useBackHandler, useKeyboard } from "../../service/hook"
 import { CodeHeader } from "./Header"
-import { OpenNoteButtonBase, OpenNoteButtonText, ViewContent } from "./style"
 import { ScreenParams } from "../../service/screen-params"
-import { InputPassword, SafeScreen } from "../../component"
+import { Button, CenterScreen, InputPassword, SafeScreen, SpaceScreen } from "../../component"
 
 
 export function Code() {
@@ -51,22 +50,23 @@ export function Code() {
                     goBack={goBack}
                 />
 
-                <ViewContent>
-                    <InputPassword
-                        autoFocus={true}
-                        onChangeText={(newText: string) => setPassword(newText)}
-                        ref={inputPasswordRef}
-                        returnKeyType={"done"}
-                        onSubmitEditing={openNote}
-                        value={password}
-                    />
+                <SpaceScreen>
+                    <CenterScreen>
+                        <InputPassword
+                            autoFocus={true}
+                            onChangeText={(newText: string) => setPassword(newText)}
+                            ref={inputPasswordRef}
+                            returnKeyType={"done"}
+                            onSubmitEditing={openNote}
+                            value={password}
+                        />
 
-                    <OpenNoteButtonBase onPress={openNote}>
-                        <OpenNoteButtonText>
-                            Abrir
-                        </OpenNoteButtonText>
-                    </OpenNoteButtonBase>
-                </ViewContent>
+                        <Button
+                            text={"Abrir"}
+                            onPress={openNote}
+                        />
+                    </CenterScreen>
+                </SpaceScreen>
             </SafeScreen>
         </TouchableWithoutFeedback>
     )
