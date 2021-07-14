@@ -43,9 +43,6 @@ export interface ColorTheme {
         input_focus_border: string,
         input_selection: string,
 
-        showPasswordButton_background: string,
-        showPasswordButton_color: string,
-
         button_background: string,
         button_color: string,
 
@@ -100,9 +97,6 @@ export const LightTheme: ColorTheme = {
         input_focus_border: "rgb(0, 128, 128)",
         input_selection: "rgb(0, 200, 200)",
 
-        showPasswordButton_background: "transparent",
-        showPasswordButton_color: "rgb(0, 0, 0)",
-
         button_background: "rgb(0, 128, 128)",
         button_color: "rgb(255, 255, 255)",
 
@@ -156,9 +150,6 @@ export const DarkTheme: ColorTheme = {
         input_unfocus_border: "rgb(80, 80, 80)",
         input_focus_border: "rgb(32, 180, 180)",
         input_selection: "rgb(0, 128, 128)",
-
-        showPasswordButton_background: "rgb(30, 30, 30)",
-        showPasswordButton_color: "rgb(255, 255, 255)",
 
         button_background: "rgb(30, 30, 30)",
         button_color: "rgb(255, 255, 255)",

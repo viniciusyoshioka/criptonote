@@ -40,7 +40,7 @@ export function ShowPasswordButton(props: ShowPasswordButtonProps) {
             <Icon
                 name={props.showPassword ? "visibility" : "visibility-off"}
                 size={24}
-                color={color.showPasswordButton_color}
+                color={color.input_color}
                 style={{
                     opacity: opacity.highEmphasis
                 }}
