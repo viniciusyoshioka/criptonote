@@ -14,6 +14,6 @@ export const ButtonBase = styled.TouchableOpacity`
 
 export const ButtonTextContent = styled.Text`
     font-size: 15px;
-    color: ${(props: styledProps) => props.theme.color.openNoteButton_background};
+    color: ${(props: styledProps) => props.theme.color.button_background};
     opacity: ${(props: styledProps) => props.theme.opacity.highEmphasis};
 `

@@ -12,7 +12,7 @@ export const ButtonBase = styled.TouchableOpacity`
     min-width: 64px;
     height: 36px;
     border-radius: 2px;
-    background-color: ${(props: styledProps) => props.theme.color.openNoteButton_background};
+    background-color: ${(props: styledProps) => props.theme.color.button_background};
 `
 
 
@@ -31,7 +31,7 @@ export function ButtonIcon(props: ButtonIconProps) {
         <Icon
             name={props.icon}
             size={18}
-            color={color.openNoteButton_color}
+            color={color.button_color}
             style={{
                 marginRight: 8,
                 opacity: opacity.highEmphasis,
@@ -43,6 +43,6 @@ export function ButtonIcon(props: ButtonIconProps) {
 
 export const ButtonTextContent = styled.Text`
     font-size: 15px;
-    color: ${(props: styledProps) => props.theme.color.openNoteButton_color};
+    color: ${(props: styledProps) => props.theme.color.button_color};
     opacity: ${(props: styledProps) => props.theme.opacity.highEmphasis};
 `

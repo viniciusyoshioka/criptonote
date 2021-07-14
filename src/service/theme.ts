@@ -46,8 +46,8 @@ export interface ColorTheme {
         showPasswordButton_background: string,
         showPasswordButton_color: string,
 
-        openNoteButton_background: string,
-        openNoteButton_color: string,
+        button_background: string,
+        button_color: string,
 
         radioButton_unchecked_color: string,
         radioButton_checked_color: string,
@@ -103,8 +103,8 @@ export const LightTheme: ColorTheme = {
         showPasswordButton_background: "transparent",
         showPasswordButton_color: "rgb(0, 0, 0)",
 
-        openNoteButton_background: "rgb(0, 128, 128)",
-        openNoteButton_color: "rgb(255, 255, 255)",
+        button_background: "rgb(0, 128, 128)",
+        button_color: "rgb(255, 255, 255)",
 
         radioButton_checked_color: "rgb(0, 128, 128)",
         radioButton_unchecked_color: "rgb(0, 0, 0)",
@@ -160,8 +160,8 @@ export const DarkTheme: ColorTheme = {
         showPasswordButton_background: "rgb(30, 30, 30)",
         showPasswordButton_color: "rgb(255, 255, 255)",
 
-        openNoteButton_background: "rgb(30, 30, 30)",
-        openNoteButton_color: "rgb(255, 255, 255)",
+        button_background: "rgb(30, 30, 30)",
+        button_color: "rgb(255, 255, 255)",
 
         radioButton_checked_color: "rgb(32, 180, 180)",
         radioButton_unchecked_color: "rgb(255, 255, 255)",
