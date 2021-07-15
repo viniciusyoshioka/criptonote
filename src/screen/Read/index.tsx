@@ -92,7 +92,7 @@ export function Read() {
             } catch {
                 Alert.alert(
                     "Alerta",
-                    "Erro desconhecido ao criptografar texto. Não foi possível salvar a nota"
+                    "Erro desconhecido ao criptografar nota. Não foi possível salvá-la"
                 )
                 return
             }
@@ -144,7 +144,7 @@ export function Read() {
         } catch {
             Alert.alert(
                 "Aviso",
-                "Erro ao trocar senha nota. Processo interrompido"
+                "Erro ao trocar senha da nota. Processo interrompido"
             )
             return
         }

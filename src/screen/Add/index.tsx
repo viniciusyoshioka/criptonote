@@ -82,7 +82,7 @@ export function Add() {
             } catch {
                 Alert.alert(
                     "Alerta",
-                    "Erro desconhecido ao criptografar text. Não foi possível salvar a nota"
+                    "Erro desconhecido ao criptografar nota. Não foi possível salvá-la"
                 )
                 return
             }
