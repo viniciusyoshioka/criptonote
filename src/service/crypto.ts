@@ -9,6 +9,10 @@ export interface TestFileEncryptionResponse {
     decryptedFilePath: string,
 }
 
+export type EncryptionServiceOptions = {
+    deleteOriginalFile: boolean,
+}
+
 
 export async function encryptString(text: string, password: string): Promise<string> {
     return await CryptoNativeModule.encryptString(text, password)
@@ -32,10 +36,14 @@ export function stopAllEncryptionService() {
     CryptoNativeModule.stopAllEncryptionService()
 }
 
-export function encryptFileService(inputPath: string, outputPath: string, password: string) {
-    CryptoNativeModule.encryptFileService(inputPath, outputPath, password)
+export function encryptFileService(
+    inputPath: string, outputPath: string, password: string, options?: EncryptionServiceOptions
+) {
+    CryptoNativeModule.encryptFileService(inputPath, outputPath, password, options ? options : null)
 }
 
-export function decryptFileService(inputPath: string, outputPath: string, password: string) {
-    CryptoNativeModule.decryptFileService(inputPath, outputPath, password)
+export function decryptFileService(
+    inputPath: string, outputPath: string, password: string, options?: EncryptionServiceOptions
+) {
+    CryptoNativeModule.decryptFileService(inputPath, outputPath, password, options ? options : null)
 }

@@ -173,6 +173,7 @@ public class CryptoService extends Service {
         String inputPath = intent.getStringExtra("inputPath");
         String outputPath = intent.getStringExtra("outputPath");
         String password = intent.getStringExtra("password");
+        boolean deleteOriginalFile = intent.getBooleanExtra("deleteOriginalFile", false);
 
         notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
         createServiceNotification(action);
@@ -190,6 +191,9 @@ public class CryptoService extends Service {
                                 return;
                             }
                             moveFile(outputEncryptedFile, outputPath);
+                            if (deleteOriginalFile) {
+                                new File(inputPath).delete();
+                            }
 
                             sentResponseNotification("Criptografia concluída");
                             stopForeground(true);
@@ -213,6 +217,9 @@ public class CryptoService extends Service {
                                 return;
                             }
                             moveFile(outputDecryptedFile, outputPath);
+                            if (deleteOriginalFile) {
+                                new File(inputPath).delete();
+                            }
 
                             sentResponseNotification("Descriptografia concluída");
                             stopForeground(true);

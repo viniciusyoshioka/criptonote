@@ -4,12 +4,14 @@ import android.content.Intent;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
 
 
@@ -90,23 +92,35 @@ public class CryptoModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void encryptFileService(String inputPath, String outputPath, String password) {
+    public void encryptFileService(String inputPath, String outputPath, String password, @Nullable ReadableMap options) {
+        boolean deleteOriginalFile = false;
+        if (options != null) {
+            deleteOriginalFile = options.getBoolean("deleteOriginalFile");
+        }
+
         Intent intent = new Intent(mReactApplicationContext, CryptoService.class);
         intent.setAction(CryptoService.ACTION_ENCRYPT);
         intent.putExtra("inputPath", inputPath);
         intent.putExtra("outputPath", outputPath);
         intent.putExtra("password", password);
+        intent.putExtra("deleteOriginalFile", deleteOriginalFile);
 
         mReactApplicationContext.startService(intent);
     }
 
     @ReactMethod
-    public void decryptFileService(String inputPath, String outputPath, String password) {
+    public void decryptFileService(String inputPath, String outputPath, String password, @Nullable ReadableMap options) {
+        boolean deleteOriginalFile = false;
+        if (options != null) {
+            deleteOriginalFile = options.getBoolean("deleteOriginalFile");
+        }
+
         Intent intent = new Intent(mReactApplicationContext, CryptoService.class);
         intent.setAction(CryptoService.ACTION_DECRYPT);
         intent.putExtra("inputPath", inputPath);
         intent.putExtra("outputPath", outputPath);
         intent.putExtra("password", password);
+        intent.putExtra("deleteOriginalFile", deleteOriginalFile);
 
         mReactApplicationContext.startService(intent);
     }
