@@ -126,7 +126,7 @@ export const DarkTheme: ColorTheme = {
 
         noteItem_background: "rgb(30, 30, 30)",
         noteItem_color: "rgb(255, 255, 255)",
-        noteItem_selected_background: "rgb(32, 180, 180)",
+        noteItem_selected_background: "rgb(35, 200, 200)",
         noteItem_selected_color: "rgb(180, 180, 180)",
 
         listItem_background: "transparent",
@@ -139,16 +139,16 @@ export const DarkTheme: ColorTheme = {
         input_color: "rgb(220, 220, 220)",
         input_placeholder: "rgb(150, 150, 150)",
         input_unfocus_border: "rgb(80, 80, 80)",
-        input_focus_border: "rgb(32, 180, 180)",
+        input_focus_border: "rgb(35, 200, 200)",
         input_selection: "rgb(0, 128, 128)",
 
         button_background: "rgb(30, 30, 30)",
         button_color: "rgb(255, 255, 255)",
 
-        radioButton_checked_color: "rgb(32, 180, 180)",
+        radioButton_checked_color: "rgb(35, 200, 200)",
         radioButton_unchecked_color: "rgb(255, 255, 255)",
 
-        checkButton_checked_color: "rgb(32, 180, 180)",
+        checkButton_checked_color: "rgb(35, 200, 200)",
         checkButton_unchecked_color: "rgb(255, 255, 255)",
     },
     opacity: {
