@@ -1,19 +1,25 @@
 import React from "react"
-import { TouchableOpacityProps } from "react-native"
+import { RectButtonProps } from "react-native-gesture-handler"
 
+import { useTheme } from "../../service/theme"
 import { ButtonBase, ButtonIcon, ButtonTextContent } from "./style"
 
 
-export interface ButtonProps extends TouchableOpacityProps {
+export interface ButtonProps extends RectButtonProps {
     text?: string,
     icon?: string,
 }
 
 
 export function Button(props: ButtonProps) {
+
+
+    const { color } = useTheme()
+
+
     return (
         <ButtonBase
-            activeOpacity={0.8}
+            rippleColor={color.button_ripple}
             style={{
                 paddingRight: 16,
                 paddingLeft: (props.icon === undefined) ? 16 : 12,

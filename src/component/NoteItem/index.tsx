@@ -64,8 +64,8 @@ export function NoteItem(props: NoteItemProps) {
             minDurationMs={400}
             onHandlerStateChange={({ nativeEvent }) => longPress(nativeEvent)}
         >
-            <Button onPress={normalPress}>
-                <Block style={{flex: 1}}>
+            <Button rippleColor={color.noteItem_ripple} onPress={normalPress}>
+                <Block style={{ flex: 1 }}>
                     <Line>
                         <Title numberOfLines={1}>
                             {props.note.title}
@@ -80,7 +80,7 @@ export function NoteItem(props: NoteItemProps) {
                 </Block>
 
                 {props.selectionMode && (
-                    <Block style={{paddingLeft: 10}}>
+                    <Block style={{ paddingLeft: 10 }}>
                         <CheckBox
                             value={selected}
                             onChange={normalPress}

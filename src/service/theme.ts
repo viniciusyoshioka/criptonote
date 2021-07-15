@@ -12,6 +12,7 @@ export interface ColorTheme {
     color: {
         header_background: string,
         header_color: string,
+        header_ripple: string,
 
         subHeader_background: string,
         subHeader_color: string,
@@ -21,14 +22,17 @@ export interface ColorTheme {
 
         menuItem_background: string,
         menuItem_color: string,
+        menuItem_ripple: string,
 
         noteItem_background: string,
         noteItem_color: string,
         noteItem_selected_background: string,
         noteItem_selected_color: string,
+        noteItem_ripple: string,
 
         listItem_background: string,
         listItem_color: string,
+        listItem_ripple: string,
 
         modal_background: string,
         modal_color: string,
@@ -42,6 +46,7 @@ export interface ColorTheme {
 
         button_background: string,
         button_color: string,
+        button_ripple: string,
 
         radioButton_unchecked_color: string,
         radioButton_checked_color: string,
@@ -63,6 +68,7 @@ export const LightTheme: ColorTheme = {
     color: {
         header_background: "rgb(0, 128, 128)",
         header_color: "rgb(255, 255, 255)",
+        header_ripple: "rgb(0, 200, 200)",
 
         subHeader_background: "rgb(0, 128, 128)",
         subHeader_color: "rgb(255, 255, 255)",
@@ -72,14 +78,17 @@ export const LightTheme: ColorTheme = {
 
         menuItem_background: "rgb(255, 255, 255)",
         menuItem_color: "rgb(0, 0, 0)",
+        menuItem_ripple: "rgb(230, 230, 230)",
 
         noteItem_background: "rgb(255, 255, 255)",
         noteItem_color: "rgb(0, 0, 0)",
         noteItem_selected_background: "rgb(0, 128, 128)",
         noteItem_selected_color: "rgb(90, 90, 90)",
+        noteItem_ripple: "rgb(230, 230, 230)",
 
-        listItem_background: "transparent",
+        listItem_background: "rgb(255, 255, 255)",
         listItem_color: "rgb(0, 0, 0)",
+        listItem_ripple: "rgb(230, 230, 230)",
 
         modal_background: "rgb(255, 255, 255)",
         modal_color: "rgb(0, 0, 0)",
@@ -93,6 +102,7 @@ export const LightTheme: ColorTheme = {
 
         button_background: "rgb(0, 128, 128)",
         button_color: "rgb(255, 255, 255)",
+        button_ripple: "rgb(0, 200, 200)",
 
         radioButton_checked_color: "rgb(0, 128, 128)",
         radioButton_unchecked_color: "rgb(0, 0, 0)",
@@ -114,6 +124,7 @@ export const DarkTheme: ColorTheme = {
     color: {
         header_background: "rgb(30, 30, 30)",
         header_color: "rgb(255, 255, 255)",
+        header_ripple: "rgb(50, 50, 50)",
 
         subHeader_background: "rgb(30, 30, 30)",
         subHeader_color: "rgb(255, 255, 255)",
@@ -123,14 +134,17 @@ export const DarkTheme: ColorTheme = {
 
         menuItem_background: "rgb(45, 45, 45)",
         menuItem_color: "rgb(255, 255, 255)",
+        menuItem_ripple: "rgb(60, 60, 60)",
 
         noteItem_background: "rgb(30, 30, 30)",
         noteItem_color: "rgb(255, 255, 255)",
         noteItem_selected_background: "rgb(35, 200, 200)",
         noteItem_selected_color: "rgb(180, 180, 180)",
+        noteItem_ripple: "rgb(50, 50, 50)",
 
-        listItem_background: "transparent",
+        listItem_background: "rgb(18, 18, 18)",
         listItem_color: "rgb(255, 255, 255)",
+        listItem_ripple: "rgb(40, 40, 40)",
 
         modal_background: "rgb(35, 35, 35)",
         modal_color: "rgb(255, 255, 255)",
@@ -144,6 +158,7 @@ export const DarkTheme: ColorTheme = {
 
         button_background: "rgb(30, 30, 30)",
         button_color: "rgb(255, 255, 255)",
+        button_ripple: "rgb(50, 50, 50)",
 
         radioButton_checked_color: "rgb(35, 200, 200)",
         radioButton_unchecked_color: "rgb(255, 255, 255)",

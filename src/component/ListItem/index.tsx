@@ -20,7 +20,7 @@ export function ListItem(props: ListItemProps) {
 
 
     return (
-        <ListItemBase {...props}>
+        <ListItemBase rippleColor={color.listItem_ripple} {...props}>
             {props.icon && (
                 <ViewIcon>
                     <Icon

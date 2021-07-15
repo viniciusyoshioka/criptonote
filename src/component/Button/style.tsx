@@ -1,11 +1,12 @@
 import React from "react"
 import styled from "styled-components/native"
 import Icon from "react-native-vector-icons/MaterialIcons"
+import { RectButton } from "react-native-gesture-handler"
 
 import { styledProps, useTheme } from "../../service/theme"
 
 
-export const ButtonBase = styled.TouchableOpacity`
+export const ButtonBase = styled(RectButton)`
     align-items: center;
     justify-content: center;
     flex-direction: row;
