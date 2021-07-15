@@ -6,7 +6,7 @@ import { FileEncryptionHeader } from "./Header"
 import { ScreenParams } from "../../service/screen-params"
 import { useBackHandler, useKeyboard } from "../../service/hook"
 import { CheckButton, Input, InputPassword, SafeScreen, SpaceScreen } from "../../component"
-import { decryptFileService, encryptFileService } from "../../service/crypto"
+import { decryptFileService, encryptFileService, EncryptionServiceOptions } from "../../service/crypto"
 import { fullPathDecrypted, fullPathEncrypted } from "../../service/constant"
 
 
@@ -27,7 +27,7 @@ export function FileEncryption() {
 
     const [fileName, setFileName] = useState(getFileName(params.filePath))
     const [password, setPassword] = useState("")
-    // const [deleteOriginalFile, setDeleteOriginalFile] = useState(false)
+    const [deleteOriginalFile, setDeleteOriginalFile] = useState(false)
 
 
     useBackHandler(() => {
@@ -65,15 +65,23 @@ export function FileEncryption() {
 
     const encryptFile = useCallback(() => {
         const fileOutputPath = `${fullPathEncrypted}/${fileName}`
-        encryptFileService(params.filePath, fileOutputPath, password)
+        const options: EncryptionServiceOptions = {
+            deleteOriginalFile: deleteOriginalFile
+        }
+
+        encryptFileService(params.filePath, fileOutputPath, password, options)
         navigation.navigate("Home")
-    }, [password])
+    }, [fileName, deleteOriginalFile, password])
 
     const decryptFile = useCallback(() => {
         const fileOutputPath = `${fullPathDecrypted}/${fileName}`
-        decryptFileService(params.filePath, fileOutputPath, password)
+        const options: EncryptionServiceOptions = {
+            deleteOriginalFile: deleteOriginalFile
+        }
+
+        decryptFileService(params.filePath, fileOutputPath, password, options)
         navigation.navigate("Home")
-    }, [password])
+    }, [fileName, deleteOriginalFile, password])
 
 
     return (
@@ -104,13 +112,12 @@ export function FileEncryption() {
                     value={password}
                 />
 
-                {/* TODO */}
-                {/* <CheckButton
+                <CheckButton
                     text={"Apagar arquivo original"}
                     value={deleteOriginalFile}
                     onPress={() => setDeleteOriginalFile(!deleteOriginalFile)}
                     onValueChange={() => setDeleteOriginalFile(!deleteOriginalFile)}
-                /> */}
+                />
             </SpaceScreen>
         </SafeScreen>
     )
