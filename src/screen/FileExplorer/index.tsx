@@ -10,6 +10,7 @@ import { importNote } from "../../service/note-handler"
 import { log } from "../../service/log"
 import { ScreenParams } from "../../service/screen-params"
 import { ListItem, SafeScreen, SubHeader, SubHeaderText } from "../../component"
+import { createAllFolder } from "../../service/folder-handler"
 
 
 const defaultContent: Array<ReadDirItem> = [
@@ -236,6 +237,8 @@ export function FileExplorer() {
 
 
     useEffect(() => {
+        createAllFolder()
+
         if (path === null) {
             setPathContent(defaultContent)
         } else {

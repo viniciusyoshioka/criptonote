@@ -8,6 +8,7 @@ import { useBackHandler, useKeyboard } from "../../service/hook"
 import { CheckButton, Input, InputPassword, SafeScreen, SpaceScreen } from "../../component"
 import { decryptFileService, encryptFileService, EncryptionServiceOptions } from "../../service/crypto"
 import { fullPathDecrypted, fullPathEncrypted } from "../../service/constant"
+import { createAllFolder } from "../../service/folder-handler"
 
 
 function getFileName(filePath: string): string {
@@ -64,6 +65,8 @@ export function FileEncryption() {
     }, [])
 
     const encryptFile = useCallback(() => {
+        createAllFolder()
+
         const fileOutputPath = `${fullPathEncrypted}/${fileName}`
         const options: EncryptionServiceOptions = {
             deleteOriginalFile: deleteOriginalFile
@@ -74,6 +77,8 @@ export function FileEncryption() {
     }, [fileName, deleteOriginalFile, password])
 
     const decryptFile = useCallback(() => {
+        createAllFolder()
+
         const fileOutputPath = `${fullPathDecrypted}/${fileName}`
         const options: EncryptionServiceOptions = {
             deleteOriginalFile: deleteOriginalFile
