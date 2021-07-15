@@ -8,7 +8,7 @@ export const appInDevelopment = true
 // App
 export const appName = appInDevelopment ? "CriptoNoteBeta" : "CriptoNote"
 export const appFName = appInDevelopment ? "CriptoNote Beta" : "CriptoNote"
-export const appVersion = "3.2.1"
+export const appVersion = "3.2.2"
 export const appType = appInDevelopment ? "beta" : "release"
 
 // Icon
