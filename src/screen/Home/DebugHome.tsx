@@ -52,12 +52,20 @@ export const DebugHome = memo((props: DebugHomeProps) => {
     async function debugShareLog() {
         try {
             if (await RNFS.exists(fullPathLog)) {
-                await Share.open({
-                    title: "Compartilhar log",
-                    type: "text/plain",
-                    url: `file://${fullPathRoot}/docscanlog.log`,
-                    failOnCancel: false
-                })
+                if (__DEV__) {
+                    await Share.open({
+                        title: "Compartilhar log",
+                        type: "text/plain",
+                        url: `file://${fullPathRoot}/docscanlog.log`,
+                        failOnCancel: false
+                    })
+                    return
+                }
+
+                Alert.alert(
+                    "ERRO",
+                    "Não é possível compartilhar arquivo de log na versão release"
+                )
                 return
             }
 
