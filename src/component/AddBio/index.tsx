@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import { ViewProps } from "react-native"
 import Icon from "react-native-vector-icons/MaterialIcons"
-import * as ExpoAuth from "expo-local-authentication"
+// import * as ExpoAuth from "expo-local-authentication"
 
 import { Button, Text } from "./style"
 import { useTheme } from "../../service/theme"
@@ -13,6 +13,7 @@ export interface AddBioProps extends ViewProps {
 }
 
 
+// TODO
 export function AddBio(props: AddBioProps) {
 
 
@@ -20,12 +21,12 @@ export function AddBio(props: AddBioProps) {
 
 
     function authBiometry() {
-        ExpoAuth.authenticateAsync()
-            .then((success: ExpoAuth.LocalAuthenticationResult) => {
-                if (success.success) {
-                    props.onDone()
-                }
-            })
+        // ExpoAuth.authenticateAsync()
+        //     .then((success: ExpoAuth.LocalAuthenticationResult) => {
+        //         if (success.success) {
+        //             props.onDone()
+        //         }
+        //     })
     }
 
 

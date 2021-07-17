@@ -29,10 +29,10 @@ export { AddPin }
 export type { AddPinProps }
 export { AddText }
 export type { AddTextProps }
-export { Button}
+export { Button }
 export type { ButtonProps }
 export { ButtonOutline }
-export type{ ButtonOutlineProps }
+export type { ButtonOutlineProps }
 export { ButtonText }
 export type { ButtonTextProps }
 export { CheckButton }

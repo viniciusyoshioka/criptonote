@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react"
 import { Alert, ToastAndroid } from "react-native"
 import { useNavigation } from "@react-navigation/native"
-import * as ExpoAuth from "expo-local-authentication"
+// import * as ExpoAuth from "expo-local-authentication"
 
 import { useBackHandler } from "../../service/hook"
 import { readLockType, writeLock, writeLockType } from "../../service/storage"
@@ -9,6 +9,7 @@ import { ChoosePasswordTypeHeader } from "./Header"
 import { ListItem, SafeScreen } from "../../component"
 
 
+// TODO
 export function ChoosePasswordType() {
 
 
@@ -41,26 +42,32 @@ export function ChoosePasswordType() {
     }, [])
 
     const addBioLock = useCallback(async () => {
-        const currentDeviceLock = await ExpoAuth.getEnrolledLevelAsync()
-        if (currentDeviceLock === ExpoAuth.SecurityLevel.BIOMETRIC) {
-            await writeLock("")
-            await writeLockType("bio")
-            navigation.navigate("Home")
-            ToastAndroid.show("Senha adicionada", ToastAndroid.LONG)
-            return
-        }
+        // const currentDeviceLock = await ExpoAuth.getEnrolledLevelAsync()
+        // if (currentDeviceLock === ExpoAuth.SecurityLevel.BIOMETRIC) {
+        //     await writeLock("")
+        //     await writeLockType("bio")
+        //     navigation.navigate("Home")
+        //     ToastAndroid.show("Senha adicionada", ToastAndroid.LONG)
+        //     return
+        // }
+        // 
+        // Alert.alert(
+        //     "Aviso",
+        //     "Adicione a biometria no dispositivo para habilitá-lo no aplicativo"
+        // )
 
         Alert.alert(
             "Aviso",
-            "Adicione a biometria no dispositivo para habilitá-lo no aplicativo"
+            "Sem suporte à biometria"
         )
     }, [])
 
 
     useEffect(() => {
         async function getSupportBio() {
-            const isBioSupported = await ExpoAuth.hasHardwareAsync()
-            setHasBioSupport(isBioSupported)
+            // const isBioSupported = await ExpoAuth.hasHardwareAsync()
+            // setHasBioSupport(isBioSupported)
+            setHasBioSupport(false)
         }
 
         getSupportBio()
