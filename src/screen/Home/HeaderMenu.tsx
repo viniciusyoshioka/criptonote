@@ -4,7 +4,6 @@ import { Menu, MenuOptions, MenuTrigger } from "react-native-popup-menu"
 import { RectButton } from "react-native-gesture-handler"
 
 import { HeaderButton, MenuItem } from "../../component"
-import { appInDevelopment } from "../../service/constant"
 
 
 export interface HomeHeaderMenuProps {
@@ -13,7 +12,6 @@ export interface HomeHeaderMenuProps {
     exportNote: () => void,
     encryptFile: () => void,
     openSettings: () => void,
-    switchDebugHome: () => void,
 }
 
 
@@ -85,25 +83,13 @@ export function HomeHeaderMenu(props: HomeHeaderMenuProps) {
                 )}
 
                 {!props.selectionMode && (
-                    <>
-                        <MenuItem
-                            text={"Configurações"}
-                            onPress={() => {
-                                menuRef.current?.close()
-                                props.openSettings()
-                            }}
-                        />
-
-                        {appInDevelopment && (
-                            <MenuItem
-                                text={"Debug Home"}
-                                onPress={() => {
-                                    menuRef.current?.close()
-                                    props.switchDebugHome()
-                                }}
-                            />
-                        )}
-                    </>
+                    <MenuItem
+                        text={"Configurações"}
+                        onPress={() => {
+                            menuRef.current?.close()
+                            props.openSettings()
+                        }}
+                    />
                 )}
             </MenuOptions>
         </Menu>

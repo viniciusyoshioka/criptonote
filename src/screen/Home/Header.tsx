@@ -14,7 +14,6 @@ export interface HomeHeaderProps {
     exportNote: () => void,
     encryptFile: () => void,
     openSettings: () => void,
-    switchDebugHome: () => void,
 }
 
 
@@ -51,7 +50,6 @@ export function HomeHeader(props: HomeHeaderProps) {
                 exportNote={props.exportNote}
                 encryptFile={props.encryptFile}
                 openSettings={props.openSettings}
-                switchDebugHome={props.switchDebugHome}
             />
         </Header>
     )
