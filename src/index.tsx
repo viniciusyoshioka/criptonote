@@ -3,6 +3,7 @@ import { useColorScheme } from "react-native"
 import KeepAwake from "react-native-keep-awake"
 import { MenuProvider } from "react-native-popup-menu"
 import { ThemeProvider } from "styled-components"
+import SQLite from "react-native-sqlite-storage"
 
 import { Router } from "./router"
 import { readTheme, writeTheme } from "./service/storage"
@@ -42,6 +43,10 @@ export function App() {
     useEffect(() => {
         getTheme()
     }, [deviceTheme])
+
+    useEffect(() => {
+        SQLite.enablePromise(true)
+    }, [])
 
     useEffect(() => {
         if (__DEV__) {
