@@ -45,7 +45,6 @@ export const fullPathLog = `${fullPathRoot}/${relativePathLog}`
 export const storageTheme = "@criptonote:theme"
 export const storageNoteId = "@criptonote:note-id"
 export const storageNote = "@criptonote:note"
-export const storageDebugHome = "@criptonote:debug-home"
 export const storageLock = "@criptonote:lock"
 export const storageLockType = "@criptonote:lock-type"
 
