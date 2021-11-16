@@ -3,7 +3,7 @@ import { useNavigation } from "@react-navigation/core"
 
 import { SettingsHeader } from "./Header"
 import { TextVersion, ViewVersion } from "./style"
-import { appFName, appType, appVersion } from "../../service/constant"
+import { appName, appType, appVersion } from "../../service/constant"
 import { ChangeTheme } from "./ChangeTheme"
 import { useBackHandler } from "../../service/hook"
 import { readLockType } from "../../service/storage"
@@ -68,7 +68,7 @@ export function Settings() {
 
             <ViewVersion>
                 <TextVersion>
-                    {appFName} - {appVersion} - {appType}
+                    {appName} - {appVersion} - {appType}
                 </TextVersion>
             </ViewVersion>
         </SafeScreen>

@@ -1,7 +1,7 @@
 import { Alert, ToastAndroid } from "react-native"
 import RNFS from "react-native-fs"
 
-import { appInDevelopment, fullPathLog } from "./constant"
+import { fullPathLog } from "./constant"
 import { getLogPermission, LogPermissionResult } from "./permission"
 
 
@@ -26,7 +26,7 @@ async function createLogFile(): Promise<void> {
 
 
 export function log(code: logCode, data: string) {
-    if (!appInDevelopment) {
+    if (!__DEV__) {
         return
     }
 

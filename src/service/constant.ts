@@ -2,31 +2,24 @@
 import RNFS from "react-native-fs"
 
 
-// Development
-export const appInDevelopment = true
-
 // App
-export const appName = appInDevelopment ? "CriptoNoteBeta" : "CriptoNote"
-export const appFName = appInDevelopment ? "CriptoNote Beta" : "CriptoNote"
+export const appName = "CriptoNote"
 export const appVersion = "4.0.0"
-export const appType = appInDevelopment ? "beta" : "release"
+export const appType = __DEV__ ? "beta" : "release"
 
 // Icon
-const appIconPath = "./../image/"
-const appIconImage = appInDevelopment ? "criptonotebeta.png" : "criptonote.png"
-const appIconImageOutline = appInDevelopment ? "criptonotebeta_outline.png" : "criptonote_outline.png"
-export const appIcon = require(`${appIconPath}${appIconImage}`)
-export const appIconOutline = require(`${appIconPath}${appIconImageOutline}`)
+export const appIcon = require("./../image/criptonote.png")
+export const appIconOutline = require("./../image/criptonote_outline.png")
 
 // File extensions
 export const exportedNoteBetaExtension = "cnbe"
 export const exportedNoteReleaseExtension = "cne"
-export const exportedNoteExtension = appInDevelopment ? exportedNoteBetaExtension : exportedNoteReleaseExtension
+export const exportedNoteExtension = __DEV__ ? exportedNoteBetaExtension : exportedNoteReleaseExtension
 export const exportedNoteExtensionList = [exportedNoteBetaExtension, exportedNoteReleaseExtension]
 
 // Folder
 // Root
-export const folderRoot = appFName
+export const folderRoot = appName
 export const fullPathRoot = `${RNFS.CachesDirectoryPath}/${folderRoot}`
 export const fullPathRootExternal = `${RNFS.ExternalStorageDirectoryPath}/${folderRoot}`
 // Export

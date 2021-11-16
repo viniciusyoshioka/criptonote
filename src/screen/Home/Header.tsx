@@ -1,7 +1,7 @@
 import React from "react"
 
 import { Header, HeaderButton, HeaderTitle } from "../../component"
-import { appFName } from "../../service/constant"
+import { appName } from "../../service/constant"
 import { HomeHeaderMenu } from "./HeaderMenu"
 
 
@@ -27,7 +27,7 @@ export function HomeHeader(props: HomeHeaderProps) {
                 />
             )}
 
-            <HeaderTitle title={!props.selectionMode ? appFName : ""} />
+            <HeaderTitle title={!props.selectionMode ? appName : ""} />
 
             {props.selectionMode && (
                 <HeaderButton
