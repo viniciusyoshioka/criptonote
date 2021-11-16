@@ -19,6 +19,7 @@
     "react-native-popup-menu": "^0.15.11",
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "^3.9.0",
+    "react-native-sqlite-storage": "^6.0.1",
     "react-native-vector-icons": "https://github.com/viniciusyoshioka/react-native-vector-icons",
     "styled-components": "^5.3.3"
   },
