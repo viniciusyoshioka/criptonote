@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useColorScheme } from "react-native"
 import KeepAwake from "react-native-keep-awake"
 import { MenuProvider } from "react-native-popup-menu"
@@ -6,37 +6,40 @@ import { ThemeProvider } from "styled-components"
 
 import { Router } from "./router"
 import { readTheme, writeTheme } from "./service/storage"
-import { DarkTheme, join, LightTheme, SwitchThemeContextProvider, ThemeContextProvider, themeType } from "./service/theme"
+import { DarkTheme, LightTheme, ThemeContextProvider, themeType } from "./service/theme"
 
 
 export function App() {
 
 
     const deviceTheme = useColorScheme()
-    const [appTheme, setAppTheme] = useState<themeType>("auto")
     const [theme, setTheme] = useState<themeType | undefined>()
 
 
-    const getTheme = useCallback(async () => {
+    async function getTheme() {
         const readAppTheme = await readTheme()
+
+        LightTheme.appTheme = readAppTheme
+        LightTheme.switchTheme = switchTheme
+
+        DarkTheme.appTheme = readAppTheme
+        DarkTheme.switchTheme = switchTheme
+
         if (readAppTheme === "auto") {
             if (deviceTheme) {
-                setAppTheme(readAppTheme)
                 setTheme(deviceTheme)
                 return
             }
-            setAppTheme(readAppTheme)
             setTheme("light")
             return
         }
-        setAppTheme(readAppTheme)
         setTheme(readAppTheme)
-    }, [deviceTheme])
+    }
 
-    const switchTheme = useCallback(async (newTheme: themeType) => {
+    async function switchTheme(newTheme: themeType) {
         await writeTheme(newTheme)
         await getTheme()
-    }, [])
+    }
 
 
     useEffect(() => {
@@ -58,14 +61,12 @@ export function App() {
 
 
     return (
-        <ThemeContextProvider value={(theme === "light") ? join(LightTheme, appTheme) : join(DarkTheme, appTheme)}>
-            <SwitchThemeContextProvider value={switchTheme}>
-                <ThemeProvider theme={(theme === "light") ? join(LightTheme, appTheme) : join(DarkTheme, appTheme)}>
-                    <MenuProvider>
-                        <Router />
-                    </MenuProvider>
-                </ThemeProvider>
-            </SwitchThemeContextProvider>
+        <ThemeContextProvider value={(theme === "light") ? LightTheme : DarkTheme}>
+            <ThemeProvider theme={(theme === "light") ? LightTheme : DarkTheme}>
+                <MenuProvider>
+                    <Router />
+                </MenuProvider>
+            </ThemeProvider>
         </ThemeContextProvider>
     )
 }

@@ -1,7 +1,7 @@
 import React, { memo, useEffect, useState } from "react"
 
 import { Modal, ModalButton, ModalProps, ModalTitle, ModalViewButton, ModalViewContent, RadioButton } from "../../component"
-import { useSwitchTheme, useTheme } from "../../service/theme"
+import { useTheme } from "../../service/theme"
 
 
 export interface ChangeThemeProps extends ModalProps { }
@@ -10,8 +10,7 @@ export interface ChangeThemeProps extends ModalProps { }
 export const ChangeTheme = memo((props: ChangeThemeProps) => {
 
 
-    const { appTheme } = useTheme()
-    const switchTheme = useSwitchTheme()
+    const { appTheme, switchTheme } = useTheme()
 
     const [selectedTheme, setSelectedTheme] = useState(appTheme)
 
