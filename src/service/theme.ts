@@ -9,7 +9,7 @@ export const themeDefault: themeType = "auto"
 export interface ColorTheme {
     name: themeType,
     appTheme: themeType,
-    switchTheme: (newTheme: themeType) => void;
+    switchTheme: (newTheme: themeType) => void,
     color: {
         header_background: string,
         header_color: string,
