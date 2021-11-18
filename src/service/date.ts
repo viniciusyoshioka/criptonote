@@ -1,7 +1,7 @@
 
 export function getDate(separator="/", currentDate=new Date()): string {
     const day = currentDate.getDate()
-    const month = currentDate.getMonth()
+    const month = currentDate.getMonth() + 1
     const year = currentDate.getFullYear()
 
     return `${day}${separator}${month}${separator}${year}`
