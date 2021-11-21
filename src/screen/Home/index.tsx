@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { Alert, BackHandler, FlatList } from "react-native"
 import { useNavigation } from "@react-navigation/core"
+import SQLite from "react-native-sqlite-storage"
 
 import { EmptyList, NoteItem, SafeScreen } from "../../component"
 import { appIconOutline } from "../../service/constant"
@@ -10,7 +11,6 @@ import { deleteNote, exportNote } from "../../service/note-handler"
 import { NoteForList } from "../../service/object-type"
 import { HomeHeader } from "./Header"
 import { NoteDatabase, openDatabase } from "../../database"
-import { SQLiteDatabase } from "react-native-sqlite-storage"
 
 
 export function Home() {
@@ -18,7 +18,7 @@ export function Home() {
 
     const navigation = useNavigation()
 
-    const [db, setDb] = useState<SQLiteDatabase | null>(null)
+    const [db, setDb] = useState<SQLite.SQLiteDatabase | null>(null)
 
     const [note, setNote] = useState<Array<NoteForList>>([])
     const [selectionMode, setSelectionMode] = useState(false)
