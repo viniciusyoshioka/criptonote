@@ -104,11 +104,20 @@ export function updateNote(
 }
 
 
-export function deleteNote(db: SQLiteDatabase, id: number): Promise<SQLite.ResultSet> {
+export function deleteNote(db: SQLiteDatabase, id: number[]): Promise<SQLite.ResultSet> {
     return new Promise((resolve, reject) => {
+
+        let idToDelete = ""
+        if (id.length >= 1) {
+            idToDelete += "?"
+        }
+        for (let i = 1; i < id.length; i++) {
+            idToDelete += ", ?"
+        }
+
         db.executeSql(`
-            DELETE FROM note WHERE id = ?;
-        `, [id])
+            DELETE FROM note WHERE id IN (${idToDelete});
+        `, id)
             .then(([resultSet]) => {
                 resolve(resultSet)
             })
