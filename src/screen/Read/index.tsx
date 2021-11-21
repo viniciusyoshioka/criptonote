@@ -1,4 +1,4 @@
-import React, { createRef, useCallback, useEffect, useState } from "react"
+import React, { createRef, useEffect, useState } from "react"
 import { Alert, Keyboard, TextInput, TouchableWithoutFeedback } from "react-native"
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/core"
 
@@ -44,7 +44,7 @@ export function Read() {
     })
 
 
-    const goBack = useCallback(() => {
+    function goBack() {
         if (showChangePassword) {
             setShowChangePassword(false)
             return
@@ -63,9 +63,9 @@ export function Read() {
         }
 
         navigation.navigate("Home")
-    }, [showChangePassword, isChanged])
+    }
 
-    const setNoteValue = useCallback((newValue: string, inputField: "title" | "text") => {
+    function setNoteValue(newValue: string, inputField: "title" | "text") {
         switch (inputField) {
             case "title":
                 setTitle(newValue)
@@ -82,9 +82,9 @@ export function Read() {
             default:
                 throw new Error("Unknown inputField value")
         }
-    }, [isChanged])
+    }
 
-    const saveNote = useCallback(async () => {
+    async function saveNote() {
         let textToSave = text
         if (params.password !== "") {
             try {
@@ -100,9 +100,9 @@ export function Read() {
 
         await saveEditedNote(params.note, title, textToSave)
         navigation.reset({ routes: [{ name: "Home" }] })
-    }, [title, text])
+    }
 
-    const deleteCurrentNote = useCallback(async () => {
+    async function deleteCurrentNote() {
         async function alertDeleteNote() {
             await deleteNote([params.note.id])
             navigation.reset({ routes: [{ name: "Home" }] })
@@ -116,11 +116,11 @@ export function Read() {
                 { text: "Ok", onPress: alertDeleteNote }
             ]
         )
-    }, [])
+    }
 
-    const changePassword = useCallback(async (
+    async function changePassword(
         currentPassword: string, newPassword: string, confirmNewPassword: string
-    ) => {
+    ) {
         if (isChanged) {
             Alert.alert(
                 "Aviso",
@@ -151,7 +151,7 @@ export function Read() {
 
         await saveEditedNote(params.note, params.note.title, encryptedNewPasswordText)
         navigation.reset({ routes: [{ name: "Home" }] })
-    }, [isChanged])
+    }
 
 
     useEffect(() => {
