@@ -1,15 +1,21 @@
 
 // Note
+export type NoteForList = {
+    id: number,
+    title: string,
+    timestamp: string,
+}
+
+export type SimpleNote = {
+    title: string,
+    text: string,
+}
+
 export type Note = {
     id: number,
     title: string,
     text: string,
-    lastModificationDate: string,
-}
-
-export type ExportedNote = {
-    title: string,
-    text: string,
+    timestamp: string,
 }
 
 
