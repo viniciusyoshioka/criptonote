@@ -7,7 +7,7 @@ import { EmptyList, NoteItem, SafeScreen } from "../../component"
 import { appIconOutline } from "../../service/constant"
 import { createAllFolder } from "../../service/folder-handler"
 import { useBackHandler } from "../../service/hook"
-import { deleteNote, exportNote } from "../../service/note-handler"
+import { exportNote } from "../../service/note-handler"
 import { NoteForList } from "../../service/object-type"
 import { HomeHeader } from "./Header"
 import { NoteDatabase, openDatabase } from "../../database"
@@ -46,12 +46,13 @@ export function Home() {
         }
     }
 
-    // TODO
     function deleteSelectedNote() {
         async function alertDelete() {
-            await deleteNote(selectedNote)
-            await getNote()
-            exitSelectionMode()
+            if (db) {
+                await NoteDatabase.deleteNote(db, selectedNote)
+                await getNote()
+                exitSelectionMode()
+            }
         }
 
         Alert.alert(
