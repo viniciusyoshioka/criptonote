@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { Alert, BackHandler, FlatList } from "react-native"
 import { useNavigation } from "@react-navigation/core"
-import SQLite from "react-native-sqlite-storage"
 
 import { EmptyList, NoteItem, SafeScreen } from "../../component"
 import { appIconOutline } from "../../service/constant"
@@ -10,7 +9,7 @@ import { useBackHandler } from "../../service/hook"
 import { exportNote } from "../../service/note-handler"
 import { NoteForList } from "../../service/object-type"
 import { HomeHeader } from "./Header"
-import { NoteDatabase, openDatabase } from "../../database"
+import { NoteDatabase, useDatabase } from "../../database"
 
 
 export function Home() {
@@ -18,7 +17,7 @@ export function Home() {
 
     const navigation = useNavigation()
 
-    const [db, setDb] = useState<SQLite.SQLiteDatabase | null>(null)
+    const db = useDatabase()
 
     const [note, setNote] = useState<Array<NoteForList>>([])
     const [selectionMode, setSelectionMode] = useState(false)
@@ -38,21 +37,15 @@ export function Home() {
 
 
     async function getNote() {
-        if (db) {
-            await NoteDatabase.createNoteTable(db)
-
-            const noteList = await NoteDatabase.getNoteList(db)
-            setNote(noteList.notes)
-        }
+        const noteList = await NoteDatabase.getNoteList(db)
+        setNote(noteList.notes)
     }
 
     function deleteSelectedNote() {
         async function alertDelete() {
-            if (db) {
-                await NoteDatabase.deleteNote(db, selectedNote)
-                await getNote()
-                exitSelectionMode()
-            }
+            await NoteDatabase.deleteNote(db, selectedNote)
+            await getNote()
+            exitSelectionMode()
         }
 
         Alert.alert(
@@ -121,27 +114,8 @@ export function Home() {
 
     useEffect(() => {
         createAllFolder()
-    }, [])
-
-    useEffect(() => {
-        openDatabase()
-            .then((database) => {
-                setDb(database)
-            })
-            .catch((error) => {
-                // TODO log
-            })
-    }, [])
-
-    useEffect(() => {
         getNote()
-
-        if (!__DEV__ && db) {
-            return () => {
-                db.close()
-            }
-        }
-    }, [db])
+    }, [])
 
 
     return (
