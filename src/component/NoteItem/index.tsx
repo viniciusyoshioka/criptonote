@@ -2,9 +2,10 @@ import React, { useCallback, useEffect, useState } from "react"
 import { HandlerStateChangeEventPayload, LongPressGestureHandler, LongPressGestureHandlerEventPayload, State } from "react-native-gesture-handler"
 import CheckBox from "@react-native-community/checkbox"
 
-import { Note } from "../../service/object-type"
+import { NoteForList } from "../../service/object-type"
 import { useTheme } from "../../service/theme"
 import { Block, Button, Date, Line, Title } from "./style"
+import { toDateTime } from "../../service/date"
 
 
 type longPressNativeEvent = Readonly<
@@ -17,7 +18,7 @@ export interface NoteItemProps {
     select: () => void,
     deselect: () => void,
     selectionMode: boolean,
-    note: Note,
+    noteForList: NoteForList,
 }
 
 
@@ -68,13 +69,13 @@ export function NoteItem(props: NoteItemProps) {
                 <Block style={{ flex: 1 }}>
                     <Line>
                         <Title numberOfLines={1}>
-                            {props.note.title}
+                            {props.noteForList.title}
                         </Title>
                     </Line>
 
                     <Line>
                         <Date numberOfLines={1}>
-                            {props.note.lastModificationDate}
+                            {toDateTime(props.noteForList.timestamp)}
                         </Date>
                     </Line>
                 </Block>

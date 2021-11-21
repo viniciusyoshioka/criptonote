@@ -7,9 +7,10 @@ import { appIconOutline } from "../../service/constant"
 import { createAllFolder } from "../../service/folder-handler"
 import { useBackHandler } from "../../service/hook"
 import { deleteNote, exportNote } from "../../service/note-handler"
-import { Note } from "../../service/object-type"
-import { readNote } from "../../service/storage"
+import { NoteForList } from "../../service/object-type"
 import { HomeHeader } from "./Header"
+import { NoteDatabase, openDatabase } from "../../database"
+import { SQLiteDatabase } from "react-native-sqlite-storage"
 
 
 export function Home() {
@@ -17,7 +18,9 @@ export function Home() {
 
     const navigation = useNavigation()
 
-    const [note, setNote] = useState<Array<Note>>([])
+    const [db, setDb] = useState<SQLiteDatabase | null>(null)
+
+    const [note, setNote] = useState<Array<NoteForList>>([])
     const [selectionMode, setSelectionMode] = useState(false)
     const [selectedNote, setSelectedNote] = useState<Array<number>>([])
 
@@ -35,8 +38,12 @@ export function Home() {
 
 
     async function getNote() {
-        const note = await readNote()
-        setNote(note)
+        if (db) {
+            await NoteDatabase.createNoteTable(db)
+
+            const noteList = await NoteDatabase.getNoteList(db)
+            setNote(noteList.notes)
+        }
     }
 
     function deleteSelectedNote() {
@@ -91,14 +98,14 @@ export function Home() {
         }
     }
 
-    function renderNoteItem({ item }: { item: Note }) {
+    function renderNoteItem({ item }: { item: NoteForList }) {
         return (
             <NoteItem
-                click={() => navigation.navigate("Code", { note: item })}
+                click={() => navigation.navigate("Code", { noteId: item.id })}
                 select={() => selectNote(item.id)}
                 deselect={() => deselectNote(item.id)}
                 selectionMode={selectionMode}
-                note={item}
+                noteForList={item}
             />
         )
     }
@@ -111,8 +118,29 @@ export function Home() {
 
     useEffect(() => {
         createAllFolder()
-        getNote()
     }, [])
+
+    useEffect(() => {
+        // Open and set database
+
+        openDatabase()
+            .then((database) => {
+                setDb(database)
+            })
+            .catch((error) => {
+                // TODO log
+            })
+    }, [])
+
+    useEffect(() => {
+        // Get notes and close database when app is closed
+
+        getNote()
+
+        if (!__DEV__ && db) {
+            () => db.close()
+        }
+    }, [db])
 
 
     return (
