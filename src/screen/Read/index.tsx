@@ -1,14 +1,15 @@
 import React, { createRef, useEffect, useState } from "react"
 import { Alert, Keyboard, TextInput, TouchableWithoutFeedback } from "react-native"
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/core"
+import { SQLiteDatabase } from "react-native-sqlite-storage"
 
 import { useBackHandler, useKeyboard } from "../../service/hook"
 import { ReadHeader } from "./Header"
-import { deleteNote, saveEditedNote } from "../../service/note-handler"
 import { ScreenParams } from "../../service/screen-params"
 import { ChangePassword } from "./ChangePassword"
 import { decryptString, encryptString } from "../../service/crypto"
 import { InputText, InputTitle, SafeScreen, SpaceScreen } from "../../component"
+import { NoteDatabase, openDatabase } from "../../database"
 
 
 export function Read() {
@@ -16,6 +17,8 @@ export function Read() {
 
     const navigation = useNavigation()
     const { params } = useRoute<RouteProp<ScreenParams, "Read">>()
+
+    const [db, setDb] = useState<SQLiteDatabase | null>(null)
 
     const inputTitleRef = createRef<TextInput>()
     const inputTextRef = createRef<TextInput>()
@@ -43,6 +46,33 @@ export function Read() {
         }
     })
 
+
+    async function readNote() {
+        if (db) {
+            const { note } = await NoteDatabase.getNote(db, params.noteId)
+
+            if (params.password !== "") {
+                let decryptedText: string
+                try {
+                    decryptedText = await decryptString(note.text, params.password)
+                } catch {
+                    Alert.alert(
+                        "Aviso",
+                        "Erro ao descriptografar nota em sua abertura"
+                    )
+                    navigation.navigate("Home")
+                    return
+                }
+
+                setTitle(note.title)
+                setText(decryptedText)
+                return
+            }
+
+            setTitle(note.title)
+            setText(note.text)
+        }
+    }
 
     function goBack() {
         if (showChangePassword) {
@@ -98,13 +128,21 @@ export function Read() {
             }
         }
 
-        await saveEditedNote(params.note, title, textToSave)
+        if (db) {
+            await NoteDatabase.updateNote(db, params.noteId, title, textToSave)
+            navigation.reset({ routes: [{ name: "Home" }] })
+            return
+        }
         navigation.reset({ routes: [{ name: "Home" }] })
     }
 
     async function deleteCurrentNote() {
         async function alertDeleteNote() {
-            await deleteNote([params.note.id])
+            if (db) {
+                await NoteDatabase.deleteNote(db, params.noteId)
+                navigation.reset({ routes: [{ name: "Home" }] })
+                return
+            }
             navigation.reset({ routes: [{ name: "Home" }] })
         }
 
@@ -137,44 +175,48 @@ export function Read() {
             return
         }
 
-        let encryptedNewPasswordText = ""
-        try {
-            const decryptedCurrentPasswordText = await decryptString(params.note.text, currentPassword)
-            encryptedNewPasswordText = await encryptString(decryptedCurrentPasswordText, newPassword)
-        } catch {
-            Alert.alert(
-                "Aviso",
-                "Erro ao trocar senha da nota. Processo interrompido"
-            )
+        if (db) {
+            const { note } = await NoteDatabase.getNote(db, params.noteId)
+
+            let encryptedNewPasswordText = ""
+            try {
+                const decryptedCurrentPasswordText = await decryptString(note.text, currentPassword)
+                encryptedNewPasswordText = await encryptString(decryptedCurrentPasswordText, newPassword)
+            } catch {
+                Alert.alert(
+                    "Aviso",
+                    "Erro ao trocar senha da nota. Processo interrompido"
+                )
+                return
+            }
+
+            await NoteDatabase.updateNote(db, params.noteId, note.title, encryptedNewPasswordText)
+            navigation.reset({ routes: [{ name: "Home" }] })
             return
         }
-
-        await saveEditedNote(params.note, params.note.title, encryptedNewPasswordText)
         navigation.reset({ routes: [{ name: "Home" }] })
     }
 
 
     useEffect(() => {
-        async function decryptAndSetNoteContent() {
-            let decryptedText = params.note.text
-            if (params.password !== "") {
-                try {
-                    decryptedText = await decryptString(params.note.text, params.password)
-                } catch {
-                    Alert.alert(
-                        "Aviso",
-                        "Erro ao descriptografar nota em sua abertura"
-                    )
-                    navigation.navigate("Home")
-                    return
-                }
-            }
-            setTitle(params.note.title)
-            setText(decryptedText)
-        }
-
-        decryptAndSetNoteContent()
+        openDatabase()
+            .then((database) => {
+                setDb(database)
+            })
+            .catch((error) => {
+                // TODO log
+            })
     }, [])
+
+    useEffect(() => {
+        readNote()
+
+        if (!__DEV__ && db) {
+            return () => {
+                db.close()
+            }
+        }
+    }, [db])
 
 
     return (
