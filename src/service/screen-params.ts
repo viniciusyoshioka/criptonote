@@ -1,4 +1,4 @@
-import { lockType, Note } from "./object-type"
+import { lockType } from "./object-type"
 
 
 export type ScreenParams = {
