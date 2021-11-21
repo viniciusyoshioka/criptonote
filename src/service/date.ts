@@ -22,11 +22,19 @@ export function getTime(separator=":", hasSecond=false, currentDate=new Date()):
 }
 
 
-export function getDateTime(dateSeparator="/", timeSeparator=":", hasSecond=false): string {
-    const currentDate = new Date()
-
+export function getDateTime(dateSeparator="/", timeSeparator=":", hasSecond=false, currentDate=new Date()): string {
     const date = getDate(dateSeparator, currentDate)
     const time = getTime(timeSeparator, hasSecond, currentDate)
 
     return `${date} ${time}`
+}
+
+
+export function getTimestamp(): string {
+    return getDateTime("-", ":", true)
+}
+
+
+export function toDateTime(timestamp: string): string {
+    return getDateTime("/", ":", false, new Date(timestamp))
 }
