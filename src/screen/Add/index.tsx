@@ -1,4 +1,4 @@
-import React, { createRef, useCallback, useState } from "react"
+import React, { createRef, useState } from "react"
 import { Alert, Keyboard, TextInput, TouchableWithoutFeedback } from "react-native"
 import { useNavigation } from "@react-navigation/core"
 
@@ -46,7 +46,7 @@ export function Add() {
     })
 
 
-    const goBack = useCallback(() => {
+    function goBack() {
         if (title !== "" || text !== "") {
             Alert.alert(
                 "Aviso",
@@ -60,9 +60,9 @@ export function Add() {
         }
 
         navigation.navigate("Home")
-    }, [title, text])
+    }
 
-    const saveNote = useCallback(async () => {
+    async function saveNote() {
         if (title === "" && text === "") {
             Alert.alert(
                 "Aviso",
@@ -90,9 +90,9 @@ export function Add() {
 
         await saveNewNote(title, textToSave)
         navigation.reset({ routes: [{ name: "Home" }] })
-    }, [title, password, text])
+    }
 
-    const cancelNote = useCallback(() => {
+    function cancelNote() {
         if (title !== "" || text !== "") {
             Alert.alert(
                 "Aviso",
@@ -106,7 +106,7 @@ export function Add() {
         }
 
         navigation.navigate("Home")
-    }, [title, text])
+    }
 
 
     return (
