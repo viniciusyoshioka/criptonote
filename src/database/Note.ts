@@ -1,9 +1,9 @@
-import SQLite, { SQLiteDatabase } from "react-native-sqlite-storage"
+import SQLite from "react-native-sqlite-storage"
 
 import { NoteForList, SimpleNote } from "../service/object-type"
 
 
-export function createNoteTable(db: SQLiteDatabase): Promise<SQLite.ResultSet> {
+export function createNoteTable(db: SQLite.SQLiteDatabase): Promise<SQLite.ResultSet> {
     return new Promise((resolve, reject) => {
         db.executeSql(`
             CREATE TABLE IF NOT EXISTS note (
@@ -28,7 +28,7 @@ export interface QueriedNoteList extends SQLite.ResultSet {
 }
 
 
-export function getNoteList(db: SQLiteDatabase): Promise<QueriedNoteList> {
+export function getNoteList(db: SQLite.SQLiteDatabase): Promise<QueriedNoteList> {
     return new Promise((resolve, reject) => {
         db.executeSql(`
             SELECT id, title, timestamp FROM note ORDER BY timestamp DESC;
@@ -51,7 +51,7 @@ export interface QueriedNote extends SQLite.ResultSet {
 }
 
 
-export function getNote(db: SQLiteDatabase, id: number): Promise<QueriedNote> {
+export function getNote(db: SQLite.SQLiteDatabase, id: number): Promise<QueriedNote> {
     return new Promise((resolve, reject) => {
         db.executeSql(`
             SELECT title, text FROM note WHERE id = ?;
@@ -69,7 +69,7 @@ export function getNote(db: SQLiteDatabase, id: number): Promise<QueriedNote> {
 }
 
 
-export function insertNote(db: SQLiteDatabase, title: string, text: string): Promise<SQLite.ResultSet> {
+export function insertNote(db: SQLite.SQLiteDatabase, title: string, text: string): Promise<SQLite.ResultSet> {
     return new Promise((resolve, reject) => {
         db.executeSql(`
             INSERT INTO note (title, text) VALUES (?, ?);
@@ -104,7 +104,7 @@ export function updateNote(
 }
 
 
-export function deleteNote(db: SQLiteDatabase, id: number[]): Promise<SQLite.ResultSet> {
+export function deleteNote(db: SQLite.SQLiteDatabase, id: number[]): Promise<SQLite.ResultSet> {
     return new Promise((resolve, reject) => {
 
         let idToDelete = ""
