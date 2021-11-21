@@ -46,6 +46,7 @@ export function Home() {
         }
     }
 
+    // TODO
     function deleteSelectedNote() {
         async function alertDelete() {
             await deleteNote(selectedNote)
@@ -63,6 +64,7 @@ export function Home() {
         )
     }
 
+    // TODO
     function exportAppNote() {
         function alertExport() {
             exportNote(selectedNote, selectionMode)
@@ -121,8 +123,6 @@ export function Home() {
     }, [])
 
     useEffect(() => {
-        // Open and set database
-
         openDatabase()
             .then((database) => {
                 setDb(database)
@@ -133,12 +133,12 @@ export function Home() {
     }, [])
 
     useEffect(() => {
-        // Get notes and close database when app is closed
-
         getNote()
 
         if (!__DEV__ && db) {
-            () => db.close()
+            return () => {
+                db.close()
+            }
         }
     }, [db])
 
