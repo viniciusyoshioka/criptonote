@@ -1,18 +1,21 @@
-import React, { createRef, useState } from "react"
+import React, { createRef, useEffect, useState } from "react"
 import { Alert, Keyboard, TextInput, TouchableWithoutFeedback } from "react-native"
 import { useNavigation } from "@react-navigation/core"
+import { SQLiteDatabase } from "react-native-sqlite-storage"
 
 import { useBackHandler, useKeyboard } from "../../service/hook"
 import { AddHeader } from "./Header"
-import { saveNewNote } from "../../service/note-handler"
 import { encryptString } from "../../service/crypto"
 import { InputPassword, InputText, InputTitle, SafeScreen, SpaceScreen } from "../../component"
+import { NoteDatabase, openDatabase } from "../../database"
 
 
 export function Add() {
 
 
     const navigation = useNavigation()
+
+    const [db, setDb] = useState<SQLiteDatabase | null>(null)
 
     const inputTitleRef = createRef<TextInput>()
     const inputPasswordRef = createRef<TextInput>()
@@ -88,8 +91,10 @@ export function Add() {
             }
         }
 
-        await saveNewNote(title, textToSave)
-        navigation.reset({ routes: [{ name: "Home" }] })
+        if (db) {
+            await NoteDatabase.insertNote(db, title, textToSave)
+            navigation.reset({ routes: [{ name: "Home" }] })
+        }
     }
 
     function cancelNote() {
@@ -107,6 +112,25 @@ export function Add() {
 
         navigation.navigate("Home")
     }
+
+
+    useEffect(() => {
+        openDatabase()
+            .then((database) => {
+                setDb(database)
+            })
+            .catch((error) => {
+                // TODO Log
+            })
+    }, [])
+
+    useEffect(() => {
+        if (!__DEV__ && db) {
+            return () => {
+                db.close()
+            }
+        }
+    }, [])
 
 
     return (
