@@ -130,7 +130,7 @@ export function Add() {
                 db.close()
             }
         }
-    }, [])
+    }, [db])
 
 
     return (
