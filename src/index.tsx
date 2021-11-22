@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { useCallback, useEffect, useState } from "react"
 import { useColorScheme } from "react-native"
 import KeepAwake from "react-native-keep-awake"
@@ -8,14 +9,17 @@ import SQLite from "react-native-sqlite-storage"
 import { Router } from "./router"
 import { readTheme, writeTheme } from "./service/storage"
 import { DarkTheme, join, LightTheme, SwitchThemeContextProvider, ThemeContextProvider, themeType } from "./service/theme"
+import { DatabaseProvider, NoteDatabase, openDatabase } from "./database"
 
 
 export function App() {
 
 
     const deviceTheme = useColorScheme()
+
+    const [db, setDb] = useState<SQLite.SQLiteDatabase | undefined>(undefined)
     const [appTheme, setAppTheme] = useState<themeType>("auto")
-    const [theme, setTheme] = useState<themeType | undefined>()
+    const [theme, setTheme] = useState<themeType | undefined>(undefined)
 
 
     const getTheme = useCallback(async () => {
@@ -46,6 +50,21 @@ export function App() {
 
     useEffect(() => {
         SQLite.enablePromise(true)
+
+        openDatabase()
+            .then(async (database) => {
+                await NoteDatabase.createNoteTable(database)
+                setDb(database)
+            })
+            .catch((error) => {
+                // TODO log
+            })
+
+        if (!__DEV__ && db) {
+            return () => {
+                db.close()
+            }
+        }
     }, [])
 
     useEffect(() => {
@@ -57,7 +76,7 @@ export function App() {
     }, [])
 
 
-    if (theme === undefined) {
+    if (!theme || !db) {
         return null
     }
 
@@ -67,7 +86,9 @@ export function App() {
             <SwitchThemeContextProvider value={switchTheme}>
                 <ThemeProvider theme={(theme === "light") ? join(LightTheme, appTheme) : join(DarkTheme, appTheme)}>
                     <MenuProvider>
-                        <Router />
+                        <DatabaseProvider value={db}>
+                            <Router />
+                        </DatabaseProvider>
                     </MenuProvider>
                 </ThemeProvider>
             </SwitchThemeContextProvider>
