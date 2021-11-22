@@ -1,10 +1,11 @@
-import SQLite, { SQLiteDatabase } from "react-native-sqlite-storage"
+import { createContext, useContext } from "react"
+import SQLite from "react-native-sqlite-storage"
 
 import * as NoteDatabase from "./Note"
 export { NoteDatabase }
 
 
-export function openDatabase(): Promise<SQLiteDatabase> {
+export function openDatabase(): Promise<SQLite.SQLiteDatabase> {
     return new Promise((resolve, reject) => {
         SQLite.openDatabase({
             name: "criptonote_database.sqlite",
@@ -17,4 +18,13 @@ export function openDatabase(): Promise<SQLiteDatabase> {
                 reject(error)
             })
     })
+}
+
+
+const databaseContext = createContext(undefined as unknown as SQLite.SQLiteDatabase)
+
+export const DatabaseProvider = databaseContext.Provider
+
+export function useDatabase(): SQLite.SQLiteDatabase {
+    return useContext(databaseContext)
 }
