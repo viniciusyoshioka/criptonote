@@ -61,6 +61,21 @@ export function getSettings(db: SQLite.SQLiteDatabase): Promise<settingsObject> 
 }
 
 
+export function getSettingKey(db: SQLite.SQLiteDatabase, key: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+        db.executeSql(`
+            SELECT value FROM settings WHERE key = ?;
+        `, [key])
+            .then(([resultSet]) => {
+                resolve(resultSet.rows.raw()[0])
+            })
+            .catch((error) => {
+                reject(error)
+            })
+    })
+}
+
+
 export function insertSettings(db: SQLite.SQLiteDatabase, key: string, value: string): Promise<SQLite.ResultSet> {
     return new Promise((resolve, reject) => {
         db.executeSql(`
