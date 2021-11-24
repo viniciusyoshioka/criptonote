@@ -27,7 +27,8 @@ export function createSettingsTable(db: SQLite.SQLiteDatabase): Promise<null> {
                             (key, value) 
                         VALUES 
                             ('theme', ?),
-                            ('lockType', ?)
+                            ('lockType', ?),
+                            ('appLock', ''),
                             ('dbVersion', ?);
                     `, [themeDefault, lockTypeDefault, latestDbVersion])
                 }
