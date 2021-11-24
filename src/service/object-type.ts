@@ -28,5 +28,6 @@ export const lockTypeDefault: lockType = "none"
 export type settingsObject = {
     theme: themeType,
     lockType: lockType,
+    appLock: string,
     dbVersion: string,
 }
