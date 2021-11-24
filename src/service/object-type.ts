@@ -31,3 +31,5 @@ export type settingsObject = {
     appLock: string,
     dbVersion: string,
 }
+
+export type settingKey = "theme" | "lockType" | "appLock" | "dbVersion"
