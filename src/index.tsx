@@ -9,7 +9,7 @@ import SQLite from "react-native-sqlite-storage"
 import { Router } from "./router"
 import { readTheme, writeTheme } from "./service/storage"
 import { DarkTheme, join, LightTheme, SwitchThemeContextProvider, ThemeContextProvider, themeType } from "./service/theme"
-import { DatabaseProvider, NoteDatabase, openDatabase } from "./database"
+import { DatabaseProvider, NoteDatabase, openDatabase, SettingsDatabase } from "./database"
 
 
 export function App() {
@@ -54,6 +54,7 @@ export function App() {
         openDatabase()
             .then(async (database) => {
                 await NoteDatabase.createNoteTable(database)
+                await SettingsDatabase.createSettingsTable(database)
                 setDb(database)
             })
             .catch((error) => {

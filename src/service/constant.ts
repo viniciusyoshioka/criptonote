@@ -50,3 +50,6 @@ export const storageLockType = "@criptonote:lock-type"
 
 // Password key for exported notes
 export const keyExportedNote = "5G0SLKxpRPfrZLegyYUqSk0i9JQev22U"
+
+// Database version
+export const latestDbVersion = "1.0.0"
