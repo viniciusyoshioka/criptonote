@@ -7,7 +7,6 @@ import { ThemeProvider } from "styled-components"
 import SQLite from "react-native-sqlite-storage"
 
 import { Router } from "./router"
-import { readTheme, writeTheme } from "./service/storage"
 import { DarkTheme, join, LightTheme, SwitchThemeContextProvider, ThemeContextProvider, themeType } from "./service/theme"
 import { DatabaseProvider, NoteDatabase, openDatabase, SettingsDatabase } from "./database"
 
@@ -23,7 +22,7 @@ export function App() {
 
 
     const getTheme = useCallback(async () => {
-        const readAppTheme = await readTheme()
+        const readAppTheme = await SettingsDatabase.getSettingKey(db!, "theme")
         if (readAppTheme === "auto") {
             if (deviceTheme) {
                 setAppTheme(readAppTheme)
@@ -39,14 +38,16 @@ export function App() {
     }, [deviceTheme])
 
     const switchTheme = useCallback(async (newTheme: themeType) => {
-        await writeTheme(newTheme)
+        await SettingsDatabase.updateSettings(db!, "theme", newTheme)
         await getTheme()
     }, [])
 
 
     useEffect(() => {
-        getTheme()
-    }, [deviceTheme])
+        if (db) {
+            getTheme()
+        }
+    }, [deviceTheme, db])
 
     useEffect(() => {
         SQLite.enablePromise(true)
