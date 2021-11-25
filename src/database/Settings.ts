@@ -1,7 +1,7 @@
 import SQLite from "react-native-sqlite-storage"
 
 import { latestDbVersion } from "../service/constant"
-import { lockTypeDefault, settingsObject } from "../service/object-type"
+import { lockTypeDefault, settingKey, settingsObject } from "../service/object-type"
 import { themeDefault } from "../service/theme"
 
 
@@ -61,7 +61,7 @@ export function getSettings(db: SQLite.SQLiteDatabase): Promise<settingsObject> 
 }
 
 
-export function getSettingKey(db: SQLite.SQLiteDatabase, key: string): Promise<string> {
+export function getSettingKey<K extends settingKey>(db: SQLite.SQLiteDatabase, key: K): Promise<settingsObject[K]> {
     return new Promise((resolve, reject) => {
         db.executeSql(`
             SELECT value FROM settings WHERE key = ?;
@@ -76,7 +76,11 @@ export function getSettingKey(db: SQLite.SQLiteDatabase, key: string): Promise<s
 }
 
 
-export function insertSettings(db: SQLite.SQLiteDatabase, key: string, value: string): Promise<SQLite.ResultSet> {
+export function insertSettings<K extends settingKey>(
+    db: SQLite.SQLiteDatabase,
+    key: K,
+    value: settingsObject[K]
+): Promise<SQLite.ResultSet> {
     return new Promise((resolve, reject) => {
         db.executeSql(`
             INSERT INTO settings (key, value) VALUES (?, ?);
@@ -91,7 +95,11 @@ export function insertSettings(db: SQLite.SQLiteDatabase, key: string, value: st
 }
 
 
-export function updateSettings(db: SQLite.SQLiteDatabase, key: string, value: string): Promise<SQLite.ResultSet> {
+export function updateSettings<K extends settingKey>(
+    db: SQLite.SQLiteDatabase,
+    key: K,
+    value: settingsObject[K]
+): Promise<SQLite.ResultSet> {
     return new Promise((resolve, reject) => {
         db.executeSql(`
             UPDATE settings SET value = ? WHERE key = ?;
@@ -106,7 +114,7 @@ export function updateSettings(db: SQLite.SQLiteDatabase, key: string, value: st
 }
 
 
-export function deleteSettings(db: SQLite.SQLiteDatabase, keys: string[]): Promise<SQLite.ResultSet> {
+export function deleteSettings(db: SQLite.SQLiteDatabase, keys: settingKey[]): Promise<SQLite.ResultSet> {
     return new Promise((resolve, reject) => {
 
         let keysToDelete = ""
