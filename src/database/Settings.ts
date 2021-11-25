@@ -47,8 +47,8 @@ export function getSettings(db: SQLite.SQLiteDatabase): Promise<settingsObject> 
             SELECT * FROM settings;
         `)
             .then(([resultSet]) => {
-                const settings = {}
-                resultSet.rows.raw().forEach((item) => {
+                const settings = {} as settingsObject
+                resultSet.rows.raw().forEach((item: {key: settingKey, value: never}) => {
                     settings[item.key] = item.value
                 })
                 console.log("getSettings settings", settings)
