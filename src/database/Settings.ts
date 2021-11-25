@@ -67,6 +67,7 @@ export function getSettingKey<K extends settingKey>(db: SQLite.SQLiteDatabase, k
             SELECT value FROM settings WHERE key = ?;
         `, [key])
             .then(([resultSet]) => {
+                console.log("getSettingKey settings", resultSet.rows.raw()[0])
                 resolve(resultSet.rows.raw()[0])
             })
             .catch((error) => {
