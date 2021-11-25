@@ -5,9 +5,9 @@ import { RouteProp, useNavigation, useRoute } from "@react-navigation/native"
 import { useBackHandler } from "../../service/hook"
 import { sha256 } from "../../service/message-digest"
 import { ScreenParams } from "../../service/screen-params"
-import { writeLock, writeLockType } from "../../service/storage"
 import { AddPasswordHeader } from "./Header"
 import { AddBio, AddPin, AddText, SafeScreen } from "../../component"
+import { SettingsDatabase, useDatabase } from "../../database"
 
 
 export function AddPassword() {
@@ -15,6 +15,8 @@ export function AddPassword() {
 
     const navigation = useNavigation()
     const { params } = useRoute<RouteProp<ScreenParams, "AddPassword">>()
+
+    const db = useDatabase()
 
 
     useBackHandler(() => {
@@ -29,8 +31,8 @@ export function AddPassword() {
 
     const onDone = useCallback(async (newLock?: string) => {
         if (params.passwordType === "bio") {
-            await writeLockType("bio")
-            await writeLock("")
+            await SettingsDatabase.updateSettings(db, "lockType", "bio")
+            await SettingsDatabase.updateSettings(db, "appLock", "")
             navigation.navigate("Home")
             ToastAndroid.show("Senha adicionada", ToastAndroid.LONG)
             return
@@ -44,9 +46,9 @@ export function AddPassword() {
             return
         }
 
-        await writeLockType(params.passwordType)
+        await SettingsDatabase.updateSettings(db, "lockType", params.passwordType)
         const hashLock = sha256(newLock)
-        await writeLock(hashLock)
+        await SettingsDatabase.updateSettings(db, "appLock", hashLock)
         navigation.navigate("Home")
         ToastAndroid.show("Senha adicionada", ToastAndroid.LONG)
     }, [])
