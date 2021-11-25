@@ -4,11 +4,11 @@ import { RouteProp, useNavigation, useRoute } from "@react-navigation/core"
 
 import { AppName } from "./style"
 import { useBackHandler, useKeyboard } from "../../service/hook"
-import { readLock, readLockType } from "../../service/storage"
 import { sha256 } from "../../service/message-digest"
 import { lockType } from "../../service/object-type"
 import { ScreenParams } from "../../service/screen-params"
 import { AddBio, AddPin, AddText, SafeScreen } from "../../component"
+import { SettingsDatabase, useDatabase } from "../../database"
 
 
 export function Lock() {
@@ -16,6 +16,8 @@ export function Lock() {
 
     const navigation = useNavigation()
     const { params } = useRoute<RouteProp<ScreenParams, "Lock">>()
+
+    const db = useDatabase()
 
     const inputLockRef = createRef<TextInput>()
 
@@ -38,7 +40,7 @@ export function Lock() {
 
 
     async function unlock(lock: string) {
-        const appLock = await readLock()
+        const appLock = await SettingsDatabase.getSettingKey(db, "appLock")
         const hashLock = sha256(lock)
 
         if (hashLock === appLock) {
@@ -90,7 +92,7 @@ export function Lock() {
 
     useEffect(() => {
         async function isProtected() {
-            const readAppLockType = await readLockType()
+            const readAppLockType = await SettingsDatabase.getSettingKey(db, "lockType")
             if (readAppLockType === "none") {
                 navigation.reset({
                     routes: [
