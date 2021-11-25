@@ -6,14 +6,16 @@ import { TextVersion, ViewVersion } from "./style"
 import { appName, appType, appVersion } from "../../service/constant"
 import { ChangeTheme } from "./ChangeTheme"
 import { useBackHandler } from "../../service/hook"
-import { readLockType } from "../../service/storage"
 import { ListItem, SafeScreen } from "../../component"
+import { SettingsDatabase, useDatabase } from "../../database"
 
 
 export function Settings() {
 
 
     const navigation = useNavigation()
+
+    const db = useDatabase()
 
     const [isChangeThemeVisible, setIsChangeThemeVisible] = useState(false)
 
@@ -29,7 +31,7 @@ export function Settings() {
     }, [])
 
     const changeAppPassword = useCallback(async () => {
-        const lockType = await readLockType()
+        const lockType = await SettingsDatabase.getSettingKey(db, "lockType")
         if (lockType === "none") {
             navigation.navigate("ChoosePasswordType")
             return
