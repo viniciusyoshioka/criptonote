@@ -4,9 +4,9 @@ import { useNavigation } from "@react-navigation/native"
 // import * as ExpoAuth from "expo-local-authentication"
 
 import { useBackHandler } from "../../service/hook"
-import { readLockType, writeLock, writeLockType } from "../../service/storage"
 import { ChoosePasswordTypeHeader } from "./Header"
 import { ListItem, SafeScreen } from "../../component"
+import { SettingsDatabase, useDatabase } from "../../database"
 
 
 // TODO
@@ -14,6 +14,8 @@ export function ChoosePasswordType() {
 
 
     const navigation = useNavigation()
+
+    const db = useDatabase()
 
     const [hasBioSupport, setHasBioSupport] = useState(false)
 
@@ -29,14 +31,14 @@ export function ChoosePasswordType() {
     }, [])
 
     const removeLock = useCallback(async () => {
-        const currentLockType = await readLockType()
+        const currentLockType = await SettingsDatabase.getSettingKey(db, "lockType")
         if (currentLockType === "none") {
             ToastAndroid.show("Aplicativo já está sem senha", ToastAndroid.LONG)
             return
         }
 
-        await writeLockType("none")
-        await writeLock("")
+        await SettingsDatabase.updateSettings(db, "lockType", "none")
+        await SettingsDatabase.updateSettings(db, "appLock", "")
         navigation.navigate("Home")
         ToastAndroid.show("Senha removida", ToastAndroid.LONG)
     }, [])

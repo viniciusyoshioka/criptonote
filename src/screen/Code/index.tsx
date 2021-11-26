@@ -1,4 +1,4 @@
-import React, { createRef, useCallback, useState } from "react"
+import React, { createRef, useState } from "react"
 import { Keyboard, TextInput, TouchableWithoutFeedback } from "react-native"
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native"
 
@@ -31,16 +31,16 @@ export function Code() {
     })
 
 
-    const goBack = useCallback(() => {
+    function goBack() {
         navigation.navigate("Home")
-    }, [])
+    }
 
-    const openNote = useCallback(() => {
+    function openNote() {
         navigation.navigate("Read", {
-            note: params.note,
+            noteId: params.noteId,
             password: password
         })
-    }, [password])
+    }
 
 
     return (
