@@ -51,7 +51,7 @@ export function getSettings(db: SQLite.SQLiteDatabase): Promise<settingsObject> 
                 resultSet.rows.raw().forEach((item: {key: settingKey, value: never}) => {
                     settings[item.key] = item.value
                 })
-                console.log("getSettings settings", settings)
+                // console.log("getSettings settings", settings)
                 resolve(settings as settingsObject)
             })
             .catch((error) => {
@@ -67,8 +67,8 @@ export function getSettingKey<K extends settingKey>(db: SQLite.SQLiteDatabase, k
             SELECT value FROM settings WHERE key = ?;
         `, [key])
             .then(([resultSet]) => {
-                console.log("getSettingKey settings", resultSet.rows.raw()[0])
-                resolve(resultSet.rows.raw()[0])
+                // console.log("getSettingKey settings", resultSet.rows.raw())
+                resolve(resultSet.rows.raw()[0].value)
             })
             .catch((error) => {
                 reject(error)
