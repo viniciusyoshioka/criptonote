@@ -24,6 +24,22 @@ export function openDatabase(): Promise<SQLite.SQLiteDatabase> {
 }
 
 
+export function openTemporaryDatabase(databaseFileName: string): Promise<SQLite.SQLiteDatabase> {
+    return new Promise((resolve, reject) => {
+        SQLite.openDatabase({
+            name: databaseFileName,
+            location: "default"
+        })
+            .then((db) => {
+                resolve(db)
+            })
+            .catch((error) => {
+                reject(error)
+            })
+    })
+}
+
+
 const databaseContext = createContext(undefined as unknown as SQLite.SQLiteDatabase)
 
 export const DatabaseProvider = databaseContext.Provider
