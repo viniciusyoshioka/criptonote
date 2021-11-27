@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { HandlerStateChangeEventPayload, LongPressGestureHandler, LongPressGestureHandlerEventPayload, State } from "react-native-gesture-handler"
 import CheckBox from "@react-native-community/checkbox"
 
@@ -30,7 +30,7 @@ export function NoteItem(props: NoteItemProps) {
     const [selected, setSelected] = useState(false)
 
 
-    const normalPress = useCallback(() => {
+    function normalPress() {
         if (!props.selectionMode) {
             props.click()
         } else if (!selected) {
@@ -40,16 +40,16 @@ export function NoteItem(props: NoteItemProps) {
             props.deselect()
             setSelected(false)
         }
-    }, [props.selectionMode, selected, props.click])
+    }
 
-    const longPress = useCallback((nativeEvent: longPressNativeEvent) => {
+    function longPress(nativeEvent: longPressNativeEvent) {
         if (nativeEvent.state === State.ACTIVE) {
             if (!props.selectionMode) {
                 props.select()
                 setSelected(true)
             }
         }
-    }, [props.selectionMode])
+    }
 
 
     useEffect(() => {
