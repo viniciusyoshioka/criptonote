@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react"
+import React, { useState } from "react"
 import { useNavigation } from "@react-navigation/core"
 
 import { SettingsHeader } from "./Header"
@@ -26,11 +26,11 @@ export function Settings() {
     })
 
 
-    const goBack = useCallback(() => {
+    function goBack() {
         navigation.navigate("Home")
-    }, [])
+    }
 
-    const changeAppPassword = useCallback(async () => {
+    async function changeAppPassword() {
         const lockType = await SettingsDatabase.getSettingKey(db, "lockType")
         if (lockType === "none") {
             navigation.navigate("ChoosePasswordType")
@@ -40,7 +40,7 @@ export function Settings() {
             action: "change-lock",
             passwordType: lockType,
         })
-    }, [])
+    }
 
 
     return (
