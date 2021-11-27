@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Alert, ToastAndroid } from "react-native"
 import { useNavigation } from "@react-navigation/native"
 // import * as ExpoAuth from "expo-local-authentication"
@@ -26,11 +26,11 @@ export function ChoosePasswordType() {
     })
 
 
-    const goBack = useCallback(() => {
+    function goBack() {
         navigation.navigate("Settings")
-    }, [])
+    }
 
-    const removeLock = useCallback(async () => {
+    async function removeLock() {
         const currentLockType = await SettingsDatabase.getSettingKey(db, "lockType")
         if (currentLockType === "none") {
             ToastAndroid.show("Aplicativo já está sem senha", ToastAndroid.LONG)
@@ -41,9 +41,9 @@ export function ChoosePasswordType() {
         await SettingsDatabase.updateSettings(db, "appLock", "")
         navigation.navigate("Home")
         ToastAndroid.show("Senha removida", ToastAndroid.LONG)
-    }, [])
+    }
 
-    const addBioLock = useCallback(async () => {
+    async function addBioLock() {
         // const currentDeviceLock = await ExpoAuth.getEnrolledLevelAsync()
         // if (currentDeviceLock === ExpoAuth.SecurityLevel.BIOMETRIC) {
         //     await writeLock("")
@@ -62,7 +62,7 @@ export function ChoosePasswordType() {
             "Aviso",
             "Sem suporte à biometria"
         )
-    }, [])
+    }
 
 
     useEffect(() => {
