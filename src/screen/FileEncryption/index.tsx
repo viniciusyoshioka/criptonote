@@ -1,4 +1,4 @@
-import React, { createRef, useCallback, useState } from "react"
+import React, { createRef, useState } from "react"
 import { Alert, TextInput } from "react-native"
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/core"
 
@@ -49,11 +49,11 @@ export function FileEncryption() {
     })
 
 
-    const goBack = useCallback(() => {
+    function goBack() {
         navigation.goBack()
-    }, [])
+    }
 
-    const cancel = useCallback(() => {
+    function cancel() {
         Alert.alert(
             "Aviso",
             "A encriptação do arquivo será cancelada",
@@ -62,9 +62,9 @@ export function FileEncryption() {
                 { text: "Ok", onPress: () => navigation.navigate("Home") },
             ]
         )
-    }, [])
+    }
 
-    const encryptFile = useCallback(() => {
+    function encryptFile() {
         createAllFolder()
 
         const fileOutputPath = `${fullPathEncrypted}/${fileName}`
@@ -74,9 +74,9 @@ export function FileEncryption() {
 
         encryptFileService(params.filePath, fileOutputPath, password, options)
         navigation.navigate("Home")
-    }, [fileName, deleteOriginalFile, password])
+    }
 
-    const decryptFile = useCallback(() => {
+    function decryptFile() {
         createAllFolder()
 
         const fileOutputPath = `${fullPathDecrypted}/${fileName}`
@@ -86,7 +86,7 @@ export function FileEncryption() {
 
         decryptFileService(params.filePath, fileOutputPath, password, options)
         navigation.navigate("Home")
-    }, [fileName, deleteOriginalFile, password])
+    }
 
 
     return (
