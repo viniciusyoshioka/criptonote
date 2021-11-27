@@ -1,5 +1,6 @@
 import { themeType } from "./theme"
 
+
 // Note
 export type NoteForList = {
     id: number,
@@ -22,9 +23,11 @@ export type Note = {
 
 // Lock type
 export type lockType = "none" | "pin" | "text" | "bio"
+
 export const lockTypeDefault: lockType = "none"
 
 
+// Settings
 export type settingsObject = {
     theme: themeType,
     lockType: lockType,
