@@ -41,13 +41,6 @@ export const fileLog = "criptonotelog.log"
 export const relativePathLog = fileLog
 export const fullPathLog = `${fullPathRoot}/${relativePathLog}`
 
-// AsyncStorage
-export const storageTheme = "@criptonote:theme"
-export const storageNoteId = "@criptonote:note-id"
-export const storageNote = "@criptonote:note"
-export const storageLock = "@criptonote:lock"
-export const storageLockType = "@criptonote:lock-type"
-
 // Password key for exported notes
 export const keyExportedNote = "5G0SLKxpRPfrZLegyYUqSk0i9JQev22U"
 
