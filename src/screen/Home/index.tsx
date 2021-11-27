@@ -24,7 +24,7 @@ export function Home() {
 
     async function getNote() {
         const noteList = await NoteDatabase.getNoteList(db)
-        setNote(noteList.notes)
+        setNote(noteList)
     }
 
     function deleteSelectedNote() {

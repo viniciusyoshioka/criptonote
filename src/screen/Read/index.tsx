@@ -47,7 +47,7 @@ export function Read() {
 
 
     async function readNote() {
-        const { note } = await NoteDatabase.getNote(db, params.noteId)
+        const note = await NoteDatabase.getNote(db, params.noteId)
 
         if (params.password === "") {
             setTitle(note.title)
@@ -164,7 +164,7 @@ export function Read() {
             return
         }
 
-        const { note } = await NoteDatabase.getNote(db, params.noteId)
+        const note = await NoteDatabase.getNote(db, params.noteId)
 
         let encryptedNewPasswordText = ""
         try {

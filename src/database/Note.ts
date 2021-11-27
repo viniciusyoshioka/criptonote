@@ -29,21 +29,13 @@ export function createNoteTable(db: SQLite.SQLiteDatabase): Promise<SQLite.Resul
 }
 
 
-export interface QueriedNoteList extends SQLite.ResultSet {
-    notes: Array<NoteForList>,
-}
-
-
-export function getNoteList(db: SQLite.SQLiteDatabase): Promise<QueriedNoteList> {
+export function getNoteList(db: SQLite.SQLiteDatabase): Promise<Array<NoteForList>> {
     return new Promise((resolve, reject) => {
         db.executeSql(`
             SELECT id, title, timestamp FROM note ORDER BY timestamp DESC;
         `)
             .then(([resultSet]) => {
-                resolve({
-                    notes: resultSet.rows.raw(),
-                    ...resultSet
-                })
+                resolve(resultSet.rows.raw())
             })
             .catch((error) => {
                 reject(error)
@@ -52,21 +44,13 @@ export function getNoteList(db: SQLite.SQLiteDatabase): Promise<QueriedNoteList>
 }
 
 
-export interface QueriedNote extends SQLite.ResultSet {
-    note: SimpleNote,
-}
-
-
-export function getNote(db: SQLite.SQLiteDatabase, id: number): Promise<QueriedNote> {
+export function getNote(db: SQLite.SQLiteDatabase, id: number): Promise<SimpleNote> {
     return new Promise((resolve, reject) => {
         db.executeSql(`
             SELECT title, text FROM note WHERE id = ?;
         `, [id])
             .then(([resultSet]) => {
-                resolve({
-                    note: resultSet.rows.raw()[0],
-                    ...resultSet
-                })
+                resolve(resultSet.rows.raw()[0])
             })
             .catch((error) => {
                 reject(error)
