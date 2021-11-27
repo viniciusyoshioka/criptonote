@@ -1,4 +1,4 @@
-import React, { ReactChild, useCallback } from "react"
+import React, { ReactChild } from "react"
 import { Modal as RNModal, TouchableWithoutFeedback, ModalProps as RNModalProps, StyleProp, ViewStyle } from "react-native"
 
 import { ModalBackground, ModalContent, ModalView } from "./style"
@@ -17,12 +17,12 @@ export interface ModalProps extends RNModalProps {
 export function Modal(props: ModalProps) {
 
 
-    const closeModal = useCallback(() => {
+    function closeModal() {
         if (props.onClose) {
             props.onClose()
         }
         props.setVisible(false)
-    }, [])
+    }
 
 
     return (
