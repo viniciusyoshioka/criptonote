@@ -5,7 +5,6 @@ import { useNavigation } from "@react-navigation/core"
 import { EmptyList, NoteItem, SafeScreen } from "../../component"
 import { appIconOutline } from "../../service/constant"
 import { createAllFolder } from "../../service/folder-handler"
-import { useBackHandler } from "../../service/hook"
 import { NoteForList } from "../../service/object-type"
 import { HomeHeader } from "./Header"
 import { NoteDatabase, useDatabase } from "../../database"
@@ -21,18 +20,6 @@ export function Home() {
     const [note, setNote] = useState<Array<NoteForList>>([])
     const [selectionMode, setSelectionMode] = useState(false)
     const [selectedNote, setSelectedNote] = useState<Array<number>>([])
-
-
-    if (navigation.isFocused()) {
-        useBackHandler(() => {
-            if (selectionMode) {
-                exitSelectionMode()
-            } else {
-                BackHandler.exitApp()
-            }
-            return true
-        })
-    }
 
 
     async function getNote() {
@@ -109,11 +96,26 @@ export function Home() {
         setSelectionMode(false)
     }
 
+    function addBackHandlerListener() {
+        return BackHandler.addEventListener("hardwareBackPress", () => {
+            if (selectionMode) {
+                exitSelectionMode()
+                return true
+            }
+            return false
+        })
+    }
+
 
     useEffect(() => {
         createAllFolder()
         getNote()
     }, [])
+
+    useEffect(() => {
+        const subscription = addBackHandlerListener()
+        return () => subscription.remove()
+    }, [addBackHandlerListener])
 
 
     return (
