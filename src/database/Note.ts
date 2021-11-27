@@ -178,7 +178,7 @@ export function exportNote(db: SQLite.SQLiteDatabase, id: number[] = []): Promis
                     `
                 }
 
-                const [resultSet] = await db.executeSql(queriedNotesToExport)
+                const [resultSet] = await db.executeSql(queriedNotesToExport, id)
 
                 for (const note of resultSet.rows.raw() as Note[]) {
                     await temporaryDatabase.executeSql(`
