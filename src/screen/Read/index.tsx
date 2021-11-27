@@ -182,6 +182,22 @@ export function Read() {
         navigation.reset({ routes: [{ name: "Home" }] })
     }
 
+    function exportNote() {
+        if (isChanged) {
+            Alert.alert(
+                "Aviso",
+                "Salve ou descarte as modificações antes de exportar"
+            )
+            return
+        }
+
+        NoteDatabase.exportNote(db, [params.noteId])
+            .then(() => { })
+            .catch((error) => {
+                // TODO log
+            })
+    }
+
 
     useEffect(() => {
         readNote()
@@ -196,6 +212,7 @@ export function Read() {
                     title={title}
                     goBack={goBack}
                     saveNote={saveNote}
+                    exportNote={exportNote}
                     changePassword={() => setShowChangePassword(true)}
                     deleteNote={deleteCurrentNote}
                 />

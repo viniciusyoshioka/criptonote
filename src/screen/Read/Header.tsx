@@ -9,6 +9,7 @@ export interface ReadHeaderProps {
     title: string,
     goBack: () => void,
     saveNote: () => void,
+    exportNote: () => void,
     changePassword: () => void,
     deleteNote: () => void,
 }
@@ -35,6 +36,7 @@ export function ReadHeader(props: ReadHeaderProps) {
             />
 
             <ReadHeaderMenu
+                exportNote={props.exportNote}
                 changePassword={props.changePassword}
                 deleteNote={props.deleteNote}
             />

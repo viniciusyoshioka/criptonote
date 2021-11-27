@@ -7,6 +7,7 @@ import { HeaderButton, MenuItem } from "../../component"
 
 
 export interface ReadHeaderMenuProps {
+    exportNote: () => void,
     changePassword: () => void,
     deleteNote: () => void,
 }
@@ -51,6 +52,14 @@ export function ReadHeaderMenu(props: ReadHeaderMenuProps) {
             </MenuTrigger>
 
             <MenuOptions>
+                <MenuItem
+                    text={"Exportar nota"}
+                    onPress={() => {
+                        menuRef.current?.close()
+                        props.exportNote()
+                    }}
+                />
+
                 <MenuItem
                     text={"Mudar senha"}
                     onPress={() => {
