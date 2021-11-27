@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Alert, FlatList } from "react-native"
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/core"
 import RNFS, { ReadDirItem } from "react-native-fs"
@@ -92,7 +92,7 @@ export function FileExplorer() {
     })
 
 
-    const upDirectory = useCallback(() => {
+    function upDirectory() {
         switch (path) {
             case null:
                 return
@@ -142,9 +142,9 @@ export function FileExplorer() {
             return
         }
         setPath(previewsPath)
-    }, [path, backToDefault])
+    }
 
-    const importNoteAlert = useCallback((newPath: string) => {
+    function importNoteAlert(newPath: string) {
         function importNoteFunction() {
             NoteDatabase.importNote(db, newPath)
                 .then(() => {
@@ -188,13 +188,13 @@ export function FileExplorer() {
                 { text: "Importar", onPress: () => checkNoteVersion() }
             ]
         )
-    }, [])
+    }
 
-    const encryptFileAlert = useCallback((filePath: string) => {
+    function encryptFileAlert(filePath: string) {
         navigation.navigate("FileEncryption", { filePath: filePath })
-    }, [])
+    }
 
-    const changePath = useCallback(async (newPath: string, isFile: boolean) => {
+    async function changePath(newPath: string, isFile: boolean) {
         if (newPath === "..") {
             upDirectory()
         } else if (isFile) {
@@ -212,9 +212,9 @@ export function FileExplorer() {
             }
             setPath(newPath)
         }
-    }, [upDirectory, path])
+    }
 
-    const goBack = useCallback(() => {
+    function goBack() {
         if (path === null) {
             navigation.navigate("Home")
             return
@@ -223,9 +223,9 @@ export function FileExplorer() {
             return
         }
         changePath("..", false)
-    }, [path, changePath])
+    }
 
-    const renderItem = useCallback(({ item }: { item: RNFS.ReadDirItem }) => {
+    function renderItem({ item }: { item: RNFS.ReadDirItem }) {
         return (
             <ListItem
                 title={item.name}
@@ -235,7 +235,7 @@ export function FileExplorer() {
                 style={{ height: 56 }}
             />
         )
-    }, [changePath])
+    }
 
 
     useEffect(() => {
