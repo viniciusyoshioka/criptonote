@@ -1,4 +1,4 @@
-import React, { useCallback } from "react"
+import React from "react"
 import { Alert, Keyboard, ToastAndroid, TouchableWithoutFeedback } from "react-native"
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native"
 
@@ -25,11 +25,11 @@ export function AddPassword() {
     })
 
 
-    const goBack = useCallback(() => {
+    function goBack() {
         navigation.navigate("ChoosePasswordType")
-    }, [])
+    }
 
-    const onDone = useCallback(async (newLock?: string) => {
+    async function onDone(newLock?: string) {
         if (params.passwordType === "bio") {
             await SettingsDatabase.updateSettings(db, "lockType", "bio")
             await SettingsDatabase.updateSettings(db, "appLock", "")
@@ -51,7 +51,7 @@ export function AddPassword() {
         await SettingsDatabase.updateSettings(db, "appLock", hashLock)
         navigation.navigate("Home")
         ToastAndroid.show("Senha adicionada", ToastAndroid.LONG)
-    }, [])
+    }
 
 
     return (
