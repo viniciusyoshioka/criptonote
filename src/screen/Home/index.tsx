@@ -6,7 +6,6 @@ import { EmptyList, NoteItem, SafeScreen } from "../../component"
 import { appIconOutline } from "../../service/constant"
 import { createAllFolder } from "../../service/folder-handler"
 import { useBackHandler } from "../../service/hook"
-import { exportNote } from "../../service/note-handler"
 import { NoteForList } from "../../service/object-type"
 import { HomeHeader } from "./Header"
 import { NoteDatabase, useDatabase } from "../../database"
@@ -58,10 +57,9 @@ export function Home() {
         )
     }
 
-    // TODO
     function exportAppNote() {
         function alertExport() {
-            exportNote(selectedNote, selectionMode)
+            NoteDatabase.exportNote(db, selectedNote)
             exitSelectionMode()
         }
 
