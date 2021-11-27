@@ -6,11 +6,11 @@ import RNFS, { ReadDirItem } from "react-native-fs"
 import { FileExplorerHeader } from "./Header"
 import { exportedNoteBetaExtension, fullPathDecrypted, fullPathEncrypted, fullPathExported } from "../../service/constant"
 import { useBackHandler } from "../../service/hook"
-import { importNote } from "../../service/note-handler"
 import { log } from "../../service/log"
 import { ScreenParams } from "../../service/screen-params"
 import { ListItem, SafeScreen, SubHeader, SubHeaderText } from "../../component"
 import { createAllFolder } from "../../service/folder-handler"
+import { NoteDatabase, useDatabase } from "../../database"
 
 
 const defaultContent: Array<ReadDirItem> = [
@@ -79,6 +79,8 @@ export function FileExplorer() {
     const navigation = useNavigation()
     const { params } = useRoute<RouteProp<ScreenParams, "FileExplorer">>()
 
+    const db = useDatabase()
+
     const [path, setPath] = useState<string | null>(null)
     const [pathContent, setPathContent] = useState<Array<ReadDirItem>>(defaultContent)
     const [backToDefault, setBackToDefault] = useState(false)
@@ -144,12 +146,12 @@ export function FileExplorer() {
 
     const importNoteAlert = useCallback((newPath: string) => {
         function importNoteFunction() {
-            importNote(newPath)
-                .then((isNoteImported: boolean) => {
-                    if (isNoteImported) {
-                        navigation.reset({ routes: [{ name: "Home" }] })
-                        return
-                    }
+            NoteDatabase.importNote(db, newPath)
+                .then(() => {
+                    navigation.reset({ routes: [{ name: "Home" }] })
+                })
+                .catch((error) => {
+                    // TODO Log
                 })
 
             Alert.alert(
