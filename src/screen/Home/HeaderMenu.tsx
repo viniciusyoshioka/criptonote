@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from "react"
+import React, { useRef } from "react"
 import { BackHandler } from "react-native"
 import { Menu, MenuOptions, MenuTrigger } from "react-native-popup-menu"
 import { RectButton } from "react-native-gesture-handler"
@@ -21,27 +21,27 @@ export function HomeHeaderMenu(props: HomeHeaderMenuProps) {
     const menuRef = useRef<Menu>(null)
 
 
-    const backhandlerFunction = useCallback(() => {
+    function backhandlerFunction() {
         if (menuRef.current?.isOpen()) {
             menuRef.current?.close()
             return true
         }
         return false
-    }, [menuRef])
+    }
 
-    const setBackhandler = useCallback(() => {
+    function setBackhandler() {
         BackHandler.addEventListener(
             "hardwareBackPress",
             backhandlerFunction
         )
-    }, [backhandlerFunction])
+    }
 
-    const removeBackhandler = useCallback(() => {
+    function removeBackhandler() {
         BackHandler.removeEventListener(
             "hardwareBackPress",
             backhandlerFunction
         )
-    }, [backhandlerFunction])
+    }
 
 
     return (
