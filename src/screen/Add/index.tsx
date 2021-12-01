@@ -6,15 +6,13 @@ import { useBackHandler, useKeyboard } from "../../service/hook"
 import { AddHeader } from "./Header"
 import { encryptString } from "../../service/crypto"
 import { InputPassword, InputText, InputTitle, SafeScreen, SpaceScreen } from "../../component"
-import { NoteDatabase, useDatabase } from "../../database"
+import { NoteDatabase } from "../../database"
 
 
 export function Add() {
 
 
     const navigation = useNavigation()
-
-    const db = useDatabase()
 
     const inputTitleRef = createRef<TextInput>()
     const inputPasswordRef = createRef<TextInput>()
@@ -90,7 +88,7 @@ export function Add() {
             }
         }
 
-        await NoteDatabase.insertNote(db, title, textToSave)
+        await NoteDatabase.insertNote(title, textToSave)
         navigation.reset({ routes: [{ name: "Home" }] })
     }
 

@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react"
 import { Alert, BackHandler, FlatList } from "react-native"
 import { useNavigation } from "@react-navigation/core"
 
-import { EmptyList, NoteItem, SafeScreen } from "../../component"
+import { Button, EmptyList, NoteItem, SafeScreen } from "../../component"
 import { appIconOutline } from "../../service/constant"
 import { createAllFolder } from "../../service/folder-handler"
 import { NoteForList } from "../../service/object-type"
 import { HomeHeader } from "./Header"
-import { NoteDatabase, useDatabase } from "../../database"
+import { NoteDatabase } from "../../database"
+import { log } from "../../service/log"
 
 
 export function Home() {
@@ -15,21 +16,19 @@ export function Home() {
 
     const navigation = useNavigation()
 
-    const db = useDatabase()
-
     const [note, setNote] = useState<Array<NoteForList>>([])
     const [selectionMode, setSelectionMode] = useState(false)
     const [selectedNote, setSelectedNote] = useState<Array<number>>([])
 
 
     async function getNote() {
-        const noteList = await NoteDatabase.getNoteList(db)
+        const noteList = await NoteDatabase.getNoteList()
         setNote(noteList)
     }
 
     function deleteSelectedNote() {
         async function alertDelete() {
-            await NoteDatabase.deleteNote(db, selectedNote)
+            await NoteDatabase.deleteNote(selectedNote)
             await getNote()
             exitSelectionMode()
         }
@@ -46,7 +45,7 @@ export function Home() {
 
     function exportAppNote() {
         function alertExport() {
-            NoteDatabase.exportNote(db, selectedNote)
+            NoteDatabase.exportNote(selectedNote)
             exitSelectionMode()
         }
 
@@ -142,6 +141,23 @@ export function Home() {
             {(note.length === 0) && (
                 <EmptyList source={appIconOutline} message={"Nenhuma nota"} />
             )}
+
+            <Button
+                style={{
+                    position: "absolute",
+                    bottom: 16,
+                    right: 16,
+                    backgroundColor: "red"
+                }}
+                text={"Error"}
+                onPress={async () => {
+                    try {
+                        throw new Error("Meu erro")
+                    } catch (error) {
+                        log.error("Mensagem do log -> " + error)
+                    }
+                }}
+            />
         </SafeScreen>
     )
 }

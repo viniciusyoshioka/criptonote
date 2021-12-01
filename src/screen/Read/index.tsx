@@ -8,7 +8,7 @@ import { ScreenParams } from "../../service/screen-params"
 import { ChangePassword } from "./ChangePassword"
 import { decryptString, encryptString } from "../../service/crypto"
 import { InputText, InputTitle, SafeScreen, SpaceScreen } from "../../component"
-import { NoteDatabase, useDatabase } from "../../database"
+import { NoteDatabase } from "../../database"
 
 
 export function Read() {
@@ -16,8 +16,6 @@ export function Read() {
 
     const navigation = useNavigation()
     const { params } = useRoute<RouteProp<ScreenParams, "Read">>()
-
-    const db = useDatabase()
 
     const inputTitleRef = createRef<TextInput>()
     const inputTextRef = createRef<TextInput>()
@@ -47,7 +45,7 @@ export function Read() {
 
 
     async function readNote() {
-        const note = await NoteDatabase.getNote(db, params.noteId)
+        const note = await NoteDatabase.getNote(params.noteId)
 
         if (params.password === "") {
             setTitle(note.title)
@@ -125,13 +123,13 @@ export function Read() {
             }
         }
 
-        await NoteDatabase.updateNote(db, params.noteId, title, textToSave)
+        await NoteDatabase.updateNote(params.noteId, title, textToSave)
         navigation.reset({ routes: [{ name: "Home" }] })
     }
 
     async function deleteCurrentNote() {
         async function alertDeleteNote() {
-            await NoteDatabase.deleteNote(db, [params.noteId])
+            await NoteDatabase.deleteNote([params.noteId])
             navigation.reset({ routes: [{ name: "Home" }] })
         }
 
@@ -164,7 +162,7 @@ export function Read() {
             return
         }
 
-        const note = await NoteDatabase.getNote(db, params.noteId)
+        const note = await NoteDatabase.getNote(params.noteId)
 
         let encryptedNewPasswordText = ""
         try {
@@ -178,7 +176,7 @@ export function Read() {
             return
         }
 
-        await NoteDatabase.updateNote(db, params.noteId, note.title, encryptedNewPasswordText)
+        await NoteDatabase.updateNote(params.noteId, note.title, encryptedNewPasswordText)
         navigation.reset({ routes: [{ name: "Home" }] })
     }
 
@@ -191,7 +189,7 @@ export function Read() {
             return
         }
 
-        NoteDatabase.exportNote(db, [params.noteId])
+        NoteDatabase.exportNote([params.noteId])
             .then(() => { })
             .catch((error) => {
                 // TODO log

@@ -8,7 +8,7 @@ import { sha256 } from "../../service/message-digest"
 import { lockType } from "../../service/object-type"
 import { ScreenParams } from "../../service/screen-params"
 import { AddBio, AddPin, AddText, SafeScreen } from "../../component"
-import { SettingsDatabase, useDatabase } from "../../database"
+import { SettingsDatabase } from "../../database"
 
 
 export function Lock() {
@@ -16,8 +16,6 @@ export function Lock() {
 
     const navigation = useNavigation()
     const { params } = useRoute<RouteProp<ScreenParams, "Lock">>()
-
-    const db = useDatabase()
 
     const inputLockRef = createRef<TextInput>()
 
@@ -40,7 +38,7 @@ export function Lock() {
 
 
     async function unlock(lock: string) {
-        const appLock = await SettingsDatabase.getSettingKey(db, "appLock")
+        const appLock = await SettingsDatabase.getSettingKey("appLock")
         const hashLock = sha256(lock)
 
         if (hashLock === appLock) {
@@ -92,7 +90,7 @@ export function Lock() {
 
     useEffect(() => {
         async function isProtected() {
-            const readAppLockType = await SettingsDatabase.getSettingKey(db, "lockType")
+            const readAppLockType = await SettingsDatabase.getSettingKey("lockType")
             if (readAppLockType === "none") {
                 navigation.reset({
                     routes: [

@@ -1,13 +1,14 @@
 import SQLite from "react-native-sqlite-storage"
 
+import { globalAppDatabase } from "."
 import { latestDbVersion } from "../service/constant"
 import { lockTypeDefault, settingKey, settingsObject } from "../service/object-type"
 import { themeDefault } from "../service/theme"
 
 
-export function createSettingsTable(db: SQLite.SQLiteDatabase): Promise<null> {
+export function createSettingsTable(): Promise<null> {
     return new Promise((resolve, reject) => {
-        db.executeSql(`
+        globalAppDatabase.executeSql(`
             SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'settings';
         `)
             .then(async ([resultSet]) => {
@@ -15,14 +16,14 @@ export function createSettingsTable(db: SQLite.SQLiteDatabase): Promise<null> {
             })
             .then(async (settingsTableExists: boolean) => {
                 if (!settingsTableExists) {
-                    await db.executeSql(`
+                    await globalAppDatabase.executeSql(`
                         CREATE TABLE settings (
                             key TEXT,
                             value TEXT,
                             PRIMARY KEY("key")
                         );
                     `)
-                    await db.executeSql(`
+                    await globalAppDatabase.executeSql(`
                         INSERT INTO settings 
                             (key, value) 
                         VALUES 
@@ -41,9 +42,9 @@ export function createSettingsTable(db: SQLite.SQLiteDatabase): Promise<null> {
 }
 
 
-export function getSettings(db: SQLite.SQLiteDatabase): Promise<settingsObject> {
+export function getSettings(): Promise<settingsObject> {
     return new Promise((resolve, reject) => {
-        db.executeSql(`
+        globalAppDatabase.executeSql(`
             SELECT * FROM settings;
         `)
             .then(([resultSet]) => {
@@ -61,9 +62,9 @@ export function getSettings(db: SQLite.SQLiteDatabase): Promise<settingsObject> 
 }
 
 
-export function getSettingKey<K extends settingKey>(db: SQLite.SQLiteDatabase, key: K): Promise<settingsObject[K]> {
+export function getSettingKey<K extends settingKey>(key: K): Promise<settingsObject[K]> {
     return new Promise((resolve, reject) => {
-        db.executeSql(`
+        globalAppDatabase.executeSql(`
             SELECT value FROM settings WHERE key = ?;
         `, [key])
             .then(([resultSet]) => {
@@ -77,13 +78,9 @@ export function getSettingKey<K extends settingKey>(db: SQLite.SQLiteDatabase, k
 }
 
 
-export function insertSettings<K extends settingKey>(
-    db: SQLite.SQLiteDatabase,
-    key: K,
-    value: settingsObject[K]
-): Promise<SQLite.ResultSet> {
+export function insertSettings<K extends settingKey>(key: K, value: settingsObject[K]): Promise<SQLite.ResultSet> {
     return new Promise((resolve, reject) => {
-        db.executeSql(`
+        globalAppDatabase.executeSql(`
             INSERT INTO settings (key, value) VALUES (?, ?);
         `, [key, value])
             .then(([resultSet]) => {
@@ -96,13 +93,9 @@ export function insertSettings<K extends settingKey>(
 }
 
 
-export function updateSettings<K extends settingKey>(
-    db: SQLite.SQLiteDatabase,
-    key: K,
-    value: settingsObject[K]
-): Promise<SQLite.ResultSet> {
+export function updateSettings<K extends settingKey>(key: K, value: settingsObject[K]): Promise<SQLite.ResultSet> {
     return new Promise((resolve, reject) => {
-        db.executeSql(`
+        globalAppDatabase.executeSql(`
             UPDATE settings SET value = ? WHERE key = ?;
         `, [value, key])
             .then(([resultSet]) => {
@@ -115,7 +108,7 @@ export function updateSettings<K extends settingKey>(
 }
 
 
-export function deleteSettings(db: SQLite.SQLiteDatabase, keys: settingKey[]): Promise<SQLite.ResultSet> {
+export function deleteSettings(keys: settingKey[]): Promise<SQLite.ResultSet> {
     return new Promise((resolve, reject) => {
 
         let keysToDelete = ""
@@ -126,7 +119,7 @@ export function deleteSettings(db: SQLite.SQLiteDatabase, keys: settingKey[]): P
             keysToDelete += ", ?"
         }
 
-        db.executeSql(`
+        globalAppDatabase.executeSql(`
             DELETE FROM settings WHERE key IN (${keysToDelete});
         ` )
             .then(([resultSet]) => {

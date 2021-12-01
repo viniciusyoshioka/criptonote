@@ -6,7 +6,7 @@ import { useNavigation } from "@react-navigation/native"
 import { useBackHandler } from "../../service/hook"
 import { ChoosePasswordTypeHeader } from "./Header"
 import { ListItem, SafeScreen } from "../../component"
-import { SettingsDatabase, useDatabase } from "../../database"
+import { SettingsDatabase } from "../../database"
 
 
 // TODO
@@ -14,8 +14,6 @@ export function ChoosePasswordType() {
 
 
     const navigation = useNavigation()
-
-    const db = useDatabase()
 
     const [hasBioSupport, setHasBioSupport] = useState(false)
 
@@ -31,14 +29,14 @@ export function ChoosePasswordType() {
     }
 
     async function removeLock() {
-        const currentLockType = await SettingsDatabase.getSettingKey(db, "lockType")
+        const currentLockType = await SettingsDatabase.getSettingKey("lockType")
         if (currentLockType === "none") {
             ToastAndroid.show("Aplicativo já está sem senha", ToastAndroid.LONG)
             return
         }
 
-        await SettingsDatabase.updateSettings(db, "lockType", "none")
-        await SettingsDatabase.updateSettings(db, "appLock", "")
+        await SettingsDatabase.updateSettings("lockType", "none")
+        await SettingsDatabase.updateSettings("appLock", "")
         navigation.navigate("Home")
         ToastAndroid.show("Senha removida", ToastAndroid.LONG)
     }

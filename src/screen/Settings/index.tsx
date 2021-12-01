@@ -7,15 +7,13 @@ import { appName, appType, appVersion } from "../../service/constant"
 import { ChangeTheme } from "./ChangeTheme"
 import { useBackHandler } from "../../service/hook"
 import { ListItem, SafeScreen } from "../../component"
-import { SettingsDatabase, useDatabase } from "../../database"
+import { SettingsDatabase } from "../../database"
 
 
 export function Settings() {
 
 
     const navigation = useNavigation()
-
-    const db = useDatabase()
 
     const [isChangeThemeVisible, setIsChangeThemeVisible] = useState(false)
 
@@ -31,7 +29,7 @@ export function Settings() {
     }
 
     async function changeAppPassword() {
-        const lockType = await SettingsDatabase.getSettingKey(db, "lockType")
+        const lockType = await SettingsDatabase.getSettingKey("lockType")
         if (lockType === "none") {
             navigation.navigate("ChoosePasswordType")
             return

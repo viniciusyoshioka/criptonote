@@ -2,16 +2,16 @@ import { ToastAndroid } from "react-native"
 import RNFS from "react-native-fs"
 import SQLite from "react-native-sqlite-storage"
 
-import { openTemporaryDatabase } from "."
+import { globalAppDatabase, openTemporaryDatabase } from "."
 import { appName, exportedNoteExtension, fullPathExported, relativePathExported } from "../service/constant"
 import { getDateTime } from "../service/date"
 import { Note, NoteForList, SimpleNote } from "../service/object-type"
 import { getReadPermission, getWritePermission } from "../service/permission"
 
 
-export function createNoteTable(db: SQLite.SQLiteDatabase): Promise<SQLite.ResultSet> {
+export function createNoteTable(): Promise<SQLite.ResultSet> {
     return new Promise((resolve, reject) => {
-        db.executeSql(`
+        globalAppDatabase.executeSql(`
             CREATE TABLE IF NOT EXISTS note (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 title TEXT NOT NULL DEFAULT '',
@@ -29,9 +29,9 @@ export function createNoteTable(db: SQLite.SQLiteDatabase): Promise<SQLite.Resul
 }
 
 
-export function getNoteList(db: SQLite.SQLiteDatabase): Promise<Array<NoteForList>> {
+export function getNoteList(): Promise<Array<NoteForList>> {
     return new Promise((resolve, reject) => {
-        db.executeSql(`
+        globalAppDatabase.executeSql(`
             SELECT id, title, timestamp FROM note ORDER BY timestamp DESC;
         `)
             .then(([resultSet]) => {
@@ -44,9 +44,9 @@ export function getNoteList(db: SQLite.SQLiteDatabase): Promise<Array<NoteForLis
 }
 
 
-export function getNote(db: SQLite.SQLiteDatabase, id: number): Promise<SimpleNote> {
+export function getNote(id: number): Promise<SimpleNote> {
     return new Promise((resolve, reject) => {
-        db.executeSql(`
+        globalAppDatabase.executeSql(`
             SELECT title, text FROM note WHERE id = ?;
         `, [id])
             .then(([resultSet]) => {
@@ -59,9 +59,9 @@ export function getNote(db: SQLite.SQLiteDatabase, id: number): Promise<SimpleNo
 }
 
 
-export function insertNote(db: SQLite.SQLiteDatabase, title: string, text: string): Promise<SQLite.ResultSet> {
+export function insertNote(title: string, text: string): Promise<SQLite.ResultSet> {
     return new Promise((resolve, reject) => {
-        db.executeSql(`
+        globalAppDatabase.executeSql(`
             INSERT INTO note (title, text) VALUES (?, ?);
         `, [title, text])
             .then(([resultSet]) => {
@@ -74,14 +74,9 @@ export function insertNote(db: SQLite.SQLiteDatabase, title: string, text: strin
 }
 
 
-export function updateNote(
-    db: SQLite.SQLiteDatabase, 
-    id: number, 
-    title: string, 
-    text: string
-): Promise<SQLite.ResultSet> {
+export function updateNote(id: number, title: string, text: string): Promise<SQLite.ResultSet> {
     return new Promise((resolve, reject) => {
-        db.executeSql(`
+        globalAppDatabase.executeSql(`
             UPDATE note SET title = ?, text = ?, timestamp = datetime(CURRENT_TIMESTAMP, 'localtime') WHERE id = ?;
         `, [title, text, id])
             .then(([resultSet]) => {
@@ -94,7 +89,7 @@ export function updateNote(
 }
 
 
-export function deleteNote(db: SQLite.SQLiteDatabase, id: number[]): Promise<SQLite.ResultSet> {
+export function deleteNote(id: number[]): Promise<SQLite.ResultSet> {
     return new Promise((resolve, reject) => {
 
         let idToDelete = ""
@@ -105,7 +100,7 @@ export function deleteNote(db: SQLite.SQLiteDatabase, id: number[]): Promise<SQL
             idToDelete += ", ?"
         }
 
-        db.executeSql(`
+        globalAppDatabase.executeSql(`
             DELETE FROM note WHERE id IN (${idToDelete});
         `, id)
             .then(([resultSet]) => {
@@ -118,7 +113,7 @@ export function deleteNote(db: SQLite.SQLiteDatabase, id: number[]): Promise<SQL
 }
 
 
-export function exportNote(db: SQLite.SQLiteDatabase, id: number[] = []): Promise<null> {
+export function exportNote(id: number[] = []): Promise<null> {
     return new Promise((resolve, reject) => {
         const temporaryDatabasePath = `${RNFS.CachesDirectoryPath}/../databases/tmp_database_export_note.sqlite`
         getWritePermission()
@@ -162,7 +157,7 @@ export function exportNote(db: SQLite.SQLiteDatabase, id: number[] = []): Promis
                     `
                 }
 
-                const [resultSet] = await db.executeSql(queriedNotesToExport, id)
+                const [resultSet] = await globalAppDatabase.executeSql(queriedNotesToExport, id)
 
                 for (const note of resultSet.rows.raw() as Note[]) {
                     await temporaryDatabase.executeSql(`
@@ -197,7 +192,7 @@ export function exportNote(db: SQLite.SQLiteDatabase, id: number[] = []): Promis
 }
 
 
-export function importNote(db: SQLite.SQLiteDatabase, path: string): Promise<null> {
+export function importNote(path: string): Promise<null> {
     return new Promise((resolve, reject) => {
         const temporaryDatabasePath = `${RNFS.CachesDirectoryPath}/../databases/tmp_database_export_note.sqlite`
         getReadPermission()
@@ -221,7 +216,7 @@ export function importNote(db: SQLite.SQLiteDatabase, path: string): Promise<nul
                 `)
 
                 for (const note of queriedNotesToImport.rows.raw() as Note[]) {
-                    await db.executeSql(`
+                    await globalAppDatabase.executeSql(`
                         INSERT INTO note
                             (title, text)
                         VALUES

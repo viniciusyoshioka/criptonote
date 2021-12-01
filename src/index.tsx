@@ -8,7 +8,7 @@ import SQLite from "react-native-sqlite-storage"
 
 import { Router } from "./router"
 import { DarkTheme, LightTheme, ThemeContextProvider, themeType } from "./service/theme"
-import { DatabaseProvider, LogDatabase, NoteDatabase, openAppDatabase, openLogDatabase, setGlobalAppDatabase, setGlobalLogDatabase, SettingsDatabase } from "./database"
+import { LogDatabase, NoteDatabase, openAppDatabase, openLogDatabase, setGlobalAppDatabase, setGlobalLogDatabase, SettingsDatabase } from "./database"
 
 
 export function App() {
@@ -22,7 +22,7 @@ export function App() {
 
 
     async function getTheme() {
-        const readAppTheme = await SettingsDatabase.getSettingKey(appDb!, "theme")
+        const readAppTheme = await SettingsDatabase.getSettingKey("theme")
 
         LightTheme.appTheme = readAppTheme
         LightTheme.switchTheme = switchTheme
@@ -42,7 +42,7 @@ export function App() {
     }
 
     async function switchTheme(newTheme: themeType) {
-        await SettingsDatabase.updateSettings(appDb!, "theme", newTheme)
+        await SettingsDatabase.updateSettings("theme", newTheme)
         await getTheme()
     }
 
@@ -59,8 +59,8 @@ export function App() {
         openAppDatabase()
             .then(async (database) => {
                 setGlobalAppDatabase(database)
-                await NoteDatabase.createNoteTable(database)
-                await SettingsDatabase.createSettingsTable(database)
+                await NoteDatabase.createNoteTable()
+                await SettingsDatabase.createSettingsTable()
                 setAppDb(database)
             })
             .catch((error) => {
@@ -103,9 +103,7 @@ export function App() {
         <ThemeContextProvider value={(theme === "light") ? LightTheme : DarkTheme}>
             <ThemeProvider theme={(theme === "light") ? LightTheme : DarkTheme}>
                 <MenuProvider>
-                    <DatabaseProvider value={appDb}>
-                        <Router />
-                    </DatabaseProvider>
+                    <Router />
                 </MenuProvider>
             </ThemeProvider>
         </ThemeContextProvider>

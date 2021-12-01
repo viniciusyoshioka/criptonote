@@ -1,4 +1,3 @@
-import { createContext, useContext } from "react"
 import SQLite from "react-native-sqlite-storage"
 
 
@@ -73,13 +72,4 @@ export function openTemporaryDatabase(databaseFileName: string): Promise<SQLite.
                 reject(error)
             })
     })
-}
-
-
-const databaseContext = createContext(undefined as unknown as SQLite.SQLiteDatabase)
-
-export const DatabaseProvider = databaseContext.Provider
-
-export function useDatabase(): SQLite.SQLiteDatabase {
-    return useContext(databaseContext)
 }
