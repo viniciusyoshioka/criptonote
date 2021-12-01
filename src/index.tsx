@@ -76,13 +76,6 @@ export function App() {
             .catch((error) => {
                 // TODO log
             })
-
-        if (!__DEV__ && appDb && logDb) {
-            return () => {
-                appDb.close()
-                logDb.close()
-            }
-        }
     }, [])
 
     useEffect(() => {
