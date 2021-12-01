@@ -8,7 +8,7 @@ import SQLite from "react-native-sqlite-storage"
 
 import { Router } from "./router"
 import { DarkTheme, LightTheme, ThemeContextProvider, themeType } from "./service/theme"
-import { DatabaseProvider, NoteDatabase, openDatabase, SettingsDatabase } from "./database"
+import { DatabaseProvider, LogDatabase, NoteDatabase, openAppDatabase, openLogDatabase, setGlobalAppDatabase, setGlobalLogDatabase, SettingsDatabase } from "./database"
 
 
 export function App() {
@@ -16,12 +16,13 @@ export function App() {
 
     const deviceTheme = useColorScheme()
 
-    const [db, setDb] = useState<SQLite.SQLiteDatabase | undefined>(undefined)
+    const [appDb, setAppDb] = useState<SQLite.SQLiteDatabase | undefined>(undefined)
+    const [logDb, setLogDb] = useState<SQLite.SQLiteDatabase | undefined>(undefined)
     const [theme, setTheme] = useState<themeType | undefined>()
 
 
     async function getTheme() {
-        const readAppTheme = await SettingsDatabase.getSettingKey(db!, "theme")
+        const readAppTheme = await SettingsDatabase.getSettingKey(appDb!, "theme")
 
         LightTheme.appTheme = readAppTheme
         LightTheme.switchTheme = switchTheme
@@ -41,33 +42,45 @@ export function App() {
     }
 
     async function switchTheme(newTheme: themeType) {
-        await SettingsDatabase.updateSettings(db!, "theme", newTheme)
+        await SettingsDatabase.updateSettings(appDb!, "theme", newTheme)
         await getTheme()
     }
 
 
     useEffect(() => {
-        if (db) {
+        if (appDb && logDb) {
             getTheme()
         }
-    }, [deviceTheme, db])
+    }, [deviceTheme, appDb, logDb])
 
     useEffect(() => {
         SQLite.enablePromise(true)
 
-        openDatabase()
+        openAppDatabase()
             .then(async (database) => {
+                setGlobalAppDatabase(database)
                 await NoteDatabase.createNoteTable(database)
                 await SettingsDatabase.createSettingsTable(database)
-                setDb(database)
+                setAppDb(database)
             })
             .catch((error) => {
                 // TODO log
             })
 
-        if (!__DEV__ && db) {
+        openLogDatabase()
+            .then(async (database) => {
+                setGlobalLogDatabase(database)
+                await LogDatabase.createLogTable()
+                setLogDb(database)
+            })
+            .catch((error) => {
+                // TODO log
+            })
+
+        if (!__DEV__ && appDb && logDb) {
             return () => {
-                db.close()
+                appDb.close()
+                logDb.close()
             }
         }
     }, [])
@@ -81,7 +94,7 @@ export function App() {
     }, [])
 
 
-    if (!theme || !db) {
+    if (!theme || !appDb || !logDb) {
         return null
     }
 
@@ -90,7 +103,7 @@ export function App() {
         <ThemeContextProvider value={(theme === "light") ? LightTheme : DarkTheme}>
             <ThemeProvider theme={(theme === "light") ? LightTheme : DarkTheme}>
                 <MenuProvider>
-                    <DatabaseProvider value={db}>
+                    <DatabaseProvider value={appDb}>
                         <Router />
                     </DatabaseProvider>
                 </MenuProvider>
