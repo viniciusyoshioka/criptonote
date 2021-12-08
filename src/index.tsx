@@ -9,6 +9,7 @@ import SQLite from "react-native-sqlite-storage"
 import { Router } from "./router"
 import { DarkTheme, LightTheme, ThemeContextProvider, themeType } from "./service/theme"
 import { LogDatabase, NoteDatabase, openAppDatabase, openLogDatabase, setGlobalAppDatabase, setGlobalLogDatabase, SettingsDatabase } from "./database"
+import { logCriticalError } from "./service/log"
 
 
 export function App() {
@@ -64,7 +65,7 @@ export function App() {
                 setAppDb(database)
             })
             .catch((error) => {
-                // TODO log
+                logCriticalError(`Error opening app database: "${error}"`)
             })
 
         openLogDatabase()
@@ -74,7 +75,7 @@ export function App() {
                 setLogDb(database)
             })
             .catch((error) => {
-                // TODO log
+                logCriticalError(`Error opening log database: "${error}"`)
             })
     }, [])
 
