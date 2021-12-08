@@ -1,65 +1,116 @@
-import { Alert, ToastAndroid } from "react-native"
-import RNFS from "react-native-fs"
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Alert } from "react-native"
+import { logger } from "react-native-logs"
 
-import { fullPathLog } from "./constant"
-import { getLogPermission, LogPermissionResult } from "./permission"
-
-
-export type logCode = "INFO" | "WARN" | "ERROR"
+import { LogDatabase } from "../database"
+import { getDateTime } from "./date"
 
 
-async function createLogFile(): Promise<void> {
-    const fileExists = await RNFS.exists(fullPathLog)
+type transportFunctionProps = {
+    msg: string;
+    rawMsg: Array<string>;
+    level: {
+        severity: number;
+        text: string;
+    };
+    extension?: string | null;
+}
 
-    if (!fileExists) {
-        try {
-            await RNFS.writeFile(fullPathLog, "")
-        } catch (error) {
-            console.log(`FALHA CRÍTICA - Erro criando arquivo de log. Mensagem: "${error}"`)
-            Alert.alert(
-                "FALHA CRÍTICA",
-                `Erro criando arquivo de log. Mensagem: "${error}"`
-            )
+
+type Logger = {
+    /**
+     * Disable an extension
+     */
+    disable: (extension: string) => boolean;
+
+    /**
+     * Enable an extension
+     */
+    enable: (extension: string) => boolean;
+
+    /**
+     * Extend logger with a new extension
+     */
+    extend: (extension: string) => (...msgs: any[]) => boolean | any;
+
+    /**
+     * Return all created extensions
+     */
+    getExtensions: () => string[];
+
+    /**
+     * Get current log severity API
+     */
+    getSeverity: () => string;
+
+    /**
+     * Set log severity API
+     */
+    setSeverity: (level: string) => string;
+
+    /**
+     * Log @param message as debug message
+     */
+    debug: (message: string) => void;
+
+    /**
+     * Log @param message as info message
+     */
+    info: (message: string) => void;
+
+    /**
+     * Log @param message as warn message
+     */
+    warn: (message: string) => void;
+
+    /**
+     * Log @param message as error message
+     */
+    error: (message: string) => void;
+}
+
+
+export function logCriticalError(message: string) {
+    console.log(`FALHA CRÍTICA - Erro registrando log. Mensagem: "${message}"`)
+    Alert.alert(
+        "FALHA CRÍTICA",
+        `Erro registrando log. Mensagem: "${message}"`
+    )
+}
+
+
+async function databaseTransport(props: transportFunctionProps) {
+    try {
+        let color
+        switch (props.level.text) {
+            case "info":
+                color = "\x1b[96m"
+                break
+            case "warn":
+                color = "\x1b[93m"
+                break
+            case "error":
+                color = "\x1b[97;41m"
+                break
+            default:
+                break
         }
+
+        const datetime = getDateTime("/", ":", true)
+        const level = props.level.text.toUpperCase().padEnd(5)
+        const message = props.rawMsg.join(" ")
+
+        console.log(`${color}[${datetime}] ${level} - ${message}\x1b[m`)
+
+        await LogDatabase.insertLog(level, message)
+    } catch (error) {
+        logCriticalError(error as string)
     }
 }
 
 
-export function log(code: logCode, data: string) {
-    if (!__DEV__) {
-        return
-    }
-
-    getLogPermission()
-        .then((logPermission: LogPermissionResult) => {
-            if (!logPermission.READ_EXTERNAL_STORAGE || !logPermission.WRITE_EXTERNAL_STORAGE) {
-                ToastAndroid.show("Permissão negada para registrar logs", 10)
-                return false
-            }
-            return true
-        })
-        .then(async (hasPermission: boolean) => {
-            if (!hasPermission) {
-                return false
-            }
-            await createLogFile()
-            return true
-        })
-        .then(async (hasPermission: boolean) => {
-            if (!hasPermission) {
-                return false
-            }
-            console.log(`${code} - ${data}`)
-            try {
-                await RNFS.appendFile(fullPathLog, `${code} - ${data}\n`)
-                return true
-            } catch (error) {
-                console.log(`FALHA CRÍTICA - Erro registrando log. Mensagem: "${error}"`)
-                Alert.alert(
-                    "FALHA CRÍTICA",
-                    `Erro registrando log. Mensagem: "${error}"`
-                )
-                return false
-            }
-        })
-}
+export const log = logger.createLogger({
+    severity: __DEV__ ? "debug" : "warn",
+    transport: databaseTransport,
+    async: true,
+}) as unknown as Logger
