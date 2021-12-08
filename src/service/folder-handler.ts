@@ -8,14 +8,14 @@ import { getWritePermission } from "./permission"
 async function createRootFolder() {
     const hasWritePermission = await getWritePermission()
     if (!hasWritePermission) {
-        log("ERROR", "Can't create root folder without write external storage permission")
+        log.warn("Can't create root folder without write external storage permission")
         return
     }
 
     try {
         await RNFS.mkdir(fullPathRoot)
     } catch (error) {
-        log("ERROR", `folder-handler createRootFolder - Erro ao criar pasta. Mensagem: "${error}"`)
+        log.error(`folder-handler createRootFolder - Erro ao criar pasta. Mensagem: "${error}"`)
     }
 }
 
@@ -23,14 +23,14 @@ async function createRootFolder() {
 async function createRootFolderExternal() {
     const hasWritePermission = await getWritePermission()
     if (!hasWritePermission) {
-        log("ERROR", "Can't create external root folder without write external storage permission")
+        log.warn("Can't create external root folder without write external storage permission")
         return
     }
 
     try {
         await RNFS.mkdir(fullPathRootExternal)
     } catch (error) {
-        log("ERROR", `folder-handler createRootFolderExternal - Erro ao criar pasta. Mensagem: "${error}"`)
+        log.error(`folder-handler createRootFolderExternal - Erro ao criar pasta. Mensagem: "${error}"`)
     }
 }
 
@@ -38,14 +38,14 @@ async function createRootFolderExternal() {
 export async function createExportedFolder() {
     const hasWritePermission = await getWritePermission()
     if (!hasWritePermission) {
-        log("ERROR", "Can't create exported folder without write external storage permission")
+        log.warn("Can't create exported folder without write external storage permission")
         return
     }
 
     try {
         await RNFS.mkdir(fullPathExported)
     } catch (error) {
-        log("ERROR", `folder-handler createExportedFolder - Erro ao criar pasta. Mensagem: "${error}"`)
+        log.error(`folder-handler createExportedFolder - Erro ao criar pasta. Mensagem: "${error}"`)
     }
 }
 
@@ -53,14 +53,14 @@ export async function createExportedFolder() {
 export async function createEncryptedFolder() {
     const hasWritePermission = await getWritePermission()
     if (!hasWritePermission) {
-        log("ERROR", "Can't create encrypted folder without write external storage permission")
+        log.warn("Can't create encrypted folder without write external storage permission")
         return
     }
 
     try {
         await RNFS.mkdir(fullPathEncrypted)
     } catch (error) {
-        log("ERROR", `folder-handler createEncryptedFolder - Erro ao criar pasta. Mensagem: "${error}"`)
+        log.error(`folder-handler createEncryptedFolder - Erro ao criar pasta. Mensagem: "${error}"`)
     }
 }
 
@@ -68,14 +68,14 @@ export async function createEncryptedFolder() {
 export async function createDecryptedFolder() {
     const hasWritePermission = await getWritePermission()
     if (!hasWritePermission) {
-        log("ERROR", "Can't create decrypted folder without write external storage permission")
+        log.warn("Can't create decrypted folder without write external storage permission")
         return
     }
 
     try {
         await RNFS.mkdir(fullPathDecrypted)
     } catch (error) {
-        log("ERROR", `folder-handler createDecryptedFolder - Erro ao criar pasta. Mensagem: "${error}"`)
+        log.error(`folder-handler createDecryptedFolder - Erro ao criar pasta. Mensagem: "${error}"`)
     }
 }
 
