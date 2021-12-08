@@ -35,12 +35,6 @@ export const folderDecrypted = "Descriptografados"
 export const relativePathDecrypted = `${folderRoot}/${folderDecrypted}`
 export const fullPathDecrypted = `${fullPathRootExternal}/${folderDecrypted}`
 
-// File
-// Log
-export const fileLog = "criptonotelog.log"
-export const relativePathLog = fileLog
-export const fullPathLog = `${fullPathRoot}/${relativePathLog}`
-
 // Password key for exported notes
 export const keyExportedNote = "5G0SLKxpRPfrZLegyYUqSk0i9JQev22U"
 
