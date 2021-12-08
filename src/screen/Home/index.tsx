@@ -2,13 +2,12 @@ import React, { useEffect, useState } from "react"
 import { Alert, BackHandler, FlatList } from "react-native"
 import { useNavigation } from "@react-navigation/core"
 
-import { Button, EmptyList, NoteItem, SafeScreen } from "../../component"
+import { EmptyList, NoteItem, SafeScreen } from "../../component"
 import { appIconOutline } from "../../service/constant"
 import { createAllFolder } from "../../service/folder-handler"
 import { NoteForList } from "../../service/object-type"
 import { HomeHeader } from "./Header"
 import { NoteDatabase } from "../../database"
-import { log } from "../../service/log"
 
 
 export function Home() {
@@ -141,23 +140,6 @@ export function Home() {
             {(note.length === 0) && (
                 <EmptyList source={appIconOutline} message={"Nenhuma nota"} />
             )}
-
-            <Button
-                style={{
-                    position: "absolute",
-                    bottom: 16,
-                    right: 16,
-                    backgroundColor: "red"
-                }}
-                text={"Error"}
-                onPress={async () => {
-                    try {
-                        throw new Error("Meu erro")
-                    } catch (error) {
-                        log.error("Mensagem do log -> " + error)
-                    }
-                }}
-            />
         </SafeScreen>
     )
 }
