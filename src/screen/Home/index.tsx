@@ -8,6 +8,7 @@ import { createAllFolder } from "../../service/folder-handler"
 import { NoteForList } from "../../service/object-type"
 import { HomeHeader } from "./Header"
 import { NoteDatabase } from "../../database"
+import { log } from "../../service/log"
 
 
 export function Home() {
@@ -21,15 +22,31 @@ export function Home() {
 
 
     async function getNote() {
-        const noteList = await NoteDatabase.getNoteList()
-        setNote(noteList)
+        try {
+            const noteList = await NoteDatabase.getNoteList()
+            setNote(noteList)
+        } catch (error) {
+            log.error(`Error getting note list from database: "${error}"`)
+            Alert.alert(
+                "Aviso",
+                "Erro ao carregar notas"
+            )
+        }
     }
 
     function deleteSelectedNote() {
         async function alertDelete() {
-            await NoteDatabase.deleteNote(selectedNote)
-            await getNote()
-            exitSelectionMode()
+            try {
+                await NoteDatabase.deleteNote(selectedNote)
+                await getNote()
+                exitSelectionMode()
+            } catch (error) {
+                log.error(`Error deleting selected notes: "${error}"`)
+                Alert.alert(
+                    "Aviso",
+                    "Erro apagando notas selecionadas"
+                )
+            }
         }
 
         Alert.alert(
@@ -44,8 +61,16 @@ export function Home() {
 
     function exportAppNote() {
         function alertExport() {
-            NoteDatabase.exportNote(selectedNote)
-            exitSelectionMode()
+            try {
+                NoteDatabase.exportNote(selectedNote)
+                exitSelectionMode()
+            } catch (error) {
+                log.error(`Error exporting notes: "${error}"`)
+                Alert.alert(
+                    "Aviso",
+                    "Erro ao exportar notas"
+                )
+            }
         }
 
         Alert.alert(
