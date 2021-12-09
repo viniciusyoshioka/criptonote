@@ -9,6 +9,7 @@ import { ChangePassword } from "./ChangePassword"
 import { decryptString, encryptString } from "../../service/crypto"
 import { InputText, InputTitle, SafeScreen, SpaceScreen } from "../../component"
 import { NoteDatabase } from "../../database"
+import { log } from "../../service/log"
 
 
 export function Read() {
@@ -45,7 +46,18 @@ export function Read() {
 
 
     async function readNote() {
-        const note = await NoteDatabase.getNote(params.noteId)
+        let note
+        try {
+            note = await NoteDatabase.getNote(params.noteId)
+        } catch (error) {
+            log.error(`Error opening note: "${error}"`)
+            Alert.alert(
+                "Aviso",
+                "Erro abrindo nota"
+            )
+            navigation.navigate("Home")
+            return
+        }
 
         if (params.password === "") {
             setTitle(note.title)
@@ -56,7 +68,8 @@ export function Read() {
         let decryptedText: string
         try {
             decryptedText = await decryptString(note.text, params.password)
-        } catch {
+        } catch (error) {
+            log.error(`Error decrypting note while opening: "${error}"`)
             Alert.alert(
                 "Aviso",
                 "Erro ao descriptografar nota em sua abertura"
@@ -105,6 +118,7 @@ export function Read() {
                 }
                 break
             default:
+                log.debug(`Invalid inputField value: "${inputField}" to set note value`)
                 throw new Error("Unknown inputField value")
         }
     }
@@ -114,7 +128,8 @@ export function Read() {
         if (params.password !== "") {
             try {
                 textToSave = await encryptString(text, params.password)
-            } catch {
+            } catch (error) {
+                log.error(`Unknown error while encrypting note. Could not save it: "${error}"`)
                 Alert.alert(
                     "Alerta",
                     "Erro desconhecido ao criptografar nota. Não foi possível salvá-la"
@@ -123,14 +138,30 @@ export function Read() {
             }
         }
 
-        await NoteDatabase.updateNote(params.noteId, title, textToSave)
+        try {
+            await NoteDatabase.updateNote(params.noteId, title, textToSave)
+        } catch (error) {
+            log.error(`Error updating note in database: "${error}"`)
+            Alert.alert(
+                "Aviso",
+                "Erro ao salvar nota"
+            )
+        }
         navigation.reset({ routes: [{ name: "Home" }] })
     }
 
     async function deleteCurrentNote() {
         async function alertDeleteNote() {
-            await NoteDatabase.deleteNote([params.noteId])
-            navigation.reset({ routes: [{ name: "Home" }] })
+            try {
+                await NoteDatabase.deleteNote([params.noteId])
+                navigation.reset({ routes: [{ name: "Home" }] })
+            } catch (error) {
+                log.error(`Error deleting current note: "${error}"`)
+                Alert.alert(
+                    "Aviso",
+                    "Erro ao apagar nota atual"
+                )
+            }
         }
 
         Alert.alert(
@@ -144,7 +175,9 @@ export function Read() {
     }
 
     async function changePassword(
-        currentPassword: string, newPassword: string, confirmNewPassword: string
+        currentPassword: string,
+        newPassword: string,
+        confirmNewPassword: string
     ) {
         if (isChanged) {
             Alert.alert(
@@ -162,13 +195,24 @@ export function Read() {
             return
         }
 
-        const note = await NoteDatabase.getNote(params.noteId)
+        let note
+        try {
+            note = await NoteDatabase.getNote(params.noteId)
+        } catch (error) {
+            log.error(`Error getting note: "${error}"`)
+            Alert.alert(
+                "Aviso",
+                "Erro ao carregar nota"
+            )
+            return
+        }
 
         let encryptedNewPasswordText = ""
         try {
             const decryptedCurrentPasswordText = await decryptString(note.text, currentPassword)
             encryptedNewPasswordText = await encryptString(decryptedCurrentPasswordText, newPassword)
-        } catch {
+        } catch (error) {
+            log.error(`Error changing note password. Process interrupted: "${error}"`)
             Alert.alert(
                 "Aviso",
                 "Erro ao trocar senha da nota. Processo interrompido"
@@ -176,7 +220,15 @@ export function Read() {
             return
         }
 
-        await NoteDatabase.updateNote(params.noteId, note.title, encryptedNewPasswordText)
+        try {
+            await NoteDatabase.updateNote(params.noteId, note.title, encryptedNewPasswordText)
+        } catch (error) {
+            log.error(`Error updating note in database: "${error}"`)
+            Alert.alert(
+                "Aviso",
+                "Erro salvando nota ao mudar senha. Processo interrompido"
+            )
+        }
         navigation.reset({ routes: [{ name: "Home" }] })
     }
 
@@ -192,7 +244,11 @@ export function Read() {
         NoteDatabase.exportNote([params.noteId])
             .then(() => { })
             .catch((error) => {
-                // TODO log
+                log.error(`Error exporting note: "${error}"`)
+                Alert.alert(
+                    "Aviso",
+                    "Erro exportando nota"
+                )
             })
     }
 
