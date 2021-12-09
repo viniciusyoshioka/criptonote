@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { Alert } from "react-native"
 import { useNavigation } from "@react-navigation/core"
 
 import { SettingsHeader } from "./Header"
@@ -8,6 +9,7 @@ import { ChangeTheme } from "./ChangeTheme"
 import { useBackHandler } from "../../service/hook"
 import { ListItem, SafeScreen } from "../../component"
 import { SettingsDatabase } from "../../database"
+import { log } from "../../service/log"
 
 
 export function Settings() {
@@ -29,15 +31,23 @@ export function Settings() {
     }
 
     async function changeAppPassword() {
-        const lockType = await SettingsDatabase.getSettingKey("lockType")
-        if (lockType === "none") {
-            navigation.navigate("ChoosePasswordType")
-            return
+        try {
+            const lockType = await SettingsDatabase.getSettingKey("lockType")
+            if (lockType === "none") {
+                navigation.navigate("ChoosePasswordType")
+                return
+            }
+            navigation.navigate("Lock", {
+                action: "change-lock",
+                passwordType: lockType,
+            })
+        } catch (error) {
+            log.error(`Error getting lockType setting from database to changeAppPassword: "${error}"`)
+            Alert.alert(
+                "Aviso",
+                "Erro ao verificar tipo de senha em uso"
+            )
         }
-        navigation.navigate("Lock", {
-            action: "change-lock",
-            passwordType: lockType,
-        })
     }
 
 
