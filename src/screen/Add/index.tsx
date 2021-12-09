@@ -7,6 +7,7 @@ import { AddHeader } from "./Header"
 import { encryptString } from "../../service/crypto"
 import { InputPassword, InputText, InputTitle, SafeScreen, SpaceScreen } from "../../component"
 import { NoteDatabase } from "../../database"
+import { log } from "../../service/log"
 
 
 export function Add() {
@@ -79,7 +80,8 @@ export function Add() {
         if (password !== "") {
             try {
                 textToSave = await encryptString(text, password)
-            } catch {
+            } catch (error) {
+                log.error(`Error encrypting note while saving: "${error}"`)
                 Alert.alert(
                     "Alerta",
                     "Erro desconhecido ao criptografar nota. Não foi possível salvá-la"
@@ -88,7 +90,15 @@ export function Add() {
             }
         }
 
-        await NoteDatabase.insertNote(title, textToSave)
+        try {
+            await NoteDatabase.insertNote(title, textToSave)
+        } catch (error) {
+            log.error(`Error inserting note to database: ${error}`)
+            Alert.alert(
+                "Aviso",
+                "Erro ao salvar nota"
+            )
+        }
         navigation.reset({ routes: [{ name: "Home" }] })
     }
 
