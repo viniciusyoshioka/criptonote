@@ -9,6 +9,7 @@ import { lockType } from "../../service/object-type"
 import { ScreenParams } from "../../service/screen-params"
 import { AddBio, AddPin, AddText, SafeScreen } from "../../component"
 import { SettingsDatabase } from "../../database"
+import { log } from "../../service/log"
 
 
 export function Lock() {
@@ -38,7 +39,18 @@ export function Lock() {
 
 
     async function unlock(lock: string) {
-        const appLock = await SettingsDatabase.getSettingKey("appLock")
+        let appLock
+        try {
+            appLock = await SettingsDatabase.getSettingKey("appLock")
+        } catch (error) {
+            log.error(`Error getting app hashed password to unlock the app: "${error}"`)
+            Alert.alert(
+                "Aviso",
+                "Erro ao tentar desbloquear aplicativo"
+            )
+            return
+        }
+
         const hashLock = sha256(lock)
 
         if (hashLock === appLock) {
@@ -90,7 +102,18 @@ export function Lock() {
 
     useEffect(() => {
         async function isProtected() {
-            const readAppLockType = await SettingsDatabase.getSettingKey("lockType")
+            let readAppLockType
+            try {
+                readAppLockType = await SettingsDatabase.getSettingKey("lockType")
+            } catch (error) {
+                log.error(`Erro getting lock type in use to check for lock screen: "${error}"`)
+                Alert.alert(
+                    "Aviso",
+                    "Erro ao verificar se o aplicativo possui bloqueio de tela"
+                )
+                return
+            }
+
             if (readAppLockType === "none") {
                 navigation.reset({
                     routes: [
