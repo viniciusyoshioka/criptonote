@@ -1,10 +1,11 @@
 import React, { useState } from "react"
 import { Alert } from "react-native"
 import { useNavigation } from "@react-navigation/core"
+import Share from "react-native-share"
 
 import { SettingsHeader } from "./Header"
 import { TextVersion, ViewVersion } from "./style"
-import { appName, appType, appVersion } from "../../service/constant"
+import { appName, appType, appVersion, logDatabaseFullPath } from "../../service/constant"
 import { ChangeTheme } from "./ChangeTheme"
 import { useBackHandler } from "../../service/hook"
 import { ListItem, SafeScreen } from "../../component"
@@ -50,6 +51,24 @@ export function Settings() {
         }
     }
 
+    async function shareLogFile() {
+        try {
+            await Share.open({
+                title: "Compartilhar logs",
+                message: "Enviar registros de erro para o desenvolvedor",
+                type: "application/x-sqlite3",
+                url: `file://${logDatabaseFullPath}`,
+                failOnCancel: false,
+            })
+        } catch (error) {
+            log.error(`Error sharing log file: "${error}"`)
+            Alert.alert(
+                "Aviso",
+                "Erro ao compartilhar log"
+            )
+        }
+    }
+
 
     return (
         <SafeScreen>
@@ -74,6 +93,13 @@ export function Settings() {
                 title={"Senha"}
                 description={"Adicionar/mudar senha do aplicativo"}
                 onPress={changeAppPassword}
+            />
+
+            <ListItem
+                icon={"receipt-long"}
+                title={"Compartilhar logs"}
+                description={"Enviar registro de erros"}
+                onPress={shareLogFile}
             />
 
             <ViewVersion>
