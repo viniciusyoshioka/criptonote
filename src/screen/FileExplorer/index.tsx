@@ -11,6 +11,7 @@ import { ScreenParams } from "../../service/screen-params"
 import { ListItem, SafeScreen, SubHeader, SubHeaderText } from "../../component"
 import { createAllFolder } from "../../service/folder-handler"
 import { NoteDatabase } from "../../database"
+import { getReadPermission } from "../../service/permission"
 
 
 const defaultContent: Array<ReadDirItem> = [
@@ -246,13 +247,18 @@ export function FileExplorer() {
         if (path === null) {
             setPathContent(defaultContent)
         } else {
-            RNFS.readDir(path)
-                .then((dirContent: Array<ReadDirItem>) => {
-                    if (path === "/") {
-                        setPathContent(dirContent)
-                    } else {
-                        setPathContent([returnDirectoryItem, ...dirContent])
+            getReadPermission()
+                .then(async (hasPermission: boolean) => {
+                    if (hasPermission) {
+                        const dirContent: Array<ReadDirItem> = await RNFS.readDir(path)
+                        if (path === "/") {
+                            setPathContent(dirContent)
+                        } else {
+                            setPathContent([returnDirectoryItem, ...dirContent])
+                        }
+                        return
                     }
+                    log.warn("Can not read folder without READ_EXTERNAL_STORAGE permission")
                 })
                 .catch((error) => {
                     setPathContent([returnDirectoryItem])
