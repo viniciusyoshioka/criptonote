@@ -149,7 +149,11 @@ export function FileExplorer() {
                     navigation.reset({ routes: [{ name: "Home" }] })
                 })
                 .catch((error) => {
-                    // TODO Log
+                    log.error(`Error importing note: "${error}"`)
+                    Alert.alert(
+                        "Aviso",
+                        "Erro ao importar notas"
+                    )
                 })
 
             Alert.alert(
@@ -252,7 +256,7 @@ export function FileExplorer() {
                 })
                 .catch((error) => {
                     setPathContent([returnDirectoryItem])
-                    log("ERROR", `Erro lendo pasta ao mudar de diretório. Mensagem: "${error}"`)
+                    log.error(`Erro lendo pasta ao mudar de diretório. Mensagem: "${error}"`)
                     Alert.alert(
                         "Erro",
                         "Não foi possível abrir pasta"
