@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react"
 import { Alert, ToastAndroid } from "react-native"
 import { useNavigation } from "@react-navigation/native"
-// import * as ExpoAuth from "expo-local-authentication"
 
 import { useBackHandler } from "../../service/hook"
 import { ChoosePasswordTypeHeader } from "./Header"
 import { ListItem, SafeScreen } from "../../component"
 import { SettingsDatabase } from "../../database"
+import { log } from "../../service/log"
 
 
-// TODO
 export function ChoosePasswordType() {
 
 
@@ -29,33 +28,39 @@ export function ChoosePasswordType() {
     }
 
     async function removeLock() {
-        const currentLockType = await SettingsDatabase.getSettingKey("lockType")
+        let currentLockType
+        try {
+            currentLockType = await SettingsDatabase.getSettingKey("lockType")
+        } catch (error) {
+            log.error(`Error getting lock type from database: "${error}"`)
+            Alert.alert(
+                "Aviso",
+                "Erro verificando tipo de senha em uso"
+            )
+            return
+        }
+
         if (currentLockType === "none") {
             ToastAndroid.show("Aplicativo já está sem senha", ToastAndroid.LONG)
             return
         }
 
-        await SettingsDatabase.updateSettings("lockType", "none")
-        await SettingsDatabase.updateSettings("appLock", "")
+        try {
+            await SettingsDatabase.updateSettings("lockType", "none")
+            await SettingsDatabase.updateSettings("appLock", "")
+        } catch (error) {
+            log.error(`Error updating password and password type in database: "${error}"`)
+            Alert.alert(
+                "Aviso",
+                "Erro removendo senha"
+            )
+            return
+        }
         navigation.navigate("Home")
         ToastAndroid.show("Senha removida", ToastAndroid.LONG)
     }
 
     async function addBioLock() {
-        // const currentDeviceLock = await ExpoAuth.getEnrolledLevelAsync()
-        // if (currentDeviceLock === ExpoAuth.SecurityLevel.BIOMETRIC) {
-        //     await writeLock("")
-        //     await writeLockType("bio")
-        //     navigation.navigate("Home")
-        //     ToastAndroid.show("Senha adicionada", ToastAndroid.LONG)
-        //     return
-        // }
-        // 
-        // Alert.alert(
-        //     "Aviso",
-        //     "Adicione a biometria no dispositivo para habilitá-lo no aplicativo"
-        // )
-
         Alert.alert(
             "Aviso",
             "Sem suporte à biometria"
@@ -65,8 +70,6 @@ export function ChoosePasswordType() {
 
     useEffect(() => {
         async function getSupportBio() {
-            // const isBioSupported = await ExpoAuth.hasHardwareAsync()
-            // setHasBioSupport(isBioSupported)
             setHasBioSupport(false)
         }
 
