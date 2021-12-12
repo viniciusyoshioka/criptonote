@@ -1,5 +1,7 @@
 import SQLite from "react-native-sqlite-storage"
 
+import { appDatabaseFileName, logDatabaseFileName } from "../service/constant"
+
 
 import * as LogDatabase from "./Log"
 export { LogDatabase }
@@ -30,7 +32,7 @@ export function setGlobalLogDatabase(database: SQLite.SQLiteDatabase) {
 export function openAppDatabase(): Promise<SQLite.SQLiteDatabase> {
     return new Promise((resolve, reject) => {
         SQLite.openDatabase({
-            name: "criptonote_database.sqlite",
+            name: appDatabaseFileName,
             location: "default"
         })
             .then((db) => {
@@ -46,7 +48,7 @@ export function openAppDatabase(): Promise<SQLite.SQLiteDatabase> {
 export function openLogDatabase(): Promise<SQLite.SQLiteDatabase> {
     return new Promise((resolve, reject) => {
         SQLite.openDatabase({
-            name: "criptonote_log.sqlite",
+            name: logDatabaseFileName,
             location: "default"
         })
             .then((db) => {

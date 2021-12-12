@@ -3,7 +3,7 @@ import RNFS from "react-native-fs"
 import SQLite from "react-native-sqlite-storage"
 
 import { globalAppDatabase, openTemporaryDatabase } from "."
-import { appName, exportedNoteExtension, fullPathExported, relativePathExported } from "../service/constant"
+import { appName, databaseFolder, exportedNoteExtension, fullPathExported, relativePathExported } from "../service/constant"
 import { getDateTime } from "../service/date"
 import { Note, NoteForList, SimpleNote } from "../service/object-type"
 import { getReadPermission, getWritePermission } from "../service/permission"
@@ -115,7 +115,8 @@ export function deleteNote(id: number[]): Promise<SQLite.ResultSet> {
 
 export function exportNote(id: number[] = []): Promise<null> {
     return new Promise((resolve, reject) => {
-        const temporaryDatabasePath = `${RNFS.CachesDirectoryPath}/../databases/tmp_database_export_note.sqlite`
+        const temporaryDatabasePath = `${databaseFolder}/tmp_database_export_note.sqlite`
+
         getWritePermission()
             .then(async (hasWritePermission: boolean) => {
                 if (!hasWritePermission) {
@@ -194,7 +195,8 @@ export function exportNote(id: number[] = []): Promise<null> {
 
 export function importNote(path: string): Promise<null> {
     return new Promise((resolve, reject) => {
-        const temporaryDatabasePath = `${RNFS.CachesDirectoryPath}/../databases/tmp_database_export_note.sqlite`
+        const temporaryDatabasePath = `${databaseFolder}/tmp_database_export_note.sqlite`
+
         getReadPermission()
             .then(async (hasReadPermission: boolean) => {
                 if (!hasReadPermission) {

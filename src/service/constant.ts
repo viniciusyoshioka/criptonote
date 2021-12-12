@@ -38,5 +38,14 @@ export const fullPathDecrypted = `${fullPathRootExternal}/${folderDecrypted}`
 // Password key for exported notes
 export const keyExportedNote = "5G0SLKxpRPfrZLegyYUqSk0i9JQev22U"
 
-// Database version
+// Database
+// Version
 export const latestDbVersion = "1.0.0"
+// Database folder
+export const databaseFolder = `${RNFS.CachesDirectoryPath}/../databases`
+// App database
+export const appDatabaseFileName = "criptonote_database.sqlite"
+export const appDatabaseFullPath = `${databaseFolder}/${appDatabaseFileName}`
+// Log database
+export const logDatabaseFileName = "criptonote_log.sqlite"
+export const logDatabaseFullPath = `${databaseFolder}/${logDatabaseFileName}`
