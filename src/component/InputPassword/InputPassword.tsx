@@ -17,7 +17,7 @@ export const InputPassword = forwardRef((props: TextInputProps, ref?: Ref<TextIn
         <ViewInputPassword>
             <Input
                 autoCapitalize={"none"}
-                autoCompleteType={"off"}
+                autoComplete={"off"}
                 autoCorrect={false}
                 keyboardType={showPassword ? "visible-password" : undefined}
                 placeholder={"Senha"}
