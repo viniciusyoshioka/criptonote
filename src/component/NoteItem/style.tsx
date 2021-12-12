@@ -9,9 +9,9 @@ export const Button = styled(RectButton)`
     align-items: center;
     justify-content: flex-start;
     height: 56px;
-    margin-right: 6px;
+    margin-right: 8px;
     margin-bottom: 6px;
-    padding-horizontal: 10px;
+    padding-horizontal: 8px;
     border-radius: 1px;
     background-color: ${(props: styledProps) => props.theme.color.noteItem_background};
     elevation: 2;

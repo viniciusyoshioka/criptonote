@@ -159,7 +159,8 @@ export function Home() {
                 renderItem={renderNoteItem}
                 keyExtractor={(item) => item.id.toString()}
                 extraData={[selectNote, deselectNote]}
-                style={{ marginLeft: 6, marginTop: 6 }}
+                style={{ flex: 1 }}
+                contentContainerStyle={{ paddingTop: 8, paddingLeft: 8 }}
             />
 
             {(note.length === 0) && (
