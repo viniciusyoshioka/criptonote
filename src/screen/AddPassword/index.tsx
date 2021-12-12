@@ -8,6 +8,7 @@ import { ScreenParams } from "../../service/screen-params"
 import { AddPasswordHeader } from "./Header"
 import { AddBio, AddPin, AddText, SafeScreen } from "../../component"
 import { SettingsDatabase } from "../../database"
+import { log } from "../../service/log"
 
 
 export function AddPassword() {
@@ -29,8 +30,17 @@ export function AddPassword() {
 
     async function onDone(newLock?: string) {
         if (params.passwordType === "bio") {
-            await SettingsDatabase.updateSettings("lockType", "bio")
-            await SettingsDatabase.updateSettings("appLock", "")
+            try {
+                await SettingsDatabase.updateSettings("lockType", "bio")
+                await SettingsDatabase.updateSettings("appLock", "")
+            } catch (error) {
+                log.error(`Error settings new password type into database: "${error}"`)
+                Alert.alert(
+                    "Aviso",
+                    "Erro definindo nova senha"
+                )
+                return
+            }
             navigation.navigate("Home")
             ToastAndroid.show("Senha adicionada", ToastAndroid.LONG)
             return
@@ -44,9 +54,18 @@ export function AddPassword() {
             return
         }
 
-        await SettingsDatabase.updateSettings("lockType", params.passwordType)
-        const hashLock = sha256(newLock)
-        await SettingsDatabase.updateSettings("appLock", hashLock)
+        try {
+            await SettingsDatabase.updateSettings("lockType", params.passwordType)
+            const hashLock = sha256(newLock)
+            await SettingsDatabase.updateSettings("appLock", hashLock)
+        } catch (error) {
+            log.error(`Error settings new password and password type into database: "${error}"`)
+            Alert.alert(
+                "Aviso",
+                "Erro definindo nova senha"
+            )
+            return
+        }
         navigation.navigate("Home")
         ToastAndroid.show("Senha adicionada", ToastAndroid.LONG)
     }
