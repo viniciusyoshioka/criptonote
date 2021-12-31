@@ -21,19 +21,7 @@ yarn start
 ```
 
 ## Build
-If you want to create a release build, open `src/service/constant.ts`, and change 
-```ts
-// Development
-export const appInDevelopment = true
-```
-for this 
-```ts
-// Development
-export const appInDevelopment = false
-```
-to disable some developer tools.
-
-Then build the release version with
+Build the release version with
 ```
 yarn android --variant release
 ```
