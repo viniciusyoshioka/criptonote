@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { useEffect, useState } from "react"
 import { useColorScheme } from "react-native"
 import KeepAwake from "react-native-keep-awake"
