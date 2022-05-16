@@ -3,6 +3,7 @@ import RNFS from "react-native-fs"
 
 
 // App
+export const appId = "com.criptonote"
 export const appName = "CriptoNote"
 export const appVersion = "6.2.2"
 export const appType = __DEV__ ? "beta" : "release"
@@ -21,7 +22,7 @@ export const exportedNoteExtensionList = [exportedNoteBetaExtension, exportedNot
 // Root
 export const folderRoot = appName
 export const fullPathRoot = `${RNFS.CachesDirectoryPath}/${folderRoot}`
-export const fullPathRootExternal = `${RNFS.ExternalStorageDirectoryPath}/${folderRoot}`
+export const fullPathRootExternal = `${RNFS.ExternalStorageDirectoryPath}/Android/media/${appId}/${folderRoot}`
 // Export
 export const folderExported = "Exportadas"
 export const relativePathExported = `${folderRoot}/${folderExported}`
