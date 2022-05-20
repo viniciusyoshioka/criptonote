@@ -5,7 +5,7 @@ import RNFS from "react-native-fs"
 // App
 export const appId = "com.criptonote"
 export const appName = "CriptoNote"
-export const appVersion = "6.3.1"
+export const appVersion = "6.3.2"
 export const appType = __DEV__ ? "beta" : "release"
 
 // Icon
