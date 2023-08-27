@@ -26,6 +26,9 @@
   "devDependencies": {
     "@babel/core": "^7.18.0",
     "@babel/runtime": "^7.18.0",
+    "@elementium/eslint-config": "file:../elementium/packages/eslint-config",
+    "@elementium/eslint-config-typescript": "file:../elementium/packages/eslint-config-typescript",
+    "@elementium/tsconfig": "file:../elementium/packages/tsconfig",
     "@types/react": "^17.0.45",
     "@types/react-native": "^0.66.18",
     "@types/react-native-keep-awake": "^2.0.3",
