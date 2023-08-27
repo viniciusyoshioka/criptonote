@@ -4,7 +4,9 @@
     "private": true,
     "scripts": {
         "start": "react-native start",
-        "android": "react-native run-android"
+        "android": "react-native run-android",
+        "lint": "eslint . --ext .js --ext .jsx --ext .ts --ext .tsx",
+        "typecheck": "tsc --noEmit"
     },
     "dependencies": {
         "@react-native-community/checkbox": "^0.5.16",
