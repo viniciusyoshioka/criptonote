@@ -1626,6 +1626,11 @@
   dependencies:
     nanoid "^3.1.23"
 
+"@sayem314/react-native-keep-awake@^1.2.2":
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/@sayem314/react-native-keep-awake/-/react-native-keep-awake-1.2.2.tgz#f75acf1db58c15ca7672e2ef2b156017ca67155a"
+  integrity sha512-IFkXUw2NaEENGNxK18QByQw8Zcg1qu5OKIry7rEllX6jMpsUmLyf7Nf2cnaIIzzG33UX+Gpx7HgtnRWrQyV4NQ==
+
 "@sideway/address@^4.1.3":
   version "4.1.4"
   resolved "https://registry.yarnpkg.com/@sideway/address/-/address-4.1.4.tgz#03dccebc6ea47fdc226f7d3d1ad512955d4783f0"
@@ -1708,13 +1713,6 @@
   version "15.7.5"
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.5.tgz#5f19d2b85a98e9558036f6a3cacc8819420f05cf"
   integrity sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==
-
-"@types/react-native-keep-awake@^2.0.3":
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/@types/react-native-keep-awake/-/react-native-keep-awake-2.0.3.tgz#3b187e600477a6963e5cbf9d1988978c654f48a2"
-  integrity sha512-0C4bUlGPHRpplbn+YnX2UO0/2joa0dhCPumas2fielGNJkS1FTJOrw9jFo4B0+LOtmsepXiy/ANTF/on0b2Ddw==
-  dependencies:
-    "@types/react" "*"
 
 "@types/react-native-sqlite-storage@^5.0.2":
   version "5.0.2"
@@ -4556,11 +4554,6 @@ react-native-gesture-handler@^2.4.2:
     invariant "^2.2.4"
     lodash "^4.17.21"
     prop-types "^15.7.2"
-
-react-native-keep-awake@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/react-native-keep-awake/-/react-native-keep-awake-4.0.0.tgz#d89fdc3fb60b3cffa979ef37dc5816196df998a2"
-  integrity sha512-0Fotox+eLXQooeibVs3P60yASYUWjtRw9MZNmbuHt5UZQrgUrAKsE4jm7gTr4tPU1m1RkwGzcgUFpcOkh/ec7g==
 
 react-native-logs@^3.0.4:
   version "3.0.4"
