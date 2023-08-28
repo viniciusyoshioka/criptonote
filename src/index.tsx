@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { useColorScheme } from "react-native"
 import { GestureHandlerRootView } from "react-native-gesture-handler"
-import KeepAwake from "react-native-keep-awake"
 import { MenuProvider } from "react-native-popup-menu"
 import SQLite from "react-native-sqlite-storage"
 import { ThemeProvider } from "styled-components"
 
+import { useKeepAwakeOnDev } from "@hooks"
 import { LogDatabase, NoteDatabase, openAppDatabase, openLogDatabase, setGlobalAppDatabase, setGlobalLogDatabase, SettingsDatabase } from "./database"
 import { Router } from "./router"
 import { logCriticalError } from "./service/log"
@@ -13,6 +13,9 @@ import { DarkTheme, LightTheme, ThemeContextProvider, themeType } from "./servic
 
 
 export function App() {
+
+
+    useKeepAwakeOnDev()
 
 
     const deviceTheme = useColorScheme()
@@ -77,14 +80,6 @@ export function App() {
             .catch((error) => {
                 logCriticalError(`Error opening log database: "${JSON.stringify(error)}"`)
             })
-    }, [])
-
-    useEffect(() => {
-        if (__DEV__) {
-            KeepAwake.activate()
-
-            return () => KeepAwake.deactivate()
-        }
     }, [])
 
 
