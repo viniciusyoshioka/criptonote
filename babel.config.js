@@ -20,5 +20,6 @@ module.exports = {
         ],
         ["@babel/plugin-proposal-decorators", { legacy: true } ],
         "@realm/babel-plugin",
+        "react-native-reanimated/plugin",
     ],
 }
