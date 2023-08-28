@@ -1155,10 +1155,16 @@
   dependencies:
     "@types/hammerjs" "^2.0.36"
 
+"@elementium/color@file:../elementium/packages/color":
+  version "0.0.1"
+
 "@elementium/eslint-config-typescript@file:../elementium/packages/eslint-config-typescript":
   version "0.0.1"
 
 "@elementium/eslint-config@file:../elementium/packages/eslint-config":
+  version "0.0.1"
+
+"@elementium/native@file:../elementium/packages/native":
   version "0.0.1"
 
 "@elementium/tsconfig@file:../elementium/packages/tsconfig":
