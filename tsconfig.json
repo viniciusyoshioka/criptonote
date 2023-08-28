@@ -1,6 +1,18 @@
 {
     "extends": "@elementium/tsconfig/tsconfig.json",
     "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@components": ["src/components"],
+            "@database": ["src/database"],
+            "@database/*": ["src/database/*"],
+            "@hooks": ["src/hooks"],
+            "@locales": ["src/locales"],
+            "@router": ["src/router"],
+            "@screen/*": ["src/screen/*"],
+            "@services/*": ["src/services/*"],
+            "@theme": ["src/theme"],
+        },
         "experimentalDecorators": true,
     },
 }
