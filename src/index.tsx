@@ -6,6 +6,7 @@ import { RealmProvider } from "@database"
 import { useKeepAwakeOnDev } from "@hooks"
 import { Router } from "@router"
 import { SettingsProvider } from "@services/settings"
+import { AppThemeProvider } from "@theme"
 import { DarkTheme, ThemeContextProvider } from "./service/theme"
 
 
@@ -19,13 +20,15 @@ export function App() {
         <GestureHandlerRootView style={{ flex: 1 }}>
             <RealmProvider>
                 <SettingsProvider>
-                    <ThemeContextProvider value={DarkTheme}>
-                        <ThemeProvider theme={DarkTheme}>
-                            <MenuProvider>
-                                <Router />
-                            </MenuProvider>
-                        </ThemeProvider>
-                    </ThemeContextProvider>
+                    <AppThemeProvider>
+                        <ThemeContextProvider value={DarkTheme}>
+                            <ThemeProvider theme={DarkTheme}>
+                                <MenuProvider>
+                                    <Router />
+                                </MenuProvider>
+                            </ThemeProvider>
+                        </ThemeContextProvider>
+                    </AppThemeProvider>
                 </SettingsProvider>
             </RealmProvider>
         </GestureHandlerRootView>
