@@ -1,11 +1,11 @@
 import { createRealmContext } from "@realm/react"
 
 import { Constants } from "@services/constant"
-import { NoteSchema } from "../schemas"
+import { NoteContentSchema, NoteSchema } from "../schemas"
 
 
 const NoteRealmContext = createRealmContext({
-    schema: [NoteSchema],
+    schema: [NoteSchema, NoteContentSchema],
     schemaVersion: 1,
     path: Constants.appDatabaseFullPath,
     deleteRealmIfMigrationNeeded: __DEV__,

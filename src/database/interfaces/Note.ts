@@ -6,5 +6,5 @@ export interface NoteRealm {
     createdAt: number;
     modifiedAt: number;
     title: string;
-    text: string;
+    textId: Realm.BSON.ObjectId;
 }

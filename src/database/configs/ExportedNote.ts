@@ -1,11 +1,11 @@
 import { Realm } from "@realm/react"
 
-import { NoteSchema } from "../schemas"
+import { NoteContentSchema, NoteSchema } from "../schemas"
 
 
 export async function openExportedDatabase(path: string) {
     return await Realm.open({
-        schema: [NoteSchema],
+        schema: [NoteSchema, NoteContentSchema],
         schemaVersion: 1,
         path,
         deleteRealmIfMigrationNeeded: __DEV__,

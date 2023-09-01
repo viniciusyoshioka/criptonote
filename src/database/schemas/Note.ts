@@ -8,7 +8,7 @@ export class NoteSchema extends Realm.Object<NoteSchema> implements NoteRealm {
     createdAt: number = Date.now()
     modifiedAt: number = Date.now()
     title!: string
-    text!: string
+    textId!: Realm.BSON.ObjectId
 
     static primaryKey = "id"
 }
