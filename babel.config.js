@@ -22,4 +22,9 @@ module.exports = {
         "@realm/babel-plugin",
         "react-native-reanimated/plugin",
     ],
+    env: {
+        production: {
+            plugins: ["react-native-paper/babel"],
+        },
+    },
 }
