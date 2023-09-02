@@ -1,56 +1,74 @@
-import React from "react"
+import { AnimatedHeader, AnimatedHeaderRef, HeaderButton, HeaderTitle } from "@elementium/native"
+import { ForwardedRef, forwardRef } from "react"
+import { useSafeAreaInsets } from "react-native-safe-area-context"
 
-import { Header, HeaderButton, HeaderTitle } from "../../component"
-import { appName } from "../../service/constant"
-import { HomeHeaderMenu } from "./HeaderMenu"
+import { translate } from "@locales"
+import { HomeMenu } from "./Menu"
 
 
 export interface HomeHeaderProps {
-    selectionMode: boolean,
-    exitSelectionMode: () => void,
-    deleteNote: () => void,
-    addNote: () => void,
-    importNote: () => void,
-    exportNote: () => void,
-    encryptFile: () => void,
-    openSettings: () => void,
+    isSelectionMode: boolean;
+    selectedNotesAmount: number;
+    exitSelectionMode: () => void;
+    invertSelection: () => void;
+    deleteSelectedNotes: () => void;
+    createNote: () => void;
+    importNotes: () => void;
+    exportNotes: () => void;
+    openSettings: () => void;
 }
 
 
-export function HomeHeader(props: HomeHeaderProps) {
+export const HomeHeader = forwardRef((props: HomeHeaderProps, ref: ForwardedRef<AnimatedHeaderRef>) => {
+
+
+    const safeAreaInsets = useSafeAreaInsets()
+
+
+    function getTitle(): string {
+        if (props.isSelectionMode) {
+            return props.selectedNotesAmount.toString()
+        }
+        return translate("Home_header_title")
+    }
+
+
     return (
-        <Header>
-            {props.selectionMode && (
+        <AnimatedHeader ref={ref} overrideStatusBar={safeAreaInsets.top !== 0}>
+            {props.isSelectionMode && (
                 <HeaderButton
-                    icon={"close"}
+                    iconName={"close"}
                     onPress={props.exitSelectionMode}
                 />
             )}
 
-            <HeaderTitle title={!props.selectionMode ? appName : ""} />
+            <HeaderTitle title={getTitle()} />
 
-            {props.selectionMode && (
+            {!props.isSelectionMode && (
                 <HeaderButton
-                    icon={"delete"}
-                    onPress={props.deleteNote}
+                    iconName={"add"}
+                    onPress={props.createNote}
                 />
             )}
 
-            {!props.selectionMode && (
+            {props.isSelectionMode && <>
                 <HeaderButton
-                    icon={"add"}
-                    onPress={props.addNote}
-                    iconSize={26}
+                    iconName={"swap-horiz"}
+                    onPress={props.invertSelection}
                 />
-            )}
 
-            <HomeHeaderMenu
-                selectionMode={props.selectionMode}
-                importNote={props.importNote}
-                exportNote={props.exportNote}
-                encryptFile={props.encryptFile}
+                <HeaderButton
+                    iconName={"delete"}
+                    onPress={props.deleteSelectedNotes}
+                />
+            </>}
+
+            <HomeMenu
+                isSelectionMode={props.isSelectionMode}
+                importNotes={props.importNotes}
+                exportNotes={props.exportNotes}
                 openSettings={props.openSettings}
             />
-        </Header>
+        </AnimatedHeader>
     )
-}
+})

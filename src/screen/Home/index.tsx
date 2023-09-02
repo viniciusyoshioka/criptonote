@@ -1,171 +1,210 @@
-import React, { useEffect, useState } from "react"
-import { Alert, BackHandler, FlatList } from "react-native"
+import { AnimatedHeaderRef, Divider, Screen } from "@elementium/native"
 import { useNavigation } from "@react-navigation/core"
+import { FlashList } from "@shopify/flash-list"
+import { useEffect, useRef, useState } from "react"
+import { Alert, View } from "react-native"
 
-import { EmptyList, NoteItem, SafeScreen } from "../../component"
-import { appIconOutline } from "../../service/constant"
-import { createAllFolder } from "../../service/folder-handler"
-import { NoteForList } from "../../service/object-type"
+import { EmptyList, LoadingModal } from "@components"
+import { NoteContentSchema, NoteSchema, useNoteRealm } from "@database"
+import { useBackHandler, useHeaderColorOnScroll, useSelectionMode } from "@hooks"
+import { TranslationKeyType, translate } from "@locales"
+import { NavigationParamProps } from "@router"
+import { Constants } from "@services/constant"
+import { log, stringifyError } from "@services/log"
+import { getNotificationPermission } from "@services/permission"
 import { HomeHeader } from "./Header"
-import { NoteDatabase } from "../../database"
-import { log } from "../../service/log"
+import { NOTE_ITEM_HEIGHT, NoteItem } from "./NoteItem"
 
 
+// TODO improve database operations in deleteSelectedNote
+// TODO improve database operations in importNotes
+// TODO improve database operations in exportSelectedNotes
+// TODO fix FlashList alert when all notes are deleted
 export function Home() {
 
 
-    const navigation = useNavigation()
+    const navigation = useNavigation<NavigationParamProps<"Home">>()
 
-    const [note, setNote] = useState<Array<NoteForList>>([])
-    const [selectionMode, setSelectionMode] = useState(false)
-    const [selectedNote, setSelectedNote] = useState<Array<number>>([])
+    const homeHeaderRef = useRef<AnimatedHeaderRef>(null)
+
+    const noteRealm = useNoteRealm()
+    const notes = noteRealm
+        .objects(NoteSchema)
+        .sorted("modifiedAt", true)
+        .toJSON() as unknown as NoteSchema[]
+    const noteSelection = useSelectionMode<string>()
+    const [showNoteDeletionModal, setShowNoteDeletionModal] = useState(false)
 
 
-    async function getNote() {
+    useBackHandler(() => {
+        if (noteSelection.isSelectionMode) {
+            noteSelection.exitSelection()
+            return true
+        }
+        return false
+    })
+
+
+    const onScroll = useHeaderColorOnScroll({
+        onInterpolate: color => homeHeaderRef.current?.setBackgroundColor(color),
+    })
+
+
+    function invertSelection() {
+        noteSelection.setSelectedData(current => notes
+            .filter(noteItem => !current.includes(noteItem.id.toHexString()))
+            .map(noteItem => noteItem.id.toHexString())
+        )
+    }
+
+    async function deleteSelectedNotes() {
+        setShowNoteDeletionModal(true)
+
         try {
-            const noteList = await NoteDatabase.getNoteList()
-            setNote(noteList)
+            const noteIdToDelete = noteSelection
+                .selectedData
+                .map(Realm.BSON.ObjectId.createFromHexString)
+            const notesToDelete = noteRealm
+                .objects(NoteSchema)
+                .filtered("id IN $0", noteIdToDelete)
+
+            const noteContentIdToDelete = notesToDelete.map(item => item.textId)
+            const noteContentToDelete = noteRealm
+                .objects(NoteContentSchema)
+                .filtered("id IN $0", noteContentIdToDelete)
+
+            noteRealm.beginTransaction()
+            noteRealm.delete(notesToDelete)
+            noteRealm.delete(noteContentToDelete)
+            noteRealm.commitTransaction()
         } catch (error) {
-            log.error(`Error getting note list from database: "${error}"`)
+            if (noteRealm.isInTransaction) {
+                noteRealm.cancelTransaction()
+            }
+
+            log.error(`Error deleting selected notes from database: "${stringifyError(error)}"`)
             Alert.alert(
-                "Aviso",
-                "Erro ao carregar notas"
+                translate("warn"),
+                translate("Home_alert_errorDeletingSelectedNotes_text")
             )
+        } finally {
+            noteSelection.exitSelection()
+            setShowNoteDeletionModal(false)
         }
     }
 
-    function deleteSelectedNote() {
-        async function alertDelete() {
-            try {
-                await NoteDatabase.deleteNote(selectedNote)
-                await getNote()
-                exitSelectionMode()
-            } catch (error) {
-                log.error(`Error deleting selected notes: "${error}"`)
-                Alert.alert(
-                    "Aviso",
-                    "Erro apagando notas selecionadas"
-                )
-            }
-        }
-
+    function alertDeleteNotes() {
         Alert.alert(
-            "Apagar",
-            "Estas notas serão apagadas permanentemente",
+            translate("Home_alert_deleteNotes_title"),
+            translate("Home_alert_deleteNotes_text"),
             [
-                { text: "Cancelar", onPress: () => { } },
-                { text: "Apagar", onPress: async () => await alertDelete() }
+                { text: translate("cancel") },
+                { text: translate("delete"), onPress: deleteSelectedNotes },
             ]
         )
     }
 
-    function exportAppNote() {
-        function alertExport() {
-            try {
-                NoteDatabase.exportNote(selectedNote)
-                exitSelectionMode()
-            } catch (error) {
-                log.error(`Error exporting notes: "${error}"`)
-                Alert.alert(
-                    "Aviso",
-                    "Erro ao exportar notas"
-                )
-            }
+    // TODO implement importNotes
+    async function importNotes() {}
+
+    // TODO implement exportSelectedNotes
+    async function exportSelectedNotes() {}
+
+    function alertExportNotes() {
+        if (notes.length === 0) {
+            Alert.alert(
+                translate("warn"),
+                translate("Home_alert_noNotesToExport_text")
+            )
+            return
         }
 
+        const exportAlertText: TranslationKeyType = noteSelection.isSelectionMode
+            ? "Home_alert_allSelectedNotesWillBeExported_text"
+            : "Home_alert_allNotesWillBeExported_text"
+
         Alert.alert(
-            "Exportar",
-            `As notas ${selectionMode ? "selecionadas " : ""}serão exportadas`,
+            translate("Home_alert_exportNotes_title"),
+            translate(exportAlertText),
             [
-                { text: "Cancelar", onPress: () => { } },
-                { text: "Exportar", onPress: () => alertExport() }
+                { text: translate("cancel") },
+                { text: translate("Home_export"), onPress: exportSelectedNotes },
             ]
         )
     }
 
-    function selectNote(noteId: number) {
-        if (!selectionMode) {
-            setSelectionMode(true)
-        }
-        if (!selectedNote.includes(noteId)) {
-            selectedNote.push(noteId)
-        }
-    }
+    function renderNoteItem({ item }: { item: NoteSchema }) {
+        const noteId = item.id.toHexString()
 
-    function deselectNote(noteId: number) {
-        const index = selectedNote.indexOf(noteId)
-        if (index !== -1) {
-            selectedNote.splice(index, 1)
-        }
-        if (selectionMode && selectedNote.length === 0) {
-            setSelectionMode(false)
-        }
-    }
-
-    function renderNoteItem({ item }: { item: NoteForList }) {
         return (
             <NoteItem
-                click={() => navigation.navigate("Code", { noteId: item.id })}
-                select={() => selectNote(item.id)}
-                deselect={() => deselectNote(item.id)}
-                selectionMode={selectionMode}
-                noteForList={item}
+                onClick={() => navigation.navigate("Code", { note: item })}
+                onSelect={() => noteSelection.selectItem(noteId)}
+                onDeselect={() => noteSelection.deselectItem(noteId)}
+                isSelectionMode={noteSelection.isSelectionMode}
+                isSelected={noteSelection.selectedData.includes(noteId)}
+                note={item}
             />
         )
     }
 
-    function exitSelectionMode() {
-        setSelectedNote([])
-        setSelectionMode(false)
+    function noteKeyExtractor(item: NoteSchema) {
+        return item.id.toHexString()
     }
 
-    function addBackHandlerListener() {
-        return BackHandler.addEventListener("hardwareBackPress", () => {
-            if (selectionMode) {
-                exitSelectionMode()
-                return true
+
+    useEffect(() => {
+        async function requestPermissions() {
+            const hasPermission = await getNotificationPermission()
+            if (!hasPermission) {
+                Alert.alert(
+                    translate("Home_alert_notificationPermissionDenied_title"),
+                    translate("Home_alert_notificationPermissionDenied_text")
+                )
             }
-            return false
-        })
-    }
+        }
 
-
-    useEffect(() => {
-        createAllFolder()
-        getNote()
+        requestPermissions()
     }, [])
-
-    useEffect(() => {
-        const subscription = addBackHandlerListener()
-        return () => subscription.remove()
-    }, [addBackHandlerListener])
 
 
     return (
-        <SafeScreen>
+        <Screen>
             <HomeHeader
-                selectionMode={selectionMode}
-                exitSelectionMode={exitSelectionMode}
-                deleteNote={deleteSelectedNote}
-                addNote={() => navigation.navigate("Add")}
-                importNote={() => navigation.navigate("FileExplorer", { action: "import" })}
-                exportNote={exportAppNote}
-                encryptFile={() => navigation.navigate("FileExplorer", { action: "encrypt" })}
+                ref={homeHeaderRef}
+                isSelectionMode={noteSelection.isSelectionMode}
+                selectedNotesAmount={noteSelection.selectedData.length}
+                exitSelectionMode={noteSelection.exitSelection}
+                invertSelection={invertSelection}
+                deleteSelectedNotes={alertDeleteNotes}
+                createNote={() => navigation.navigate("WriteNote")}
+                importNotes={importNotes}
+                exportNotes={alertExportNotes}
                 openSettings={() => navigation.navigate("Settings")}
             />
 
-            <FlatList
-                data={note}
-                renderItem={renderNoteItem}
-                keyExtractor={(item) => item.id.toString()}
-                extraData={[selectNote, deselectNote]}
-                style={{ flex: 1 }}
-                contentContainerStyle={{ paddingTop: 8, paddingLeft: 8 }}
+            <View style={{ display: notes.length ? "flex" : "none", flex: 1 }}>
+                <FlashList
+                    data={notes}
+                    renderItem={renderNoteItem}
+                    keyExtractor={noteKeyExtractor}
+                    extraData={noteSelection.selectedData}
+                    estimatedItemSize={NOTE_ITEM_HEIGHT}
+                    ItemSeparatorComponent={() => <Divider wrapperStyle={{ paddingHorizontal: 16 }} />}
+                    onScroll={onScroll}
+                />
+            </View>
+
+            <EmptyList
+                imageSource={Constants.appIconOutline}
+                message={translate("Home_emptyNoteList")}
+                visible={notes.length === 0}
             />
 
-            {(note.length === 0) && (
-                <EmptyList source={appIconOutline} message={"Nenhuma nota"} />
-            )}
-        </SafeScreen>
+            <LoadingModal
+                visible={showNoteDeletionModal}
+                message={translate("Home_deletingNotes")}
+            />
+        </Screen>
     )
 }
