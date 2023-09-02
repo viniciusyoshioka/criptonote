@@ -125,10 +125,6 @@ export function WriteNote() {
                     ref={passwordInputRef}
                     value={password}
                     onChangeText={setPassword}
-                    placeholder={translate("WriteNote_passwordPlaceholder")}
-                    autoCapitalize={"none"}
-                    autoCorrect={false}
-                    autoComplete={"new-password"}
                     returnKeyType={"next"}
                     onSubmitEditing={() => textInputRef.current?.focus()}
                 />

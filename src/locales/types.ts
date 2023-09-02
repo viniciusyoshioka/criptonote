@@ -8,6 +8,7 @@ export type TranslationKeyType =
     | "success"
     | "save"
     | "dont_save"
+    | "password"
 
     // Home alert
     | "Home_alert_errorLoadingNotes_text"

@@ -11,6 +11,7 @@ export const pt_BR: TranslationObjectType = {
     success: "Sucesso",
     save: "Salvar",
     dont_save: "Não salvar",
+    password: "Senha",
 
     // Home alert
     Home_alert_errorLoadingNotes_text: "Erro ao carregar notas",

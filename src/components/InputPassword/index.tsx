@@ -1,6 +1,7 @@
 import { ForwardedRef, forwardRef, useState } from "react"
 import { NativeSyntheticEvent, StyleSheet, TextInput, TextInputFocusEventData, View } from "react-native"
 
+import { translate } from "@locales"
 import { Input, InputProps } from "../Input"
 import { ToggleVisibilityButton } from "./ToggleVisibilityButton"
 
@@ -38,6 +39,10 @@ export const InputPassword = forwardRef((props: InputPasswordProps, ref: Forward
             <Input
                 {...props}
                 ref={ref}
+                autoCapitalize={"none"}
+                autoComplete={"new-password"}
+                autoCorrect={false}
+                placeholder={translate("password")}
                 secureTextEntry={isPasswordHidden}
                 keyboardType={isPasswordHidden ? "default" : "visible-password"}
                 isFocused={isFocused}
