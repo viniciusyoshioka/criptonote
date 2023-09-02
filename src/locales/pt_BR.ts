@@ -40,6 +40,25 @@ export const pt_BR: TranslationObjectType = {
     Home_menu_exportNote: "Exportar notas",
     Home_menu_settings: "Configurações",
 
+    // Settings alert
+    Settings_alert_errorSharingLogDatabase_text: "Erro ao compartilhar logs",
+    Settings_alert_errorSharingAppDatabase_text: "Erro ao compartilhar banco de dados das notas",
+    // Settings header
+    Settings_header_title: "Configurações",
+    // Settings screen
+    Settings_theme_title: "Tema",
+    Settings_theme_text: "Mudar tema de cores do aplicativo",
+    Settings_shareLogDatabase_title: "Compartilhar logs",
+    Settings_shareLogDatabase_text: "Enviar registro de erros",
+    Settings_shareAppDatabase_title: "Compartilhar banco de dados",
+    Settings_shareAppDatabase_text: "Enviar banco de dados das notas",
+    Settings_appVersionInfo_title: "Versão do aplicativo",
+    // Settings ChangeTheme
+    ChangeTheme_title: "Mudar tema",
+    ChangeTheme_auto: "Automático",
+    ChangeTheme_light: "Claro",
+    ChangeTheme_dark: "Escuro",
+
     // Log service
     log_alert_reportCriticalError_text: "Um erro crítico ocorreu, reporte os logs para o desenvolvedor",
 }

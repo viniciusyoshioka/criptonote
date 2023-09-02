@@ -1,62 +1,79 @@
-import React, { memo, useEffect, useState } from "react"
+import { Button, ModalActions, ModalContainer, ModalContent, ModalScrim, ModalTitle, RadioListItem } from "@elementium/native"
+import { useNavigation } from "@react-navigation/native"
+import { useState } from "react"
 
-import { Modal, ModalButton, ModalProps, ModalTitle, ModalViewButton, ModalViewContent, RadioButton } from "../../component"
-import { useTheme } from "../../service/theme"
-
-
-export interface ChangeThemeProps extends ModalProps { }
-
-
-export const ChangeTheme = memo((props: ChangeThemeProps) => {
+import { useBackHandler } from "@hooks"
+import { translate } from "@locales"
+import { NavigationParamProps } from "@router"
+import { useAppTheme } from "@theme"
 
 
-    const { appTheme, switchTheme } = useTheme()
+export function ChangeTheme() {
+
+
+    const navigation = useNavigation<NavigationParamProps<"ChangeTheme">>()
+
+    const { appTheme, switchTheme } = useAppTheme()
 
     const [selectedTheme, setSelectedTheme] = useState(appTheme)
 
 
-    useEffect(() => {
-        setSelectedTheme(appTheme)
-    }, [props.visible])
+    useBackHandler(() => goBack())
+
+
+    function goBack() {
+        navigation.goBack()
+        return true
+    }
 
 
     return (
-        <Modal {...props}>
-            <>
+        <ModalScrim onPress={goBack}>
+            <ModalContainer >
                 <ModalTitle>
-                    Mudar tema
+                    {translate("ChangeTheme_title")}
                 </ModalTitle>
 
-                <ModalViewContent>
-                    <RadioButton
-                        text={"Automático"}
+                <ModalContent>
+                    <RadioListItem
+                        title={translate("ChangeTheme_auto")}
                         value={selectedTheme === "auto"}
-                        onPress={() => setSelectedTheme("auto")} />
-                    <RadioButton
-                        text={"Claro"}
-                        value={selectedTheme === "light"}
-                        onPress={() => setSelectedTheme("light")} />
-                    <RadioButton
-                        text={"Escuro"}
-                        value={selectedTheme === "dark"}
-                        onPress={() => setSelectedTheme("dark")} />
-                </ModalViewContent>
-
-                <ModalViewButton>
-                    <ModalButton
-                        text={"Cancelar"}
-                        onPress={() => props.setVisible(false)}
+                        onPress={() => setSelectedTheme("auto")}
+                        style={{ paddingLeft: 0, backgroundColor: "transparent" }}
                     />
 
-                    <ModalButton
-                        text={"Ok"}
+                    <RadioListItem
+                        title={translate("ChangeTheme_light")}
+                        value={selectedTheme === "light"}
+                        onPress={() => setSelectedTheme("light")}
+                        style={{ paddingLeft: 0, backgroundColor: "transparent" }}
+                    />
+
+                    <RadioListItem
+                        title={translate("ChangeTheme_dark")}
+                        value={selectedTheme === "dark"}
+                        onPress={() => setSelectedTheme("dark")}
+                        style={{ paddingLeft: 0, backgroundColor: "transparent" }}
+                    />
+                </ModalContent>
+
+                <ModalActions>
+                    <Button
+                        variant={"text"}
+                        text={translate("cancel")}
+                        onPress={goBack}
+                    />
+
+                    <Button
+                        variant={"text"}
+                        text={translate("ok")}
                         onPress={() => {
                             switchTheme(selectedTheme)
-                            props.setVisible(false)
+                            goBack()
                         }}
                     />
-                </ModalViewButton>
-            </>
-        </Modal>
+                </ModalActions>
+            </ModalContainer>
+        </ModalScrim>
     )
-})
+}

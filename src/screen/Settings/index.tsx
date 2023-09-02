@@ -1,24 +1,26 @@
-import React, { useState } from "react"
-import { Alert } from "react-native"
+import { AnimatedHeaderRef, ListItem, Screen, ScrollScreen } from "@elementium/native"
 import { useNavigation } from "@react-navigation/core"
+import { useRef } from "react"
+import { Alert } from "react-native"
 import Share from "react-native-share"
 
+import { useBackHandler, useHeaderColorOnScroll } from "@hooks"
+import { translate } from "@locales"
+import { NavigationParamProps } from "@router"
+import { Constants } from "@services/constant"
+import { log, stringifyError } from "@services/log"
 import { SettingsHeader } from "./Header"
-import { TextVersion, ViewVersion } from "./style"
-import { appName, appType, appVersion, logDatabaseFullPath } from "../../service/constant"
-import { ChangeTheme } from "./ChangeTheme"
-import { useBackHandler } from "../../service/hook"
-import { ListItem, SafeScreen } from "../../component"
-import { SettingsDatabase } from "../../database"
-import { log } from "../../service/log"
+
+
+export { ChangeTheme } from "./ChangeTheme"
 
 
 export function Settings() {
 
 
-    const navigation = useNavigation()
+    const navigation = useNavigation<NavigationParamProps<"Settings">>()
 
-    const [isChangeThemeVisible, setIsChangeThemeVisible] = useState(false)
+    const settingsHeaderRef = useRef<AnimatedHeaderRef>(null)
 
 
     useBackHandler(() => {
@@ -27,86 +29,82 @@ export function Settings() {
     })
 
 
+    const onScroll = useHeaderColorOnScroll({
+        onInterpolate: color => settingsHeaderRef.current?.setBackgroundColor(color),
+    })
+
+
     function goBack() {
         navigation.navigate("Home")
     }
 
-    async function changeAppPassword() {
+    async function shareLogDatabaseFile() {
         try {
-            const lockType = await SettingsDatabase.getSettingKey("lockType")
-            if (lockType === "none") {
-                navigation.navigate("ChoosePasswordType")
-                return
-            }
-            navigation.navigate("Lock", {
-                action: "change-lock",
-                passwordType: lockType,
+            await Share.open({
+                type: "application/x-sqlite3",
+                url: `file://${Constants.logDatabaseFullPath}`,
+                failOnCancel: false,
             })
         } catch (error) {
-            log.error(`Error getting lockType setting from database to changeAppPassword: "${error}"`)
+            log.error(`Error sharing log file: "${stringifyError(error)}"`)
             Alert.alert(
-                "Aviso",
-                "Erro ao verificar tipo de senha em uso"
+                translate("warn"),
+                translate("Settings_alert_errorSharingLogDatabase_text")
             )
         }
     }
 
-    async function shareLogFile() {
+    async function shareAppDatabaseFile() {
         try {
             await Share.open({
-                title: "Compartilhar logs",
-                message: "Enviar registros de erro para o desenvolvedor",
                 type: "application/x-sqlite3",
-                url: `file://${logDatabaseFullPath}`,
+                url: `file://${Constants.appDatabaseFullPath}`,
                 failOnCancel: false,
             })
         } catch (error) {
-            log.error(`Error sharing log file: "${error}"`)
+            log.error(`Error sharing document database file: "${stringifyError(error)}"`)
             Alert.alert(
-                "Aviso",
-                "Erro ao compartilhar log"
+                translate("warn"),
+                translate("Settings_alert_errorSharingAppDatabase_text")
             )
         }
     }
 
 
     return (
-        <SafeScreen>
-            <ChangeTheme
-                visible={isChangeThemeVisible}
-                setVisible={setIsChangeThemeVisible}
-            />
+        <Screen>
+            <SettingsHeader ref={settingsHeaderRef} goBack={goBack} />
 
-            <SettingsHeader
-                goBack={goBack}
-            />
+            <ScrollScreen onScroll={onScroll}>
+                <ListItem
+                    leadingIcon={{ iconName: "brightness-medium" }}
+                    title={translate("Settings_theme_title")}
+                    description={translate("Settings_theme_text")}
+                    onPress={() => navigation.navigate("ChangeTheme")}
+                />
 
-            <ListItem
-                icon={"brightness-medium"}
-                title={"Tema"}
-                description={"Mudar tema de cores do aplicativo"}
-                onPress={() => setIsChangeThemeVisible(true)}
-            />
+                <ListItem
+                    leadingIcon={{ iconName: "receipt-long" }}
+                    title={translate("Settings_shareLogDatabase_title")}
+                    description={translate("Settings_shareLogDatabase_text")}
+                    onPress={shareLogDatabaseFile}
+                />
 
-            <ListItem
-                icon={"password"}
-                title={"Senha"}
-                description={"Adicionar/mudar senha do aplicativo"}
-                onPress={changeAppPassword}
-            />
+                {__DEV__ && (
+                    <ListItem
+                        leadingIcon={{ iconName: "receipt-long" }}
+                        title={translate("Settings_shareAppDatabase_title")}
+                        description={translate("Settings_shareAppDatabase_text")}
+                        onPress={shareAppDatabaseFile}
+                    />
+                )}
 
-            <ListItem
-                icon={"receipt-long"}
-                title={"Compartilhar logs"}
-                description={"Enviar registro de erros"}
-                onPress={shareLogFile}
-            />
-
-            <ViewVersion>
-                <TextVersion>
-                    {appName} - {appVersion} - {appType}
-                </TextVersion>
-            </ViewVersion>
-        </SafeScreen>
+                <ListItem
+                    leadingIcon={{ iconName: "information-circle-outline", iconGroup: "ionicons" }}
+                    title={translate("Settings_appVersionInfo_title")}
+                    description={`${Constants.appName} ${Constants.appVersion} - ${Constants.appType}`}
+                />
+            </ScrollScreen>
+        </Screen>
     )
 }

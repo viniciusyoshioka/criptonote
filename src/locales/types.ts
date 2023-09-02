@@ -37,6 +37,25 @@ export type TranslationKeyType =
     | "Home_menu_exportNote"
     | "Home_menu_settings"
 
+    // Settings alert
+    | "Settings_alert_errorSharingLogDatabase_text"
+    | "Settings_alert_errorSharingAppDatabase_text"
+    // Settings header
+    | "Settings_header_title"
+    // Settings screen
+    | "Settings_theme_title"
+    | "Settings_theme_text"
+    | "Settings_shareLogDatabase_title"
+    | "Settings_shareLogDatabase_text"
+    | "Settings_shareAppDatabase_title"
+    | "Settings_shareAppDatabase_text"
+    | "Settings_appVersionInfo_title"
+    // Settings ChangeTheme
+    | "ChangeTheme_title"
+    | "ChangeTheme_auto"
+    | "ChangeTheme_light"
+    | "ChangeTheme_dark"
+
     // Log service
     | "log_alert_reportCriticalError_text"
 

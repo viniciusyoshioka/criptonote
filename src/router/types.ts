@@ -15,6 +15,7 @@ export type ScreenParams = {
     };
     WriteNote: undefined;
     Settings: undefined;
+    ChangeTheme: undefined;
 }
 
 
