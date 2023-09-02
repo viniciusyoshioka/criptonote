@@ -1,5 +1,6 @@
 import { AnimatedHeaderRef, Divider, Screen } from "@elementium/native"
 import { useNavigation } from "@react-navigation/core"
+import { Realm } from "@realm/react"
 import { FlashList } from "@shopify/flash-list"
 import { useEffect, useRef, useState } from "react"
 import { Alert, View } from "react-native"
@@ -14,6 +15,7 @@ import { log, stringifyError } from "@services/log"
 import { getNotificationPermission } from "@services/permission"
 import { HomeHeader } from "./Header"
 import { NOTE_ITEM_HEIGHT, NoteItem } from "./NoteItem"
+import { useNotes } from "./useNotes"
 
 
 // TODO improve database operations in deleteSelectedNote
@@ -28,10 +30,7 @@ export function Home() {
     const homeHeaderRef = useRef<AnimatedHeaderRef>(null)
 
     const noteRealm = useNoteRealm()
-    const notes = noteRealm
-        .objects(NoteSchema)
-        .sorted("modifiedAt", true)
-        .toJSON() as unknown as NoteSchema[]
+    const notes = useNotes()
     const noteSelection = useSelectionMode<string>()
     const [showNoteDeletionModal, setShowNoteDeletionModal] = useState(false)
 
