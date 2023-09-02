@@ -4,6 +4,7 @@ import { enableScreens } from "react-native-screens"
 
 import { Home } from "@screen/Home"
 import { ChangeTheme, Settings } from "@screen/Settings"
+import { WriteNote } from "@screen/WriteNote"
 import { useAppTheme } from "@theme"
 import { ScreenParams } from "./types"
 
@@ -34,6 +35,7 @@ export function Router() {
         <NavigationContainer>
             <Stack.Navigator initialRouteName={"Home"} screenOptions={stackNavigatorScreenOptions}>
                 <Stack.Screen name={"Home"} component={Home} />
+                <Stack.Screen name={"WriteNote"} component={WriteNote} />
                 <Stack.Screen name={"Settings"} component={Settings} />
 
                 <Stack.Group screenOptions={{ presentation: "transparentModal" }}>

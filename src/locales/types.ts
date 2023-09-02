@@ -37,6 +37,18 @@ export type TranslationKeyType =
     | "Home_menu_exportNote"
     | "Home_menu_settings"
 
+    // WriteNote alert
+    | "WriteNote_alert_unsavedChanges_text"
+    | "WriteNote_alert_discardEmptyNote_text"
+    | "WriteNote_alert_errorSavingNote_text"
+    // WriteNote header
+    | "WriteNote_header_title"
+    // WriteNote screen
+    | "WriteNote_titlePlaceholder"
+    | "WriteNote_passwordPlaceholder"
+    | "WriteNote_textPlaceholder"
+    | "WriteNote_savingNote"
+
     // Settings alert
     | "Settings_alert_errorSharingLogDatabase_text"
     | "Settings_alert_errorSharingAppDatabase_text"

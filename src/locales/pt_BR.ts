@@ -40,6 +40,18 @@ export const pt_BR: TranslationObjectType = {
     Home_menu_exportNote: "Exportar notas",
     Home_menu_settings: "Configurações",
 
+    // WriteNote alert
+    WriteNote_alert_unsavedChanges_text: "Esta nota possui alterações não salvas, se sair agora elas serão descartadas permanentemente",
+    WriteNote_alert_discardEmptyNote_text: "Esta nota está vazia e será descartada",
+    WriteNote_alert_errorSavingNote_text: "Erro ao salvar nota",
+    // WriteNote header
+    WriteNote_header_title: "Escrever nota",
+    // WriteNote screen
+    WriteNote_titlePlaceholder: "Título",
+    WriteNote_passwordPlaceholder: "Senha",
+    WriteNote_textPlaceholder: "Texto",
+    WriteNote_savingNote: "Salvando nota...",
+
     // Settings alert
     Settings_alert_errorSharingLogDatabase_text: "Erro ao compartilhar logs",
     Settings_alert_errorSharingAppDatabase_text: "Erro ao compartilhar banco de dados das notas",
