@@ -3,6 +3,7 @@ import { NativeStackNavigationOptions, createNativeStackNavigator } from "@react
 import { enableScreens } from "react-native-screens"
 
 import { Home } from "@screen/Home"
+import { useAppTheme } from "@theme"
 import { ScreenParams } from "./types"
 
 
@@ -16,9 +17,15 @@ const Stack = createNativeStackNavigator<ScreenParams>()
 export function Router() {
 
 
+    const { isDark } = useAppTheme()
+
+
     const stackNavigatorScreenOptions: NativeStackNavigationOptions = {
         animation: "fade",
         headerShown: false,
+        statusBarColor: "transparent",
+        statusBarStyle: isDark ? "light" : "dark",
+        statusBarTranslucent: true,
     }
 
 
