@@ -37,10 +37,10 @@ export function WriteNote() {
     useBlurInputOnKeyboardDismiss([titleInputRef, passwordInputRef, textInputRef])
 
 
-    function goBack() {
+    function goBack(isNoteSaved?: boolean) {
         if (showNoteSavingModal) return
 
-        if (title.trim().length > 0 || text.trim().length > 0) {
+        if (!isNoteSaved && (title.trim().length > 0 || text.trim().length > 0)) {
             alertUnsavedChanges()
             return
         }
@@ -90,7 +90,7 @@ export function WriteNote() {
             )
         } finally {
             setShowNoteSavingModal(false)
-            goBack()
+            goBack(true)
         }
     }
 
