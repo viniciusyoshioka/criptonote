@@ -46,10 +46,22 @@ export type TranslationKeyType =
     // ReadNote screen
     | "ReadNote_decryptingNote"
 
+    // EditNote alert
+    | "EditNote_alert_unsavedChanges_text"
+    | "EditNote_alert_errorSavingNote_text"
+    | "EditNote_alert_discardEmptyNote_text"
+    | "EditNote_alert_errorDeletingEmptyNote_text"
+    // EditNote header
+    | "EditNote_header_title"
+    // EditNote screen
+    | "EditNote_titlePlaceholder"
+    | "EditNote_textPlaceholder"
+    | "EditNote_savingNote"
+
     // WriteNote alert
     | "WriteNote_alert_unsavedChanges_text"
-    | "WriteNote_alert_discardEmptyNote_text"
     | "WriteNote_alert_errorSavingNote_text"
+    | "WriteNote_alert_discardEmptyNote_text"
     // WriteNote header
     | "WriteNote_header_title"
     // WriteNote screen

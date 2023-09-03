@@ -49,10 +49,22 @@ export const pt_BR: TranslationObjectType = {
     // ReadNote screen
     ReadNote_decryptingNote: "Descriptografando nota...",
 
+    // EditNote alert
+    EditNote_alert_unsavedChanges_text: "Esta nota possui alterações não salvas, se sair agora elas serão descartadas permanentemente",
+    EditNote_alert_errorSavingNote_text: "Erro ao salvar nota",
+    EditNote_alert_discardEmptyNote_text: "Esta nota está vazia e será descartada",
+    EditNote_alert_errorDeletingEmptyNote_text: "Erro apagando nota vazia",
+    // EditNote header
+    EditNote_header_title: "Editar nota",
+    // EditNote screen
+    EditNote_titlePlaceholder: "Título",
+    EditNote_textPlaceholder: "Texto",
+    EditNote_savingNote: "Salvando nota...",
+
     // WriteNote alert
     WriteNote_alert_unsavedChanges_text: "Esta nota possui alterações não salvas, se sair agora elas serão descartadas permanentemente",
-    WriteNote_alert_discardEmptyNote_text: "Esta nota está vazia e será descartada",
     WriteNote_alert_errorSavingNote_text: "Erro ao salvar nota",
+    WriteNote_alert_discardEmptyNote_text: "Esta nota está vazia e será descartada",
     // WriteNote header
     WriteNote_header_title: "Escrever nota",
     // WriteNote screen
