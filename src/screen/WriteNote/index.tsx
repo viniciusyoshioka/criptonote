@@ -8,6 +8,7 @@ import { NoteContentSchema, NoteSchema, useNoteRealm } from "@database"
 import { useBackHandler, useBlurInputOnKeyboardDismiss } from "@hooks"
 import { translate } from "@locales"
 import { NavigationParamProps } from "@router"
+import { Crypto } from "@services/crypto"
 import { log, stringifyError } from "@services/log"
 import { WriteNoteHeader } from "./Header"
 
@@ -59,8 +60,7 @@ export function WriteNote() {
         )
     }
 
-    // TODO encrypt note text before saving in the database
-    function saveNote() {
+    async function saveNote() {
         if (title.trim().length === 0 && text.trim().length === 0) {
             alertEmptyNote()
             return
@@ -69,9 +69,11 @@ export function WriteNote() {
         setShowNoteSavingModal(true)
 
         try {
+            const encryptedText = await Crypto.encryptString(text.trim(), password.trim())
+
             noteRealm.beginTransaction()
             const noteContent = noteRealm.create(NoteContentSchema, {
-                text: text.trim(),
+                text: encryptedText,
             })
             noteRealm.create(NoteSchema, {
                 title: title.trim(),
