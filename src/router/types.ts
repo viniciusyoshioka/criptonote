@@ -1,7 +1,7 @@
 import { RouteProp } from "@react-navigation/native"
 import { NativeStackNavigationProp } from "@react-navigation/native-stack"
 
-import { SerializableNote } from "@database"
+import { DecryptedNote, SerializableNote } from "@database"
 
 
 // TODO Add other screens
@@ -12,6 +12,10 @@ export type ScreenParams = {
     };
     ReadNote: {
         note: SerializableNote;
+        password: string;
+    };
+    EditNote: {
+        note: DecryptedNote;
         password: string;
     };
     WriteNote: undefined;

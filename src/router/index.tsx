@@ -3,6 +3,7 @@ import { NativeStackNavigationOptions, createNativeStackNavigator } from "@react
 import { enableScreens } from "react-native-screens"
 
 import { Code, Home } from "@screen/Home"
+import { ReadNote } from "@screen/ReadNote"
 import { ChangeTheme, Settings } from "@screen/Settings"
 import { WriteNote } from "@screen/WriteNote"
 import { useAppTheme } from "@theme"
@@ -35,6 +36,7 @@ export function Router() {
         <NavigationContainer>
             <Stack.Navigator initialRouteName={"Home"} screenOptions={stackNavigatorScreenOptions}>
                 <Stack.Screen name={"Home"} component={Home} />
+                <Stack.Screen name={"ReadNote"} component={ReadNote} />
                 <Stack.Screen name={"WriteNote"} component={WriteNote} />
                 <Stack.Screen name={"Settings"} component={Settings} />
 

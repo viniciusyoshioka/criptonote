@@ -44,6 +44,11 @@ export const pt_BR: TranslationObjectType = {
     Code_title: "Senha",
     Code_description: "Digite a senha desta nota para descriptografá-la ou deixe vazio para visualizar",
 
+    // ReadNote alert
+    ReadNote_alert_errorDecryptingNote_text: "Error descriptografando nota",
+    // ReadNote screen
+    ReadNote_decryptingNote: "Descriptografando nota...",
+
     // WriteNote alert
     WriteNote_alert_unsavedChanges_text: "Esta nota possui alterações não salvas, se sair agora elas serão descartadas permanentemente",
     WriteNote_alert_discardEmptyNote_text: "Esta nota está vazia e será descartada",

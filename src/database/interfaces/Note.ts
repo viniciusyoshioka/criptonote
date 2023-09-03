@@ -17,3 +17,12 @@ export interface SerializableNote {
     title: string;
     textId: string;
 }
+
+
+export interface DecryptedNote {
+    id: string;
+    createdAt: number;
+    modifiedAt: number;
+    title: string;
+    text: string;
+}

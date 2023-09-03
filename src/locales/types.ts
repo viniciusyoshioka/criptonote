@@ -41,6 +41,11 @@ export type TranslationKeyType =
     | "Code_title"
     | "Code_description"
 
+    // ReadNote alert
+    | "ReadNote_alert_errorDecryptingNote_text"
+    // ReadNote screen
+    | "ReadNote_decryptingNote"
+
     // WriteNote alert
     | "WriteNote_alert_unsavedChanges_text"
     | "WriteNote_alert_discardEmptyNote_text"
