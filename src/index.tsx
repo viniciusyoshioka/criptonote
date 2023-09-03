@@ -1,5 +1,4 @@
 import { GestureHandlerRootView } from "react-native-gesture-handler"
-import { MenuProvider } from "react-native-popup-menu"
 
 import { RealmProvider } from "@database"
 import { useKeepAwakeOnDev } from "@hooks"
@@ -19,9 +18,7 @@ export function App() {
             <RealmProvider>
                 <SettingsProvider>
                     <AppThemeProvider>
-                        <MenuProvider>
-                            <Router />
-                        </MenuProvider>
+                        <Router />
                     </AppThemeProvider>
                 </SettingsProvider>
             </RealmProvider>
