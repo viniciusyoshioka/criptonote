@@ -8,3 +8,12 @@ export interface NoteRealm {
     title: string;
     textId: Realm.BSON.ObjectId;
 }
+
+
+export interface SerializableNote {
+    id: string;
+    createdAt: number;
+    modifiedAt: number;
+    title: string;
+    textId: string;
+}

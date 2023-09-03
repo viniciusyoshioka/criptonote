@@ -2,7 +2,7 @@ import { NavigationContainer } from "@react-navigation/native"
 import { NativeStackNavigationOptions, createNativeStackNavigator } from "@react-navigation/native-stack"
 import { enableScreens } from "react-native-screens"
 
-import { Home } from "@screen/Home"
+import { Code, Home } from "@screen/Home"
 import { ChangeTheme, Settings } from "@screen/Settings"
 import { WriteNote } from "@screen/WriteNote"
 import { useAppTheme } from "@theme"
@@ -39,6 +39,7 @@ export function Router() {
                 <Stack.Screen name={"Settings"} component={Settings} />
 
                 <Stack.Group screenOptions={{ presentation: "transparentModal" }}>
+                    <Stack.Screen name={"Code"} component={Code} />
                     <Stack.Screen name={"ChangeTheme"} component={ChangeTheme} />
                 </Stack.Group>
             </Stack.Navigator>

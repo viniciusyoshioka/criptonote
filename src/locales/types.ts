@@ -37,6 +37,9 @@ export type TranslationKeyType =
     | "Home_menu_importNote"
     | "Home_menu_exportNote"
     | "Home_menu_settings"
+    // Home Code
+    | "Code_title"
+    | "Code_description"
 
     // WriteNote alert
     | "WriteNote_alert_unsavedChanges_text"

@@ -40,6 +40,9 @@ export const pt_BR: TranslationObjectType = {
     Home_menu_importNote: "Importar notas",
     Home_menu_exportNote: "Exportar notas",
     Home_menu_settings: "Configurações",
+    // Home Code
+    Code_title: "Senha",
+    Code_description: "Digite a senha desta nota para descriptografá-la ou deixe vazio para visualizar",
 
     // WriteNote alert
     WriteNote_alert_unsavedChanges_text: "Esta nota possui alterações não salvas, se sair agora elas serão descartadas permanentemente",

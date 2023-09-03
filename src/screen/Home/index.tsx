@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react"
 import { Alert, View } from "react-native"
 
 import { EmptyList, LoadingModal } from "@components"
-import { NoteContentSchema, NoteSchema, useNoteRealm } from "@database"
+import { NoteContentSchema, NoteSchema, SerializableNote, useNoteRealm } from "@database"
 import { useBackHandler, useHeaderColorOnScroll, useSelectionMode } from "@hooks"
 import { TranslationKeyType, translate } from "@locales"
 import { NavigationParamProps } from "@router"
@@ -16,6 +16,9 @@ import { getNotificationPermission } from "@services/permission"
 import { HomeHeader } from "./Header"
 import { NOTE_ITEM_HEIGHT, NoteItem } from "./NoteItem"
 import { useNotes } from "./useNotes"
+
+
+export { Code } from "./Code"
 
 
 // TODO improve database operations in deleteSelectedNote
@@ -137,7 +140,15 @@ export function Home() {
 
         return (
             <NoteItem
-                onClick={() => navigation.navigate("Code", { note: item })}
+                onClick={() => {
+                    const serializableItem: SerializableNote = {
+                        ...item,
+                        id: noteId,
+                        textId: item.textId.toHexString(),
+                    }
+
+                    navigation.navigate("Code", { note: serializableItem })
+                }}
                 onSelect={() => noteSelection.selectItem(noteId)}
                 onDeselect={() => noteSelection.deselectItem(noteId)}
                 isSelectionMode={noteSelection.isSelectionMode}
