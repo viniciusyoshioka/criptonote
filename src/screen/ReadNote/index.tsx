@@ -13,7 +13,6 @@ import { ReadNoteHeader } from "./Header"
 import { useDecryptNote } from "./useDecryptNote"
 
 
-// TODO fix bug of a note without text not opening EditNote screen
 export function ReadNote() {
 
 
@@ -46,7 +45,7 @@ export function ReadNote() {
     }
 
     function editNote() {
-        if (!decryptedText.decryptedNote) return
+        if (decryptedText.decryptedNote === undefined) return
 
         const decryptedNote: DecryptedNote = {
             ...params.note,
