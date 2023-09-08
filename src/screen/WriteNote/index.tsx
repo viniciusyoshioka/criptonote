@@ -71,9 +71,9 @@ export function WriteNote() {
             return
         }
 
-        setShowNoteSavingModal(true)
-
         try {
+            setShowNoteSavingModal(true)
+
             const encryptedText = await Crypto.encryptString(text.trim(), password.trim())
 
             noteRealm.beginTransaction()
@@ -85,6 +85,8 @@ export function WriteNote() {
                 textId: noteContent.id,
             })
             noteRealm.commitTransaction()
+
+            goBack(true)
         } catch (error) {
             if (noteRealm.isInTransaction) {
                 noteRealm.cancelTransaction()
@@ -97,7 +99,6 @@ export function WriteNote() {
             )
         } finally {
             setShowNoteSavingModal(false)
-            goBack(true)
         }
     }
 
