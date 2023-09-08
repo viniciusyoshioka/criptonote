@@ -13,7 +13,11 @@ export const InputBase = styled.TextInput<InputBaseProps & StyledProps>`
     height: 48px;
     padding-vertical: 8px;
     padding-horizontal: 16px;
+
     font-size: ${props => props.theme.typography.body.large.fontSize}px;    
+    font-weight: ${props => props.theme.typography.body.large.fontWeight};
+    line-height: ${props => props.theme.typography.body.large.lineHeight}px;
+    letter-spacing: ${props => props.theme.typography.body.large.letterSpacing}px;
 
     border-top-left-radius: ${props => props.theme.shape.extraSmall}px;
     border-top-right-radius: ${props => props.theme.shape.extraSmall}px;
