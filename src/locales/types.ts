@@ -52,12 +52,14 @@ export type TranslationKeyType =
     | "EditNote_alert_discardEmptyNote_text"
     | "EditNote_alert_errorDeletingEmptyNote_text"
     | "EditNote_alert_saveNoteBeforeChanginPassword_text"
+    | "EditNote_alert_errorDeletingNote_text"
     // EditNote header
     | "EditNote_header_title"
     // EditNote screen
     | "EditNote_titlePlaceholder"
     | "EditNote_textPlaceholder"
     | "EditNote_savingNote"
+    | "EditNote_deletingNote"
     // EditNote menu
     | "EditNote_menu_changePassword"
     | "EditNote_menu_deleteNote"

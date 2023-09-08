@@ -32,6 +32,7 @@ export function EditNote() {
     const [text, setText] = useState(params.note.text)
     const [hasChanges, setHasChanges] = useState(false)
     const [showNoteSavingModal, setShowNoteSavingModal] = useState(false)
+    const [showDeletingNoteModal, setShowDeletingNoteModal] = useState(false)
 
 
     useBackHandler(() => {
@@ -127,16 +128,15 @@ export function EditNote() {
 
     function deleteEmptyNote() {
         try {
-            noteRealm.beginTransaction()
+            setShowDeletingNoteModal(true)
 
             const noteId = Realm.BSON.ObjectId.createFromHexString(params.note.id)
             const note = noteRealm.objectForPrimaryKey(NoteSchema, noteId) as NoteSchema
-
             const noteContent = noteRealm.objectForPrimaryKey(NoteContentSchema, note.textId) as NoteContentSchema
 
+            noteRealm.beginTransaction()
             noteRealm.delete(note)
             noteRealm.delete(noteContent)
-
             noteRealm.commitTransaction()
 
             goBack(true)
@@ -150,6 +150,8 @@ export function EditNote() {
                 translate("warn"),
                 translate("EditNote_alert_errorDeletingEmptyNote_text"),
             )
+        } finally {
+            setShowDeletingNoteModal(false)
         }
     }
 
@@ -168,8 +170,34 @@ export function EditNote() {
         })
     }
 
-    // TODO implement deleteNote
-    function deleteNote() {}
+    function deleteNote() {
+        try {
+            setShowDeletingNoteModal(true)
+
+            const noteId = Realm.BSON.ObjectId.createFromHexString(params.note.id)
+            const note = noteRealm.objectForPrimaryKey(NoteSchema, noteId) as NoteSchema
+            const noteContent = noteRealm.objectForPrimaryKey(NoteContentSchema, note.textId) as NoteContentSchema
+
+            noteRealm.beginTransaction()
+            noteRealm.delete(note)
+            noteRealm.delete(noteContent)
+            noteRealm.commitTransaction()
+
+            goBack(true)
+        } catch (error) {
+            if (noteRealm.isInTransaction) {
+                noteRealm.cancelTransaction()
+            }
+
+            log.error(`Error deleting note: ${stringifyError(error)}`)
+            Alert.alert(
+                translate("warn"),
+                translate("EditNote_alert_errorDeletingNote_text")
+            )
+        } finally {
+            setShowDeletingNoteModal(false)
+        }
+    }
 
 
     return (
@@ -207,6 +235,11 @@ export function EditNote() {
             <LoadingModal
                 visible={showNoteSavingModal}
                 message={translate("EditNote_savingNote")}
+            />
+
+            <LoadingModal
+                visible={showDeletingNoteModal}
+                message={translate("EditNote_deletingNote")}
             />
         </Screen>
     )
