@@ -10,6 +10,7 @@ export type FileEncryptionOptions = {
 
 
 export type CryptoNativeModuleType = {
+    sha256: (text: string) => Promise<string>;
     encryptString: (text: string, password: string) => Promise<string>;
     decryptString: (text: string, password: string) => Promise<string>;
     stopAllEncryptionService: () => void;
