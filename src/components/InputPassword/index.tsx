@@ -1,12 +1,14 @@
 import { ForwardedRef, forwardRef, useState } from "react"
-import { NativeSyntheticEvent, StyleSheet, TextInput, TextInputFocusEventData, View } from "react-native"
+import { NativeSyntheticEvent, StyleProp, StyleSheet, TextInput, TextInputFocusEventData, View, ViewStyle } from "react-native"
 
 import { translate } from "@locales"
 import { Input, InputProps } from "../Input"
 import { ToggleVisibilityButton } from "./ToggleVisibilityButton"
 
 
-export interface InputPasswordProps extends InputProps {}
+export interface InputPasswordProps extends InputProps {
+    wrapperStyle?: StyleProp<ViewStyle>;
+}
 
 
 export const InputPassword = forwardRef((props: InputPasswordProps, ref: ForwardedRef<TextInput>) => {
@@ -35,20 +37,20 @@ export const InputPassword = forwardRef((props: InputPasswordProps, ref: Forward
 
 
     return (
-        <View style={styles.wrapper}>
+        <View style={[styles.wrapper, props.wrapperStyle]}>
             <Input
-                {...props}
-                ref={ref}
                 autoCapitalize={"none"}
                 autoComplete={"new-password"}
                 autoCorrect={false}
                 placeholder={translate("password")}
                 secureTextEntry={isPasswordHidden}
                 keyboardType={isPasswordHidden ? "default" : "visible-password"}
+                {...props}
+                ref={ref}
                 isFocused={isFocused}
                 onFocus={onFocus}
                 onBlur={onBlur}
-                style={[ { flex: 1, borderTopRightRadius: 0 }, props.style]}
+                style={[styles.input, props.style]}
             />
 
             <ToggleVisibilityButton
@@ -65,5 +67,9 @@ const styles = StyleSheet.create({
     wrapper: {
         flexDirection: "row",
         alignItems: "center",
+    },
+    input: {
+        flex: 1,
+        borderTopRightRadius: 0,
     },
 })
