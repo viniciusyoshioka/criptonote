@@ -83,22 +83,22 @@ export function EditNote() {
             return
         }
 
-        setShowNoteSavingModal(true)
-
         try {
-            const encryptedText = await Crypto.encryptString(text.trim(), params.password.trim())
-
-            noteRealm.beginTransaction()
+            setShowNoteSavingModal(true)
 
             const noteId = Realm.BSON.ObjectId.createFromHexString(params.note.id)
             const note = noteRealm.objectForPrimaryKey(NoteSchema, noteId) as NoteSchema
-            note.modifiedAt = Date.now()
-            note.title = title.trim()
-
             const noteContent = noteRealm.objectForPrimaryKey(NoteContentSchema, note.textId) as NoteContentSchema
-            noteContent.text = encryptedText
 
+            const encryptedText = await Crypto.encryptString(text.trim(), params.password.trim())
+
+            noteRealm.beginTransaction()
+            noteContent.text = encryptedText
+            note.title = title.trim()
+            note.modifiedAt = Date.now()
             noteRealm.commitTransaction()
+
+            goBack(true)
         } catch (error) {
             if (noteRealm.isInTransaction) {
                 noteRealm.cancelTransaction()
@@ -111,7 +111,6 @@ export function EditNote() {
             )
         } finally {
             setShowNoteSavingModal(false)
-            goBack(true)
         }
     }
 
