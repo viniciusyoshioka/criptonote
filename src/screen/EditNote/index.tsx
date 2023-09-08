@@ -1,4 +1,4 @@
-import { Screen } from "@elementium/native"
+import { AnimatedHeaderRef, Screen } from "@elementium/native"
 import { useNavigation, useRoute } from "@react-navigation/native"
 import { Realm } from "@realm/react"
 import { NavigationParamProps, RouteParamProps } from "@router"
@@ -7,7 +7,7 @@ import { Alert, TextInput, View } from "react-native"
 
 import { Input, LoadingModal } from "@components"
 import { NoteContentSchema, NoteSchema, useNoteRealm } from "@database"
-import { useBackHandler, useBlurInputOnKeyboardDismiss } from "@hooks"
+import { useBackHandler, useBlurInputOnKeyboardDismiss, useHeaderColorOnScroll } from "@hooks"
 import { translate } from "@locales"
 import { Crypto } from "@services/crypto"
 import { log, stringifyError } from "@services/log"
@@ -23,6 +23,7 @@ export function EditNote() {
     const navigation = useNavigation<NavigationParamProps<"EditNote">>()
     const { params } = useRoute<RouteParamProps<"EditNote">>()
 
+    const editNoteHeaderRef = useRef<AnimatedHeaderRef>(null)
     const titleInputRef = useRef<TextInput>(null)
     const textInputRef = useRef<TextInput>(null)
 
@@ -40,8 +41,11 @@ export function EditNote() {
         return true
     })
 
-
     useBlurInputOnKeyboardDismiss([titleInputRef, textInputRef])
+
+    const onScroll = useHeaderColorOnScroll({
+        onInterpolate: color => editNoteHeaderRef.current?.setBackgroundColor(color),
+    })
 
 
     function setNewTitle(newTitle: string) {
@@ -202,6 +206,7 @@ export function EditNote() {
     return (
         <Screen>
             <EditNoteHeader
+                ref={editNoteHeaderRef}
                 goBack={() => goBack()}
                 saveNote={saveNote}
                 changePassword={changePassword}
