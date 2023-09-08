@@ -51,12 +51,25 @@ export type TranslationKeyType =
     | "EditNote_alert_errorSavingNote_text"
     | "EditNote_alert_discardEmptyNote_text"
     | "EditNote_alert_errorDeletingEmptyNote_text"
+    | "EditNote_alert_saveNoteBeforeChanginPassword_text"
     // EditNote header
     | "EditNote_header_title"
     // EditNote screen
     | "EditNote_titlePlaceholder"
     | "EditNote_textPlaceholder"
     | "EditNote_savingNote"
+    // EditNote menu
+    | "EditNote_menu_changePassword"
+    | "EditNote_menu_deleteNote"
+    // EditNote ChangePassword alert
+    | "ChangePassword_alert_newPasswordDoesNotMatch_text"
+    | "ChangePassowrd_alert_errorChangingPassword_text"
+    // EditNote ChangePassword
+    | "ChangePassword_title"
+    | "ChangePassword_currentPassword"
+    | "ChangePassword_newPassword"
+    | "ChangePassword_confirmPassword"
+    | "ChangePassword_changingPassword"
 
     // WriteNote alert
     | "WriteNote_alert_unsavedChanges_text"

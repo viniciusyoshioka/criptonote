@@ -3,11 +3,14 @@ import { ForwardedRef, forwardRef } from "react"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 
 import { translate } from "@locales"
+import { EditNoteMenu } from "./Menu"
 
 
 export interface EditNoteHeaderProps {
     goBack: () => void;
     saveNote: () => void;
+    changePassword: () => void;
+    deleteNote: () => void;
 }
 
 
@@ -30,6 +33,11 @@ export const EditNoteHeader = forwardRef((props: EditNoteHeaderProps, ref: Forwa
                 iconName={"content-save-outline"}
                 iconGroup={"material-community"}
                 onPress={props.saveNote}
+            />
+
+            <EditNoteMenu
+                changePassword={props.changePassword}
+                deleteNote={props.deleteNote}
             />
         </AnimatedHeader>
     )

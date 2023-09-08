@@ -14,8 +14,9 @@ import { log, stringifyError } from "@services/log"
 import { EditNoteHeader } from "./Header"
 
 
-// TODO implement change password in menu
-// TODO implement delete note in menu
+export { ChangePassword } from "./ChangePassword"
+
+
 export function EditNote() {
 
 
@@ -152,10 +153,33 @@ export function EditNote() {
         }
     }
 
+    function changePassword() {
+        if (hasChanges) {
+            Alert.alert(
+                translate("warn"),
+                translate("EditNote_alert_saveNoteBeforeChanginPassword_text")
+            )
+            return
+        }
+
+        navigation.navigate("ChangePassword", {
+            noteId: params.note.id,
+            currentPassword: params.password,
+        })
+    }
+
+    // TODO implement deleteNote
+    function deleteNote() {}
+
 
     return (
         <Screen>
-            <EditNoteHeader goBack={() => goBack()} saveNote={saveNote} />
+            <EditNoteHeader
+                goBack={() => goBack()}
+                saveNote={saveNote}
+                changePassword={changePassword}
+                deleteNote={deleteNote}
+            />
 
             <View style={{ flex: 1, padding: 16, rowGap: 8 }}>
                 <Input

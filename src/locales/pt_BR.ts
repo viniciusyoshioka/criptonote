@@ -54,12 +54,25 @@ export const pt_BR: TranslationObjectType = {
     EditNote_alert_errorSavingNote_text: "Erro ao salvar nota",
     EditNote_alert_discardEmptyNote_text: "Esta nota está vazia e será descartada",
     EditNote_alert_errorDeletingEmptyNote_text: "Erro apagando nota vazia",
+    EditNote_alert_saveNoteBeforeChanginPassword_text: "Salve a nota antes de mudar a senha",
     // EditNote header
     EditNote_header_title: "Editar nota",
     // EditNote screen
     EditNote_titlePlaceholder: "Título",
     EditNote_textPlaceholder: "Texto",
     EditNote_savingNote: "Salvando nota...",
+    // EditNote menu
+    EditNote_menu_changePassword: "Mudar senha",
+    EditNote_menu_deleteNote: "Apagar nota",
+    // EditNote ChangePassword alert
+    ChangePassword_alert_newPasswordDoesNotMatch_text: "A nova senha e a confirmação não são iguais",
+    ChangePassowrd_alert_errorChangingPassword_text: "Erro mudando senha da nota",
+    // EditNote ChangePassword
+    ChangePassword_title: "Mudar senha",
+    ChangePassword_currentPassword: "Senha atual",
+    ChangePassword_newPassword: "Nova senha",
+    ChangePassword_confirmPassword: "Confirmar nova senha",
+    ChangePassword_changingPassword: "Mudando senha...",
 
     // WriteNote alert
     WriteNote_alert_unsavedChanges_text: "Esta nota possui alterações não salvas, se sair agora elas serão descartadas permanentemente",

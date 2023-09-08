@@ -18,6 +18,10 @@ export type ScreenParams = {
         note: DecryptedNote;
         password: string;
     };
+    ChangePassword: {
+        noteId: string;
+        currentPassword: string;
+    };
     WriteNote: undefined;
     Settings: undefined;
     ChangeTheme: undefined;
