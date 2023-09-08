@@ -1,11 +1,11 @@
-import { Screen } from "@elementium/native"
+import { AnimatedHeaderRef, Screen } from "@elementium/native"
 import { useNavigation } from "@react-navigation/native"
 import { useRef, useState } from "react"
 import { Alert, TextInput, View } from "react-native"
 
 import { Input, InputPassword, LoadingModal } from "@components"
 import { NoteContentSchema, NoteSchema, useNoteRealm } from "@database"
-import { useBackHandler, useBlurInputOnKeyboardDismiss } from "@hooks"
+import { useBackHandler, useBlurInputOnKeyboardDismiss, useHeaderColorOnScroll } from "@hooks"
 import { translate } from "@locales"
 import { NavigationParamProps } from "@router"
 import { Crypto } from "@services/crypto"
@@ -18,6 +18,7 @@ export function WriteNote() {
 
     const navigation = useNavigation<NavigationParamProps<"WriteNote">>()
 
+    const writeNoteHeaderRef = useRef<AnimatedHeaderRef>(null)
     const titleInputRef = useRef<TextInput>(null)
     const passwordInputRef = useRef<TextInput>(null)
     const textInputRef = useRef<TextInput>(null)
@@ -36,6 +37,10 @@ export function WriteNote() {
     })
 
     useBlurInputOnKeyboardDismiss([titleInputRef, passwordInputRef, textInputRef])
+
+    const onScroll = useHeaderColorOnScroll({
+        onInterpolate: color => writeNoteHeaderRef.current?.setBackgroundColor(color),
+    })
 
 
     function goBack(isNoteSaved?: boolean) {
@@ -109,7 +114,11 @@ export function WriteNote() {
 
     return (
         <Screen>
-            <WriteNoteHeader goBack={goBack} saveNote={saveNote} />
+            <WriteNoteHeader
+                ref={writeNoteHeaderRef}
+                goBack={goBack}
+                saveNote={saveNote}
+            />
 
             <View style={{ flex: 1, padding: 16, rowGap: 8 }}>
                 <Input
