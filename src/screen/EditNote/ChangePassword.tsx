@@ -56,9 +56,9 @@ export function ChangePassword() {
             return
         }
 
-        setShowChangingPassword(true)
-
         try {
+            setShowChangingPassword(true)
+
             const noteId = Realm.BSON.ObjectId.createFromHexString(params.noteId)
             const note = noteRealm.objectForPrimaryKey(NoteSchema, noteId) as NoteSchema
             const noteContent = noteRealm.objectForPrimaryKey(NoteContentSchema, note.textId) as NoteContentSchema
@@ -74,6 +74,8 @@ export function ChangePassword() {
             noteContent.text = encryptedText
             note.modifiedAt = Date.now()
             noteRealm.commitTransaction()
+
+            navigation.popToTop()
         } catch (error) {
             if (noteRealm.isInTransaction) {
                 noteRealm.cancelTransaction()
@@ -86,7 +88,6 @@ export function ChangePassword() {
             )
         } finally {
             setShowChangingPassword(false)
-            navigation.popToTop()
         }
     }
 
