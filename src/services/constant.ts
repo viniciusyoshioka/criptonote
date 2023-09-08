@@ -32,4 +32,7 @@ export class Constants {
     static logDatabaseFullPath = `${this.databaseFolder}/criptonote_log.realm`
     static exportDatabaseFullPath = `${this.databaseFolder}/criptonote_export.realm`
     static importDatabaseFullPath = `${this.fullPathTemporaryImported}/criptonote_export.realm`
+
+    // File extensions
+    static exportedNotesExtension = "cne"
 }

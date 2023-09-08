@@ -20,6 +20,8 @@ export type TranslationKeyType =
     | "Home_alert_errorImportingNotes_text"
     | "Home_alert_exportingNotes_title"
     | "Home_alert_exportingNotes_text"
+    | "Home_alert_allNotesExported_text"
+    | "Home_alert_selectedNotesExported_text"
     | "Home_alert_errorExportingNotes_text"
     | "Home_alert_noNotesToExport_text"
     | "Home_alert_exportNotes_title"

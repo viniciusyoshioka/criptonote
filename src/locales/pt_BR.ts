@@ -23,6 +23,8 @@ export const pt_BR: TranslationObjectType = {
     Home_alert_errorImportingNotes_text: "Erro importando notas",
     Home_alert_exportingNotes_title: "Aguarde",
     Home_alert_exportingNotes_text: "A exportação de notas pode demorar um pouco. Não feche o aplicativo",
+    Home_alert_allNotesExported_text: "Todas as notas foram exportadas com sucesso",
+    Home_alert_selectedNotesExported_text: "Todas as notas selecionadas foram exportadas com sucesso",
     Home_alert_errorExportingNotes_text: "Erro exportando notas",
     Home_alert_noNotesToExport_text: "Nenhuma nota existente para ser exportada",
     Home_alert_exportNotes_title: "Exportar",

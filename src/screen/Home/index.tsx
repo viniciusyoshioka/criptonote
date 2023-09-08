@@ -4,13 +4,16 @@ import { Realm } from "@realm/react"
 import { FlashList } from "@shopify/flash-list"
 import { useEffect, useRef, useState } from "react"
 import { Alert, View } from "react-native"
+import RNFS from "react-native-fs"
 
 import { EmptyList, LoadingModal } from "@components"
-import { NoteContentSchema, NoteSchema, SerializableNote, useNoteRealm } from "@database"
+import { NoteContentSchema, NoteSchema, SerializableNote, openExportedDatabase, useNoteRealm } from "@database"
 import { useBackHandler, useHeaderColorOnScroll, useSelectionMode } from "@hooks"
 import { TranslationKeyType, translate } from "@locales"
 import { NavigationParamProps } from "@router"
 import { Constants } from "@services/constant"
+import { DateService } from "@services/date"
+import { createAllFolders } from "@services/folder-handler"
 import { log, stringifyError } from "@services/log"
 import { getNotificationPermission } from "@services/permission"
 import { HomeHeader } from "./Header"
@@ -109,8 +112,70 @@ export function Home() {
     // TODO implement importNotes
     async function importNotes() {}
 
-    // TODO implement exportSelectedNotes
-    async function exportSelectedNotes() {}
+    async function exportSelectedNotes() {
+        Alert.alert(
+            translate("Home_alert_exportingNotes_title"),
+            translate("Home_alert_exportingNotes_text")
+        )
+
+        await createAllFolders()
+        try {
+            const exportedDatabase = await openExportedDatabase(Constants.exportDatabaseFullPath)
+
+            const selectedNotesObjectId = noteSelection
+                .selectedData
+                .map(Realm.BSON.ObjectId.createFromHexString)
+            const notesToExport = noteSelection.isSelectionMode
+                ? notes.filtered("id IN $0", selectedNotesObjectId)
+                : notes
+
+            exportedDatabase.write(() => {
+                notesToExport.forEach(noteToExport => {
+                    const noteContentToExport = noteRealm
+                        .objectForPrimaryKey(NoteContentSchema, noteToExport.textId) as NoteContentSchema
+
+                    const exportedNoteContent = exportedDatabase.create(NoteContentSchema, {
+                        text: noteContentToExport.text,
+                    })
+
+                    exportedDatabase.create(NoteSchema, {
+                        createdAt: noteToExport.createdAt,
+                        modifiedAt: noteToExport.modifiedAt,
+                        title: noteToExport.title,
+                        textId: exportedNoteContent.id,
+                    })
+                })
+            })
+
+            exportedDatabase.close()
+
+            const date = DateService.getDate().replaceAll("-", "")
+            const time = DateService.getTime().replaceAll("-", "")
+            const exportedNotesFileName = `${Constants.appName}_${date}_${time}.${Constants.exportedNotesExtension}`
+            const exportedNotesFullFilePath = `${Constants.fullPathExported}/${exportedNotesFileName}`
+
+            await RNFS.moveFile(Constants.exportDatabaseFullPath, exportedNotesFullFilePath)
+
+            const notesExportationResponseText: TranslationKeyType = noteSelection.isSelectionMode
+                ? "Home_alert_selectedNotesExported_text"
+                : "Home_alert_allNotesExported_text"
+
+            Alert.alert(
+                translate("success"),
+                translate(notesExportationResponseText)
+            )
+        } catch (error) {
+            log.error(`Error exporting notes: ${stringifyError(error)}`)
+            Alert.alert(
+                translate("warn"),
+                translate("Home_alert_errorExportingNotes_text")
+            )
+        }
+
+        if (noteSelection.isSelectionMode) {
+            noteSelection.exitSelection()
+        }
+    }
 
     function alertExportNotes() {
         if (notes.length === 0) {
