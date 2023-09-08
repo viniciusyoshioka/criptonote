@@ -1,3 +1,4 @@
+import { Realm } from "@realm/react"
 import { useEffect, useState } from "react"
 import { CollectionChangeCallback } from "realm"
 
@@ -7,7 +8,7 @@ import { NoteSchema, useNoteRealm } from "@database"
 type NotesChanges = CollectionChangeCallback<NoteSchema, [number, NoteSchema]>
 
 
-export function useNotes(): NoteSchema[] {
+export function useNotes(): Realm.Results<NoteSchema> {
 
 
     const noteRealm = useNoteRealm()
@@ -38,5 +39,5 @@ export function useNotes(): NoteSchema[] {
     })
 
 
-    return notes.toJSON() as unknown as NoteSchema[]
+    return notes
 }

@@ -195,7 +195,7 @@ export function Home() {
 
             <View style={{ display: notes.length ? "flex" : "none", flex: 1 }}>
                 <FlashList
-                    data={notes}
+                    data={notes.toJSON() as unknown as NoteSchema[]}
                     renderItem={renderNoteItem}
                     keyExtractor={noteKeyExtractor}
                     extraData={noteSelection.selectedData}
