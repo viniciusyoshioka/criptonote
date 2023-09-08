@@ -18,4 +18,4 @@ export type CryptoNativeModuleType = {
 }
 
 
-export const Crypto = NativeModules.Crypto as CryptoNativeModuleType
+export const Crypto = NativeModules.ReactNativeCryptoModule as CryptoNativeModuleType

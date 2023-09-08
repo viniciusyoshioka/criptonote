@@ -3,6 +3,8 @@ package com.criptonote.Crypto;
 import android.content.Context;
 import android.util.Base64;
 
+import androidx.annotation.Nullable;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -20,38 +22,59 @@ import javax.crypto.spec.SecretKeySpec;
 public class Crypto {
 
 
-    // 1024 * 512 = 0.5MB
-    // 1024 * 1024 = 1MB
-    public static final int BUFFER_SIZE = 1024 * 1024;
+    public static final int BUFFER_SIZE = 1024 * 1024 * 5; // 5MB
 
 
-    public static SecretKeySpec generateKey(byte[] password) throws Exception {
-        MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
-        byte[] hashPassword = messageDigest.digest(password);
-        return new SecretKeySpec(hashPassword, "AES");
+    private @Nullable Context mContext = null;
+    private @Nullable OnFileEncryptionIteration mOnFileEncryptionIteration = null;
+
+
+    public void setContext(Context context) {
+        mContext = context;
+    }
+
+    public void setOnFileEncryptionIteration(OnFileEncryptionIteration onFileEncryptionIteration) {
+        mOnFileEncryptionIteration = onFileEncryptionIteration;
     }
 
 
-    public static Cipher createCipher(SecretKeySpec key, int operation) throws Exception {
+    private static SecretKeySpec generateKey(byte[] password) throws Exception {
+        MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+        byte[] hashedPassword = messageDigest.digest(password);
+        return new SecretKeySpec(hashedPassword, "AES");
+    }
+
+
+    private static Cipher createCipher(SecretKeySpec key, int operation) throws Exception {
         IvParameterSpec iv = new IvParameterSpec(new byte[16]);
         Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
         cipher.init(operation, key, iv);
         return cipher;
     }
 
-    public static Cipher createEncryptCipher(SecretKeySpec key) throws Exception {
+    private static Cipher createEncryptCipher(SecretKeySpec key) throws Exception {
         return createCipher(key, Cipher.ENCRYPT_MODE);
     }
 
-    public static Cipher createDecryptCipher(SecretKeySpec key) throws Exception {
+    private static Cipher createDecryptCipher(SecretKeySpec key) throws Exception {
         return createCipher(key, Cipher.DECRYPT_MODE);
     }
 
 
-    public static String getFileExtension(String filePath) {
+    private static String getFileExtension(String filePath) {
         String fileName = new File(filePath).getName();
-        String[] splitedFileName = fileName.split("\\.");
-        return "." + splitedFileName[splitedFileName.length - 1];
+        String[] splitFileName = fileName.split("\\.");
+        return "." + splitFileName[splitFileName.length - 1];
+    }
+
+
+    public static String sha256(String text) throws Exception {
+        byte[] byteText = text.getBytes(StandardCharsets.UTF_8);
+
+        MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+        byte[] hashedPassword = messageDigest.digest(byteText);
+
+        return new String(hashedPassword);
     }
 
 
@@ -94,67 +117,120 @@ public class Crypto {
     }
 
 
-    public static String encryptFile(Context context, String filePath, String password) throws Exception {
+    public @Nullable String encryptFile(String filePath, String password) throws Exception {
+        if (mContext == null) {
+            throw new Exception("Context is not set");
+        }
+        File fileFromFilePath = new File(filePath);
+        if (!fileFromFilePath.exists()) {
+            throw new Exception("File in filePath does not exists");
+        }
+        if (!fileFromFilePath.isFile()) {
+            throw new Exception("filePath is not a file");
+        }
         if (password.equals("")) {
             throw new Exception("Password argument cannot be an empty String");
         }
 
         byte[] bytePassword = password.getBytes(StandardCharsets.UTF_8);
 
-        Cipher cipher = createEncryptCipher(generateKey(bytePassword));
+        SecretKeySpec key = generateKey(bytePassword);
+        Cipher cipher = createEncryptCipher(key);
 
         String extension = getFileExtension(filePath);
-        String fileOutputPath = new File(context.getCacheDir(), UUID.randomUUID().toString() + extension).toString();
+        String fileOutputPath = new File(mContext.getCacheDir(), UUID.randomUUID().toString() + extension).toString();
 
+        boolean shouldStop = false;
         try (FileInputStream fileInputStream = new FileInputStream(filePath)) {
             try (FileOutputStream fileOutputStream = new FileOutputStream(fileOutputPath, true)) {
                 try (CipherInputStream cipherInputStream = new CipherInputStream(fileInputStream, cipher)) {
                     byte[] dataRead = new byte[BUFFER_SIZE];
                     int len = cipherInputStream.read(dataRead);
+
                     while (len > 0) {
+                        if (mOnFileEncryptionIteration != null) {
+                            shouldStop = mOnFileEncryptionIteration.shouldStop();
+                        }
+                        if (shouldStop) {
+                            break;
+                        }
+
                         fileOutputStream.write(dataRead, 0, len);
                         len = cipherInputStream.read(dataRead);
                     }
-
-                    return fileOutputPath;
                 }
             }
+
+            if (shouldStop) {
+                new File(fileOutputPath).delete();
+                return null;
+            }
+
+            return fileOutputPath;
         } catch (Exception e) {
-            File fileOutput = new File(fileOutputPath);
-            fileOutput.delete();
+            new File(fileOutputPath).delete();
             throw e;
         }
     }
 
-    public static String decryptFile(Context context, String filePath, String password) throws Exception {
+    public @Nullable String decryptFile(String filePath, String password) throws Exception {
+        if (mContext == null) {
+            throw new Exception("Context is not set");
+        }
+        File fileFromFilePath = new File(filePath);
+        if (!fileFromFilePath.exists()) {
+            throw new Exception("File in filePath does not exists");
+        }
+        if (!fileFromFilePath.isFile()) {
+            throw new Exception("filePath is not a file");
+        }
         if (password.equals("")) {
             throw new Exception("Password argument cannot be an empty String");
         }
 
         byte[] bytePassword = password.getBytes(StandardCharsets.UTF_8);
 
-        Cipher cipher = createDecryptCipher(generateKey(bytePassword));
+        SecretKeySpec key = generateKey(bytePassword);
+        Cipher cipher = createEncryptCipher(key);
 
         String extension = getFileExtension(filePath);
-        String fileOutputPath = new File(context.getCacheDir(), UUID.randomUUID().toString() + extension).toString();
+        String fileOutputPath = new File(mContext.getCacheDir(), UUID.randomUUID().toString() + extension).toString();
 
+        boolean shouldStop = false;
         try (FileInputStream fileInputStream = new FileInputStream(filePath)) {
             try (FileOutputStream fileOutputStream = new FileOutputStream(fileOutputPath, true)) {
                 try (CipherOutputStream cipherOutputStream = new CipherOutputStream(fileOutputStream, cipher)) {
                     byte[] dataRead = new byte[BUFFER_SIZE];
                     int len = fileInputStream.read(dataRead);
+
                     while (len > 0) {
+                        if (mOnFileEncryptionIteration != null) {
+                            shouldStop = mOnFileEncryptionIteration.shouldStop();
+                        }
+                        if (shouldStop) {
+                            break;
+                        }
+
                         cipherOutputStream.write(dataRead, 0, len);
                         len = fileInputStream.read(dataRead);
                     }
-
-                    return fileOutputPath;
                 }
             }
+
+            if (shouldStop) {
+                new File(fileOutputPath).delete();
+                return null;
+            }
+
+            return fileOutputPath;
         } catch (Exception e) {
-            File fileOutput = new File(fileOutputPath);
-            fileOutput.delete();
+            new File(fileOutputPath).delete();
             throw e;
         }
     }
+}
+
+
+interface OnFileEncryptionIteration {
+    boolean shouldStop();
 }

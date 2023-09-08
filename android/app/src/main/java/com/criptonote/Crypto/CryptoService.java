@@ -1,12 +1,17 @@
 package com.criptonote.Crypto;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.os.Build;
 import android.os.IBinder;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationManagerCompat;
 
 import com.criptonote.R;
@@ -14,137 +19,86 @@ import com.criptonote.R;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
-
-import javax.crypto.Cipher;
-import javax.crypto.CipherInputStream;
-import javax.crypto.CipherOutputStream;
 
 
 public class CryptoService extends Service {
 
 
+    public static final String TAG = "CryptoService";
     public static final String ACTION_ENCRYPT = "com.criptonote.Crypto.CryptoService.ENCRYPT";
     public static final String ACTION_DECRYPT = "com.criptonote.Crypto.CryptoService.DECRYPT";
     public static final String ACTION_STOP = "com.criptonote.Crypto.CryptoService.STOP";
 
-    private static final int NOTIFICATION_ID_ENCRYPTING = 1;
-    private static final int NOTIFICATION_ID_RESPONSE = 2;
 
-    private NotificationManagerCompat notificationManagerCompat;
-    private Notification.Builder serviceNotification;
-    private final AtomicBoolean stopEncryption = new AtomicBoolean(false);
+    private NotificationManagerCompat mNotificationManagerCompat;
+    private static final int NOTIFICATION_ID_ENCRYPTION = 1;
+    private static final String CHANNEL_ID_ENCRYPTION_SERVICE = "CHANNEL_ENCRYPTION_SERVICE";
+
+    private final AtomicBoolean mStopEncryption = new AtomicBoolean(false);
 
 
-    private void createServiceNotification(String intentAction) {
+    // TODO add internationalization
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void createNotificationChannels() {
+        NotificationChannel channelEncryptionService = new NotificationChannel(
+                CHANNEL_ID_ENCRYPTION_SERVICE,
+                "Serviço de criptografia",
+                NotificationManager.IMPORTANCE_DEFAULT);
+        channelEncryptionService.setVibrationPattern(new long[]{0L});
+    }
+
+    // TODO add internationalization
+    // TODO update notification icon
+    private Notification createServiceNotification(String intentAction, String fileName) {
         Intent intent = new Intent(this, CryptoService.class);
         intent.setAction(ACTION_STOP);
-        PendingIntent pendingIntent = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+        PendingIntent pendingIntent = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE);
         Notification.Action action = new Notification.Action(0, "Cancelar", pendingIntent);
 
-        String text;
+        String title = "";
         if (intentAction.equals(ACTION_ENCRYPT)) {
-            text = "Criptografando arquivo";
+            title = "Criptografando arquivo";
         } else {
-            text = "Descriptografando arquivo";
+            title = "Descriptografando arquivo";
         }
 
-        serviceNotification = new Notification.Builder(getApplicationContext())
-                .setSmallIcon(R.mipmap.ic_launcher) // TODO
-                .setContentTitle("CriptoNote")
-                .setContentText(text)
+        Notification.Builder encryptionServiceNotification = new Notification.Builder(getApplicationContext())
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle(title)
+                .setContentText(fileName)
                 .setProgress(0, 0, true)
                 .addAction(action)
+                .setVibrate(new long[]{0L})
                 .setOngoing(true);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            encryptionServiceNotification.setChannelId(CHANNEL_ID_ENCRYPTION_SERVICE);
+        }
+
+        return encryptionServiceNotification.build();
     }
 
-    private void sentResponseNotification(String text) {
-        Notification responseNotification = new Notification.Builder(getApplicationContext())
-                .setContentTitle("CriptoNote")
+    // TODO update notification icon
+    private void sentResponseNotification(String title, String text) {
+        Notification.Builder responseNotification = new Notification.Builder(getApplicationContext())
+                .setContentTitle(title)
                 .setContentText(text)
-                .setSmallIcon(R.mipmap.ic_launcher) // TODO
-                .build();
+                .setSmallIcon(R.mipmap.ic_launcher);
 
-        notificationManagerCompat.notify(NOTIFICATION_ID_RESPONSE, responseNotification);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            responseNotification.setChannelId(CHANNEL_ID_ENCRYPTION_SERVICE);
+        }
+
+        mNotificationManagerCompat.notify(UUID.randomUUID().hashCode(), responseNotification.build());
     }
 
 
-    private String encryptFile(String filePath, String password) throws Exception {
-        if (password.equals("")) {
-            throw new Exception("Password argument cannot be an empty String");
-        }
-
-        byte[] bytePassword = password.getBytes(StandardCharsets.UTF_8);
-
-        Cipher cipher = Crypto.createEncryptCipher(Crypto.generateKey(bytePassword));
-
-        String extension = Crypto.getFileExtension(filePath);
-        String fileOutputPath = new File(
-                getApplicationContext().getCacheDir(),
-                UUID.randomUUID().toString() + extension).toString();
-
-        try (FileInputStream fileInputStream = new FileInputStream(filePath)) {
-            try (FileOutputStream fileOutputStream = new FileOutputStream(fileOutputPath, true)) {
-                try (CipherInputStream cipherInputStream = new CipherInputStream(fileInputStream, cipher)) {
-                    byte[] dataRead = new byte[Crypto.BUFFER_SIZE];
-                    int len = cipherInputStream.read(dataRead);
-                    while (len > 0) {
-                        if (stopEncryption.get()) {
-                            return fileOutputPath;
-                        }
-
-                        fileOutputStream.write(dataRead, 0, len);
-                        len = cipherInputStream.read(dataRead);
-                    }
-
-                    return fileOutputPath;
-                }
-            }
-        } catch (Exception e) {
-            new File(fileOutputPath).delete();
-            throw e;
-        }
+    private String getFileName(String filePath) {
+        return new File(filePath).getName();
     }
-
-    private String decryptFile(String filePath, String password) throws Exception {
-        if (password.equals("")) {
-            throw new Exception("Password argument cannot be an empty String");
-        }
-
-        byte[] bytePassword = password.getBytes(StandardCharsets.UTF_8);
-
-        Cipher cipher = Crypto.createDecryptCipher(Crypto.generateKey(bytePassword));
-
-        String extension = Crypto.getFileExtension(filePath);
-        String fileOutputPath = new File(
-                getApplicationContext().getCacheDir(),
-                UUID.randomUUID().toString() + extension).toString();
-
-        try (FileInputStream fileInputStream = new FileInputStream(filePath)) {
-            try (FileOutputStream fileOutputStream = new FileOutputStream(fileOutputPath, true)) {
-                try (CipherOutputStream cipherOutputStream = new CipherOutputStream(fileOutputStream, cipher)) {
-                    byte[] dataRead = new byte[Crypto.BUFFER_SIZE];
-                    int len = fileInputStream.read(dataRead);
-                    while (len > 0) {
-                        if (stopEncryption.get()) {
-                            return fileOutputPath;
-                        }
-
-                        cipherOutputStream.write(dataRead, 0, len);
-                        len = fileInputStream.read(dataRead);
-                    }
-
-                    return fileOutputPath;
-                }
-            }
-        } catch (Exception e) {
-            new File(fileOutputPath).delete();
-            throw e;
-        }
-    }
-
 
     private void moveFile(String source, String destiny) throws Exception {
         File fileSource = new File(source);
@@ -155,29 +109,50 @@ public class CryptoService extends Service {
     }
 
     private void stop() {
-        stopEncryption.set(true);
+        mStopEncryption.set(true);
         stopForeground(true);
         stopSelf();
     }
 
 
+    // TODO add internationalization
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        String action = intent.getAction();
+        mNotificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            this.createNotificationChannels();
+        }
 
-        if (action.equals(ACTION_STOP)) {
-            stop();
-            return START_STICKY;
+        String action = intent.getAction();
+        if (action == null) {
+            Log.w(TAG, "onStartCommand received null action");
+            sentResponseNotification("Erro no serviço de criptografia", "Não foi possível inicar o serviço de criptografia, há dados inválidos");
+            return START_NOT_STICKY;
         }
 
         String inputPath = intent.getStringExtra("inputPath");
         String outputPath = intent.getStringExtra("outputPath");
         String password = intent.getStringExtra("password");
-        boolean deleteOriginalFile = intent.getBooleanExtra("deleteOriginalFile", false);
+        boolean deleteOriginalFile = intent.getBooleanExtra("deleteOriginalFile", true);
 
-        notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
-        createServiceNotification(action);
-        startForeground(NOTIFICATION_ID_ENCRYPTING, serviceNotification.build());
+        if (inputPath == null || outputPath == null || password == null) {
+            Log.w(TAG, "onStartCommand received null values in the intent");
+            sentResponseNotification("Erro no serviço de criptografia", "Não foi possível inicar o serviço de criptografia, há dados faltando");
+            return START_NOT_STICKY;
+        }
+
+        String inputFileName = getFileName(inputPath);
+        Notification serviceNotification = this.createServiceNotification(action, inputFileName);
+        startForeground(NOTIFICATION_ID_ENCRYPTION, serviceNotification);
+
+        Crypto crypto = new Crypto();
+        crypto.setContext(getApplicationContext());
+        crypto.setOnFileEncryptionIteration(new OnFileEncryptionIteration() {
+            @Override
+            public boolean shouldStop() {
+                return mStopEncryption.get();
+            }
+        });
 
         switch (action) {
             case ACTION_ENCRYPT:
@@ -185,23 +160,28 @@ public class CryptoService extends Service {
                     @Override
                     public void run() {
                         try {
-                            String outputEncryptedFile = encryptFile(inputPath, password);
-                            if (stopEncryption.get()) {
-                                new File(outputEncryptedFile).delete();
+                            @Nullable String outputEncryptedFile = crypto.encryptFile(inputPath, password);
+                            String fileName = getFileName(inputPath);
+
+                            if (outputEncryptedFile == null) {
+                                sentResponseNotification("Criptografia cancelada", fileName);
+                                stop();
                                 return;
                             }
+
                             moveFile(outputEncryptedFile, outputPath);
                             if (deleteOriginalFile) {
                                 new File(inputPath).delete();
                             }
 
-                            sentResponseNotification("Criptografia concluída");
-                            stopForeground(true);
-                            stopSelf();
+                            sentResponseNotification("Criptografia concluída", fileName);
+                            stop();
                         } catch (Exception e) {
-                            sentResponseNotification("Falha durante criptografia");
-                            stopForeground(true);
-                            stopSelf();
+                            Log.e(TAG, "Error in file encryption thread: " + e.getMessage());
+
+                            String fileName = getFileName(inputPath);
+                            sentResponseNotification("Erro criptografando arquivo", fileName);
+                            stop();
                         }
                     }
                 }).start();
@@ -211,23 +191,28 @@ public class CryptoService extends Service {
                     @Override
                     public void run() {
                         try {
-                            String outputDecryptedFile = decryptFile(inputPath, password);
-                            if (stopEncryption.get()) {
-                                new File(outputDecryptedFile).delete();
+                            @Nullable String outputDecryptedFile = crypto.decryptFile(inputPath, password);
+                            String fileName = getFileName(inputPath);
+
+                            if (outputDecryptedFile == null) {
+                                sentResponseNotification("Descriptografia cancelada", fileName);
+                                stop();
                                 return;
                             }
+
                             moveFile(outputDecryptedFile, outputPath);
                             if (deleteOriginalFile) {
                                 new File(inputPath).delete();
                             }
 
-                            sentResponseNotification("Descriptografia concluída");
-                            stopForeground(true);
-                            stopSelf();
+                            sentResponseNotification("Descriptografia concluída", fileName);
+                            stop();
                         } catch (Exception e) {
-                            sentResponseNotification("Falha durante descriptografia");
-                            stopForeground(true);
-                            stopSelf();
+                            Log.e(TAG, "Error in file decryption thread: " + e.getMessage());
+
+                            String fileName = getFileName(inputPath);
+                            sentResponseNotification("Erro descriptografando arquivo", fileName);
+                            stop();
                         }
                     }
                 }).start();
