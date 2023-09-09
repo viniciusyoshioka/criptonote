@@ -26,7 +26,8 @@ export const ReadNoteHeader = forwardRef((props: ReadNoteHeaderProps, ref: Forwa
             <HeaderTitle title={props.noteTitle} />
 
             <HeaderButton
-                iconName={"edit"}
+                iconName={"pencil-outline"}
+                iconGroup={"material-community"}
                 onPress={props.editNote}
             />
         </AnimatedHeader>
