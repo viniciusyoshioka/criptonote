@@ -4,6 +4,7 @@ import { Realm } from "@realm/react"
 import { FlashList } from "@shopify/flash-list"
 import { useEffect, useRef, useState } from "react"
 import { Alert, View } from "react-native"
+import DocumentPicker from "react-native-document-picker"
 import RNFS from "react-native-fs"
 
 import { EmptyList, LoadingModal } from "@components"
@@ -109,8 +110,77 @@ export function Home() {
         )
     }
 
-    // TODO implement importNotes
-    async function importNotes() {}
+    async function importNotes() {
+        try {
+            const pickedFile = await DocumentPicker.pickSingle({
+                copyTo: "cachesDirectory",
+                type: DocumentPicker.types.allFiles,
+            })
+
+            if (pickedFile.copyError)
+                throw new Error(`Error copying picked file to import notes: "${stringifyError(pickedFile.copyError)}"`)
+            if (!pickedFile.fileCopyUri)
+                throw new Error("Copying notes to import did not returned a valid path")
+
+            Alert.alert(
+                translate("Home_alert_importNotes_title"),
+                translate("Home_alert_importNotes_text")
+            )
+            await createAllFolders()
+
+            const fileUri = pickedFile.fileCopyUri.replaceAll("%20", " ").replace("file://", "")
+            await RNFS.moveFile(fileUri, Constants.importDatabaseFullPath)
+
+            const exportedDatabase = await openExportedDatabase(Constants.importDatabaseFullPath)
+            const exportedNotes = exportedDatabase.objects(NoteSchema).sorted("modifiedAt")
+
+            noteRealm.beginTransaction()
+            for (let i = 0; i < exportedNotes.length; i++) {
+                const exportedNote = exportedNotes[i]
+                const exportedNoteContent = exportedDatabase
+                    .objectForPrimaryKey(NoteContentSchema, exportedNote.textId) as NoteContentSchema
+
+                const importedNoteContent = noteRealm.create(NoteContentSchema, {
+                    text: exportedNoteContent.text,
+                })
+                noteRealm.create(NoteSchema, {
+                    createdAt: exportedNote.createdAt,
+                    modifiedAt: Date.now(),
+                    title: exportedNote.title,
+                    textId: importedNoteContent.id,
+                })
+            }
+            noteRealm.commitTransaction()
+
+            exportedDatabase.close()
+            await RNFS.unlink(Constants.importDatabaseFullPath)
+
+            Alert.alert(
+                translate("success"),
+                translate("Home_alert_notesImported_text")
+            )
+        } catch (error) {
+            if (DocumentPicker.isCancel(error)) return
+
+            if (noteRealm.isInTransaction) {
+                noteRealm.cancelTransaction()
+            }
+
+            try {
+                if (await RNFS.exists(Constants.fullPathTemporaryImported)) {
+                    await RNFS.unlink(Constants.fullPathTemporaryImported)
+                }
+            } catch (error) {
+                log.error(`Error deleting temporary imported files after error in note import: "${stringifyError(error)}"`)
+            }
+
+            log.error(`Error importing notes: "${stringifyError(error)}"`)
+            Alert.alert(
+                translate("warn"),
+                translate("Home_alert_errorImportingNotes_text")
+            )
+        }
+    }
 
     async function exportSelectedNotes() {
         Alert.alert(

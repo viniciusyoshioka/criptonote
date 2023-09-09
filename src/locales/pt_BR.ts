@@ -20,6 +20,7 @@ export const pt_BR: TranslationObjectType = {
     Home_alert_deleteNotes_text: "Estas notas serão apagadas permanentemente",
     Home_alert_importNotes_title: "Importar",
     Home_alert_importNotes_text: "A importação de notas pode demorar um pouco. Não feche o aplicativo",
+    Home_alert_notesImported_text: "As notas foram importadas com sucesso",
     Home_alert_errorImportingNotes_text: "Erro importando notas",
     Home_alert_exportingNotes_title: "Aguarde",
     Home_alert_exportingNotes_text: "A exportação de notas pode demorar um pouco. Não feche o aplicativo",

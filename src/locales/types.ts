@@ -17,6 +17,7 @@ export type TranslationKeyType =
     | "Home_alert_deleteNotes_text"
     | "Home_alert_importNotes_title"
     | "Home_alert_importNotes_text"
+    | "Home_alert_notesImported_text"
     | "Home_alert_errorImportingNotes_text"
     | "Home_alert_exportingNotes_title"
     | "Home_alert_exportingNotes_text"
