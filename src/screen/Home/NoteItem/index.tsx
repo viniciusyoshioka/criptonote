@@ -40,7 +40,7 @@ export function NoteItem(props: NoteItemProps) {
             minDurationMs={400}
             onHandlerStateChange={({ nativeEvent }) => onLongPress(nativeEvent)}
         >
-            <NoteItemButton onPress={onPress} rippleColor={rippleColor}>
+            <NoteItemButton onPress={onPress} android_ripple={{ color: rippleColor }}>
                 <NoteItemBlock>
                     <Text
                         variant={"body"}

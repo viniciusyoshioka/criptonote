@@ -1,4 +1,3 @@
-import { RectButton } from "react-native-gesture-handler"
 import styled from "styled-components/native"
 
 import { StyledProps } from "@theme"
@@ -7,7 +6,7 @@ import { StyledProps } from "@theme"
 export const NOTE_ITEM_HEIGHT = 60
 
 
-export const NoteItemButton = styled(RectButton)<StyledProps>`
+export const NoteItemButton = styled.Pressable<StyledProps>`
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
@@ -19,6 +18,6 @@ export const NoteItemButton = styled(RectButton)<StyledProps>`
 
 
 export const NoteItemBlock = styled.View`
-    flex: 1;   
+    flex: 1;
     justify-content: center;
 `
