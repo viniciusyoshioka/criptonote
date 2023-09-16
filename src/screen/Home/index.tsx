@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react"
 import { Alert, View } from "react-native"
 import DocumentPicker from "react-native-document-picker"
 import RNFS from "react-native-fs"
+import { FAB } from "react-native-paper"
 
 import { EmptyList, LoadingModal } from "@components"
 import { NoteContentSchema, NoteSchema, SerializableNote, openExportedDatabase, useNoteRealm } from "@database"
@@ -322,7 +323,6 @@ export function Home() {
                 exitSelectionMode={noteSelection.exitSelection}
                 invertSelection={invertSelection}
                 deleteSelectedNotes={alertDeleteNotes}
-                createNote={() => navigation.navigate("WriteNote")}
                 importNotes={importNotes}
                 exportNotes={alertExportNotes}
                 openSettings={() => navigation.navigate("Settings")}
@@ -337,8 +337,16 @@ export function Home() {
                     estimatedItemSize={NOTE_ITEM_HEIGHT}
                     ItemSeparatorComponent={() => <Divider wrapperStyle={{ paddingHorizontal: 16 }} />}
                     onScroll={onScroll}
+                    contentContainerStyle={{ paddingBottom: 56 + (2 * 16) }}
                 />
             </View>
+
+            <FAB
+                icon={"plus"}
+                mode={"flat"}
+                style={{ position: "absolute", right: 0, bottom: 0, margin: 16 }}
+                onPress={() => navigation.navigate("WriteNote")}
+            />
 
             <EmptyList
                 imageSource={Constants.appIconOutline}

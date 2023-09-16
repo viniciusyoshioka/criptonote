@@ -12,7 +12,6 @@ export interface HomeHeaderProps {
     exitSelectionMode: () => void;
     invertSelection: () => void;
     deleteSelectedNotes: () => void;
-    createNote: () => void;
     importNotes: () => void;
     exportNotes: () => void;
     openSettings: () => void;
@@ -43,13 +42,6 @@ export const HomeHeader = forwardRef((props: HomeHeaderProps, ref: ForwardedRef<
             )}
 
             <HeaderTitle title={getTitle()} />
-
-            {!props.isSelectionMode && (
-                <HeaderButton
-                    iconName={"add"}
-                    onPress={props.createNote}
-                />
-            )}
 
             {props.isSelectionMode && <>
                 <HeaderButton
