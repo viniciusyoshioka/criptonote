@@ -50,7 +50,8 @@ export const HomeHeader = forwardRef((props: HomeHeaderProps, ref: ForwardedRef<
                 />
 
                 <HeaderButton
-                    iconName={"delete"}
+                    iconName={"trash-can-outline"}
+                    iconGroup={"material-community"}
                     onPress={props.deleteSelectedNotes}
                 />
             </>}

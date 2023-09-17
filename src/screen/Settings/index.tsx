@@ -100,7 +100,7 @@ export function Settings() {
                 )}
 
                 <ListItem
-                    leadingIcon={{ iconName: "information-circle-outline", iconGroup: "ionicons" }}
+                    leadingIcon={{ iconName: "information-outline", iconGroup: "material-community" }}
                     title={translate("Settings_appVersionInfo_title")}
                     description={`${Constants.appName} ${Constants.appVersion} - ${Constants.appType}`}
                 />

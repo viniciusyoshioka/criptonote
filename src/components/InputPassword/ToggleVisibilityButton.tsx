@@ -30,7 +30,8 @@ export function ToggleVisibilityButton(props: ToggleVisibilityButtonProps) {
             style={[styles.button, buttonStyle]}
         >
             <Icon
-                name={props.hidePassword ? "visibility-off" : "visibility"}
+                name={props.hidePassword ? "eye-off-outline" : "eye-outline"}
+                group={"material-community"}
                 color={color.onSurfaceVariant}
             />
         </Pressable>
