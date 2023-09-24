@@ -191,7 +191,7 @@ public class Crypto {
         byte[] bytePassword = password.getBytes(StandardCharsets.UTF_8);
 
         SecretKeySpec key = generateKey(bytePassword);
-        Cipher cipher = createEncryptCipher(key);
+        Cipher cipher = createDecryptCipher(key);
 
         String extension = getFileExtension(filePath);
         String fileOutputPath = new File(mContext.getCacheDir(), UUID.randomUUID().toString() + extension).toString();
