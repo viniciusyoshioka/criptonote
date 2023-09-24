@@ -2,10 +2,11 @@ import { NativeModules } from "react-native"
 
 
 export type FileEncryptionOptions = {
-    inputPath: string;
-    outputPath: string;
+    fileName: string;
+    sourcePath: string;
+    destinationPath: string;
     password: string;
-    deleteOriginalFile?: boolean;
+    deleteOriginalFile: boolean;
 }
 
 

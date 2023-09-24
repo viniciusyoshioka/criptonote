@@ -325,6 +325,7 @@ export function Home() {
                 deleteSelectedNotes={alertDeleteNotes}
                 importNotes={importNotes}
                 exportNotes={alertExportNotes}
+                openFiles={() => navigation.navigate("FileHome")}
                 openSettings={() => navigation.navigate("Settings")}
             />
 

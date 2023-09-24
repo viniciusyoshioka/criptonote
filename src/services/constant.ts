@@ -35,4 +35,5 @@ export class Constants {
 
     // File extensions
     static exportedNotesExtension = "cne"
+    static encryptedFilesExtension = "cn"
 }

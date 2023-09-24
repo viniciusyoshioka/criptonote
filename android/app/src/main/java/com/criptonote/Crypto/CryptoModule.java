@@ -72,15 +72,17 @@ public class CryptoModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void encryptFileService(ReadableMap options) {
-        String inputPath = options.getString("inputPath");
-        String outputPath = options.getString("outputPath");
+        String fileName = options.getString("fileName");
+        String sourcePath = options.getString("sourcePath");
+        String destinationPath = options.getString("destinationPath");
         String password = options.getString("password");
         boolean deleteOriginalFile = options.getBoolean("deleteOriginalFile");
 
         Intent intent = new Intent(mReactApplicationContext, CryptoService.class);
         intent.setAction(CryptoService.ACTION_ENCRYPT);
-        intent.putExtra("inputPath", inputPath);
-        intent.putExtra("outputPath", outputPath);
+        intent.putExtra("fileName", fileName);
+        intent.putExtra("sourcePath", sourcePath);
+        intent.putExtra("destinationPath", destinationPath);
         intent.putExtra("password", password);
         intent.putExtra("deleteOriginalFile", deleteOriginalFile);
 
@@ -89,15 +91,17 @@ public class CryptoModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void decryptFileService(ReadableMap options) {
-        String inputPath = options.getString("inputPath");
-        String outputPath = options.getString("outputPath");
+        String fileName = options.getString("fileName");
+        String sourcePath = options.getString("sourcePath");
+        String destinationPath = options.getString("destinationPath");
         String password = options.getString("password");
         boolean deleteOriginalFile = options.getBoolean("deleteOriginalFile");
 
         Intent intent = new Intent(mReactApplicationContext, CryptoService.class);
         intent.setAction(CryptoService.ACTION_DECRYPT);
-        intent.putExtra("inputPath", inputPath);
-        intent.putExtra("outputPath", outputPath);
+        intent.putExtra("fileName", fileName);
+        intent.putExtra("sourcePath", sourcePath);
+        intent.putExtra("destinationPath", destinationPath);
         intent.putExtra("password", password);
         intent.putExtra("deleteOriginalFile", deleteOriginalFile);
 

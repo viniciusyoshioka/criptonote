@@ -3,6 +3,8 @@ import { NativeStackNavigationOptions, createNativeStackNavigator } from "@react
 import { enableScreens } from "react-native-screens"
 
 import { ChangePassword, EditNote } from "@screen/EditNote"
+import { FileCode } from "@screen/FileCode"
+import { FileHome } from "@screen/FileHome"
 import { Code, Home } from "@screen/Home"
 import { ReadNote } from "@screen/ReadNote"
 import { ChangeTheme, Settings } from "@screen/Settings"
@@ -41,6 +43,9 @@ export function Router() {
                 <Stack.Screen name={"EditNote"} component={EditNote} />
                 <Stack.Screen name={"WriteNote"} component={WriteNote} />
                 <Stack.Screen name={"Settings"} component={Settings} />
+
+                <Stack.Screen name={"FileHome"} component={FileHome} />
+                <Stack.Screen name={"FileCode"} component={FileCode} />
 
                 <Stack.Group screenOptions={{ presentation: "transparentModal" }}>
                     <Stack.Screen name={"Code"} component={Code} />

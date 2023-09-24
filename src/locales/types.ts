@@ -107,6 +107,30 @@ export type TranslationKeyType =
     | "ChangeTheme_light"
     | "ChangeTheme_dark"
 
+    // FileHome alert
+    | "FileHome_alert_errorSelectingFileToEncrypt_text"
+    | "FileHome_alert_errorSelectingFileToDecrypt_text"
+    // FileHome header
+    | "FileHome_header_title"
+    // FileHome screen
+    | "FileHome_encryptFile_title"
+    | "FileHome_encryptFile_text"
+    | "FileHome_decryptFile_title"
+    | "FileHome_decryptFile_text"
+
+    // FileCode alert
+    | "FileCode_alert_fileNameRequired_text"
+    | "FileCode_alert_passwordRequired_text"
+    | "FileCode_alert_startingFileEncryption_text"
+    | "FileCode_alert_startingFileDecryption_text"
+    // FileCode header
+    | "FileCode_header_title"
+    // FileCode screen
+    | "FileCode_fileName"
+    | "FileCode_deleteOriginalFile"
+    | "FileCode_encrypt"
+    | "FileCode_decrypt"
+
     // Log service
     | "log_alert_reportCriticalError_text"
 

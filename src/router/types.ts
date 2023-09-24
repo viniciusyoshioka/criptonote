@@ -4,7 +4,9 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack"
 import { DecryptedNote, SerializableNote } from "@database"
 
 
-// TODO Add other screens
+export type FileCodeAction = "encrypt" | "decrypt"
+
+
 export type ScreenParams = {
     Home: undefined;
     Code: {
@@ -25,6 +27,13 @@ export type ScreenParams = {
     WriteNote: undefined;
     Settings: undefined;
     ChangeTheme: undefined;
+
+    FileHome: undefined;
+    FileCode: {
+        fileName: string;
+        filePath: string;
+        action: FileCodeAction;
+    }
 }
 
 

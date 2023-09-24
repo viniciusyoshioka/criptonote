@@ -110,6 +110,30 @@ export const pt_BR: TranslationObjectType = {
     ChangeTheme_light: "Claro",
     ChangeTheme_dark: "Escuro",
 
+    // FileHome alert
+    FileHome_alert_errorSelectingFileToEncrypt_text: "Erro selecionando arquivos para criptografar",
+    FileHome_alert_errorSelectingFileToDecrypt_text: "Erro selecionando arquivos para descriptografar",
+    // FileHome header
+    FileHome_header_title: "Arquivos",
+    // FileHome screen
+    FileHome_encryptFile_title: "Criptografar arquivo",
+    FileHome_encryptFile_text: "Procure arquivos no dispositivo para criptografá-los",
+    FileHome_decryptFile_title: "Descriptografar arquivo",
+    FileHome_decryptFile_text: "Procure arquivos no dispositivo para descriptografá-los",
+
+    // FileCode alert
+    FileCode_alert_fileNameRequired_text: "O nome do arquivo é obrigatório",
+    FileCode_alert_passwordRequired_text: "A senha é obrigatória",
+    FileCode_alert_startingFileEncryption_text: "A criptografia do arquivo foi iniciada, aguarde",
+    FileCode_alert_startingFileDecryption_text: "A descriptografia do arquivo foi iniciada, aguarde",
+    // FileCode
+    FileCode_header_title: "Senha",
+    // FileCode screen
+    FileCode_fileName: "Nome do arquivo",
+    FileCode_deleteOriginalFile: "Apagar arquivo original",
+    FileCode_encrypt: "Criptografar",
+    FileCode_decrypt: "Descriptografar",
+
     // Log service
     log_alert_reportCriticalError_text: "Um erro crítico ocorreu, reporte os logs para o desenvolvedor",
 }

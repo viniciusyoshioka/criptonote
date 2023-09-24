@@ -45,8 +45,10 @@ public class CryptoService extends Service {
         NotificationChannel channelEncryptionService = new NotificationChannel(
                 CHANNEL_ID_ENCRYPTION_SERVICE,
                 "Serviço de criptografia",
-                NotificationManager.IMPORTANCE_DEFAULT);
+                NotificationManager.IMPORTANCE_NONE);
         channelEncryptionService.setVibrationPattern(new long[]{0L});
+
+        mNotificationManagerCompat.createNotificationChannel(channelEncryptionService);
     }
 
     // TODO add internationalization
@@ -96,10 +98,6 @@ public class CryptoService extends Service {
     }
 
 
-    private String getFileName(String filePath) {
-        return new File(filePath).getName();
-    }
-
     private void moveFile(String source, String destiny) throws Exception {
         File fileSource = new File(source);
         FileInputStream fileInputStream = new FileInputStream(fileSource);
@@ -130,19 +128,19 @@ public class CryptoService extends Service {
             return START_NOT_STICKY;
         }
 
-        String inputPath = intent.getStringExtra("inputPath");
-        String outputPath = intent.getStringExtra("outputPath");
+        String fileName = intent.getStringExtra("fileName");
+        String sourcePath = intent.getStringExtra("sourcePath");
+        String destinationPath = intent.getStringExtra("destinationPath");
         String password = intent.getStringExtra("password");
         boolean deleteOriginalFile = intent.getBooleanExtra("deleteOriginalFile", true);
 
-        if (inputPath == null || outputPath == null || password == null) {
+        if (fileName == null || sourcePath == null || destinationPath == null || password == null) {
             Log.w(TAG, "onStartCommand received null values in the intent");
             sentResponseNotification("Erro no serviço de criptografia", "Não foi possível inicar o serviço de criptografia, há dados faltando");
             return START_NOT_STICKY;
         }
 
-        String inputFileName = getFileName(inputPath);
-        Notification serviceNotification = this.createServiceNotification(action, inputFileName);
+        Notification serviceNotification = this.createServiceNotification(action, fileName);
         startForeground(NOTIFICATION_ID_ENCRYPTION, serviceNotification);
 
         Crypto crypto = new Crypto();
@@ -160,8 +158,7 @@ public class CryptoService extends Service {
                     @Override
                     public void run() {
                         try {
-                            @Nullable String outputEncryptedFile = crypto.encryptFile(inputPath, password);
-                            String fileName = getFileName(inputPath);
+                            @Nullable String outputEncryptedFile = crypto.encryptFile(sourcePath, password);
 
                             if (outputEncryptedFile == null) {
                                 sentResponseNotification("Criptografia cancelada", fileName);
@@ -169,9 +166,9 @@ public class CryptoService extends Service {
                                 return;
                             }
 
-                            moveFile(outputEncryptedFile, outputPath);
+                            moveFile(outputEncryptedFile, destinationPath);
                             if (deleteOriginalFile) {
-                                new File(inputPath).delete();
+                                new File(sourcePath).delete();
                             }
 
                             sentResponseNotification("Criptografia concluída", fileName);
@@ -179,7 +176,6 @@ public class CryptoService extends Service {
                         } catch (Exception e) {
                             Log.e(TAG, "Error in file encryption thread: " + e.getMessage());
 
-                            String fileName = getFileName(inputPath);
                             sentResponseNotification("Erro criptografando arquivo", fileName);
                             stop();
                         }
@@ -191,8 +187,7 @@ public class CryptoService extends Service {
                     @Override
                     public void run() {
                         try {
-                            @Nullable String outputDecryptedFile = crypto.decryptFile(inputPath, password);
-                            String fileName = getFileName(inputPath);
+                            @Nullable String outputDecryptedFile = crypto.decryptFile(sourcePath, password);
 
                             if (outputDecryptedFile == null) {
                                 sentResponseNotification("Descriptografia cancelada", fileName);
@@ -200,9 +195,9 @@ public class CryptoService extends Service {
                                 return;
                             }
 
-                            moveFile(outputDecryptedFile, outputPath);
+                            moveFile(outputDecryptedFile, destinationPath);
                             if (deleteOriginalFile) {
-                                new File(inputPath).delete();
+                                new File(sourcePath).delete();
                             }
 
                             sentResponseNotification("Descriptografia concluída", fileName);
@@ -210,7 +205,6 @@ public class CryptoService extends Service {
                         } catch (Exception e) {
                             Log.e(TAG, "Error in file decryption thread: " + e.getMessage());
 
-                            String fileName = getFileName(inputPath);
                             sentResponseNotification("Erro descriptografando arquivo", fileName);
                             stop();
                         }

@@ -14,6 +14,7 @@ export interface HomeHeaderProps {
     deleteSelectedNotes: () => void;
     importNotes: () => void;
     exportNotes: () => void;
+    openFiles: () => void;
     openSettings: () => void;
 }
 
@@ -53,6 +54,14 @@ export const HomeHeader = forwardRef((props: HomeHeaderProps, ref: ForwardedRef<
                     iconName={"trash-can-outline"}
                     iconGroup={"material-community"}
                     onPress={props.deleteSelectedNotes}
+                />
+            </>}
+
+            {!props.isSelectionMode && <>
+                <HeaderButton
+                    iconName={"feed"}
+                    iconGroup={"material-outline"}
+                    onPress={props.openFiles}
                 />
             </>}
 
