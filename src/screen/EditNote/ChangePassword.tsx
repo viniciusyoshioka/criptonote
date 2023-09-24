@@ -2,7 +2,7 @@ import { Button, ModalActions, ModalContainer, ModalContent, ModalScrim, ModalTi
 import { useNavigation, useRoute } from "@react-navigation/native"
 import { Realm } from "@realm/react"
 import { useRef, useState } from "react"
-import { Alert, TextInput } from "react-native"
+import { Alert, KeyboardAvoidingView, TextInput } from "react-native"
 
 import { InputPassword, LoadingModal } from "@components"
 import { NoteContentSchema, NoteSchema, useNoteRealm } from "@database"
@@ -94,60 +94,62 @@ export function ChangePassword() {
 
     return (
         <ModalScrim onPress={goBack}>
-            <ModalContainer>
-                <ModalTitle>
-                    {translate("ChangePassword_title")}
-                </ModalTitle>
+            <KeyboardAvoidingView behavior={"position"}>
+                <ModalContainer>
+                    <ModalTitle>
+                        {translate("ChangePassword_title")}
+                    </ModalTitle>
 
-                <ModalContent hasDivider={false} style={{ marginTop: 16 }}>
-                    <InputPassword
-                        ref={inputCurrentPasswordRef}
-                        placeholder={translate("ChangePassword_currentPassword")}
-                        value={currentPassword}
-                        onChangeText={setCurrentPassword}
-                        returnKeyType={"next"}
-                        onSubmitEditing={() => inputNewPasswordRef.current?.focus()}
-                        wrapperStyle={{ marginBottom: 8 }}
-                    />
+                    <ModalContent hasDivider={false} style={{ marginTop: 16 }}>
+                        <InputPassword
+                            ref={inputCurrentPasswordRef}
+                            placeholder={translate("ChangePassword_currentPassword")}
+                            value={currentPassword}
+                            onChangeText={setCurrentPassword}
+                            returnKeyType={"next"}
+                            onSubmitEditing={() => inputNewPasswordRef.current?.focus()}
+                            wrapperStyle={{ marginBottom: 8 }}
+                        />
 
-                    <InputPassword
-                        ref={inputNewPasswordRef}
-                        placeholder={translate("ChangePassword_newPassword")}
-                        value={newPassword}
-                        onChangeText={setNewPassword}
-                        returnKeyType={"next"}
-                        onSubmitEditing={() => inputConfirmPasswordRef.current?.focus()}
-                        wrapperStyle={{ marginBottom: 8 }}
-                    />
+                        <InputPassword
+                            ref={inputNewPasswordRef}
+                            placeholder={translate("ChangePassword_newPassword")}
+                            value={newPassword}
+                            onChangeText={setNewPassword}
+                            returnKeyType={"next"}
+                            onSubmitEditing={() => inputConfirmPasswordRef.current?.focus()}
+                            wrapperStyle={{ marginBottom: 8 }}
+                        />
 
-                    <InputPassword
-                        ref={inputConfirmPasswordRef}
-                        placeholder={translate("ChangePassword_confirmPassword")}
-                        value={confirmPassword}
-                        onChangeText={setConfirmPassword}
-                        onSubmitEditing={() => inputConfirmPasswordRef.current?.blur()}
-                    />
-                </ModalContent>
+                        <InputPassword
+                            ref={inputConfirmPasswordRef}
+                            placeholder={translate("ChangePassword_confirmPassword")}
+                            value={confirmPassword}
+                            onChangeText={setConfirmPassword}
+                            onSubmitEditing={() => inputConfirmPasswordRef.current?.blur()}
+                        />
+                    </ModalContent>
 
-                <ModalActions>
-                    <Button
-                        text={translate("cancel")}
-                        variant={"text"}
-                        onPress={goBack}
-                    />
+                    <ModalActions>
+                        <Button
+                            text={translate("cancel")}
+                            variant={"text"}
+                            onPress={goBack}
+                        />
 
-                    <Button
-                        text={translate("ok")}
-                        variant={"text"}
-                        onPress={changePassword}
-                    />
-                </ModalActions>
-            </ModalContainer>
+                        <Button
+                            text={translate("ok")}
+                            variant={"text"}
+                            onPress={changePassword}
+                        />
+                    </ModalActions>
+                </ModalContainer>
 
-            <LoadingModal
-                visible={showChangingPassword}
-                message={translate("ChangePassword_changingPassword")}
-            />
+                <LoadingModal
+                    visible={showChangingPassword}
+                    message={translate("ChangePassword_changingPassword")}
+                />
+            </KeyboardAvoidingView>
         </ModalScrim>
     )
 }

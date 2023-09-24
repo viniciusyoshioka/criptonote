@@ -3,7 +3,7 @@ import { useNavigation } from "@react-navigation/native"
 import { useRef, useState } from "react"
 import { Alert, TextInput, View } from "react-native"
 
-import { Input, InputPassword, LoadingModal } from "@components"
+import { AnimatedAvoidKeyboard, Input, InputPassword, LoadingModal } from "@components"
 import { NoteContentSchema, NoteSchema, useNoteRealm } from "@database"
 import { useBackHandler, useBlurInputOnKeyboardDismiss, useHeaderColorOnScroll } from "@hooks"
 import { translate } from "@locales"
@@ -115,48 +115,50 @@ export function WriteNote() {
 
     return (
         <Screen>
-            <WriteNoteHeader
-                ref={writeNoteHeaderRef}
-                goBack={goBack}
-                saveNote={saveNote}
-            />
-
-            <View style={{ flex: 1, padding: 16, rowGap: 8 }}>
-                <Input
-                    ref={titleInputRef}
-                    value={title}
-                    onChangeText={setTitle}
-                    placeholder={translate("WriteNote_titlePlaceholder")}
-                    autoCapitalize={"sentences"}
-                    autoFocus={true}
-                    returnKeyType={"next"}
-                    onSubmitEditing={() => passwordInputRef.current?.focus()}
+            <AnimatedAvoidKeyboard>
+                <WriteNoteHeader
+                    ref={writeNoteHeaderRef}
+                    goBack={goBack}
+                    saveNote={saveNote}
                 />
 
-                <InputPassword
-                    ref={passwordInputRef}
-                    value={password}
-                    onChangeText={setPassword}
-                    returnKeyType={"next"}
-                    onSubmitEditing={() => textInputRef.current?.focus()}
-                />
+                <View style={{ flex: 1, padding: 16, rowGap: 8 }}>
+                    <Input
+                        ref={titleInputRef}
+                        value={title}
+                        onChangeText={setTitle}
+                        placeholder={translate("WriteNote_titlePlaceholder")}
+                        autoCapitalize={"sentences"}
+                        autoFocus={true}
+                        returnKeyType={"next"}
+                        onSubmitEditing={() => passwordInputRef.current?.focus()}
+                    />
 
-                <Input
-                    ref={textInputRef}
-                    value={text}
-                    onChangeText={setText}
-                    placeholder={translate("WriteNote_textPlaceholder")}
-                    autoCapitalize={"sentences"}
-                    multiline={true}
-                    textAlignVertical={"top"}
-                    style={{ flex: 1, paddingVertical: 16 }}
-                />
-            </View>
+                    <InputPassword
+                        ref={passwordInputRef}
+                        value={password}
+                        onChangeText={setPassword}
+                        returnKeyType={"next"}
+                        onSubmitEditing={() => textInputRef.current?.focus()}
+                    />
 
-            <LoadingModal
-                visible={showNoteSavingModal}
-                message={translate("WriteNote_savingNote")}
-            />
+                    <Input
+                        ref={textInputRef}
+                        value={text}
+                        onChangeText={setText}
+                        placeholder={translate("WriteNote_textPlaceholder")}
+                        autoCapitalize={"sentences"}
+                        multiline={true}
+                        textAlignVertical={"top"}
+                        style={{ flex: 1, paddingVertical: 16 }}
+                    />
+                </View>
+
+                <LoadingModal
+                    visible={showNoteSavingModal}
+                    message={translate("WriteNote_savingNote")}
+                />
+            </AnimatedAvoidKeyboard>
         </Screen>
     )
 }

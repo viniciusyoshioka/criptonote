@@ -1,7 +1,7 @@
 import { Button, ModalActions, ModalContainer, ModalContent, ModalDescription, ModalScrim, ModalTitle } from "@elementium/native"
 import { useNavigation, useRoute } from "@react-navigation/native"
 import { useRef, useState } from "react"
-import { TextInput } from "react-native"
+import { KeyboardAvoidingView, TextInput } from "react-native"
 
 import { InputPassword } from "@components"
 import { useBackHandler, useBlurInputOnKeyboardDismiss } from "@hooks"
@@ -42,39 +42,41 @@ export function Code() {
 
     return (
         <ModalScrim onPress={goBack}>
-            <ModalContainer>
-                <ModalTitle>
-                    {translate("Code_title")}
-                </ModalTitle>
+            <KeyboardAvoidingView behavior={"position"}>
+                <ModalContainer>
+                    <ModalTitle>
+                        {translate("Code_title")}
+                    </ModalTitle>
 
-                <ModalDescription>
-                    {translate("Code_description")}
-                </ModalDescription>
+                    <ModalDescription>
+                        {translate("Code_description")}
+                    </ModalDescription>
 
-                <ModalContent hasDivider={false} style={{ marginTop: 16 }}>
-                    <InputPassword
-                        ref={inputPasswordRef}
-                        value={password}
-                        onChangeText={setPassword}
-                        autoFocus={true}
-                        onSubmitEditing={openNote}
-                    />
-                </ModalContent>
+                    <ModalContent hasDivider={false} style={{ marginTop: 16 }}>
+                        <InputPassword
+                            ref={inputPasswordRef}
+                            value={password}
+                            onChangeText={setPassword}
+                            autoFocus={true}
+                            onSubmitEditing={openNote}
+                        />
+                    </ModalContent>
 
-                <ModalActions>
-                    <Button
-                        variant={"text"}
-                        text={translate("cancel")}
-                        onPress={goBack}
-                    />
+                    <ModalActions>
+                        <Button
+                            variant={"text"}
+                            text={translate("cancel")}
+                            onPress={goBack}
+                        />
 
-                    <Button
-                        variant={"text"}
-                        text={translate("ok")}
-                        onPress={openNote}
-                    />
-                </ModalActions>
-            </ModalContainer>
+                        <Button
+                            variant={"text"}
+                            text={translate("ok")}
+                            onPress={openNote}
+                        />
+                    </ModalActions>
+                </ModalContainer>
+            </KeyboardAvoidingView>
         </ModalScrim>
     )
 }

@@ -5,7 +5,7 @@ import { NavigationParamProps, RouteParamProps } from "@router"
 import { useRef, useState } from "react"
 import { Alert, TextInput, View } from "react-native"
 
-import { Input, LoadingModal } from "@components"
+import { AnimatedAvoidKeyboard, Input, LoadingModal } from "@components"
 import { NoteContentSchema, NoteSchema, useNoteRealm } from "@database"
 import { useBackHandler, useBlurInputOnKeyboardDismiss, useHeaderColorOnScroll } from "@hooks"
 import { translate } from "@locales"
@@ -205,46 +205,48 @@ export function EditNote() {
 
     return (
         <Screen>
-            <EditNoteHeader
-                ref={editNoteHeaderRef}
-                goBack={() => goBack()}
-                saveNote={saveNote}
-                changePassword={changePassword}
-                deleteNote={deleteNote}
-            />
-
-            <View style={{ flex: 1, padding: 16, rowGap: 8 }}>
-                <Input
-                    ref={titleInputRef}
-                    value={title}
-                    onChangeText={setNewTitle}
-                    placeholder={translate("EditNote_titlePlaceholder")}
-                    autoCapitalize={"sentences"}
-                    returnKeyType={"next"}
-                    onSubmitEditing={() => textInputRef.current?.focus()}
+            <AnimatedAvoidKeyboard>
+                <EditNoteHeader
+                    ref={editNoteHeaderRef}
+                    goBack={() => goBack()}
+                    saveNote={saveNote}
+                    changePassword={changePassword}
+                    deleteNote={deleteNote}
                 />
 
-                <Input
-                    ref={textInputRef}
-                    value={text}
-                    onChangeText={setNewText}
-                    placeholder={translate("EditNote_textPlaceholder")}
-                    autoCapitalize={"sentences"}
-                    multiline={true}
-                    textAlignVertical={"top"}
-                    style={{ flex: 1, paddingVertical: 16 }}
+                <View style={{ flex: 1, padding: 16, rowGap: 8 }}>
+                    <Input
+                        ref={titleInputRef}
+                        value={title}
+                        onChangeText={setNewTitle}
+                        placeholder={translate("EditNote_titlePlaceholder")}
+                        autoCapitalize={"sentences"}
+                        returnKeyType={"next"}
+                        onSubmitEditing={() => textInputRef.current?.focus()}
+                    />
+
+                    <Input
+                        ref={textInputRef}
+                        value={text}
+                        onChangeText={setNewText}
+                        placeholder={translate("EditNote_textPlaceholder")}
+                        autoCapitalize={"sentences"}
+                        multiline={true}
+                        textAlignVertical={"top"}
+                        style={{ flex: 1, paddingVertical: 16 }}
+                    />
+                </View>
+
+                <LoadingModal
+                    visible={showNoteSavingModal}
+                    message={translate("EditNote_savingNote")}
                 />
-            </View>
 
-            <LoadingModal
-                visible={showNoteSavingModal}
-                message={translate("EditNote_savingNote")}
-            />
-
-            <LoadingModal
-                visible={showDeletingNoteModal}
-                message={translate("EditNote_deletingNote")}
-            />
+                <LoadingModal
+                    visible={showDeletingNoteModal}
+                    message={translate("EditNote_deletingNote")}
+                />
+            </AnimatedAvoidKeyboard>
         </Screen>
     )
 }
