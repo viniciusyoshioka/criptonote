@@ -116,7 +116,7 @@ export function WriteNote() {
                 behavior={"padding"}
                 keyboardVerticalOffset={-(StatusBar.currentHeight ?? 0)}
             >
-                <WriteNoteHeader goBack={goBack} saveNote={saveNote} />
+                <WriteNoteHeader goBack={() => goBack()} saveNote={saveNote} />
 
                 <View style={{ flex: 1, padding: 16, rowGap: 8 }}>
                     <Input
