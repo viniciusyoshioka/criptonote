@@ -1,11 +1,12 @@
-import { AnimatedHeaderRef, Button, RadioListItem, Screen, ScrollScreen, Text } from "@elementium/native"
+import { RadioListItem, Screen, ScrollScreen } from "@elementium/native"
 import { useNavigation, useRoute } from "@react-navigation/native"
 import { useRef, useState } from "react"
 import { Alert, StatusBar, StyleSheet, TextInput, View } from "react-native"
 import { KeyboardAvoidingView } from "react-native-keyboard-controller"
+import { Button, Text } from "react-native-paper"
 
 import { Input, InputPassword } from "@components"
-import { useBackHandler, useBlurInputOnKeyboardDismiss, useHeaderColorOnScroll } from "@hooks"
+import { useBackHandler, useBlurInputOnKeyboardDismiss } from "@hooks"
 import { translate } from "@locales"
 import { NavigationParamProps, RouteParamProps } from "@router"
 import { Constants } from "@services/constant"
@@ -23,7 +24,6 @@ export function FileCode() {
 
     const { color } = useAppTheme()
 
-    const fileCodeHeaderRef = useRef<AnimatedHeaderRef>(null)
     const fileNameInputRef = useRef<TextInput>(null)
     const passwordInputRef = useRef<TextInput>(null)
 
@@ -38,11 +38,6 @@ export function FileCode() {
     })
 
     useBlurInputOnKeyboardDismiss([fileNameInputRef, passwordInputRef])
-
-
-    const onScroll = useHeaderColorOnScroll({
-        onInterpolate: color => fileCodeHeaderRef.current?.setBackgroundColor(color),
-    })
 
 
     function goBack() {
@@ -149,9 +144,9 @@ export function FileCode() {
                 behavior={"padding"}
                 keyboardVerticalOffset={-(StatusBar.currentHeight ?? 0)}
             >
-                <FileCodeHeader ref={fileCodeHeaderRef} goBack={goBack} />
+                <FileCodeHeader />
 
-                <ScrollScreen onScroll={onScroll}>
+                <ScrollScreen>
                     <View style={styles.fileNameWrapper}>
                         <Input
                             ref={fileNameInputRef}
@@ -166,8 +161,7 @@ export function FileCode() {
                         />
 
                         <Text
-                            variant={"body"}
-                            size={"large"}
+                            variant={"bodyLarge"}
                             children={`.${Constants.encryptedFilesExtension}`}
                             style={{ color: color.onBackground }}
                         />
@@ -192,14 +186,15 @@ export function FileCode() {
 
                 <View style={styles.buttonsWrapper}>
                     <Button
-                        variant={"outline"}
-                        text={translate("cancel")}
+                        mode={"outlined"}
+                        children={translate("cancel")}
                         onPress={goBack}
                         style={{ width: "100%" }}
                     />
 
                     <Button
-                        text={getExecuteButtonText()}
+                        mode={"contained"}
+                        children={getExecuteButtonText()}
                         onPress={execute}
                         style={{ width: "100%" }}
                     />

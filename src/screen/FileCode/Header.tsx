@@ -1,17 +1,18 @@
-import { AnimatedHeader, AnimatedHeaderRef, HeaderButton, HeaderTitle } from "@elementium/native"
-import { ForwardedRef, forwardRef } from "react"
+import { useNavigation } from "@react-navigation/native"
+import { Appbar } from "react-native-paper"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 
 import { translate } from "@locales"
+import { NavigationParamProps } from "@router"
 
 
-export interface FileCodeHeaderProps {
-    goBack: () => void;
-}
+export interface FileCodeHeaderProps {}
 
 
-export const FileCodeHeader = forwardRef((props: FileCodeHeaderProps, ref: ForwardedRef<AnimatedHeaderRef>) => {
+export function FileCodeHeader(props: FileCodeHeaderProps) {
 
+
+    const navigation = useNavigation<NavigationParamProps<"FileCode">>()
 
     const safeAreaInsets = useSafeAreaInsets()
 
@@ -22,13 +23,10 @@ export const FileCodeHeader = forwardRef((props: FileCodeHeaderProps, ref: Forwa
 
 
     return (
-        <AnimatedHeader ref={ref} overrideStatusBar={safeAreaInsets.top !== 0}>
-            <HeaderButton
-                iconName={"arrow-back"}
-                onPress={props.goBack}
-            />
+        <Appbar.Header elevated={true} statusBarHeight={safeAreaInsets.top}>
+            <Appbar.BackAction onPress={() => navigation.replace("FileHome")} />
 
-            <HeaderTitle title={getTitle()} />
-        </AnimatedHeader>
+            <Appbar.Content title={getTitle()} />
+        </Appbar.Header>
     )
-})
+}
