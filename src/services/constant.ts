@@ -6,7 +6,7 @@ export class Constants {
     // App
     static appId = "com.criptonote"
     static appName = "CriptoNote"
-    static appVersion = "6.3.2"
+    static appVersion = "6.4.0"
     static appType = __DEV__ ? "dev" : "release"
 
     // Icon
