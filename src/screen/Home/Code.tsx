@@ -1,8 +1,9 @@
-import { Button, ModalActions, ModalContainer, ModalContent, ModalDescription, ModalScrim, ModalTitle } from "@elementium/native"
+import { ModalActions, ModalContainer, ModalContent, ModalDescription, ModalScrim, ModalTitle } from "@elementium/native"
 import { useNavigation, useRoute } from "@react-navigation/native"
 import { useRef, useState } from "react"
 import { TextInput } from "react-native"
 import { KeyboardAvoidingView } from "react-native-keyboard-controller"
+import { Button } from "react-native-paper"
 
 import { InputPassword } from "@components"
 import { useBackHandler, useBlurInputOnKeyboardDismiss } from "@hooks"
@@ -65,14 +66,14 @@ export function Code() {
 
                     <ModalActions>
                         <Button
-                            variant={"text"}
-                            text={translate("cancel")}
+                            mode={"text"}
+                            children={translate("cancel")}
                             onPress={goBack}
                         />
 
                         <Button
-                            variant={"text"}
-                            text={translate("ok")}
+                            mode={"text"}
+                            children={translate("ok")}
                             onPress={openNote}
                         />
                     </ModalActions>

@@ -1,5 +1,4 @@
-import { AnimatedHeader, AnimatedHeaderRef, HeaderButton, HeaderTitle } from "@elementium/native"
-import { ForwardedRef, forwardRef } from "react"
+import { Appbar } from "react-native-paper"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 
 import { translate } from "@locales"
@@ -7,19 +6,18 @@ import { HomeMenu } from "./Menu"
 
 
 export interface HomeHeaderProps {
-    isSelectionMode: boolean;
-    selectedNotesAmount: number;
-    exitSelectionMode: () => void;
-    invertSelection: () => void;
-    deleteSelectedNotes: () => void;
-    importNotes: () => void;
-    exportNotes: () => void;
-    openFiles: () => void;
-    openSettings: () => void;
+    isSelectionMode: boolean
+    selectedNotesAmount: number
+    exitSelectionMode: () => void
+    invertSelection: () => void
+    deleteSelectedNotes: () => void
+    importNotes: () => void
+    exportNotes: () => void
+    openFiles: () => void
 }
 
 
-export const HomeHeader = forwardRef((props: HomeHeaderProps, ref: ForwardedRef<AnimatedHeaderRef>) => {
+export function HomeHeader(props: HomeHeaderProps) {
 
 
     const safeAreaInsets = useSafeAreaInsets()
@@ -34,43 +32,28 @@ export const HomeHeader = forwardRef((props: HomeHeaderProps, ref: ForwardedRef<
 
 
     return (
-        <AnimatedHeader ref={ref} overrideStatusBar={safeAreaInsets.top !== 0}>
+        <Appbar.Header elevated={true} statusBarHeight={safeAreaInsets.top}>
             {props.isSelectionMode && (
-                <HeaderButton
-                    iconName={"close"}
-                    onPress={props.exitSelectionMode}
-                />
+                <Appbar.Action icon={"close"} onPress={props.exitSelectionMode} />
             )}
 
-            <HeaderTitle title={getTitle()} />
+            <Appbar.Content title={getTitle()} />
 
             {props.isSelectionMode && <>
-                <HeaderButton
-                    iconName={"swap-horiz"}
-                    onPress={props.invertSelection}
-                />
+                <Appbar.Action icon={"swap-horizontal"} onPress={props.invertSelection} />
 
-                <HeaderButton
-                    iconName={"trash-can-outline"}
-                    iconGroup={"material-community"}
-                    onPress={props.deleteSelectedNotes}
-                />
+                <Appbar.Action icon={"trash-can-outline"} onPress={props.deleteSelectedNotes} />
             </>}
 
             {!props.isSelectionMode && <>
-                <HeaderButton
-                    iconName={"feed"}
-                    iconGroup={"material-outline"}
-                    onPress={props.openFiles}
-                />
+                <Appbar.Action icon={"note-text-outline"} onPress={props.openFiles} />
             </>}
 
             <HomeMenu
                 isSelectionMode={props.isSelectionMode}
                 importNotes={props.importNotes}
                 exportNotes={props.exportNotes}
-                openSettings={props.openSettings}
             />
-        </AnimatedHeader>
+        </Appbar.Header>
     )
-})
+}

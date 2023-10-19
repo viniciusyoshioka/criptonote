@@ -1,8 +1,8 @@
 import { Color, Prisma } from "@elementium/color"
-import { Text } from "@elementium/native"
 import CheckBox from "@react-native-community/checkbox"
 import { useMemo } from "react"
 import { LongPressGestureHandler } from "react-native-gesture-handler"
+import { Text } from "react-native-paper"
 
 import { NoteSchema } from "@database"
 import { SelectableItem, useSelectableItem } from "@hooks"
@@ -15,7 +15,7 @@ export { NOTE_ITEM_HEIGHT } from "./style"
 
 
 export interface NoteItemProps extends SelectableItem {
-    note: NoteSchema;
+    note: NoteSchema
 }
 
 
@@ -43,16 +43,14 @@ export function NoteItem(props: NoteItemProps) {
             <NoteItemButton onPress={onPress} android_ripple={{ color: rippleColor }}>
                 <NoteItemBlock>
                     <Text
-                        variant={"body"}
-                        size={"large"}
+                        variant={"bodyLarge"}
                         numberOfLines={1}
                         style={{ color: color.onSurface }}
                         children={props.note.title}
                     />
 
                     <Text
-                        variant={"body"}
-                        size={"small"}
+                        variant={"bodySmall"}
                         numberOfLines={1}
                         style={{ color: color.onSurfaceVariant }}
                         children={DateService.getLocaleDateTime(new Date(props.note.modifiedAt), false)}

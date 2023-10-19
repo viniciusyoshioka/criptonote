@@ -1,16 +1,17 @@
-import { AnimatedHeaderRef, Divider, Screen } from "@elementium/native"
+import { Screen } from "@elementium/native"
 import { useNavigation } from "@react-navigation/core"
 import { Realm } from "@realm/react"
 import { FlashList } from "@shopify/flash-list"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import { Alert, View } from "react-native"
 import DocumentPicker from "react-native-document-picker"
 import RNFS from "react-native-fs"
-import { FAB } from "react-native-paper"
+import { Divider, FAB } from "react-native-paper"
+import { useSafeAreaInsets } from "react-native-safe-area-context"
 
 import { EmptyList, LoadingModal } from "@components"
 import { NoteContentSchema, NoteSchema, SerializableNote, openExportedDatabase, useNoteRealm } from "@database"
-import { useBackHandler, useHeaderColorOnScroll, useSelectionMode } from "@hooks"
+import { useBackHandler, useSelectionMode } from "@hooks"
 import { TranslationKeyType, translate } from "@locales"
 import { NavigationParamProps } from "@router"
 import { Constants } from "@services/constant"
@@ -33,9 +34,8 @@ export { Code } from "./Code"
 export function Home() {
 
 
+    const safeAreaInsets = useSafeAreaInsets()
     const navigation = useNavigation<NavigationParamProps<"Home">>()
-
-    const homeHeaderRef = useRef<AnimatedHeaderRef>(null)
 
     const noteRealm = useNoteRealm()
     const notes = useNotes()
@@ -49,11 +49,6 @@ export function Home() {
             return true
         }
         return false
-    })
-
-
-    const onScroll = useHeaderColorOnScroll({
-        onInterpolate: color => homeHeaderRef.current?.setBackgroundColor(color),
     })
 
 
@@ -317,7 +312,6 @@ export function Home() {
     return (
         <Screen>
             <HomeHeader
-                ref={homeHeaderRef}
                 isSelectionMode={noteSelection.isSelectionMode}
                 selectedNotesAmount={noteSelection.selectedData.length}
                 exitSelectionMode={noteSelection.exitSelection}
@@ -326,7 +320,6 @@ export function Home() {
                 importNotes={importNotes}
                 exportNotes={alertExportNotes}
                 openFiles={() => navigation.navigate("FileHome")}
-                openSettings={() => navigation.navigate("Settings")}
             />
 
             <View style={{ display: notes.length ? "flex" : "none", flex: 1 }}>
@@ -336,16 +329,15 @@ export function Home() {
                     keyExtractor={noteKeyExtractor}
                     extraData={noteSelection.selectedData}
                     estimatedItemSize={NOTE_ITEM_HEIGHT}
-                    ItemSeparatorComponent={() => <Divider wrapperStyle={{ paddingHorizontal: 16 }} />}
-                    onScroll={onScroll}
-                    contentContainerStyle={{ paddingBottom: 56 + (2 * 16) }}
+                    ItemSeparatorComponent={() => <Divider style={{ marginHorizontal: 16 }} />}
+                    contentContainerStyle={{ paddingBottom: (16 * 2) + 56 + safeAreaInsets.bottom }}
                 />
             </View>
 
             <FAB
                 icon={"plus"}
                 mode={"flat"}
-                style={{ position: "absolute", right: 0, bottom: 0, margin: 16 }}
+                style={{ position: "absolute", right: safeAreaInsets.right, bottom: safeAreaInsets.bottom, margin: 16 }}
                 onPress={() => navigation.navigate("WriteNote")}
             />
 
