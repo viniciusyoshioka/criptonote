@@ -56,6 +56,7 @@ export type TranslationKeyType =
     | "EditNote_alert_errorDeletingEmptyNote_text"
     | "EditNote_alert_saveNoteBeforeChanginPassword_text"
     | "EditNote_alert_errorDeletingNote_text"
+    | "EditNote_alert_deleteNote_text"
     // EditNote header
     | "EditNote_header_title"
     // EditNote screen

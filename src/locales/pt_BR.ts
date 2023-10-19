@@ -59,6 +59,7 @@ export const pt_BR: TranslationObjectType = {
     EditNote_alert_errorDeletingEmptyNote_text: "Erro apagando nota vazia",
     EditNote_alert_saveNoteBeforeChanginPassword_text: "Salve a nota antes de mudar a senha",
     EditNote_alert_errorDeletingNote_text: "Erro apagando nota",
+    EditNote_alert_deleteNote_text: "Esta nota será apagada permanentemente",
     // EditNote header
     EditNote_header_title: "Editar nota",
     // EditNote screen

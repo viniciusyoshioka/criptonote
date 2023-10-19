@@ -198,6 +198,17 @@ export function EditNote() {
         }
     }
 
+    function alertDeleteNote() {
+        Alert.alert(
+            translate("warn"),
+            translate("EditNote_alert_deleteNote_text"),
+            [
+                { text: translate("cancel") },
+                { text: translate("ok"), onPress: deleteNote },
+            ]
+        )
+    }
+
 
     return (
         <Screen>
@@ -210,7 +221,7 @@ export function EditNote() {
                     goBack={() => goBack()}
                     saveNote={saveNote}
                     changePassword={changePassword}
-                    deleteNote={deleteNote}
+                    deleteNote={alertDeleteNote}
                 />
 
                 <View style={{ flex: 1, padding: 16, rowGap: 8 }}>
