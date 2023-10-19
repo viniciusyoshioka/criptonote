@@ -108,6 +108,7 @@ export function ChangePassword() {
                             placeholder={translate("ChangePassword_currentPassword")}
                             value={currentPassword}
                             onChangeText={setCurrentPassword}
+                            autoFocus={true}
                             returnKeyType={"next"}
                             onSubmitEditing={() => inputNewPasswordRef.current?.focus()}
                             wrapperStyle={{ marginBottom: 8 }}
