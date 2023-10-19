@@ -10,7 +10,7 @@ export * from "./types"
 
 
 type LanguageCodeNormalization = {
-    [key in string]: string;
+    [key in string]: string
 }
 
 const normalizedLanguageCode: LanguageCodeNormalization = {

@@ -137,5 +137,5 @@ export type TranslationKeyType =
 
 
 export type TranslationObjectType = {
-    [key in TranslationKeyType]: string;
+    [key in TranslationKeyType]: string
 }

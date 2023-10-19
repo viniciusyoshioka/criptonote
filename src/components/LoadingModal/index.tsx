@@ -5,8 +5,8 @@ import { useAppTheme } from "@theme"
 
 
 export interface LoadingModalProps {
-    visible: boolean;
-    message: string;
+    visible: boolean
+    message: string
 }
 
 

@@ -17,7 +17,7 @@ function DatabaseConsumer(props: { children?: ReactNode }) {
 
 
 export interface RealmProviderProps {
-    children?: ReactNode;
+    children?: ReactNode
 }
 
 

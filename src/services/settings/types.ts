@@ -2,11 +2,11 @@ import { ThemeType } from "@theme"
 
 
 export interface Settings {
-    theme: ThemeType;
+    theme: ThemeType
 }
 
 
 export interface SettingsContextValue {
-    settings: Settings;
-    setSettings: (settings: Settings) => void;
+    settings: Settings
+    setSettings: (settings: Settings) => void
 }

@@ -2,27 +2,27 @@ import { Realm } from "@realm/react"
 
 
 export interface NoteRealm {
-    id: Realm.BSON.ObjectId;
-    createdAt: number;
-    modifiedAt: number;
-    title: string;
-    textId: Realm.BSON.ObjectId;
+    id: Realm.BSON.ObjectId
+    createdAt: number
+    modifiedAt: number
+    title: string
+    textId: Realm.BSON.ObjectId
 }
 
 
 export interface SerializableNote {
-    id: string;
-    createdAt: number;
-    modifiedAt: number;
-    title: string;
-    textId: string;
+    id: string
+    createdAt: number
+    modifiedAt: number
+    title: string
+    textId: string
 }
 
 
 export interface DecryptedNote {
-    id: string;
-    createdAt: number;
-    modifiedAt: number;
-    title: string;
-    text: string;
+    id: string
+    createdAt: number
+    modifiedAt: number
+    title: string
+    text: string
 }

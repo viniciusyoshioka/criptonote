@@ -9,7 +9,7 @@ const SettingsContext = createContext<SettingsContextValue>(settingsContextDefau
 
 
 export interface SettingsProviderProps {
-    children?: ReactNode;
+    children?: ReactNode
 }
 
 

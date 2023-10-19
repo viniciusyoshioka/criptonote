@@ -5,7 +5,7 @@ import { StyledProps } from "@theme"
 
 
 export interface InputBaseProps extends TextInputProps {
-    isFocused?: boolean;
+    isFocused?: boolean
 }
 
 

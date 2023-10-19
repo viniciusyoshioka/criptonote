@@ -8,31 +8,31 @@ export type FileCodeAction = "encrypt" | "decrypt"
 
 
 export type ScreenParams = {
-    Home: undefined;
+    Home: undefined
     Code: {
-        note: SerializableNote;
-    };
+        note: SerializableNote
+    }
     ReadNote: {
-        note: SerializableNote;
-        password: string;
-    };
+        note: SerializableNote
+        password: string
+    }
     EditNote: {
-        note: DecryptedNote;
-        password: string;
-    };
+        note: DecryptedNote
+        password: string
+    }
     ChangePassword: {
-        noteId: string;
-        currentPassword: string;
-    };
-    WriteNote: undefined;
-    Settings: undefined;
-    ChangeTheme: undefined;
+        noteId: string
+        currentPassword: string
+    }
+    WriteNote: undefined
+    Settings: undefined
+    ChangeTheme: undefined
 
-    FileHome: undefined;
+    FileHome: undefined
     FileCode: {
-        fileName: string;
-        filePath: string;
-        action: FileCodeAction;
+        fileName: string
+        filePath: string
+        action: FileCodeAction
     }
 }
 

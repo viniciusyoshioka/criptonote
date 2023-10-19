@@ -7,7 +7,7 @@ import { ToggleVisibilityButton } from "./ToggleVisibilityButton"
 
 
 export interface InputPasswordProps extends InputProps {
-    wrapperStyle?: StyleProp<ViewStyle>;
+    wrapperStyle?: StyleProp<ViewStyle>
 }
 
 

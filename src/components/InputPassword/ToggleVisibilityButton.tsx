@@ -5,8 +5,8 @@ import { useAppTheme } from "@theme"
 
 
 export interface ToggleVisibilityButtonProps extends PressableProps {
-    hidePassword: boolean;
-    isFocused: boolean;
+    hidePassword: boolean
+    isFocused: boolean
 }
 
 

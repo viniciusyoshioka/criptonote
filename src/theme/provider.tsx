@@ -15,7 +15,7 @@ const AppThemeContext = createContext<AppThemeType>(AppLightTheme)
 
 
 export interface AppThemeProviderProps {
-    children?: ReactNode;
+    children?: ReactNode
 }
 
 

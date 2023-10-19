@@ -5,9 +5,9 @@ import { useAppTheme } from "@theme"
 
 
 export type HeaderColorOnScrollOptions = {
-    inputRange?: number[];
-    outputRange?: string[];
-    onInterpolate?: (color: string) => void;
+    inputRange?: number[]
+    outputRange?: string[]
+    onInterpolate?: (color: string) => void
 }
 
 

@@ -52,11 +52,11 @@ export function useSelectionMode<T>() {
 
 
 export interface SelectableItem {
-    onClick: () => void;
-    onSelect: () => void;
-    onDeselect: () => void;
-    isSelectionMode: boolean;
-    isSelected: boolean;
+    onClick: () => void
+    onSelect: () => void
+    onDeselect: () => void
+    isSelectionMode: boolean
+    isSelected: boolean
 }
 
 
