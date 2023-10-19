@@ -1,6 +1,7 @@
-import { Button, ModalActions, ModalContainer, ModalContent, ModalScrim, ModalTitle, RadioListItem } from "@elementium/native"
+import { ModalActions, ModalContainer, ModalContent, ModalScrim, ModalTitle, RadioListItem } from "@elementium/native"
 import { useNavigation } from "@react-navigation/native"
 import { useState } from "react"
+import { Button } from "react-native-paper"
 
 import { useBackHandler } from "@hooks"
 import { translate } from "@locales"
@@ -59,14 +60,14 @@ export function ChangeTheme() {
 
                 <ModalActions>
                     <Button
-                        variant={"text"}
-                        text={translate("cancel")}
+                        mode={"text"}
+                        children={translate("cancel")}
                         onPress={goBack}
                     />
 
                     <Button
-                        variant={"text"}
-                        text={translate("ok")}
+                        mode={"text"}
+                        children={translate("ok")}
                         onPress={() => {
                             switchTheme(selectedTheme)
                             goBack()
