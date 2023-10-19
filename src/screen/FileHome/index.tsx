@@ -1,11 +1,11 @@
-import { AnimatedHeaderRef, ListItem, Screen, ScrollScreen } from "@elementium/native"
+import { Screen, ScrollScreen } from "@elementium/native"
 import { useNavigation } from "@react-navigation/native"
-import { useRef } from "react"
 import { Alert } from "react-native"
 import DocumentPicker from "react-native-document-picker"
 import RNFS from "react-native-fs"
+import { List } from "react-native-paper"
 
-import { useBackHandler, useHeaderColorOnScroll } from "@hooks"
+import { useBackHandler } from "@hooks"
 import { TranslationKeyType, translate } from "@locales"
 import { FileCodeAction, NavigationParamProps } from "@router"
 import { Constants } from "@services/constant"
@@ -14,8 +14,8 @@ import { FileHomeHeader } from "./Header"
 
 
 type PickedFile = {
-    name: string;
-    path: string;
+    name: string
+    path: string
 }
 
 
@@ -24,23 +24,12 @@ export function FileHome() {
 
     const navigation = useNavigation<NavigationParamProps<"FileHome">>()
 
-    const fileHomeHeaderRef = useRef<AnimatedHeaderRef>(null)
-
 
     useBackHandler(() => {
-        goBack()
+        navigation.goBack()
         return true
     })
 
-
-    const onScroll = useHeaderColorOnScroll({
-        onInterpolate: color => fileHomeHeaderRef.current?.setBackgroundColor(color),
-    })
-
-
-    function goBack() {
-        navigation.goBack()
-    }
 
     async function selectFile(action: FileCodeAction): Promise<PickedFile | null> {
         try {
@@ -111,21 +100,23 @@ export function FileHome() {
 
     return (
         <Screen>
-            <FileHomeHeader ref={fileHomeHeaderRef} goBack={goBack} />
+            <FileHomeHeader />
 
-            <ScrollScreen onScroll={onScroll}>
-                <ListItem
-                    leadingIcon={{ iconName: "lock-outline", iconGroup: "material-community" }}
+            <ScrollScreen>
+                <List.Item
+                    left={() => <List.Icon icon={"lock-outline"} />}
                     title={translate("FileHome_encryptFile_title")}
                     description={translate("FileHome_encryptFile_text")}
                     onPress={encryptFile}
+                    style={{ paddingLeft: 16 }}
                 />
 
-                <ListItem
-                    leadingIcon={{ iconName: "lock-open-variant-outline", iconGroup: "material-community" }}
+                <List.Item
+                    left={() => <List.Icon icon={"lock-open-variant-outline"} />}
                     title={translate("FileHome_decryptFile_title")}
                     description={translate("FileHome_decryptFile_text")}
                     onPress={decryptFile}
+                    style={{ paddingLeft: 16 }}
                 />
             </ScrollScreen>
         </Screen>
