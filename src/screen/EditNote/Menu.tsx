@@ -1,14 +1,13 @@
-import { HeaderButton } from "@elementium/native"
 import { useState } from "react"
 import { StatusBar } from "react-native"
-import { Menu } from "react-native-paper"
+import { Appbar, Menu } from "react-native-paper"
 
 import { translate } from "@locales"
 
 
 export interface EditNoteMenuProps {
-    changePassword: () => void;
-    deleteNote: () => void;
+    changePassword: () => void
+    deleteNote: () => void
 }
 
 
@@ -20,8 +19,8 @@ export function EditNoteMenu(props: EditNoteMenuProps) {
 
     function MenuAnchor() {
         return (
-            <HeaderButton
-                iconName={"more-vert"}
+            <Appbar.Action
+                icon={"dots-vertical"}
                 onPress={() => setIsOpen(true)}
             />
         )

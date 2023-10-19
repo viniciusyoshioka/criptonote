@@ -1,9 +1,10 @@
-import { Button, ModalActions, ModalContainer, ModalContent, ModalScrim, ModalTitle } from "@elementium/native"
+import { ModalActions, ModalContainer, ModalContent, ModalScrim, ModalTitle } from "@elementium/native"
 import { useNavigation, useRoute } from "@react-navigation/native"
 import { Realm } from "@realm/react"
 import { useRef, useState } from "react"
 import { Alert, TextInput } from "react-native"
 import { KeyboardAvoidingView } from "react-native-keyboard-controller"
+import { Button } from "react-native-paper"
 
 import { InputPassword, LoadingModal } from "@components"
 import { NoteContentSchema, NoteSchema, useNoteRealm } from "@database"
@@ -133,14 +134,14 @@ export function ChangePassword() {
 
                     <ModalActions>
                         <Button
-                            text={translate("cancel")}
-                            variant={"text"}
+                            mode={"text"}
+                            children={translate("cancel")}
                             onPress={goBack}
                         />
 
                         <Button
-                            text={translate("ok")}
-                            variant={"text"}
+                            mode={"text"}
+                            children={translate("ok")}
                             onPress={changePassword}
                         />
                     </ModalActions>

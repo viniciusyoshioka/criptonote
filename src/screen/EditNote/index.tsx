@@ -1,4 +1,4 @@
-import { AnimatedHeaderRef, Screen } from "@elementium/native"
+import { Screen } from "@elementium/native"
 import { useNavigation, useRoute } from "@react-navigation/native"
 import { Realm } from "@realm/react"
 import { NavigationParamProps, RouteParamProps } from "@router"
@@ -8,7 +8,7 @@ import { KeyboardAvoidingView } from "react-native-keyboard-controller"
 
 import { Input, LoadingModal } from "@components"
 import { NoteContentSchema, NoteSchema, useNoteRealm } from "@database"
-import { useBackHandler, useBlurInputOnKeyboardDismiss, useHeaderColorOnScroll } from "@hooks"
+import { useBackHandler, useBlurInputOnKeyboardDismiss } from "@hooks"
 import { translate } from "@locales"
 import { Crypto } from "@services/crypto"
 import { log, stringifyError } from "@services/log"
@@ -24,7 +24,6 @@ export function EditNote() {
     const navigation = useNavigation<NavigationParamProps<"EditNote">>()
     const { params } = useRoute<RouteParamProps<"EditNote">>()
 
-    const editNoteHeaderRef = useRef<AnimatedHeaderRef>(null)
     const titleInputRef = useRef<TextInput>(null)
     const textInputRef = useRef<TextInput>(null)
 
@@ -43,10 +42,6 @@ export function EditNote() {
     })
 
     useBlurInputOnKeyboardDismiss([titleInputRef, textInputRef])
-
-    const onScroll = useHeaderColorOnScroll({
-        onInterpolate: color => editNoteHeaderRef.current?.setBackgroundColor(color),
-    })
 
 
     function setNewTitle(newTitle: string) {
@@ -212,7 +207,6 @@ export function EditNote() {
                 keyboardVerticalOffset={-(StatusBar.currentHeight ?? 0)}
             >
                 <EditNoteHeader
-                    ref={editNoteHeaderRef}
                     goBack={() => goBack()}
                     saveNote={saveNote}
                     changePassword={changePassword}

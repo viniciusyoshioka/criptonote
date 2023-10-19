@@ -1,5 +1,4 @@
-import { AnimatedHeader, AnimatedHeaderRef, HeaderButton, HeaderTitle } from "@elementium/native"
-import { ForwardedRef, forwardRef } from "react"
+import { Appbar } from "react-native-paper"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 
 import { translate } from "@locales"
@@ -7,38 +6,31 @@ import { EditNoteMenu } from "./Menu"
 
 
 export interface EditNoteHeaderProps {
-    goBack: () => void;
-    saveNote: () => void;
-    changePassword: () => void;
-    deleteNote: () => void;
+    goBack: () => void
+    saveNote: () => void
+    changePassword: () => void
+    deleteNote: () => void
 }
 
 
-export const EditNoteHeader = forwardRef((props: EditNoteHeaderProps, ref: ForwardedRef<AnimatedHeaderRef>) => {
+export function EditNoteHeader(props: EditNoteHeaderProps) {
 
 
     const safeAreaInsets = useSafeAreaInsets()
 
 
     return (
-        <AnimatedHeader ref={ref} overrideStatusBar={safeAreaInsets.top !== 0}>
-            <HeaderButton
-                iconName={"arrow-back"}
-                onPress={props.goBack}
-            />
+        <Appbar.Header elevated={true} statusBarHeight={safeAreaInsets.top}>
+            <Appbar.BackAction onPress={props.goBack} />
 
-            <HeaderTitle title={translate("EditNote_header_title")} />
+            <Appbar.Content title={translate("EditNote_header_title")} />
 
-            <HeaderButton
-                iconName={"content-save-outline"}
-                iconGroup={"material-community"}
-                onPress={props.saveNote}
-            />
+            <Appbar.Action icon={"content-save-outline"} onPress={props.saveNote} />
 
             <EditNoteMenu
                 changePassword={props.changePassword}
                 deleteNote={props.deleteNote}
             />
-        </AnimatedHeader>
+        </Appbar.Header>
     )
-})
+}
