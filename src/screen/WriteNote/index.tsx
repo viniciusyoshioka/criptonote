@@ -42,7 +42,7 @@ export function WriteNote() {
     function goBack(isNoteSaved?: boolean) {
         if (showNoteSavingModal) return
 
-        if (!isNoteSaved && (title.trim().length > 0 || text.trim().length > 0)) {
+        if (!isNoteSaved && (title.length > 0 || text.length > 0)) {
             alertUnsavedChanges()
             return
         }
@@ -62,7 +62,7 @@ export function WriteNote() {
     }
 
     async function saveNote() {
-        if (title.trim().length === 0 && text.trim().length === 0) {
+        if (title.length === 0 && text.length === 0) {
             alertEmptyNote()
             return
         }
@@ -70,14 +70,14 @@ export function WriteNote() {
         try {
             setShowNoteSavingModal(true)
 
-            const encryptedText = await Crypto.encryptString(text.trim(), password.trim())
+            const encryptedText = await Crypto.encryptString(text, password.trim())
 
             noteRealm.beginTransaction()
             const noteContent = noteRealm.create(NoteContentSchema, {
                 text: encryptedText,
             })
             noteRealm.create(NoteSchema, {
-                title: title.trim(),
+                title: title,
                 textId: noteContent.id,
             })
             noteRealm.commitTransaction()
