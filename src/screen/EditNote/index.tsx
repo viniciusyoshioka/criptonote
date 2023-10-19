@@ -78,7 +78,7 @@ export function EditNote() {
     }
 
     async function saveNote() {
-        if (title.trim().length === 0 && text.trim().length === 0) {
+        if (title.length === 0 && text.length === 0) {
             alertEmptyNote()
             return
         }
@@ -90,11 +90,11 @@ export function EditNote() {
             const note = noteRealm.objectForPrimaryKey(NoteSchema, noteId) as NoteSchema
             const noteContent = noteRealm.objectForPrimaryKey(NoteContentSchema, note.textId) as NoteContentSchema
 
-            const encryptedText = await Crypto.encryptString(text.trim(), params.password.trim())
+            const encryptedText = await Crypto.encryptString(text, params.password.trim())
 
             noteRealm.beginTransaction()
             noteContent.text = encryptedText
-            note.title = title.trim()
+            note.title = title
             note.modifiedAt = Date.now()
             noteRealm.commitTransaction()
 
