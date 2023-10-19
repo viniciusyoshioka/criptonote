@@ -1,11 +1,11 @@
-import { AnimatedHeaderRef, Screen, ScrollScreen, Text } from "@elementium/native"
+import { Screen, ScrollScreen } from "@elementium/native"
 import { useNavigation, useRoute } from "@react-navigation/native"
 import { Realm } from "@realm/react"
-import { useRef } from "react"
+import { Text } from "react-native-paper"
 
 import { LoadingModal } from "@components"
 import { DecryptedNote, NoteContentSchema, useNoteRealm } from "@database"
-import { useBackHandler, useHeaderColorOnScroll } from "@hooks"
+import { useBackHandler } from "@hooks"
 import { translate } from "@locales"
 import { NavigationParamProps, RouteParamProps } from "@router"
 import { useAppTheme } from "@theme"
@@ -21,8 +21,6 @@ export function ReadNote() {
 
     const { color } = useAppTheme()
 
-    const readNoteHeaderRef = useRef<AnimatedHeaderRef>(null)
-
     const noteRealm = useNoteRealm()
     const noteContentId = Realm.BSON.ObjectId.createFromHexString(params.note.textId)
     const encryptedText = noteRealm.objectForPrimaryKey(NoteContentSchema, noteContentId) as NoteContentSchema
@@ -32,11 +30,6 @@ export function ReadNote() {
     useBackHandler(() => {
         goBack()
         return true
-    })
-
-
-    const onScroll = useHeaderColorOnScroll({
-        onInterpolate: color => readNoteHeaderRef.current?.setBackgroundColor(color),
     })
 
 
@@ -62,19 +55,14 @@ export function ReadNote() {
     return (
         <Screen>
             <ReadNoteHeader
-                ref={readNoteHeaderRef}
                 goBack={goBack}
                 noteTitle={params.note.title}
                 editNote={editNote}
             />
 
-            <ScrollScreen
-                onScroll={onScroll}
-                contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 16 }}
-            >
+            <ScrollScreen contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 16 }}>
                 <Text
-                    variant={"title"}
-                    size={"medium"}
+                    variant={"titleMedium"}
                     children={decryptedText.decryptedNote}
                     selectable={true}
                     selectionColor={color.primaryContainer}

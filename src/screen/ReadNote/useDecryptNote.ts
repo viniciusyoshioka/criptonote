@@ -9,9 +9,9 @@ import { log, stringifyError } from "@services/log"
 
 
 export type DecryptNoteResponse = {
-    isLoading: boolean;
-    decryptedNote?: string;
-    error?: string;
+    isLoading: boolean
+    decryptedNote?: string
+    error?: string
 }
 
 

@@ -1,35 +1,27 @@
-import { AnimatedHeader, AnimatedHeaderRef, HeaderButton, HeaderTitle } from "@elementium/native"
-import { ForwardedRef, forwardRef } from "react"
+import { Appbar } from "react-native-paper"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 
 
 export interface ReadNoteHeaderProps {
-    goBack: () => void;
-    editNote: () => void;
-    noteTitle: string;
+    goBack: () => void
+    editNote: () => void
+    noteTitle: string
 }
 
 
-export const ReadNoteHeader = forwardRef((props: ReadNoteHeaderProps, ref: ForwardedRef<AnimatedHeaderRef>) => {
+export function ReadNoteHeader(props: ReadNoteHeaderProps) {
 
 
     const safeAreaInsets = useSafeAreaInsets()
 
 
     return (
-        <AnimatedHeader ref={ref} overrideStatusBar={safeAreaInsets.top !== 0}>
-            <HeaderButton
-                iconName={"arrow-back"}
-                onPress={props.goBack}
-            />
+        <Appbar.Header elevated={true} statusBarHeight={safeAreaInsets.top}>
+            <Appbar.BackAction onPress={props.goBack} />
 
-            <HeaderTitle title={props.noteTitle} />
+            <Appbar.Content title={props.noteTitle} />
 
-            <HeaderButton
-                iconName={"pencil-outline"}
-                iconGroup={"material-community"}
-                onPress={props.editNote}
-            />
-        </AnimatedHeader>
+            <Appbar.Action icon={"pencil-outline"} onPress={props.editNote} />
+        </Appbar.Header>
     )
-})
+}
