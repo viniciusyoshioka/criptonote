@@ -1,9 +1,10 @@
 import { AnimatedHeaderRef, Button, RadioListItem, Screen, ScrollScreen, Text } from "@elementium/native"
 import { useNavigation, useRoute } from "@react-navigation/native"
 import { useRef, useState } from "react"
-import { Alert, StyleSheet, TextInput, View } from "react-native"
+import { Alert, StatusBar, StyleSheet, TextInput, View } from "react-native"
+import { KeyboardAvoidingView } from "react-native-keyboard-controller"
 
-import { AnimatedAvoidKeyboard, Input, InputPassword } from "@components"
+import { Input, InputPassword } from "@components"
 import { useBackHandler, useBlurInputOnKeyboardDismiss, useHeaderColorOnScroll } from "@hooks"
 import { translate } from "@locales"
 import { NavigationParamProps, RouteParamProps } from "@router"
@@ -143,7 +144,11 @@ export function FileCode() {
 
     return (
         <Screen>
-            <AnimatedAvoidKeyboard style={styles.wrapper}>
+            <KeyboardAvoidingView
+                style={styles.wrapper}
+                behavior={"padding"}
+                keyboardVerticalOffset={-(StatusBar.currentHeight ?? 0)}
+            >
                 <FileCodeHeader ref={fileCodeHeaderRef} goBack={goBack} />
 
                 <ScrollScreen onScroll={onScroll}>
@@ -199,7 +204,7 @@ export function FileCode() {
                         style={{ width: "100%" }}
                     />
                 </View>
-            </AnimatedAvoidKeyboard>
+            </KeyboardAvoidingView>
         </Screen>
     )
 }
@@ -207,6 +212,7 @@ export function FileCode() {
 
 const styles = StyleSheet.create({
     wrapper: {
+        flex: 1,
         justifyContent: "space-between",
     },
     fileNameWrapper: {

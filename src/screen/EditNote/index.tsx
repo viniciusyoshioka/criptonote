@@ -3,9 +3,10 @@ import { useNavigation, useRoute } from "@react-navigation/native"
 import { Realm } from "@realm/react"
 import { NavigationParamProps, RouteParamProps } from "@router"
 import { useRef, useState } from "react"
-import { Alert, TextInput, View } from "react-native"
+import { Alert, StatusBar, TextInput, View } from "react-native"
+import { KeyboardAvoidingView } from "react-native-keyboard-controller"
 
-import { AnimatedAvoidKeyboard, Input, LoadingModal } from "@components"
+import { Input, LoadingModal } from "@components"
 import { NoteContentSchema, NoteSchema, useNoteRealm } from "@database"
 import { useBackHandler, useBlurInputOnKeyboardDismiss, useHeaderColorOnScroll } from "@hooks"
 import { translate } from "@locales"
@@ -205,7 +206,11 @@ export function EditNote() {
 
     return (
         <Screen>
-            <AnimatedAvoidKeyboard>
+            <KeyboardAvoidingView
+                style={{ flex: 1 }}
+                behavior={"padding"}
+                keyboardVerticalOffset={-(StatusBar.currentHeight ?? 0)}
+            >
                 <EditNoteHeader
                     ref={editNoteHeaderRef}
                     goBack={() => goBack()}
@@ -246,7 +251,7 @@ export function EditNote() {
                     visible={showDeletingNoteModal}
                     message={translate("EditNote_deletingNote")}
                 />
-            </AnimatedAvoidKeyboard>
+            </KeyboardAvoidingView>
         </Screen>
     )
 }

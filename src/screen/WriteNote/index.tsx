@@ -1,9 +1,10 @@
 import { AnimatedHeaderRef, Screen } from "@elementium/native"
 import { useNavigation } from "@react-navigation/native"
 import { useRef, useState } from "react"
-import { Alert, TextInput, View } from "react-native"
+import { Alert, StatusBar, TextInput, View } from "react-native"
+import { KeyboardAvoidingView } from "react-native-keyboard-controller"
 
-import { AnimatedAvoidKeyboard, Input, InputPassword, LoadingModal } from "@components"
+import { Input, InputPassword, LoadingModal } from "@components"
 import { NoteContentSchema, NoteSchema, useNoteRealm } from "@database"
 import { useBackHandler, useBlurInputOnKeyboardDismiss, useHeaderColorOnScroll } from "@hooks"
 import { translate } from "@locales"
@@ -115,7 +116,11 @@ export function WriteNote() {
 
     return (
         <Screen>
-            <AnimatedAvoidKeyboard>
+            <KeyboardAvoidingView
+                style={{ flex: 1 }}
+                behavior={"padding"}
+                keyboardVerticalOffset={-(StatusBar.currentHeight ?? 0)}
+            >
                 <WriteNoteHeader
                     ref={writeNoteHeaderRef}
                     goBack={goBack}
@@ -158,7 +163,7 @@ export function WriteNote() {
                     visible={showNoteSavingModal}
                     message={translate("WriteNote_savingNote")}
                 />
-            </AnimatedAvoidKeyboard>
+            </KeyboardAvoidingView>
         </Screen>
     )
 }
