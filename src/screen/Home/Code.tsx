@@ -1,7 +1,8 @@
 import { Button, ModalActions, ModalContainer, ModalContent, ModalDescription, ModalScrim, ModalTitle } from "@elementium/native"
 import { useNavigation, useRoute } from "@react-navigation/native"
 import { useRef, useState } from "react"
-import { KeyboardAvoidingView, TextInput } from "react-native"
+import { TextInput } from "react-native"
+import { KeyboardAvoidingView } from "react-native-keyboard-controller"
 
 import { InputPassword } from "@components"
 import { useBackHandler, useBlurInputOnKeyboardDismiss } from "@hooks"

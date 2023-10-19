@@ -2,7 +2,8 @@ import { Button, ModalActions, ModalContainer, ModalContent, ModalScrim, ModalTi
 import { useNavigation, useRoute } from "@react-navigation/native"
 import { Realm } from "@realm/react"
 import { useRef, useState } from "react"
-import { Alert, KeyboardAvoidingView, TextInput } from "react-native"
+import { Alert, TextInput } from "react-native"
+import { KeyboardAvoidingView } from "react-native-keyboard-controller"
 
 import { InputPassword, LoadingModal } from "@components"
 import { NoteContentSchema, NoteSchema, useNoteRealm } from "@database"
