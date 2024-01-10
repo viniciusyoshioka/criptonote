@@ -11,6 +11,7 @@
     "dependencies": {
         "@elementium/color": "file:../elementium/packages/color",
         "@elementium/native": "file:../elementium/packages/native",
+        "@elementium/theme": "file:../elementium/packages/theme",
         "@react-native-community/checkbox": "^0.5.17",
         "@react-navigation/native": "^6.1.9",
         "@react-navigation/native-stack": "^6.9.17",

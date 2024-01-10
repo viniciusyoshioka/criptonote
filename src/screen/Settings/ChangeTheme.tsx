@@ -1,12 +1,12 @@
-import { ModalActions, ModalContainer, ModalContent, ModalScrim, ModalTitle, RadioListItem } from "@elementium/native"
+import { Modal } from "@elementium/native"
 import { useNavigation } from "@react-navigation/native"
 import { useState } from "react"
-import { Button } from "react-native-paper"
+import { Button, RadioButton } from "react-native-paper"
 
 import { useBackHandler } from "@hooks"
 import { translate } from "@locales"
 import { NavigationParamProps } from "@router"
-import { useAppTheme } from "@theme"
+import { ThemeType, useAppTheme } from "@theme"
 
 
 export function ChangeTheme() {
@@ -29,36 +29,38 @@ export function ChangeTheme() {
 
 
     return (
-        <ModalScrim onPress={goBack}>
-            <ModalContainer >
-                <ModalTitle>
+        <Modal.Scrim onPress={goBack}>
+            <Modal.Container >
+                <Modal.Title>
                     {translate("ChangeTheme_title")}
-                </ModalTitle>
+                </Modal.Title>
 
-                <ModalContent>
-                    <RadioListItem
-                        title={translate("ChangeTheme_auto")}
-                        value={selectedTheme === "auto"}
-                        onPress={() => setSelectedTheme("auto")}
-                        style={{ paddingLeft: 0, backgroundColor: "transparent" }}
-                    />
+                <Modal.Content hasDivider={false}>
+                    <RadioButton.Group
+                        value={selectedTheme}
+                        onValueChange={value => setSelectedTheme(value as ThemeType)}
+                    >
+                        <RadioButton.Item
+                            label={translate("ChangeTheme_auto")}
+                            value={"auto" as ThemeType}
+                            style={{ paddingLeft: 24, paddingRight: 16 }}
+                        />
 
-                    <RadioListItem
-                        title={translate("ChangeTheme_light")}
-                        value={selectedTheme === "light"}
-                        onPress={() => setSelectedTheme("light")}
-                        style={{ paddingLeft: 0, backgroundColor: "transparent" }}
-                    />
+                        <RadioButton.Item
+                            label={translate("ChangeTheme_light")}
+                            value={"light" as ThemeType}
+                            style={{ paddingLeft: 24, paddingRight: 16 }}
+                        />
 
-                    <RadioListItem
-                        title={translate("ChangeTheme_dark")}
-                        value={selectedTheme === "dark"}
-                        onPress={() => setSelectedTheme("dark")}
-                        style={{ paddingLeft: 0, backgroundColor: "transparent" }}
-                    />
-                </ModalContent>
+                        <RadioButton.Item
+                            label={translate("ChangeTheme_dark")}
+                            value={"dark" as ThemeType}
+                            style={{ paddingLeft: 24, paddingRight: 16 }}
+                        />
+                    </RadioButton.Group>
+                </Modal.Content>
 
-                <ModalActions>
+                <Modal.Actions>
                     <Button
                         mode={"text"}
                         children={translate("cancel")}
@@ -73,8 +75,8 @@ export function ChangeTheme() {
                             goBack()
                         }}
                     />
-                </ModalActions>
-            </ModalContainer>
-        </ModalScrim>
+                </Modal.Actions>
+            </Modal.Container>
+        </Modal.Scrim>
     )
 }

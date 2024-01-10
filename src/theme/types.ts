@@ -1,4 +1,4 @@
-import { ThemeType as ElementiumThemeType } from "@elementium/native"
+import { ElementiumThemeType } from "@elementium/theme"
 
 
 export type ThemeType = "auto" | "light" | "dark"

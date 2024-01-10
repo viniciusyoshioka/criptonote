@@ -1,4 +1,4 @@
-import { ModalActions, ModalContainer, ModalContent, ModalScrim, ModalTitle } from "@elementium/native"
+import { Modal } from "@elementium/native"
 import { useNavigation, useRoute } from "@react-navigation/native"
 import { Realm } from "@realm/react"
 import { useRef, useState } from "react"
@@ -95,14 +95,17 @@ export function ChangePassword() {
 
 
     return (
-        <ModalScrim onPress={goBack}>
+        <Modal.Scrim onPress={goBack}>
             <KeyboardAvoidingView behavior={"position"}>
-                <ModalContainer>
-                    <ModalTitle>
+                <Modal.Container>
+                    <Modal.Title>
                         {translate("ChangePassword_title")}
-                    </ModalTitle>
+                    </Modal.Title>
 
-                    <ModalContent hasDivider={false} style={{ marginTop: 16 }}>
+                    <Modal.Content
+                        hasDivider={false}
+                        style={{ paddingHorizontal: 24 }}
+                    >
                         <InputPassword
                             ref={inputCurrentPasswordRef}
                             placeholder={translate("ChangePassword_currentPassword")}
@@ -131,9 +134,9 @@ export function ChangePassword() {
                             onChangeText={setConfirmPassword}
                             onSubmitEditing={() => inputConfirmPasswordRef.current?.blur()}
                         />
-                    </ModalContent>
+                    </Modal.Content>
 
-                    <ModalActions>
+                    <Modal.Actions>
                         <Button
                             mode={"text"}
                             children={translate("cancel")}
@@ -145,14 +148,14 @@ export function ChangePassword() {
                             children={translate("ok")}
                             onPress={changePassword}
                         />
-                    </ModalActions>
-                </ModalContainer>
+                    </Modal.Actions>
+                </Modal.Container>
 
                 <LoadingModal
                     visible={showChangingPassword}
                     message={translate("ChangePassword_changingPassword")}
                 />
             </KeyboardAvoidingView>
-        </ModalScrim>
+        </Modal.Scrim>
     )
 }

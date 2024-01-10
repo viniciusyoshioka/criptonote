@@ -1,4 +1,4 @@
-import { ModalActions, ModalContainer, ModalContent, ModalDescription, ModalScrim, ModalTitle } from "@elementium/native"
+import { Modal } from "@elementium/native"
 import { useNavigation, useRoute } from "@react-navigation/native"
 import { useRef, useState } from "react"
 import { TextInput } from "react-native"
@@ -43,18 +43,18 @@ export function Code() {
 
 
     return (
-        <ModalScrim onPress={goBack}>
+        <Modal.Scrim onPress={goBack}>
             <KeyboardAvoidingView behavior={"position"}>
-                <ModalContainer>
-                    <ModalTitle>
+                <Modal.Container>
+                    <Modal.Title>
                         {translate("Code_title")}
-                    </ModalTitle>
+                    </Modal.Title>
 
-                    <ModalDescription>
+                    <Modal.Description>
                         {translate("Code_description")}
-                    </ModalDescription>
+                    </Modal.Description>
 
-                    <ModalContent hasDivider={false} style={{ marginTop: 16 }}>
+                    <Modal.Content hasDivider={false} style={{ marginHorizontal: 24 }}>
                         <InputPassword
                             ref={inputPasswordRef}
                             value={password}
@@ -62,9 +62,9 @@ export function Code() {
                             autoFocus={true}
                             onSubmitEditing={openNote}
                         />
-                    </ModalContent>
+                    </Modal.Content>
 
-                    <ModalActions>
+                    <Modal.Actions>
                         <Button
                             mode={"text"}
                             children={translate("cancel")}
@@ -76,9 +76,9 @@ export function Code() {
                             children={translate("ok")}
                             onPress={openNote}
                         />
-                    </ModalActions>
-                </ModalContainer>
+                    </Modal.Actions>
+                </Modal.Container>
             </KeyboardAvoidingView>
-        </ModalScrim>
+        </Modal.Scrim>
     )
 }

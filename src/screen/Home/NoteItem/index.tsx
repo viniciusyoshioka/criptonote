@@ -1,4 +1,4 @@
-import { Color, Prisma } from "@elementium/color"
+import { Color, Prism } from "@elementium/color"
 import CheckBox from "@react-native-community/checkbox"
 import { useMemo } from "react"
 import { LongPressGestureHandler } from "react-native-gesture-handler"
@@ -30,7 +30,7 @@ export function NoteItem(props: NoteItemProps) {
     const rippleColor = useMemo(() => {
         const backgroundColor = new Color(color.surface)
         const overlayColor = new Color(color.onSurface).setA(state.container.pressed)
-        return Prisma.addColors(backgroundColor, overlayColor).toRgba()
+        return Prism.addColors(backgroundColor, overlayColor).toRgba()
     }, [color.surface, color.onSurface, state.container.pressed])
 
 

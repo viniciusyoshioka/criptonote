@@ -1,4 +1,4 @@
-import { ThemeProvider as ElementiumThemeProvider } from "@elementium/native"
+import { ElementiumThemeProvider } from "@elementium/theme"
 import { createContext, ReactNode, useContext } from "react"
 import { useColorScheme } from "react-native"
 import { MD3DarkTheme, MD3LightTheme, PaperProvider } from "react-native-paper"

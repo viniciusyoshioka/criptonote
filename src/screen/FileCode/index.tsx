@@ -1,9 +1,9 @@
-import { RadioListItem, Screen, ScrollScreen } from "@elementium/native"
+import { Screen, ScrollScreen } from "@elementium/native"
 import { useNavigation, useRoute } from "@react-navigation/native"
 import { useRef, useState } from "react"
 import { Alert, StatusBar, StyleSheet, TextInput, View } from "react-native"
 import { KeyboardAvoidingView } from "react-native-keyboard-controller"
-import { Button, Text } from "react-native-paper"
+import { Button, Switch, Text } from "react-native-paper"
 
 import { Input, InputPassword } from "@components"
 import { useBackHandler, useBlurInputOnKeyboardDismiss } from "@hooks"
@@ -175,13 +175,16 @@ export function FileCode() {
                         wrapperStyle={{ marginHorizontal: 16, marginTop: 16 }}
                     />
 
-                    <RadioListItem
-                        title={translate("FileCode_deleteOriginalFile")}
-                        value={deleteOriginalFile}
-                        onValueChange={setDeleteOriginalFile}
-                        onPress={() => setDeleteOriginalFile(!deleteOriginalFile)}
-                        style={{ marginTop: 16 }}
-                    />
+                    <View style={styles.deleteOriginalFileWrapper}>
+                        <Text variant={"bodyMedium"}>
+                            {translate("FileCode_deleteOriginalFile")}
+                        </Text>
+
+                        <Switch
+                            value={deleteOriginalFile}
+                            onValueChange={setDeleteOriginalFile}
+                        />
+                    </View>
                 </ScrollScreen>
 
                 <View style={styles.buttonsWrapper}>
@@ -217,6 +220,14 @@ const styles = StyleSheet.create({
         marginHorizontal: 16,
         marginTop: 16,
         gap: 16,
+    },
+    deleteOriginalFileWrapper: {
+        alignItems: "center",
+        justifyContent: "space-between",
+        flexDirection: "row",
+        paddingHorizontal: 16,
+        paddingTop: 16,
+        paddingBottom: 8,
     },
     buttonsWrapper: {
         padding: 16,

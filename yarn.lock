@@ -1188,6 +1188,9 @@
 "@elementium/native@file:../elementium/packages/native":
   version "0.0.1"
 
+"@elementium/theme@file:../elementium/packages/theme":
+  version "1.0.1"
+
 "@elementium/tsconfig@file:../elementium/packages/tsconfig":
   version "1.0.0"
 

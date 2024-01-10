@@ -1,11 +1,12 @@
-import { ExtendableOptionalIconProps, Icon, Text } from "@elementium/native"
+import { Icon, OptionalIconProps } from "@elementium/native"
 import { ReactNode } from "react"
 import { Image, ImageSourcePropType, StyleSheet, View, ViewProps } from "react-native"
+import { Text } from "react-native-paper"
 
 import { useAppTheme } from "@theme"
 
 
-export interface EmptyListProps extends ViewProps, Omit<ExtendableOptionalIconProps, "style"> {
+export interface EmptyListProps extends ViewProps, Omit<OptionalIconProps, "style"> {
     visible?: boolean
     imageSource?: ImageSourcePropType
     message?: string
@@ -26,12 +27,12 @@ export function EmptyList(props: EmptyListProps) {
 
     return (
         <View {...props} style={[styles.container, props.style]}>
-            {props.iconName && (
+            {props.name && (
                 <Icon
-                    name={props.iconName}
-                    group={props.iconGroup}
-                    size={props.iconSize}
-                    color={props.iconColor ?? color.onBackground}
+                    name={props.name}
+                    group={props.group}
+                    size={props.size}
+                    color={props.color ?? color.onBackground}
                     style={props.style}
                 />
             )}
@@ -45,8 +46,7 @@ export function EmptyList(props: EmptyListProps) {
 
             {props.message && (
                 <Text
-                    variant={"body"}
-                    size={"large"}
+                    variant={"bodyLarge"}
                     style={{ color: color.onBackground, marginTop: 8 }}
                     children={props.message}
                 />
