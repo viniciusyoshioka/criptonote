@@ -18,7 +18,7 @@
         "@shopify/flash-list": "^1.5.0",
         "i18n-js": "^4.3.0",
         "react": "18.2.0",
-        "react-native": "0.72.4",
+        "react-native": "0.73.2",
         "react-native-document-picker": "^9.0.1",
         "react-native-fs": "^2.20.0",
         "react-native-gesture-handler": "^2.12.1",
@@ -42,10 +42,11 @@
         "@elementium/eslint-config": "file:../elementium/packages/eslint-config",
         "@elementium/eslint-config-typescript": "file:../elementium/packages/eslint-config-typescript",
         "@elementium/tsconfig": "file:../elementium/packages/tsconfig",
-        "@react-native/metro-config": "^0.72.11",
+        "@react-native/babel-preset": "0.73.19",
+        "@react-native/metro-config": "0.73.3",
         "@realm/babel-plugin": "^0.1.1",
         "@sayem314/react-native-keep-awake": "^1.2.2",
-        "@types/react": "^18.0.24",
+        "@types/react": "^18.2.6",
         "@types/react-native-vector-icons": "^6.4.14",
         "@types/styled-components": "^5.1.26",
         "@types/styled-components-react-native": "^5.2.1",
@@ -54,10 +55,9 @@
         "babel-plugin-module-resolver": "^5.0.0",
         "babel-plugin-transform-remove-console": "^6.9.4",
         "eslint": "^8.48.0",
-        "metro-react-native-babel-preset": "0.76.8",
-        "typescript": "^5.2.2"
+        "typescript": "5.0.4"
     },
     "engines": {
-        "node": ">=16"
+        "node": ">=18"
     }
 }
