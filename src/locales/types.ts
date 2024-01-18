@@ -138,6 +138,13 @@ export type TranslationKeyType =
     | "FileCode_encrypt"
     | "FileCode_decrypt"
 
+    // FileExplorer alert
+    | "FileExplorer_errorReadingFolder_text"
+    // FileExplorer header
+    | "FileExplorer_header_title"
+    // FileExplorer screen
+    | "FileExplorer_emptyFolder"
+
     // Log service
     | "log_alert_reportCriticalError_text"
 

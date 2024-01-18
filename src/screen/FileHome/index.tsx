@@ -10,6 +10,8 @@ import { TranslationKeyType, translate } from "@locales"
 import { FileCodeAction, NavigationParamProps } from "@router"
 import { Constants } from "@services/constant"
 import { log, stringifyError } from "@services/log"
+import { ExternalStorage } from "@services/manage-external-storage"
+import { useSettings } from "@services/settings"
 import { FileHomeHeader } from "./Header"
 
 
@@ -23,6 +25,8 @@ export function FileHome() {
 
 
     const navigation = useNavigation<NavigationParamProps<"FileHome">>()
+
+    const { settings } = useSettings()
 
 
     useBackHandler(() => {
@@ -76,6 +80,18 @@ export function FileHome() {
     }
 
     async function encryptFile() {
+        if (settings.fileExplorer === "app") {
+            const hasPermission = await ExternalStorage.isManageExternalStorageAllowed()
+            if (!hasPermission) {
+                await ExternalStorage.requestManageExternalStorage()
+                return
+            }
+
+            return navigation.replace("FileExplorer", {
+                action: "encrypt",
+            })
+        }
+
         const pickedFile = await selectFile("encrypt")
         if (!pickedFile) return
 
@@ -87,6 +103,18 @@ export function FileHome() {
     }
 
     async function decryptFile() {
+        if (settings.fileExplorer === "app") {
+            const hasPermission = await ExternalStorage.isManageExternalStorageAllowed()
+            if (!hasPermission) {
+                await ExternalStorage.requestManageExternalStorage()
+                return
+            }
+
+            return navigation.replace("FileExplorer", {
+                action: "decrypt",
+            })
+        }
+
         const pickedFile = await selectFile("decrypt")
         if (!pickedFile) return
 

@@ -141,6 +141,13 @@ export const pt_BR: TranslationObjectType = {
     FileCode_encrypt: "Criptografar",
     FileCode_decrypt: "Descriptografar",
 
+    // FileExplorer alert
+    FileExplorer_errorReadingFolder_text: "Erro abrindo a pasta",
+    // FileExplorer header
+    FileExplorer_header_title: "Arquivos",
+    // FileExplorer screen
+    FileExplorer_emptyFolder: "Pasta vazia",
+
     // Log service
     log_alert_reportCriticalError_text: "Um erro crítico ocorreu, reporte os logs para o desenvolvedor",
 }

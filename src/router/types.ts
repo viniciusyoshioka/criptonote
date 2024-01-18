@@ -30,6 +30,9 @@ export type ScreenParams = {
     FileExplorerSettings: undefined
 
     FileHome: undefined
+    FileExplorer: {
+        action: FileCodeAction
+    }
     FileCode: {
         fileName: string
         filePath: string

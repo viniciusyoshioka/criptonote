@@ -14,6 +14,7 @@ export class Constants {
 
     // Folder
     // Root
+    static fullPathDeviceRootInternalStorage = RNFS.ExternalStorageDirectoryPath
     static fullPathRootExternal = `${RNFS.ExternalStorageDirectoryPath}/Android/media/${this.appId}/${this.appName}`
     static fullPathRootInternal = `${RNFS.DocumentDirectoryPath}/${this.appName}`
     // External folders

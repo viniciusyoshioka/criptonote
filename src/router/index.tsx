@@ -4,6 +4,7 @@ import { enableScreens } from "react-native-screens"
 
 import { ChangePassword, EditNote } from "@screen/EditNote"
 import { FileCode } from "@screen/FileCode"
+import { FileExplorer } from "@screen/FileExplorer"
 import { FileHome } from "@screen/FileHome"
 import { Code, Home } from "@screen/Home"
 import { ReadNote } from "@screen/ReadNote"
@@ -45,6 +46,7 @@ export function Router() {
                 <Stack.Screen name={"Settings"} component={Settings} />
 
                 <Stack.Screen name={"FileHome"} component={FileHome} />
+                <Stack.Screen name={"FileExplorer"} component={FileExplorer} />
                 <Stack.Screen name={"FileCode"} component={FileCode} />
 
                 <Stack.Group screenOptions={{ presentation: "transparentModal" }}>
