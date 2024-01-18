@@ -27,6 +27,7 @@ export type ScreenParams = {
     WriteNote: undefined
     Settings: undefined
     ChangeTheme: undefined
+    FileExplorerSettings: undefined
 
     FileHome: undefined
     FileCode: {

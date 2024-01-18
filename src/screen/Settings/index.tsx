@@ -13,6 +13,7 @@ import { SettingsHeader } from "./Header"
 
 
 export { ChangeTheme } from "./ChangeTheme"
+export { FileExplorerSettings } from "./FileExplorerSettings"
 
 
 export function Settings() {
@@ -74,6 +75,14 @@ export function Settings() {
                     title={translate("Settings_theme_title")}
                     description={translate("Settings_theme_text")}
                     onPress={() => navigation.navigate("ChangeTheme")}
+                    style={{ paddingLeft: 16 }}
+                />
+
+                <List.Item
+                    left={() => <List.Icon icon={"folder-open"} />}
+                    title={translate("Settings_fileExplorer_title")}
+                    description={translate("Settings_fileExplorer_text")}
+                    onPress={() => navigation.navigate("FileExplorerSettings")}
                     style={{ paddingLeft: 16 }}
                 />
 

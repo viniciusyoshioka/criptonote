@@ -97,6 +97,8 @@ export type TranslationKeyType =
     // Settings screen
     | "Settings_theme_title"
     | "Settings_theme_text"
+    | "Settings_fileExplorer_title"
+    | "Settings_fileExplorer_text"
     | "Settings_shareLogDatabase_title"
     | "Settings_shareLogDatabase_text"
     | "Settings_shareAppDatabase_title"
@@ -107,6 +109,10 @@ export type TranslationKeyType =
     | "ChangeTheme_auto"
     | "ChangeTheme_light"
     | "ChangeTheme_dark"
+    // Settings FileExplorerSettings
+    | "FileExplorerSettings_title"
+    | "FileExplorerSettings_app"
+    | "FileExplorerSettings_system"
 
     // FileHome alert
     | "FileHome_alert_errorSelectingFileToEncrypt_text"

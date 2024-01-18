@@ -7,7 +7,7 @@ import { FileCode } from "@screen/FileCode"
 import { FileHome } from "@screen/FileHome"
 import { Code, Home } from "@screen/Home"
 import { ReadNote } from "@screen/ReadNote"
-import { ChangeTheme, Settings } from "@screen/Settings"
+import { ChangeTheme, FileExplorerSettings, Settings } from "@screen/Settings"
 import { WriteNote } from "@screen/WriteNote"
 import { useAppTheme } from "@theme"
 import { ScreenParams } from "./types"
@@ -51,6 +51,7 @@ export function Router() {
                     <Stack.Screen name={"Code"} component={Code} />
                     <Stack.Screen name={"ChangePassword"} component={ChangePassword} />
                     <Stack.Screen name={"ChangeTheme"} component={ChangeTheme} />
+                    <Stack.Screen name={"FileExplorerSettings"} component={FileExplorerSettings} />
                 </Stack.Group>
             </Stack.Navigator>
         </NavigationContainer>

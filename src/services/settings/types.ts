@@ -1,8 +1,12 @@
 import { ThemeType } from "@theme"
 
 
+export type FileExplorerType = "app" | "system"
+
+
 export interface Settings {
     theme: ThemeType
+    fileExplorer: FileExplorerType
 }
 
 

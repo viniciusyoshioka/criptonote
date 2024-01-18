@@ -100,6 +100,8 @@ export const pt_BR: TranslationObjectType = {
     // Settings screen
     Settings_theme_title: "Tema",
     Settings_theme_text: "Mudar tema de cores do aplicativo",
+    Settings_fileExplorer_title: "Explorador de arquivos",
+    Settings_fileExplorer_text: "Escolha qual explorador de arquivos será usado pelo aplicativo",
     Settings_shareLogDatabase_title: "Compartilhar logs",
     Settings_shareLogDatabase_text: "Enviar registro de erros",
     Settings_shareAppDatabase_title: "Compartilhar banco de dados",
@@ -110,6 +112,10 @@ export const pt_BR: TranslationObjectType = {
     ChangeTheme_auto: "Automático",
     ChangeTheme_light: "Claro",
     ChangeTheme_dark: "Escuro",
+    // Settings FileExplorerSettings
+    FileExplorerSettings_title: "Mudar explorador de arquivos",
+    FileExplorerSettings_app: "Aplicativo",
+    FileExplorerSettings_system: "Sistema",
 
     // FileHome alert
     FileHome_alert_errorSelectingFileToEncrypt_text: "Erro selecionando arquivos para criptografar",
