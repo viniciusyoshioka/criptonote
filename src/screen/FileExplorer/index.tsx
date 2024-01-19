@@ -1,9 +1,10 @@
 import { Screen } from "@elementium/native"
 import { useNavigation, useRoute } from "@react-navigation/native"
 import { FlashList, ListRenderItemInfo } from "@shopify/flash-list"
-import { Fragment, useEffect, useState } from "react"
+import { Fragment, useState } from "react"
 import { Alert } from "react-native"
 import RNFS, { ReadDirItem } from "react-native-fs"
+import { Divider, List } from "react-native-paper"
 
 import { EmptyList } from "@components"
 import { useBackHandler } from "@hooks"
@@ -12,7 +13,6 @@ import { NavigationParamProps, RouteParamProps } from "@router"
 import { Constants } from "@services/constant"
 import { createAllFolders } from "@services/folder-handler"
 import { log, stringifyError } from "@services/log"
-import { Divider, List } from "react-native-paper"
 import { FileItem } from "./FileItem"
 import { FileExplorerHeader } from "./Header"
 
@@ -39,7 +39,7 @@ export function FileExplorer() {
         }
 
         const upDirectory = getUpDirectory()
-        setPathToRead(upDirectory)
+        if (upDirectory) readFolder(upDirectory)
         return true
     })
 
@@ -95,30 +95,27 @@ export function FileExplorer() {
         if (!pathToRead) return
 
         const newPathToRead = `${pathToRead}/${name}`
-        setPathToRead(newPathToRead)
+        readFolder(newPathToRead)
     }
 
-    async function readFolder() {
-        if (!pathToRead) return
-        if (pathToRead.includes(Constants.fullPathRootExternal)) {
+    async function readFolder(path: string) {
+        if (path.includes(Constants.fullPathRootExternal)) {
             await createAllFolders()
         }
 
-        RNFS.readDir(pathToRead)
-            .then(content => setPathContent(content))
+        RNFS.readDir(path)
+            .then(content => {
+                setPathToRead(path)
+                setPathContent(content)
+            })
             .catch(error => {
-                log.error(`Error reading folder "${pathToRead}". Error: ${stringifyError(error)}`)
+                log.error(`Error reading folder "${path}". Error: ${stringifyError(error)}`)
                 Alert.alert(
                     translate("warn"),
                     translate("FileExplorer_errorReadingFolder_text")
                 )
             })
     }
-
-
-    useEffect(() => {
-        readFolder()
-    }, [pathToRead])
 
 
     return (
@@ -131,7 +128,7 @@ export function FileExplorer() {
                         left={() => <List.Icon icon={"cellphone"} />}
                         title={translate("FileExplorer_internalStorage_title")}
                         description={translate("FileExplorer_internalStorage_text")}
-                        onPress={() => setPathToRead(Constants.fullPathDeviceRootInternalStorage)}
+                        onPress={() => readFolder(Constants.fullPathDeviceRootInternalStorage)}
                         style={{ paddingLeft: 16 }}
                     />
 
@@ -141,7 +138,7 @@ export function FileExplorer() {
                         left={() => <List.Icon icon={"lock-outline"} />}
                         title={translate("FileExplorer_encryptedFiles_title")}
                         description={translate("FileExplorer_encryptedFiles_text")}
-                        onPress={() => setPathToRead(Constants.fullPathEncrypted)}
+                        onPress={() => readFolder(Constants.fullPathEncrypted)}
                         style={{ paddingLeft: 16 }}
                     />
 
@@ -149,7 +146,7 @@ export function FileExplorer() {
                         left={() => <List.Icon icon={"lock-open-variant-outline"} />}
                         title={translate("FileExplorer_decryptedFiles_title")}
                         description={translate("FileExplorer_decryptedFiles_text")}
-                        onPress={() => setPathToRead(Constants.fullPathDecrypted)}
+                        onPress={() => readFolder(Constants.fullPathDecrypted)}
                         style={{ paddingLeft: 16 }}
                     />
 
@@ -157,7 +154,7 @@ export function FileExplorer() {
                         left={() => <List.Icon icon={"file-document-arrow-right-outline"} />}
                         title={translate("FileExplorer_exportedNotes_title")}
                         description={translate("FileExplorer_exportedNotes_text")}
-                        onPress={() => setPathToRead(Constants.fullPathExported)}
+                        onPress={() => readFolder(Constants.fullPathExported)}
                         style={{ paddingLeft: 16 }}
                     />
                 </Fragment>
