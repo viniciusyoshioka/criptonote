@@ -118,6 +118,21 @@ export const pt_BR: TranslationObjectType = {
     FileExplorerSettings_app: "Aplicativo",
     FileExplorerSettings_system: "Sistema",
 
+    // FileExplorer alert
+    FileExplorer_errorReadingFolder_text: "Erro abrindo a pasta",
+    // FileExplorer header
+    FileExplorer_header_title: "Arquivos",
+    // FileExplorer screen
+    FileExplorer_internalStorage_title: "Armazenamento interno",
+    FileExplorer_internalStorage_text: "Navegue pelo armazenamento interno do dispositivo",
+    FileExplorer_encryptedFiles_title: "Arquivos criptografados",
+    FileExplorer_encryptedFiles_text: "Acesso rápido à pasta de arquivos criptografados",
+    FileExplorer_decryptedFiles_title: "Arquivos descriptografados",
+    FileExplorer_decryptedFiles_text: "Acesso rápido à pasta de arquivos descriptografados",
+    FileExplorer_exportedNotes_title: "Notas exportadas",
+    FileExplorer_exportedNotes_text: "Acesso rápido à pasta de notas exportadas",
+    FileExplorer_emptyFolder: "Pasta vazia",
+
     // FileCode alert
     FileCode_alert_fileNameRequired_text: "O nome do arquivo é obrigatório",
     FileCode_alert_passwordRequired_text: "A senha é obrigatória",
@@ -130,13 +145,6 @@ export const pt_BR: TranslationObjectType = {
     FileCode_deleteOriginalFile: "Apagar arquivo original",
     FileCode_encrypt: "Criptografar",
     FileCode_decrypt: "Descriptografar",
-
-    // FileExplorer alert
-    FileExplorer_errorReadingFolder_text: "Erro abrindo a pasta",
-    // FileExplorer header
-    FileExplorer_header_title: "Arquivos",
-    // FileExplorer screen
-    FileExplorer_emptyFolder: "Pasta vazia",
 
     // Log service
     log_alert_reportCriticalError_text: "Um erro crítico ocorreu, reporte os logs para o desenvolvedor",

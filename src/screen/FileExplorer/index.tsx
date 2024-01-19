@@ -1,7 +1,7 @@
 import { Screen } from "@elementium/native"
 import { useNavigation, useRoute } from "@react-navigation/native"
 import { FlashList, ListRenderItemInfo } from "@shopify/flash-list"
-import { useEffect, useState } from "react"
+import { Fragment, useEffect, useState } from "react"
 import { Alert } from "react-native"
 import RNFS, { ReadDirItem } from "react-native-fs"
 
@@ -12,6 +12,7 @@ import { NavigationParamProps, RouteParamProps } from "@router"
 import { Constants } from "@services/constant"
 import { createAllFolders } from "@services/folder-handler"
 import { log, stringifyError } from "@services/log"
+import { Divider, List } from "react-native-paper"
 import { FileItem } from "./FileItem"
 import { FileExplorerHeader } from "./Header"
 
@@ -22,13 +23,18 @@ export function FileExplorer() {
     const navigation = useNavigation<NavigationParamProps<"FileExplorer">>()
     const { params } = useRoute<RouteParamProps<"FileExplorer">>()
 
-    const [pathToRead, setPathToRead] = useState(Constants.fullPathRootExternal)
+    const [pathToRead, setPathToRead] = useState<string>()
     const [pathContent, setPathContent] = useState<ReadDirItem[]>([])
 
 
     useBackHandler(() => {
-        if (pathToRead === Constants.fullPathDeviceRootInternalStorage) {
+        if (!pathToRead) {
             navigation.goBack()
+            return true
+        }
+        if (pathToRead === Constants.fullPathDeviceRootInternalStorage) {
+            setPathToRead(undefined)
+            setPathContent([])
             return true
         }
 
@@ -38,7 +44,19 @@ export function FileExplorer() {
     })
 
 
+    function goBackHeader() {
+        if (pathToRead) {
+            setPathToRead(undefined)
+            setPathContent([])
+            return
+        }
+
+        navigation.goBack()
+    }
+
     function getUpDirectory() {
+        if (!pathToRead) return
+
         const splitedPathToRead = pathToRead.split("/")
         splitedPathToRead.pop()
         return splitedPathToRead.join("/")
@@ -74,12 +92,15 @@ export function FileExplorer() {
     }
 
     function openDirectory(name: string) {
+        if (!pathToRead) return
+
         const newPathToRead = `${pathToRead}/${name}`
         setPathToRead(newPathToRead)
     }
 
     async function readFolder() {
-        if (pathToRead === Constants.fullPathRootExternal) {
+        if (!pathToRead) return
+        if (pathToRead.includes(Constants.fullPathRootExternal)) {
             await createAllFolders()
         }
 
@@ -102,9 +123,47 @@ export function FileExplorer() {
 
     return (
         <Screen>
-            <FileExplorerHeader />
+            <FileExplorerHeader goBack={goBackHeader} />
 
-            {pathContent.length > 0 && (
+            {!pathToRead && (
+                <Fragment>
+                    <List.Item
+                        left={() => <List.Icon icon={"cellphone"} />}
+                        title={translate("FileExplorer_internalStorage_title")}
+                        description={translate("FileExplorer_internalStorage_text")}
+                        onPress={() => setPathToRead(Constants.fullPathDeviceRootInternalStorage)}
+                        style={{ paddingLeft: 16 }}
+                    />
+
+                    <Divider style={{ marginLeft: 56 }} />
+
+                    <List.Item
+                        left={() => <List.Icon icon={"lock-outline"} />}
+                        title={translate("FileExplorer_encryptedFiles_title")}
+                        description={translate("FileExplorer_encryptedFiles_text")}
+                        onPress={() => setPathToRead(Constants.fullPathEncrypted)}
+                        style={{ paddingLeft: 16 }}
+                    />
+
+                    <List.Item
+                        left={() => <List.Icon icon={"lock-open-variant-outline"} />}
+                        title={translate("FileExplorer_decryptedFiles_title")}
+                        description={translate("FileExplorer_decryptedFiles_text")}
+                        onPress={() => setPathToRead(Constants.fullPathDecrypted)}
+                        style={{ paddingLeft: 16 }}
+                    />
+
+                    <List.Item
+                        left={() => <List.Icon icon={"file-document-arrow-right-outline"} />}
+                        title={translate("FileExplorer_exportedNotes_title")}
+                        description={translate("FileExplorer_exportedNotes_text")}
+                        onPress={() => setPathToRead(Constants.fullPathExported)}
+                        style={{ paddingLeft: 16 }}
+                    />
+                </Fragment>
+            )}
+
+            {!!pathToRead && pathContent.length > 0 && (
                 <FlashList
                     data={pathContent}
                     renderItem={renderItem}
@@ -115,7 +174,7 @@ export function FileExplorer() {
 
             <EmptyList
                 message={translate("FileExplorer_emptyFolder")}
-                visible={pathContent.length === 0}
+                visible={!!pathToRead && pathContent.length === 0}
             />
         </Screen>
     )

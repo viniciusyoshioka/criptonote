@@ -115,6 +115,21 @@ export type TranslationKeyType =
     | "FileExplorerSettings_app"
     | "FileExplorerSettings_system"
 
+    // FileExplorer alert
+    | "FileExplorer_errorReadingFolder_text"
+    // FileExplorer header
+    | "FileExplorer_header_title"
+    // FileExplorer screen
+    | "FileExplorer_internalStorage_title"
+    | "FileExplorer_internalStorage_text"
+    | "FileExplorer_encryptedFiles_title"
+    | "FileExplorer_encryptedFiles_text"
+    | "FileExplorer_decryptedFiles_title"
+    | "FileExplorer_decryptedFiles_text"
+    | "FileExplorer_exportedNotes_title"
+    | "FileExplorer_exportedNotes_text"
+    | "FileExplorer_emptyFolder"
+
     // FileCode alert
     | "FileCode_alert_fileNameRequired_text"
     | "FileCode_alert_passwordRequired_text"
@@ -127,13 +142,6 @@ export type TranslationKeyType =
     | "FileCode_deleteOriginalFile"
     | "FileCode_encrypt"
     | "FileCode_decrypt"
-
-    // FileExplorer alert
-    | "FileExplorer_errorReadingFolder_text"
-    // FileExplorer header
-    | "FileExplorer_header_title"
-    // FileExplorer screen
-    | "FileExplorer_emptyFolder"
 
     // Log service
     | "log_alert_reportCriticalError_text"
