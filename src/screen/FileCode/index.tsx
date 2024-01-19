@@ -3,7 +3,7 @@ import { useNavigation, useRoute } from "@react-navigation/native"
 import { useRef, useState } from "react"
 import { Alert, StatusBar, StyleSheet, TextInput, View } from "react-native"
 import { KeyboardAvoidingView } from "react-native-keyboard-controller"
-import { Button, Switch, Text } from "react-native-paper"
+import { Button, List, Switch } from "react-native-paper"
 
 import { Input, InputPassword } from "@components"
 import { useBackHandler, useBlurInputOnKeyboardDismiss } from "@hooks"
@@ -12,7 +12,6 @@ import { NavigationParamProps, RouteParamProps } from "@router"
 import { Constants } from "@services/constant"
 import { Crypto } from "@services/crypto"
 import { createAllFolders } from "@services/folder-handler"
-import { useAppTheme } from "@theme"
 import { FileCodeHeader } from "./Header"
 
 
@@ -22,12 +21,11 @@ export function FileCode() {
     const navigation = useNavigation<NavigationParamProps<"FileCode">>()
     const { params } = useRoute<RouteParamProps<"FileCode">>()
 
-    const { color } = useAppTheme()
-
     const fileNameInputRef = useRef<TextInput>(null)
     const passwordInputRef = useRef<TextInput>(null)
 
-    const [fileName, setFileName] = useState(params.fileName)
+    const originalFileName = params.filePath.split("/").pop() as string
+    const [fileName, setFileName] = useState(originalFileName)
     const [password, setPassword] = useState("")
     const [deleteOriginalFile, setDeleteOriginalFile] = useState(true)
 
@@ -41,30 +39,7 @@ export function FileCode() {
 
 
     function goBack() {
-        navigation.replace("FileHome")
-    }
-
-    function getExecuteButtonText() {
-        if (params.action === "encrypt") {
-            return translate("FileCode_encrypt")
-        } else if (params.action === "decrypt") {
-            return translate("FileCode_decrypt")
-        } else {
-            throw new Error(`Invalid screen action: "${params.action}"`)
-        }
-    }
-
-    async function execute() {
-        const isValid = isFormValid()
-        if (!isValid) return
-
-        if (params.action === "encrypt") {
-            await executeEncryption()
-        } else if (params.action === "decrypt") {
-            await executeDecryption()
-        } else {
-            throw new Error(`Invalid screen action: "${params.action}"`)
-        }
+        navigation.goBack()
     }
 
     function isFormValid() {
@@ -86,12 +61,14 @@ export function FileCode() {
     }
 
     async function executeEncryption() {
+        const isValid = isFormValid()
+        if (!isValid) return
+
         await createAllFolders()
 
-        const destinationPath = `${Constants.fullPathEncrypted}/${params.fileName}.${Constants.encryptedFilesExtension}`
-
+        const destinationPath = `${Constants.fullPathEncrypted}/${originalFileName}.${Constants.encryptedFilesExtension}`
         Crypto.encryptFileService({
-            fileName: params.fileName,
+            fileName: originalFileName,
             sourcePath: params.filePath,
             destinationPath,
             password: password.trim(),
@@ -103,25 +80,31 @@ export function FileCode() {
             translate("FileCode_alert_startingFileEncryption_text")
         )
 
-        navigation.goBack()
+        navigation.reset({
+            routes: [
+                { name: "Home" }
+            ]
+        })
     }
 
     async function executeDecryption() {
-        const ENCRYPTED_FILE_EXTENSION = `.${Constants.encryptedFilesExtension}`
+        const isValid = isFormValid()
+        if (!isValid) return
 
         await createAllFolders()
 
-        let originalFileName = params.fileName
-        if (params.fileName.endsWith(ENCRYPTED_FILE_EXTENSION)) {
-            const splitFileName = params.fileName.split(".")
+        const ENCRYPTED_FILE_EXTENSION = `.${Constants.encryptedFilesExtension}`
+        let decryptedFileName = originalFileName
+        if (decryptedFileName.endsWith(ENCRYPTED_FILE_EXTENSION)) {
+            const splitFileName = decryptedFileName.split(".")
             splitFileName.pop()
-            originalFileName = splitFileName.join(".")
+            decryptedFileName = splitFileName.join(".")
         }
 
         const destinationPath = `${Constants.fullPathDecrypted}/${originalFileName}`
 
         Crypto.decryptFileService({
-            fileName: params.fileName,
+            fileName: decryptedFileName,
             sourcePath: params.filePath,
             destinationPath,
             password: password.trim(),
@@ -133,7 +116,11 @@ export function FileCode() {
             translate("FileCode_alert_startingFileDecryption_text")
         )
 
-        navigation.goBack()
+        navigation.reset({
+            routes: [
+                { name: "Home" }
+            ]
+        })
     }
 
 
@@ -147,25 +134,17 @@ export function FileCode() {
                 <FileCodeHeader />
 
                 <ScrollScreen>
-                    <View style={styles.fileNameWrapper}>
-                        <Input
-                            ref={fileNameInputRef}
-                            placeholder={translate("FileCode_fileName")}
-                            value={fileName}
-                            onChangeText={setFileName}
-                            autoCapitalize={"none"}
-                            autoCorrect={false}
-                            returnKeyType={"next"}
-                            onSubmitEditing={() => passwordInputRef.current?.focus()}
-                            style={{ flex: 1 }}
-                        />
-
-                        <Text
-                            variant={"bodyLarge"}
-                            children={`.${Constants.encryptedFilesExtension}`}
-                            style={{ color: color.onBackground }}
-                        />
-                    </View>
+                    <Input
+                        ref={fileNameInputRef}
+                        placeholder={translate("FileCode_fileName")}
+                        value={fileName}
+                        onChangeText={setFileName}
+                        autoCapitalize={"none"}
+                        autoCorrect={false}
+                        returnKeyType={"next"}
+                        onSubmitEditing={() => passwordInputRef.current?.focus()}
+                        style={{ marginHorizontal: 16, marginTop: 16 }}
+                    />
 
                     <InputPassword
                         ref={passwordInputRef}
@@ -175,30 +154,31 @@ export function FileCode() {
                         wrapperStyle={{ marginHorizontal: 16, marginTop: 16 }}
                     />
 
-                    <View style={styles.deleteOriginalFileWrapper}>
-                        <Text variant={"bodyMedium"}>
-                            {translate("FileCode_deleteOriginalFile")}
-                        </Text>
-
-                        <Switch
-                            value={deleteOriginalFile}
-                            onValueChange={setDeleteOriginalFile}
-                        />
-                    </View>
+                    <List.Item
+                        title={translate("FileCode_deleteOriginalFile")}
+                        right={() => (
+                            <Switch
+                                value={deleteOriginalFile}
+                                onValueChange={setDeleteOriginalFile}
+                            />
+                        )}
+                        style={styles.deleteOriginalFileWrapper}
+                        onPress={() => setDeleteOriginalFile(!deleteOriginalFile)}
+                    />
                 </ScrollScreen>
 
                 <View style={styles.buttonsWrapper}>
                     <Button
-                        mode={"outlined"}
-                        children={translate("cancel")}
-                        onPress={goBack}
+                        mode={"contained"}
+                        children={translate("FileCode_encrypt")}
+                        onPress={executeEncryption}
                         style={{ width: "100%" }}
                     />
 
                     <Button
                         mode={"contained"}
-                        children={getExecuteButtonText()}
-                        onPress={execute}
+                        children={translate("FileCode_decrypt")}
+                        onPress={executeDecryption}
                         style={{ width: "100%" }}
                     />
                 </View>
@@ -213,21 +193,9 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "space-between",
     },
-    fileNameWrapper: {
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-between",
-        marginHorizontal: 16,
-        marginTop: 16,
-        gap: 16,
-    },
     deleteOriginalFileWrapper: {
-        alignItems: "center",
-        justifyContent: "space-between",
-        flexDirection: "row",
-        paddingHorizontal: 16,
-        paddingTop: 16,
-        paddingBottom: 8,
+        marginTop: 16,
+        paddingLeft: 4,
     },
     buttonsWrapper: {
         padding: 16,

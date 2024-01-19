@@ -28,7 +28,7 @@ export function FileExplorer() {
 
     useBackHandler(() => {
         if (pathToRead === Constants.fullPathDeviceRootInternalStorage) {
-            goBack()
+            navigation.goBack()
             return true
         }
 
@@ -37,10 +37,6 @@ export function FileExplorer() {
         return true
     })
 
-
-    function goBack() {
-        navigation.replace("FileHome")
-    }
 
     function getUpDirectory() {
         const splitedPathToRead = pathToRead.split("/")
@@ -67,18 +63,14 @@ export function FileExplorer() {
         const isFile = item.isFile()
 
         if (isFile) {
-            openFile(item.name, item.path)
+            openFile(item.path)
         } else {
             openDirectory(item.name)
         }
     }
 
-    function openFile(name: string, path: string) {
-        navigation.replace("FileCode", {
-            fileName: name,
-            filePath: path,
-            action: params.action,
-        })
+    function openFile(filePath: string) {
+        navigation.push(params.redirect, { filePath })
     }
 
     function openDirectory(name: string) {
@@ -110,7 +102,7 @@ export function FileExplorer() {
 
     return (
         <Screen>
-            <FileExplorerHeader goBack={goBack} />
+            <FileExplorerHeader />
 
             {pathContent.length > 0 && (
                 <FlashList

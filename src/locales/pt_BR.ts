@@ -18,6 +18,7 @@ export const pt_BR: TranslationObjectType = {
     Home_alert_errorDeletingSelectedNotes_text: "Erro ao apagar notas selecionadas",
     Home_alert_deleteNotes_title: "Apagar",
     Home_alert_deleteNotes_text: "Estas notas serão apagadas permanentemente",
+    Home_alert_errorSelectingFile_text: "Erro selecionando arquivo",
     Home_alert_importNotes_title: "Importar",
     Home_alert_importNotes_text: "A importação de notas pode demorar um pouco. Não feche o aplicativo",
     Home_alert_notesImported_text: "As notas foram importadas com sucesso",
@@ -116,17 +117,6 @@ export const pt_BR: TranslationObjectType = {
     FileExplorerSettings_title: "Mudar explorador de arquivos",
     FileExplorerSettings_app: "Aplicativo",
     FileExplorerSettings_system: "Sistema",
-
-    // FileHome alert
-    FileHome_alert_errorSelectingFileToEncrypt_text: "Erro selecionando arquivos para criptografar",
-    FileHome_alert_errorSelectingFileToDecrypt_text: "Erro selecionando arquivos para descriptografar",
-    // FileHome header
-    FileHome_header_title: "Arquivos",
-    // FileHome screen
-    FileHome_encryptFile_title: "Criptografar arquivo",
-    FileHome_encryptFile_text: "Procure arquivos no dispositivo para criptografá-los",
-    FileHome_decryptFile_title: "Descriptografar arquivo",
-    FileHome_decryptFile_text: "Procure arquivos no dispositivo para descriptografá-los",
 
     // FileCode alert
     FileCode_alert_fileNameRequired_text: "O nome do arquivo é obrigatório",

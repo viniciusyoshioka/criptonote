@@ -18,13 +18,21 @@ import { Constants } from "@services/constant"
 import { DateService } from "@services/date"
 import { createAllFolders } from "@services/folder-handler"
 import { log, stringifyError } from "@services/log"
+import { ExternalStorage } from "@services/manage-external-storage"
 import { getNotificationPermission } from "@services/permission"
+import { useSettings } from "@services/settings"
 import { HomeHeader } from "./Header"
 import { NOTE_ITEM_HEIGHT, NoteItem } from "./NoteItem"
 import { useNotes } from "./useNotes"
 
 
 export { Code } from "./Code"
+
+
+type PickedFile = {
+    name: string
+    path: string
+}
 
 
 // TODO improve database operations in deleteSelectedNote
@@ -36,6 +44,7 @@ export function Home() {
     const safeAreaInsets = useSafeAreaInsets()
     const navigation = useNavigation<NavigationParamProps<"Home">>()
 
+    const { settings } = useSettings()
     const noteRealm = useNoteRealm()
     const notes = useNotes()
     const noteSelection = useSelectionMode<string>()
@@ -103,6 +112,60 @@ export function Home() {
                 { text: translate("delete"), onPress: deleteSelectedNotes },
             ]
         )
+    }
+
+    async function openFileExplorer() {
+        if (settings.fileExplorer === "app") {
+            const hasPermission = await ExternalStorage.isManageExternalStorageAllowed()
+            if (!hasPermission) {
+                await ExternalStorage.requestManageExternalStorage()
+                return
+            }
+
+            navigation.navigate("FileExplorer", { redirect: "FileCode" })
+            return
+        }
+
+        const file = await selectFile()
+        if (!file) return
+
+        navigation.navigate("FileCode", {
+            filePath: file.path,
+        })
+    }
+
+    async function selectFile(): Promise<PickedFile | null> {
+        try {
+            const response = await DocumentPicker.pickSingle({
+                copyTo: "cachesDirectory",
+            })
+
+            if (response.copyError)
+                throw new Error(`Error copying file to cache directory: ${response.copyError}`)
+            if (!response.fileCopyUri)
+                throw new Error("File copy uri is not defined")
+            if (!response.name)
+                throw new Error("File name is not defined")
+
+            const fileCopyUri = response.fileCopyUri.replaceAll("%20", " ").replace("file://", "")
+
+            return {
+                name: response.name,
+                path: fileCopyUri,
+            }
+        } catch (error) {
+            if (DocumentPicker.isCancel(error)) {
+                return null
+            }
+
+            log.error(`Error selecting files ${stringifyError(error)}`)
+            Alert.alert(
+                translate("warn"),
+                translate("Home_alert_errorSelectingFile_text")
+            )
+        }
+
+        return null
     }
 
     async function importNotes() {
@@ -318,7 +381,7 @@ export function Home() {
                 deleteSelectedNotes={alertDeleteNotes}
                 importNotes={importNotes}
                 exportNotes={alertExportNotes}
-                openFiles={() => navigation.navigate("FileHome")}
+                openFiles={openFileExplorer}
             />
 
             {notes.length > 0 && (

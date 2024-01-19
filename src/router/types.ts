@@ -4,9 +4,6 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack"
 import { DecryptedNote, SerializableNote } from "@database"
 
 
-export type FileCodeAction = "encrypt" | "decrypt"
-
-
 export type ScreenParams = {
     Home: undefined
     Code: {
@@ -30,12 +27,10 @@ export type ScreenParams = {
     FileExplorerSettings: undefined
 
     FileExplorer: {
-        action: FileCodeAction
+        redirect: keyof ScreenParams
     }
     FileCode: {
-        fileName: string
         filePath: string
-        action: FileCodeAction
     }
 }
 

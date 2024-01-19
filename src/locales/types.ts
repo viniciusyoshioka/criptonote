@@ -15,6 +15,7 @@ export type TranslationKeyType =
     | "Home_alert_errorDeletingSelectedNotes_text"
     | "Home_alert_deleteNotes_title"
     | "Home_alert_deleteNotes_text"
+    | "Home_alert_errorSelectingFile_text"
     | "Home_alert_importNotes_title"
     | "Home_alert_importNotes_text"
     | "Home_alert_notesImported_text"
@@ -113,17 +114,6 @@ export type TranslationKeyType =
     | "FileExplorerSettings_title"
     | "FileExplorerSettings_app"
     | "FileExplorerSettings_system"
-
-    // FileHome alert
-    | "FileHome_alert_errorSelectingFileToEncrypt_text"
-    | "FileHome_alert_errorSelectingFileToDecrypt_text"
-    // FileHome header
-    | "FileHome_header_title"
-    // FileHome screen
-    | "FileHome_encryptFile_title"
-    | "FileHome_encryptFile_text"
-    | "FileHome_decryptFile_title"
-    | "FileHome_decryptFile_text"
 
     // FileCode alert
     | "FileCode_alert_fileNameRequired_text"

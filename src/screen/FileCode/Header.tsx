@@ -24,7 +24,7 @@ export function FileCodeHeader(props: FileCodeHeaderProps) {
 
     return (
         <Appbar.Header elevated={true} statusBarHeight={safeAreaInsets.top}>
-            <Appbar.BackAction onPress={() => navigation.replace("FileHome")} />
+            <Appbar.BackAction onPress={navigation.goBack} />
 
             <Appbar.Content title={getTitle()} />
         </Appbar.Header>
