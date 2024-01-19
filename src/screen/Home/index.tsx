@@ -3,7 +3,7 @@ import { useNavigation } from "@react-navigation/core"
 import { Realm } from "@realm/react"
 import { FlashList } from "@shopify/flash-list"
 import { useEffect, useState } from "react"
-import { Alert, View } from "react-native"
+import { Alert } from "react-native"
 import DocumentPicker from "react-native-document-picker"
 import RNFS from "react-native-fs"
 import { Divider, FAB } from "react-native-paper"
@@ -30,7 +30,6 @@ export { Code } from "./Code"
 // TODO improve database operations in deleteSelectedNote
 // TODO improve database operations in importNotes
 // TODO improve database operations in exportSelectedNotes
-// TODO fix FlashList alert when all notes are deleted
 export function Home() {
 
 
@@ -322,7 +321,7 @@ export function Home() {
                 openFiles={() => navigation.navigate("FileHome")}
             />
 
-            <View style={{ display: notes.length ? "flex" : "none", flex: 1 }}>
+            {notes.length > 0 && (
                 <FlashList
                     data={notes.toJSON() as unknown as NoteSchema[]}
                     renderItem={renderNoteItem}
@@ -332,7 +331,7 @@ export function Home() {
                     ItemSeparatorComponent={() => <Divider style={{ marginHorizontal: 16 }} />}
                     contentContainerStyle={{ paddingBottom: (16 * 2) + 56 + safeAreaInsets.bottom }}
                 />
-            </View>
+            )}
 
             <FAB
                 icon={"plus"}
