@@ -79,7 +79,7 @@ export function Settings() {
                 />
 
                 <List.Item
-                    left={() => <List.Icon icon={"folder-open"} />}
+                    left={() => <List.Icon icon={"folder"} />}
                     title={translate("Settings_fileExplorer_title")}
                     description={translate("Settings_fileExplorer_text")}
                     onPress={() => navigation.navigate("FileExplorerSettings")}
