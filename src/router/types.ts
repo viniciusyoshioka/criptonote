@@ -29,7 +29,6 @@ export type ScreenParams = {
     ChangeTheme: undefined
     FileExplorerSettings: undefined
 
-    FileHome: undefined
     FileExplorer: {
         action: FileCodeAction
     }
