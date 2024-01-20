@@ -120,7 +120,7 @@ export function FileExplorer() {
 
     return (
         <Screen>
-            <FileExplorerHeader goBack={goBackHeader} />
+            <FileExplorerHeader goBack={goBackHeader} pathToRead={pathToRead} />
 
             {!pathToRead && (
                 <Fragment>

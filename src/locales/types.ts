@@ -119,6 +119,7 @@ export type TranslationKeyType =
     | "FileExplorer_errorReadingFolder_text"
     // FileExplorer header
     | "FileExplorer_header_title"
+    | "FileExplorer_header_internalStorage"
     // FileExplorer screen
     | "FileExplorer_internalStorage_title"
     | "FileExplorer_internalStorage_text"

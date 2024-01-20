@@ -122,6 +122,7 @@ export const pt_BR: TranslationObjectType = {
     FileExplorer_errorReadingFolder_text: "Erro abrindo a pasta",
     // FileExplorer header
     FileExplorer_header_title: "Arquivos",
+    FileExplorer_header_internalStorage: "Armazenamento interno",
     // FileExplorer screen
     FileExplorer_internalStorage_title: "Armazenamento interno",
     FileExplorer_internalStorage_text: "Navegue pelo armazenamento interno do dispositivo",
