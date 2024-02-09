@@ -32,6 +32,7 @@
         "react-native-screenguard": "^0.3.6",
         "react-native-screens": "^3.29.0",
         "react-native-share": "^10.0.2",
+        "react-native-unistyles": "^2.3.0",
         "react-native-vector-icons": "https://github.com/viniciusyoshioka/react-native-vector-icons",
         "realm": "^12.5.1",
         "styled-components": "^5.3.11"
