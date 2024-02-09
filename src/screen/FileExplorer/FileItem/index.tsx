@@ -33,6 +33,7 @@ export function FileItem(props: FileItemProps) {
             description={getLastModified()}
             onPress={props.onPress}
             style={{ paddingLeft: 16 }}
+            titleEllipsizeMode={"middle"}
         />
     )
 }
