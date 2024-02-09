@@ -8,6 +8,11 @@ import { SettingsProvider } from "@services/settings"
 import { AppThemeProvider } from "@theme"
 
 
+// TODO switch to custom alert component
+// TODO add input to header of WriteNote and EditNote
+// TODO add rich text input to WriteNote and EditNote
+// TODO remove ReadNote when rich text input is implemented
+// TODO add password recovery
 export function App() {
 
 

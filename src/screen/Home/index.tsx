@@ -35,6 +35,8 @@ type PickedFile = {
 }
 
 
+// TODO add export and share notes
+// TODO use app file explorer to import notes
 // TODO improve database operations in deleteSelectedNote
 // TODO improve database operations in importNotes
 // TODO improve database operations in exportSelectedNotes

@@ -17,6 +17,10 @@ import { FileItem } from "./FileItem"
 import { FileExplorerHeader } from "./Header"
 
 
+// TODO sort list
+// TODO add animation
+// TODO add search
+// TODO add custom icon based on file extension
 export function FileExplorer() {
 
 
