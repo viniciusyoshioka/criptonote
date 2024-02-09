@@ -12,6 +12,7 @@ import { log, stringifyError } from "@services/log"
 import { SettingsHeader } from "./Header"
 
 
+export { AllowScreenshot } from "./AllowScreenshot"
 export { ChangeTheme } from "./ChangeTheme"
 export { FileExplorerSettings } from "./FileExplorerSettings"
 
@@ -83,6 +84,14 @@ export function Settings() {
                     title={translate("Settings_fileExplorer_title")}
                     description={translate("Settings_fileExplorer_text")}
                     onPress={() => navigation.navigate("FileExplorerSettings")}
+                    style={{ paddingLeft: 16 }}
+                />
+
+                <List.Item
+                    left={() => <List.Icon icon={"cellphone-screenshot"} />}
+                    title={translate("Settings_allowScreenshot_title")}
+                    description={translate("Settings_allowScreenshot_text")}
+                    onPress={() => navigation.navigate("AllowScreenshot")}
                     style={{ paddingLeft: 16 }}
                 />
 

@@ -12,6 +12,8 @@ export const pt_BR: TranslationObjectType = {
     save: "Salvar",
     dont_save: "Não salvar",
     password: "Senha",
+    allow: "Permitir",
+    deny: "Negar",
 
     // Home alert
     Home_alert_errorLoadingNotes_text: "Erro ao carregar notas",
@@ -103,6 +105,8 @@ export const pt_BR: TranslationObjectType = {
     Settings_theme_text: "Mudar tema de cores do aplicativo",
     Settings_fileExplorer_title: "Explorador de arquivos",
     Settings_fileExplorer_text: "Escolha qual explorador de arquivos será usado pelo aplicativo",
+    Settings_allowScreenshot_title: "Permitir capturas de tela",
+    Settings_allowScreenshot_text: "Escolha se deseja permitir capturas de tela do aplicativo",
     Settings_shareLogDatabase_title: "Compartilhar logs",
     Settings_shareLogDatabase_text: "Enviar registro de erros",
     Settings_shareAppDatabase_title: "Compartilhar banco de dados",
@@ -117,6 +121,9 @@ export const pt_BR: TranslationObjectType = {
     FileExplorerSettings_title: "Mudar explorador de arquivos",
     FileExplorerSettings_app: "Aplicativo",
     FileExplorerSettings_system: "Sistema",
+    // Settings AllowScreenshot
+    AllowScreenshot_title: "Permitir capturas de tela",
+    AllowScreenshot_description: "Ao desabilitar, não será possível realizar capturas de tela, ou o conteúdo do aplicativo não será visível",
 
     // FileExplorer alert
     FileExplorer_errorReadingFolder_text: "Erro abrindo a pasta",

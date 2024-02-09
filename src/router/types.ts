@@ -25,6 +25,7 @@ export type ScreenParams = {
     Settings: undefined
     ChangeTheme: undefined
     FileExplorerSettings: undefined
+    AllowScreenshot: undefined
 
     FileExplorer: {
         redirect: keyof ScreenParams

@@ -9,6 +9,8 @@ export type TranslationKeyType =
     | "save"
     | "dont_save"
     | "password"
+    | "allow"
+    | "deny"
 
     // Home alert
     | "Home_alert_errorLoadingNotes_text"
@@ -100,6 +102,8 @@ export type TranslationKeyType =
     | "Settings_theme_text"
     | "Settings_fileExplorer_title"
     | "Settings_fileExplorer_text"
+    | "Settings_allowScreenshot_title"
+    | "Settings_allowScreenshot_text"
     | "Settings_shareLogDatabase_title"
     | "Settings_shareLogDatabase_text"
     | "Settings_shareAppDatabase_title"
@@ -114,6 +118,9 @@ export type TranslationKeyType =
     | "FileExplorerSettings_title"
     | "FileExplorerSettings_app"
     | "FileExplorerSettings_system"
+    // Settings AllowScreenshot
+    | "AllowScreenshot_title"
+    | "AllowScreenshot_description"
 
     // FileExplorer alert
     | "FileExplorer_errorReadingFolder_text"

@@ -7,7 +7,7 @@ import { FileCode } from "@screen/FileCode"
 import { FileExplorer } from "@screen/FileExplorer"
 import { Code, Home } from "@screen/Home"
 import { ReadNote } from "@screen/ReadNote"
-import { ChangeTheme, FileExplorerSettings, Settings } from "@screen/Settings"
+import { AllowScreenshot, ChangeTheme, FileExplorerSettings, Settings } from "@screen/Settings"
 import { WriteNote } from "@screen/WriteNote"
 import { useAppTheme } from "@theme"
 import { ScreenParams } from "./types"
@@ -52,6 +52,7 @@ export function Router() {
                     <Stack.Screen name={"ChangePassword"} component={ChangePassword} />
                     <Stack.Screen name={"ChangeTheme"} component={ChangeTheme} />
                     <Stack.Screen name={"FileExplorerSettings"} component={FileExplorerSettings} />
+                    <Stack.Screen name={"AllowScreenshot"} component={AllowScreenshot} />
                 </Stack.Group>
             </Stack.Navigator>
         </NavigationContainer>

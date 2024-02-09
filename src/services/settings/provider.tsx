@@ -1,4 +1,5 @@
 import { ReactNode, createContext, useContext, useEffect } from "react"
+import Screenguard from "react-native-screenguard"
 
 import { AppStorageKeys, storage, useMMKVObject } from "../storage"
 import { settingsContextDefaultValue, settingsDefault } from "./constants"
@@ -24,6 +25,19 @@ export function SettingsProvider(props: SettingsProviderProps) {
         if (allKeys.length === 0)
             setSettings(settingsDefault)
     }, [])
+
+    useEffect(() => {
+        if (!settings) return
+
+        settings.allowScreenshot
+            ? Screenguard.unregister()
+            : Screenguard.register("#000")
+
+        return () => {
+            if (settings.allowScreenshot)
+                Screenguard.unregister()
+        }
+    }, [settings?.allowScreenshot])
 
 
     if (!settings) return null
