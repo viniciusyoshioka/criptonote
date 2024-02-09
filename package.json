@@ -29,6 +29,7 @@
         "react-native-paper": "^5.11.7",
         "react-native-reanimated": "^3.6.1",
         "react-native-safe-area-context": "^4.8.2",
+        "react-native-screenguard": "^0.3.6",
         "react-native-screens": "^3.29.0",
         "react-native-share": "^10.0.2",
         "react-native-vector-icons": "https://github.com/viniciusyoshioka/react-native-vector-icons",
