@@ -2,6 +2,7 @@ import { ElementiumThemeProvider } from "@elementium/theme"
 import { createContext, ReactNode, useContext } from "react"
 import { useColorScheme } from "react-native"
 import { MD3DarkTheme, MD3LightTheme, PaperProvider } from "react-native-paper"
+import { useInitialTheme } from "react-native-unistyles"
 import { ThemeProvider as StyledThemeProvider } from "styled-components/native"
 
 import { Settings } from "@services/settings"
@@ -26,6 +27,9 @@ export function AppThemeProvider(props: AppThemeProviderProps) {
 
     const [settings, setSettings] = useMMKVObject<Settings>(AppStorageKeys.SETTINGS)
     const isDarkTheme = (settings?.theme === "auto" && deviceTheme === "dark") || settings?.theme === "dark"
+
+
+    useInitialTheme(isDarkTheme ? "dark" : "light")
 
 
     function getAppTheme(): AppThemeType {
