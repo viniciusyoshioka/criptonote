@@ -3,7 +3,7 @@ import { useNavigation, useRoute } from "@react-navigation/native"
 import { Realm } from "@realm/react"
 import { NavigationParamProps, RouteParamProps } from "@router"
 import { useRef, useState } from "react"
-import { Alert, StatusBar, TextInput, View } from "react-native"
+import { Alert, StatusBar, TextInput } from "react-native"
 import { KeyboardAvoidingView } from "react-native-keyboard-controller"
 
 import { Input, LoadingModal } from "@components"
@@ -24,7 +24,6 @@ export function EditNote() {
     const navigation = useNavigation<NavigationParamProps<"EditNote">>()
     const { params } = useRoute<RouteParamProps<"EditNote">>()
 
-    const titleInputRef = useRef<TextInput>(null)
     const textInputRef = useRef<TextInput>(null)
 
     const noteRealm = useNoteRealm()
@@ -41,7 +40,7 @@ export function EditNote() {
         return true
     })
 
-    useBlurInputOnKeyboardDismiss([titleInputRef, textInputRef])
+    useBlurInputOnKeyboardDismiss([textInputRef])
 
 
     function setNewTitle(newTitle: string) {
@@ -219,33 +218,24 @@ export function EditNote() {
             >
                 <EditNoteHeader
                     goBack={() => goBack()}
+                    title={title}
+                    onChangeTitle={setNewTitle}
+                    onSubmitTitle={() => textInputRef.current?.focus()}
                     saveNote={saveNote}
                     changePassword={changePassword}
                     deleteNote={alertDeleteNote}
                 />
 
-                <View style={{ flex: 1, padding: 16, rowGap: 8 }}>
-                    <Input
-                        ref={titleInputRef}
-                        value={title}
-                        onChangeText={setNewTitle}
-                        placeholder={translate("EditNote_titlePlaceholder")}
-                        autoCapitalize={"sentences"}
-                        returnKeyType={"next"}
-                        onSubmitEditing={() => textInputRef.current?.focus()}
-                    />
-
-                    <Input
-                        ref={textInputRef}
-                        value={text}
-                        onChangeText={setNewText}
-                        placeholder={translate("EditNote_textPlaceholder")}
-                        autoCapitalize={"sentences"}
-                        multiline={true}
-                        textAlignVertical={"top"}
-                        style={{ flex: 1, paddingVertical: 16 }}
-                    />
-                </View>
+                <Input
+                    ref={textInputRef}
+                    value={text}
+                    onChangeText={setNewText}
+                    placeholder={translate("EditNote_textPlaceholder")}
+                    autoCapitalize={"sentences"}
+                    multiline={true}
+                    textAlignVertical={"top"}
+                    style={{ flex: 1, paddingVertical: 16 }}
+                />
 
                 <LoadingModal
                     visible={showNoteSavingModal}
