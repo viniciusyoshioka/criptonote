@@ -1,29 +1,23 @@
-import { TextInputProps } from "react-native"
-import styled from "styled-components/native"
-
-import { StyledProps } from "@theme"
+import { createStyleSheet } from "react-native-unistyles"
 
 
-export interface InputBaseProps extends TextInputProps {
-    isFocused?: boolean
-}
+export const stylesheet = createStyleSheet(theme => ({
+    input: (isFocused: boolean) => ({
+        height: 48,
+        paddingVertical: 8,
+        paddingHorizontal: 16,
 
+        fontSize: theme.typography.body.large.fontSize,
+        fontWeight: theme.typography.body.large.fontWeight,
+        lineHeight: theme.typography.body.large.lineHeight,
+        letterSpacing: theme.typography.body.large.letterSpacing,
 
-export const InputBase = styled.TextInput<InputBaseProps & StyledProps>`
-    height: 48px;
-    padding-vertical: 8px;
-    padding-horizontal: 16px;
+        borderTopLeftRadius: theme.shape.extraSmall,
+        borderTopRightRadius: theme.shape.extraSmall,
+        borderBottomWidth: isFocused ? 2 : 0,
+        borderColor: theme.colors.primary,
 
-    font-size: ${props => props.theme.typography.body.large.fontSize}px;    
-    font-weight: ${props => props.theme.typography.body.large.fontWeight};
-    line-height: ${props => props.theme.typography.body.large.lineHeight}px;
-    letter-spacing: ${props => props.theme.typography.body.large.letterSpacing}px;
-
-    border-top-left-radius: ${props => props.theme.shape.extraSmall}px;
-    border-top-right-radius: ${props => props.theme.shape.extraSmall}px;
-    border-bottom-width: ${props => props.isFocused ? 2 : 0}px;
-    border-color: ${props => props.theme.color.primary};
-
-    background-color: ${props => props.theme.color.surfaceContainerHighest};
-    color: ${props => props.theme.color.onSurface};    
-`
+        backgroundColor: theme.colors.surfaceContainerHighest,
+        color: theme.colors.onSurface,
+    }),
+}))

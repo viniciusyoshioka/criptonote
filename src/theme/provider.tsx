@@ -3,7 +3,6 @@ import { createContext, ReactNode, useContext } from "react"
 import { useColorScheme } from "react-native"
 import { MD3DarkTheme, MD3LightTheme, PaperProvider } from "react-native-paper"
 import { useInitialTheme } from "react-native-unistyles"
-import { ThemeProvider as StyledThemeProvider } from "styled-components/native"
 
 import { Settings } from "@services/settings"
 import { AppStorageKeys, useMMKVObject } from "@services/storage"
@@ -57,11 +56,9 @@ export function AppThemeProvider(props: AppThemeProviderProps) {
     return (
         <AppThemeContext.Provider value={appTheme}>
             <ElementiumThemeProvider value={appTheme}>
-                <StyledThemeProvider theme={appTheme}>
-                    <PaperProvider theme={isDarkTheme ? MD3DarkTheme : MD3LightTheme}>
-                        {props.children}
-                    </PaperProvider>
-                </StyledThemeProvider>
+                <PaperProvider theme={isDarkTheme ? MD3DarkTheme : MD3LightTheme}>
+                    {props.children}
+                </PaperProvider>
             </ElementiumThemeProvider>
         </AppThemeContext.Provider>
     )

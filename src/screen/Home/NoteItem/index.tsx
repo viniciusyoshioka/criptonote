@@ -1,14 +1,15 @@
 import { Color, Prism } from "@elementium/color"
 import CheckBox from "@react-native-community/checkbox"
 import { useMemo } from "react"
+import { Pressable, View } from "react-native"
 import { LongPressGestureHandler } from "react-native-gesture-handler"
 import { Text } from "react-native-paper"
+import { useStyles } from "react-native-unistyles"
 
 import { NoteSchema } from "@database"
 import { SelectableItem, useSelectableItem } from "@hooks"
 import { DateService } from "@services/date"
-import { useAppTheme } from "@theme"
-import { NoteItemBlock, NoteItemButton } from "./style"
+import { stylesheet } from "./style"
 
 
 export { NOTE_ITEM_HEIGHT } from "./style"
@@ -22,16 +23,16 @@ export interface NoteItemProps extends SelectableItem {
 export function NoteItem(props: NoteItemProps) {
 
 
-    const { color, state } = useAppTheme()
-
+    const { styles, theme } = useStyles(stylesheet)
+    const { colors, state } = theme
     const { onPress, onLongPress } = useSelectableItem(props)
 
 
     const rippleColor = useMemo(() => {
-        const backgroundColor = new Color(color.surface)
-        const overlayColor = new Color(color.onSurface).setA(state.container.pressed)
+        const backgroundColor = new Color(colors.surface)
+        const overlayColor = new Color(colors.onSurface).setA(state.container.pressed)
         return Prism.addColors(backgroundColor, overlayColor).toRgba()
-    }, [color.surface, color.onSurface, state.container.pressed])
+    }, [colors.surface, colors.onSurface, state.container.pressed])
 
 
     return (
@@ -40,35 +41,39 @@ export function NoteItem(props: NoteItemProps) {
             minDurationMs={400}
             onHandlerStateChange={({ nativeEvent }) => onLongPress(nativeEvent)}
         >
-            <NoteItemButton onPress={onPress} android_ripple={{ color: rippleColor }}>
-                <NoteItemBlock>
+            <Pressable
+                style={styles.button}
+                onPress={onPress}
+                android_ripple={{ color: rippleColor }}
+            >
+                <View style={styles.block}>
                     <Text
                         variant={"bodyLarge"}
                         numberOfLines={1}
-                        style={{ color: color.onSurface }}
+                        style={{ color: colors.onSurface }}
                         children={props.note.title}
                     />
 
                     <Text
                         variant={"bodySmall"}
                         numberOfLines={1}
-                        style={{ color: color.onSurfaceVariant }}
+                        style={{ color: colors.onSurfaceVariant }}
                         children={DateService.getLocaleDateTime(new Date(props.note.modifiedAt), false)}
                     />
-                </NoteItemBlock>
+                </View>
 
                 {props.isSelectionMode && (
                     <CheckBox
                         value={props.isSelected}
                         onChange={onPress}
                         tintColors={{
-                            true: color.primary,
-                            false: color.onSurfaceVariant,
+                            true: colors.primary,
+                            false: colors.onSurfaceVariant,
                         }}
                         style={{ marginLeft: 16 }}
                     />
                 )}
-            </NoteItemButton>
+            </Pressable>
         </LongPressGestureHandler>
     )
 }
