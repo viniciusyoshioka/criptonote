@@ -1,17 +1,20 @@
 import { ForwardedRef, forwardRef, useState } from "react"
-import { NativeSyntheticEvent, TextInput, TextInputFocusEventData } from "react-native"
+import { NativeSyntheticEvent, TextInput, TextInputFocusEventData, TextInputProps } from "react-native"
+import { useStyles } from "react-native-unistyles"
 
-import { useAppTheme } from "@theme"
-import { InputBase, InputBaseProps } from "./style"
+import { stylesheet } from "./style"
 
 
-export interface InputProps extends InputBaseProps {}
+export interface InputProps extends TextInputProps {
+    isFocused?: boolean
+}
 
 
 export const Input = forwardRef((props: InputProps, ref: ForwardedRef<TextInput>) => {
 
 
-    const { color } = useAppTheme()
+    const { styles, theme } = useStyles(stylesheet)
+    const { colors } = theme
 
     const [isFocused, setIsFocused] = useState(false)
 
@@ -28,16 +31,19 @@ export const Input = forwardRef((props: InputProps, ref: ForwardedRef<TextInput>
 
 
     return (
-        <InputBase
+        <TextInput
             ref={ref}
             blurOnSubmit={false}
-            placeholderTextColor={color.onSurfaceVariant}
-            selectionColor={color.primaryContainer}
-            cursorColor={color.primary}
+            placeholderTextColor={colors.onSurfaceVariant}
+            selectionColor={colors.primaryContainer}
+            cursorColor={colors.primary}
             {...props}
-            isFocused={props.isFocused !== undefined ? props.isFocused : isFocused}
             onBlur={onBlur}
             onFocus={onFocus}
+            style={[
+                styles.input(props.isFocused !== undefined ? props.isFocused : isFocused),
+                props.style,
+            ]}
         />
     )
 })

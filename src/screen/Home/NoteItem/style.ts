@@ -1,23 +1,21 @@
-import styled from "styled-components/native"
-
-import { StyledProps } from "@theme"
+import { createStyleSheet } from "react-native-unistyles"
 
 
 export const NOTE_ITEM_HEIGHT = 60
 
 
-export const NoteItemButton = styled.Pressable<StyledProps>`
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-    height: ${NOTE_ITEM_HEIGHT}px;
-    padding-horizontal: 16px;
-    padding-vertical: 8px;
-    background-color: ${props => props.theme.color.surface};
-`
-
-
-export const NoteItemBlock = styled.View`
-    flex: 1;
-    justify-content: center;
-`
+export const stylesheet = createStyleSheet(theme => ({
+    button: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "flex-start",
+        height: NOTE_ITEM_HEIGHT,
+        paddingHorizontal: 16,
+        paddingVertical: 8,
+        backgroundColor: theme.colors.surface,
+    },
+    block: {
+        flex: 1,
+        justifyContent: "center",
+    },
+}))
