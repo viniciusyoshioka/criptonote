@@ -4,7 +4,7 @@ import { useRef, useState } from "react"
 import { Alert, StatusBar, TextInput, View } from "react-native"
 import { KeyboardAvoidingView } from "react-native-keyboard-controller"
 
-import { Input, InputPassword, LoadingModal } from "@components"
+import { FullInput, InputPassword, LoadingModal } from "@components"
 import { NoteContentSchema, NoteSchema, useNoteRealm } from "@database"
 import { useBackHandler, useBlurInputOnKeyboardDismiss } from "@hooks"
 import { translate } from "@locales"
@@ -132,15 +132,12 @@ export function WriteNote() {
                         onSubmitEditing={() => textInputRef.current?.focus()}
                     />
 
-                    <Input
+                    <FullInput
                         ref={textInputRef}
                         value={text}
                         onChangeText={setText}
                         placeholder={translate("WriteNote_textPlaceholder")}
                         autoCapitalize={"sentences"}
-                        multiline={true}
-                        textAlignVertical={"top"}
-                        style={{ flex: 1, paddingVertical: 16 }}
                     />
                 </View>
 
