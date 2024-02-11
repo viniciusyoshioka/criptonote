@@ -6,7 +6,7 @@ import { useRef, useState } from "react"
 import { Alert, StatusBar, TextInput } from "react-native"
 import { KeyboardAvoidingView } from "react-native-keyboard-controller"
 
-import { Input, LoadingModal } from "@components"
+import { FullInput, LoadingModal } from "@components"
 import { NoteContentSchema, NoteSchema, useNoteRealm } from "@database"
 import { useBackHandler, useBlurInputOnKeyboardDismiss } from "@hooks"
 import { translate } from "@locales"
@@ -226,15 +226,12 @@ export function EditNote() {
                     deleteNote={alertDeleteNote}
                 />
 
-                <Input
+                <FullInput
                     ref={textInputRef}
                     value={text}
                     onChangeText={setNewText}
                     placeholder={translate("EditNote_textPlaceholder")}
                     autoCapitalize={"sentences"}
-                    multiline={true}
-                    textAlignVertical={"top"}
-                    style={{ flex: 1, paddingVertical: 16 }}
                 />
 
                 <LoadingModal
