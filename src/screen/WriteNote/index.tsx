@@ -19,7 +19,6 @@ export function WriteNote() {
 
     const navigation = useNavigation<NavigationParamProps<"WriteNote">>()
 
-    const titleInputRef = useRef<TextInput>(null)
     const passwordInputRef = useRef<TextInput>(null)
     const textInputRef = useRef<TextInput>(null)
 
@@ -36,7 +35,7 @@ export function WriteNote() {
         return true
     })
 
-    useBlurInputOnKeyboardDismiss([titleInputRef, passwordInputRef, textInputRef])
+    useBlurInputOnKeyboardDismiss([passwordInputRef, textInputRef])
 
 
     function goBack(isNoteSaved?: boolean) {
@@ -116,20 +115,15 @@ export function WriteNote() {
                 behavior={"padding"}
                 keyboardVerticalOffset={-(StatusBar.currentHeight ?? 0)}
             >
-                <WriteNoteHeader goBack={() => goBack()} saveNote={saveNote} />
+                <WriteNoteHeader
+                    goBack={() => goBack()}
+                    title={title}
+                    onChangeTitle={setTitle}
+                    onSubmitTitle={() => passwordInputRef.current?.focus()}
+                    saveNote={saveNote}
+                />
 
                 <View style={{ flex: 1, padding: 16, rowGap: 8 }}>
-                    <Input
-                        ref={titleInputRef}
-                        value={title}
-                        onChangeText={setTitle}
-                        placeholder={translate("WriteNote_titlePlaceholder")}
-                        autoCapitalize={"sentences"}
-                        autoFocus={true}
-                        returnKeyType={"next"}
-                        onSubmitEditing={() => passwordInputRef.current?.focus()}
-                    />
-
                     <InputPassword
                         ref={passwordInputRef}
                         value={password}
