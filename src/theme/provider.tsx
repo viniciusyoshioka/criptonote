@@ -2,7 +2,7 @@ import { ElementiumThemeProvider } from "@elementium/theme"
 import { createContext, ReactNode, useContext } from "react"
 import { useColorScheme } from "react-native"
 import { MD3DarkTheme, MD3LightTheme, PaperProvider } from "react-native-paper"
-import { useInitialTheme } from "react-native-unistyles"
+import { UnistylesRuntime } from "react-native-unistyles"
 
 import { Settings } from "@services/settings"
 import { AppStorageKeys, useMMKVObject } from "@services/storage"
@@ -28,21 +28,20 @@ export function AppThemeProvider(props: AppThemeProviderProps) {
     const isDarkTheme = (settings?.theme === "auto" && deviceTheme === "dark") || settings?.theme === "dark"
 
 
-    useInitialTheme(isDarkTheme ? "dark" : "light")
-
-
     function getAppTheme(): AppThemeType {
         const switchTheme = (newTheme: ThemeType) => {
             if (settings) setSettings({ ...settings, theme: newTheme })
         }
 
         if (isDarkTheme) {
+            UnistylesRuntime.setTheme("dark")
             const { AppDarkTheme } = require("./dark")
             AppDarkTheme.appTheme = settings?.theme
             AppDarkTheme.switchTheme = switchTheme
             return AppDarkTheme
         }
 
+        UnistylesRuntime.setTheme("light")
         const { AppLightTheme } = require("./light")
         AppLightTheme.appTheme = (settings?.theme ?? themeDefault) as ThemeType
         AppLightTheme.switchTheme = switchTheme
