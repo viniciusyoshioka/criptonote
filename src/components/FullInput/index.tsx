@@ -1,5 +1,5 @@
-import { forwardRef } from "react"
-import { TextInput, TextInputProps } from "react-native"
+import { forwardRef, useState } from "react"
+import { NativeSyntheticEvent, TextInput, TextInputFocusEventData, TextInputProps } from "react-native"
 import { createStyleSheet, useStyles } from "react-native-unistyles"
 
 
@@ -12,6 +12,19 @@ export const FullInput = forwardRef<TextInput, FullInputProps>((props, ref) => {
     const { styles, theme } = useStyles(stylesheet)
     const { colors } = theme
 
+    const [isFocused, setIsFocused] = useState(false)
+
+
+    function onBlur(event: NativeSyntheticEvent<TextInputFocusEventData>) {
+        setIsFocused(false)
+        if (props.onBlur) props.onBlur(event)
+    }
+
+    function onFocus(event: NativeSyntheticEvent<TextInputFocusEventData>) {
+        setIsFocused(true)
+        if (props.onFocus) props.onFocus(event)
+    }
+
 
     return (
         <TextInput
@@ -23,19 +36,29 @@ export const FullInput = forwardRef<TextInput, FullInputProps>((props, ref) => {
             selectionColor={colors.primaryContainer}
             cursorColor={colors.primary}
             {...props}
-            style={[styles.fullInput, props.style]}
+            onBlur={onBlur}
+            onFocus={onFocus}
+            style={[
+                styles.fullInput(isFocused),
+                props.style,
+            ]}
         />
     )
 })
 
 
 const stylesheet = createStyleSheet(theme => ({
-    fullInput: {
+    fullInput: (isFocused: boolean) => ({
         flex: 1,
-        paddingTop: 0,
-        paddingBottom: 16,
-        paddingHorizontal: 16,
-        color: theme.colors.onSurface,
+        padding: 16,
+
         ...theme.typography.body.large,
-    },
+
+        backgroundColor: theme.colors.surfaceContainerHighest,
+        color: theme.colors.onSurface,
+
+        borderRadius: theme.shape.extraSmall,
+        borderWidth: isFocused ? 2 : 0,
+        borderColor: theme.colors.primary,
+    }),
 }))

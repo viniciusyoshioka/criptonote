@@ -232,6 +232,7 @@ export function EditNote() {
                     onChangeText={setNewText}
                     placeholder={translate("EditNote_textPlaceholder")}
                     autoCapitalize={"sentences"}
+                    style={{ margin: 16 }}
                 />
 
                 <LoadingModal
