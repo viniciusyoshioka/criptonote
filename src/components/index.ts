@@ -1,4 +1,5 @@
 export * from "./EmptyList"
+export * from "./FullInput"
 export * from "./HeaderInput"
 export * from "./Input"
 export * from "./InputPassword"
