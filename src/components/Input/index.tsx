@@ -1,16 +1,12 @@
-import { ForwardedRef, forwardRef, useState } from "react"
+import { forwardRef, useState } from "react"
 import { NativeSyntheticEvent, TextInput, TextInputFocusEventData, TextInputProps } from "react-native"
-import { useStyles } from "react-native-unistyles"
-
-import { stylesheet } from "./style"
+import { createStyleSheet, useStyles } from "react-native-unistyles"
 
 
-export interface InputProps extends TextInputProps {
-    isFocused?: boolean
-}
+export interface InputProps extends TextInputProps {}
 
 
-export const Input = forwardRef((props: InputProps, ref: ForwardedRef<TextInput>) => {
+export const Input = forwardRef<TextInput, InputProps>((props, ref) => {
 
 
     const { styles, theme } = useStyles(stylesheet)
@@ -20,12 +16,12 @@ export const Input = forwardRef((props: InputProps, ref: ForwardedRef<TextInput>
 
 
     function onBlur(event: NativeSyntheticEvent<TextInputFocusEventData>) {
-        if (props.isFocused === undefined) setIsFocused(false)
+        setIsFocused(false)
         if (props.onBlur) props.onBlur(event)
     }
 
     function onFocus(event: NativeSyntheticEvent<TextInputFocusEventData>) {
-        if (props.isFocused === undefined) setIsFocused(true)
+        setIsFocused(true)
         if (props.onFocus) props.onFocus(event)
     }
 
@@ -40,10 +36,25 @@ export const Input = forwardRef((props: InputProps, ref: ForwardedRef<TextInput>
             {...props}
             onBlur={onBlur}
             onFocus={onFocus}
-            style={[
-                styles.input(props.isFocused !== undefined ? props.isFocused : isFocused),
-                props.style,
-            ]}
+            style={[styles.input(isFocused), props.style]}
         />
     )
 })
+
+
+const stylesheet = createStyleSheet(theme => ({
+    input: (isFocused: boolean) => ({
+        height: 48,
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+
+        ...theme.typography.body.large,
+
+        borderRadius: theme.shape.extraSmall,
+        borderWidth: 2,
+        borderColor: isFocused ? theme.colors.primary : theme.colors.surfaceContainerHighest,
+
+        backgroundColor: theme.colors.surfaceContainerHighest,
+        color: theme.colors.onSurface,
+    }),
+}))
