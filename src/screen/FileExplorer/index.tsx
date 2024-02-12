@@ -1,7 +1,7 @@
-import { Screen } from "@elementium/native"
+import { Screen, ScrollScreen } from "@elementium/native"
 import { useNavigation, useRoute } from "@react-navigation/native"
 import { FlashList, ListRenderItemInfo } from "@shopify/flash-list"
-import { Fragment, useState } from "react"
+import { useState } from "react"
 import { Alert } from "react-native"
 import RNFS, { ReadDirItem } from "react-native-fs"
 import { Divider, List } from "react-native-paper"
@@ -127,7 +127,7 @@ export function FileExplorer() {
             <FileExplorerHeader goBack={goBackHeader} pathToRead={pathToRead} />
 
             {!pathToRead && (
-                <Fragment>
+                <ScrollScreen>
                     <List.Item
                         left={() => <List.Icon icon={"cellphone"} />}
                         title={translate("FileExplorer_internalStorage_title")}
@@ -161,7 +161,7 @@ export function FileExplorer() {
                         onPress={() => readFolder(Constants.fullPathExported)}
                         style={{ paddingLeft: 16 }}
                     />
-                </Fragment>
+                </ScrollScreen>
             )}
 
             {!!pathToRead && pathContent.length > 0 && (
