@@ -48,7 +48,7 @@ export const pt_BR: TranslationObjectType = {
     Home_menu_settings: "Configurações",
     // Home Code
     Code_title: "Senha",
-    Code_description: "Digite a senha desta nota para descriptografá-la ou deixe vazio para visualizar",
+    Code_description: "Insira a senha para descriptografar ou mantenha vazia para visualizar",
 
     // ReadNote alert
     ReadNote_alert_errorDecryptingNote_text: "Error descriptografando nota",
