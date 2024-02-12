@@ -133,7 +133,7 @@ export function FileCode() {
             >
                 <FileCodeHeader />
 
-                <ScrollScreen>
+                <ScrollScreen keyboardShouldPersistTaps={"handled"}>
                     <Input
                         ref={fileNameInputRef}
                         placeholder={translate("FileCode_fileName")}
