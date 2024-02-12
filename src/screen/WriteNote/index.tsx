@@ -123,7 +123,7 @@ export function WriteNote() {
                     saveNote={saveNote}
                 />
 
-                <View style={{ flex: 1, padding: 16, rowGap: 8 }}>
+                <View style={{ flex: 1, padding: 16, rowGap: 16 }}>
                     <InputPassword
                         ref={passwordInputRef}
                         value={password}
