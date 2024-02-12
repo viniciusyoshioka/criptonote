@@ -4,10 +4,10 @@ import { NativeSyntheticEvent, TextInput, TextInputFocusEventData, TextInputProp
 import { createStyleSheet, useStyles } from "react-native-unistyles"
 
 
-export interface FullInputProps extends TextInputProps {}
+export interface FullMarkdownInputProps extends TextInputProps {}
 
 
-export const FullInput = forwardRef<TextInput, FullInputProps>((props, ref) => {
+export const FullMarkdownInput = forwardRef<TextInput, FullMarkdownInputProps>((props, ref) => {
 
 
     const { styles, theme } = useStyles(stylesheet)

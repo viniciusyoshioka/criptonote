@@ -6,7 +6,7 @@ import { useRef, useState } from "react"
 import { Alert, StatusBar, TextInput } from "react-native"
 import { KeyboardAvoidingView } from "react-native-keyboard-controller"
 
-import { FullInput, LoadingModal } from "@components"
+import { FullMarkdownInput, LoadingModal } from "@components"
 import { NoteContentSchema, NoteSchema, useNoteRealm } from "@database"
 import { useBackHandler, useBlurInputOnKeyboardDismiss } from "@hooks"
 import { translate } from "@locales"
@@ -226,7 +226,7 @@ export function EditNote() {
                     deleteNote={alertDeleteNote}
                 />
 
-                <FullInput
+                <FullMarkdownInput
                     ref={textInputRef}
                     value={text}
                     onChangeText={setNewText}
