@@ -9,7 +9,6 @@ import { AppThemeProvider } from "@theme"
 
 
 // TODO switch to custom alert component
-// TODO remove ReadNote when rich text input is implemented
 // TODO add password recovery
 export function App() {
 
