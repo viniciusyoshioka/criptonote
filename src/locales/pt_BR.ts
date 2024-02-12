@@ -66,8 +66,8 @@ export const pt_BR: TranslationObjectType = {
     // EditNote header
     EditNote_header_title: "Editar nota",
     // EditNote screen
-    EditNote_titlePlaceholder: "Título",
-    EditNote_textPlaceholder: "Texto",
+    EditNote_titlePlaceholder: "Digite o título...",
+    EditNote_textPlaceholder: "Digite o texto aqui...",
     EditNote_savingNote: "Salvando nota...",
     EditNote_deletingNote: "Apagando nota...",
     // EditNote menu
@@ -90,9 +90,9 @@ export const pt_BR: TranslationObjectType = {
     // WriteNote header
     WriteNote_header_title: "Escrever nota",
     // WriteNote screen
-    WriteNote_titlePlaceholder: "Título",
+    WriteNote_titlePlaceholder: "Digite o título...",
     WriteNote_passwordPlaceholder: "Senha",
-    WriteNote_textPlaceholder: "Texto",
+    WriteNote_textPlaceholder: "Digite o texto aqui...",
     WriteNote_savingNote: "Salvando nota...",
 
     // Settings alert
