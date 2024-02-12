@@ -1,3 +1,4 @@
+import { MarkdownTextInput, MarkdownTextInputProps } from "@expensify/react-native-live-markdown"
 import { forwardRef, useState } from "react"
 import { NativeSyntheticEvent, TextInput, TextInputFocusEventData, TextInputProps } from "react-native"
 import { createStyleSheet, useStyles } from "react-native-unistyles"
@@ -10,7 +11,7 @@ export const FullInput = forwardRef<TextInput, FullInputProps>((props, ref) => {
 
 
     const { styles, theme } = useStyles(stylesheet)
-    const { colors } = theme
+    const { colors, typography } = theme
 
     const [isFocused, setIsFocused] = useState(false)
 
@@ -26,8 +27,43 @@ export const FullInput = forwardRef<TextInput, FullInputProps>((props, ref) => {
     }
 
 
+    const markdownStyle: MarkdownTextInputProps["markdownStyle"] = {
+        syntax: {
+            color: colors.onSurfaceVariant,
+        },
+        link: {
+            color: colors.primary,
+        },
+        h1: {
+            fontSize: typography.headline.small.fontSize,
+        },
+        blockquote: {
+            borderColor: colors.onSurfaceVariant,
+            borderWidth: 4,
+        },
+        code: {
+            fontFamily: "monospace",
+            backgroundColor: colors.onSurfaceVariant,
+            color: colors.surfaceContainer,
+        },
+        pre: {
+            fontFamily: "monospace",
+            backgroundColor: colors.onSurfaceVariant,
+            color: colors.surfaceContainer,
+        },
+        mentionHere: {
+            backgroundColor: colors.inversePrimary,
+            color: colors.onPrimaryContainer,
+        },
+        mentionUser: {
+            backgroundColor: colors.tertiaryContainer,
+            color: colors.onTertiaryContainer,
+        },
+    }
+
+
     return (
-        <TextInput
+        <MarkdownTextInput
             ref={ref}
             blurOnSubmit={false}
             multiline={true}
@@ -38,10 +74,8 @@ export const FullInput = forwardRef<TextInput, FullInputProps>((props, ref) => {
             {...props}
             onBlur={onBlur}
             onFocus={onFocus}
-            style={[
-                styles.fullInput(isFocused),
-                props.style,
-            ]}
+            style={[styles.fullInput(isFocused), props.style]}
+            markdownStyle={markdownStyle}
         />
     )
 })
