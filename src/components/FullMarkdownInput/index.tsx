@@ -1,4 +1,4 @@
-import { MarkdownTextInput, MarkdownTextInputProps } from "@expensify/react-native-live-markdown"
+import { MarkdownTextInputProps } from "@expensify/react-native-live-markdown"
 import { forwardRef, useState } from "react"
 import { NativeSyntheticEvent, TextInput, TextInputFocusEventData, TextInputProps } from "react-native"
 import { createStyleSheet, useStyles } from "react-native-unistyles"
@@ -63,7 +63,7 @@ export const FullMarkdownInput = forwardRef<TextInput, FullMarkdownInputProps>((
 
 
     return (
-        <MarkdownTextInput
+        <TextInput
             ref={ref}
             blurOnSubmit={false}
             multiline={true}
@@ -75,7 +75,7 @@ export const FullMarkdownInput = forwardRef<TextInput, FullMarkdownInputProps>((
             onBlur={onBlur}
             onFocus={onFocus}
             style={[styles.fullInput(isFocused), props.style]}
-            markdownStyle={markdownStyle}
+            // markdownStyle={markdownStyle}
         />
     )
 })
