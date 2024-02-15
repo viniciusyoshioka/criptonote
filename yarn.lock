@@ -1226,10 +1226,10 @@
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-8.56.0.tgz#ef20350fec605a7f7035a01764731b2de0f3782b"
   integrity sha512-gMsVel9D7f2HLkBma9VbtzZRehRogVRfbr++f06nL2vnCGCNlzOD+/MUov/F4p8myyAHspEhVobgjpX64q5m6A==
 
-"@expensify/react-native-live-markdown@^0.1.5":
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/@expensify/react-native-live-markdown/-/react-native-live-markdown-0.1.5.tgz#4031d5fbd50392f6ae263d227fbec96df1df81d9"
-  integrity sha512-Z1tduU1C2BDgZNMrDvXtiWUhQoroMasvwucLBdLSypAMB4Kls4G038A/yZEbD00YVXjXv2tBUiqvUmCMuRdlqw==
+"@expensify/react-native-live-markdown@^0.1.10":
+  version "0.1.10"
+  resolved "https://registry.yarnpkg.com/@expensify/react-native-live-markdown/-/react-native-live-markdown-0.1.10.tgz#e4977d3e9473969e7e3c45749b21b96e86fdf356"
+  integrity sha512-0s+T66Ycq6BmR0O3q5q8MpEd5JFxBMSpw9CgLRU6M/AzWCNk1xptAb6kBn2wdvap4vT5bgLTjeXDAEJH5UWqbg==
 
 "@hapi/hoek@^9.0.0", "@hapi/hoek@^9.3.0":
   version "9.3.0"
