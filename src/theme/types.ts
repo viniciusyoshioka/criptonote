@@ -8,8 +8,3 @@ export interface AppThemeType extends ElementiumThemeType {
     appTheme: ThemeType
     switchTheme: (newTheme: ThemeType) => void
 }
-
-
-export interface StyledProps {
-    theme: AppThemeType
-}
