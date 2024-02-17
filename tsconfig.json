@@ -1,5 +1,5 @@
 {
-    "extends": "@elementium/tsconfig/tsconfig.json",
+    "extends": "@vinicius1313/tsconfig/tsconfig.json",
     "compilerOptions": {
         "baseUrl": ".",
         "paths": {

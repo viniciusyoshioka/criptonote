@@ -1185,9 +1185,6 @@
 "@elementium/theme@file:../elementium/packages/theme":
   version "1.0.1"
 
-"@elementium/tsconfig@file:../elementium/packages/tsconfig":
-  version "1.0.0"
-
 "@eslint-community/eslint-utils@^4.2.0", "@eslint-community/eslint-utils@^4.4.0":
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/@eslint-community/eslint-utils/-/eslint-utils-4.4.0.tgz#a23514e8fb9af1269d5f7788aa556798d61c6b59"
@@ -1993,6 +1990,11 @@
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@vinicius1313/eslint-config/-/eslint-config-1.0.0.tgz#d78c93d8345cab88ffc5aaa97811afe1db4703a7"
   integrity sha512-hz7q+XPzg3OfO2UWeFKCsP6F8tlbMtn1UAB+StCT5agQq5bAJ7Akg1T/b3GtnO1UZRojaBa8m7SGPK9vp7sJ3g==
+
+"@vinicius1313/tsconfig@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@vinicius1313/tsconfig/-/tsconfig-1.0.0.tgz#db7fd99cae5a1c006f5d7f0e41ca55cc727eda96"
+  integrity sha512-/WXdNbS+j5CXr/87AuOIJc1HFhy5JLOGoBghR9F2O1aECZ/iMfxxcgNDWjtr5TOZlbexAbMMAKvSUbZtJOex0A==
 
 abort-controller@^3.0.0:
   version "3.0.0"
