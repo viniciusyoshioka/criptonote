@@ -3,10 +3,10 @@
     "version": "6.6.1",
     "private": true,
     "scripts": {
+        "lint": "eslint '**/*.{js,ts,tsx}'",
+        "typecheck": "tsc --noEmit",
         "start": "react-native start",
-        "android": "react-native run-android",
-        "lint": "eslint . --ext .js --ext .jsx --ext .ts --ext .tsx",
-        "typecheck": "tsc --noEmit"
+        "android": "react-native run-android"
     },
     "dependencies": {
         "@elementium/color": "file:../elementium/packages/color",
